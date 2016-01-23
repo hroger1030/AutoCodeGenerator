@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationExpired" xml:space="preserve">
+    <value>The application has expired. Please Contact the software distributer for a new build.</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Jolly Roger's Autocode Generator</value>
+  </data>
+  <data name="AspCreateEditPage" xml:space="preserve">
+    <value>Create Asp.net Edit Page</value>
+    <comment>Asp Options</comment>
+  </data>
+  <data name="AspCreateListPage" xml:space="preserve">
+    <value>Create Asp.net List Page</value>
+    <comment>Asp Options</comment>
+  </data>
+  <data name="AspCreateViewPage" xml:space="preserve">
+    <value>Create Asp.net View Page</value>
+    <comment>Asp Options</comment>
+  </data>
+  <data name="AuthorEmailAddress" xml:space="preserve">
+    <value>GlobalConquestGames@gmail.com</value>
+  </data>
+  <data name="ConnectionMessage" xml:space="preserve">
+    <value>Connected To:</value>
+  </data>
+  <data name="Csharp10" xml:space="preserve">
+    <value>C# 1.0</value>
+    <comment>C# Target Version</comment>
+  </data>
+  <data name="Csharp20" xml:space="preserve">
+    <value>C# 2.0</value>
+    <comment>C# Target Version</comment>
+  </data>
+  <data name="Csharp30" xml:space="preserve">
+    <value>C# 3.0</value>
+    <comment>C# Target Version</comment>
+  </data>
+  <data name="Csharp35" xml:space="preserve">
+    <value>C# 3.5</value>
+    <comment>C# Target Version</comment>
+  </data>
+  <data name="Csharp40" xml:space="preserve">
+    <value>C# 4.0</value>
+    <comment>C# Target Version</comment>
+  </data>
+  <data name="Csharp50" xml:space="preserve">
+    <value>C# 5.0</value>
+    <comment>C# Target Version</comment>
+  </data>
+  <data name="CsharpDal" xml:space="preserve">
+    <value>Create C# Dal Object</value>
+    <comment>C# Options</comment>
+  </data>
+  <data name="CsharpEnum" xml:space="preserve">
+    <value>Create C# Enumeration</value>
+    <comment>C# Options</comment>
+  </data>
+  <data name="CsharpExtensionDal" xml:space="preserve">
+    <value>Create C# Dal Extension Object</value>
+    <comment>C# Options</comment>
+  </data>
+  <data name="CsharpInterface" xml:space="preserve">
+    <value>Create C# Object Interface</value>
+    <comment>C# Options</comment>
+  </data>
+  <data name="CsharpOrm" xml:space="preserve">
+    <value>Create C# Orm Class</value>
+    <comment>C# Options</comment>
+  </data>
+  <data name="CsharpOrmExtension" xml:space="preserve">
+    <value>Create C# Orm Extension Class</value>
+    <comment>C# Options</comment>
+  </data>
+  <data name="DbConnectionFailed" xml:space="preserve">
+    <value>Failed to establish a connection to database. Please check your connection information.</value>
+  </data>
+  <data name="DeselectAll" xml:space="preserve">
+    <value>Deselect All</value>
+    <comment>Button</comment>
+  </data>
+  <data name="OptAspCreateCSSPage" xml:space="preserve">
+    <value>Asp - Generate Css Page</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptAspCreateDefaultPage" xml:space="preserve">
+    <value>Asp - Generate Default Page</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptAspCreateMasterPage" xml:space="preserve">
+    <value>Asp - Generate Master Page</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptAspCreatePageAsConrol" xml:space="preserve">
+    <value>Asp - Create Asp page(s) as user control (NYI)</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptAspCreateWebConfig" xml:space="preserve">
+    <value>Asp - Generate Web.Config</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptCsharpConvertNullableFields" xml:space="preserve">
+    <value>C# - Convert nullable Db fields to non-nullable</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptCsharpCreateBaseClass" xml:space="preserve">
+    <value>C# - Generate a base class object</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptCsharpIncludeBaseClassRefrence" xml:space="preserve">
+    <value>C# - Include a 'Base Class' refrence in objects</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptCsharpIncludeIsDirtyFlag" xml:space="preserve">
+    <value>C# - Include 'IsDirty' flag in objects</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptCsharpIncludeSqlClassDecoration" xml:space="preserve">
+    <value>C# - Include SQL class decoration</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptMiscRemoveExistingScripts" xml:space="preserve">
+    <value>Misc - Remove any existing scripts in folder</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptSQLCreateHelperSp" xml:space="preserve">
+    <value>Sql - Generate sp_TableDetails procedure</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptSQLCreateSqlSpPerms" xml:space="preserve">
+    <value>Sql - Generate permissions for db stored procedures</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptSQLSeperateFiles" xml:space="preserve">
+    <value>Sql - Script each Sql object in seperate file</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select All</value>
+    <comment>Button</comment>
+  </data>
+  <data name="SelectSearchField" xml:space="preserve">
+    <value>Please choose one or more fields you wish to include in searches of the {0} table.</value>
+    <comment>Sql Field Selector Form</comment>
+  </data>
+  <data name="SelectSelectField" xml:space="preserve">
+    <value>Please choose one or more fields you wish to use to select values from the {0} table.</value>
+    <comment>Sql Field Selector Form</comment>
+  </data>
+  <data name="SelectSortField" xml:space="preserve">
+    <value>Please choose one or more fields you wish to sort {0} table queries by.</value>
+    <comment>Sql Field Selector Form</comment>
+  </data>
+  <data name="Sql2K" xml:space="preserve">
+    <value>Sql 2000</value>
+    <comment>Sql Target Version</comment>
+  </data>
+  <data name="Sql2K12" xml:space="preserve">
+    <value>Sql 2012</value>
+    <comment>Sql Target Version</comment>
+  </data>
+  <data name="Sql2K5" xml:space="preserve">
+    <value>Sql 2005</value>
+    <comment>Sql Target Version</comment>
+  </data>
+  <data name="Sql2K8" xml:space="preserve">
+    <value>Sql 2008</value>
+    <comment>Sql Target Version</comment>
+  </data>
+  <data name="Sql97" xml:space="preserve">
+    <value>Sql 1997</value>
+    <comment>Sql Target Version</comment>
+  </data>
+  <data name="SqlCountAll" xml:space="preserve">
+    <value>Count All Rows</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlCountSearch" xml:space="preserve">
+    <value>Count Search Rows</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlDelAll" xml:space="preserve">
+    <value>Delete All Rows</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlDelMany" xml:space="preserve">
+    <value>Delete Many Rows</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlDelSingle" xml:space="preserve">
+    <value>Delete Single Row</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlSelAll" xml:space="preserve">
+    <value>Select All Rows</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlSelAllPage" xml:space="preserve">
+    <value>Select All Rows Paginated</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlSelMany" xml:space="preserve">
+    <value>Select Many Rows</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlSelManyByX" xml:space="preserve">
+    <value>Select Many Rows By (X)</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlSelSingle" xml:space="preserve">
+    <value>Select Single Row</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlUpdIns" xml:space="preserve">
+    <value>Update/Insert Single Row</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="WebServicePage" xml:space="preserve">
+    <value>Create WebService page (NYI)</value>
+    <comment>WebService Options</comment>
+  </data>
+  <data name="WebsiteUrl" xml:space="preserve">
+    <value>http://www.GlobalConquest.net</value>
+    <comment>GC website url</comment>
+  </data>
+  <data name="WinformsEditDesigner" xml:space="preserve">
+    <value>Create Winform edit designer</value>
+    <comment>Winforms Options</comment>
+  </data>
+  <data name="WinformsEditPage" xml:space="preserve">
+    <value>Create Winform edit page</value>
+    <comment>Winforms Options</comment>
+  </data>
+  <data name="WinformsMainDesigner" xml:space="preserve">
+    <value>Create Winform main designer (NYI)</value>
+    <comment>Winforms Options</comment>
+  </data>
+  <data name="WinformsMainPage" xml:space="preserve">
+    <value>Create Winform main page (NYI)</value>
+    <comment>Winforms Options</comment>
+  </data>
+  <data name="WinformsViewDesigner" xml:space="preserve">
+    <value>Create Winform view designer (NYI)</value>
+    <comment>Winforms Options</comment>
+  </data>
+  <data name="WinformsViewPage" xml:space="preserve">
+    <value>Create Winform view page (NYI)</value>
+    <comment>Winforms Options</comment>
+  </data>
+  <data name="OptXmlFormat" xml:space="preserve">
+    <value>Xml - Generate xml with attributes instead of elements</value>
+    <comment>Build Options</comment>
+  </data>
+  <data name="OptXmlIncludeNs" xml:space="preserve">
+    <value>Xml - Include Db name as Xml namespace</value>
+  </data>
+  <data name="SelectEnumNameField" xml:space="preserve">
+    <value>Please choose the field that will represent the enum key field. This field should probably be a string.</value>
+    <comment>Enum Field Selector</comment>
+  </data>
+  <data name="SelectEnumValueField" xml:space="preserve">
+    <value>Please choose the field that will represent the enum value field. This field must be an integer.</value>
+    <comment>Enum Field Selector</comment>
+  </data>
+  <data name="XmlExportData" xml:space="preserve">
+    <value>Export Table Data to Xml File</value>
+    <comment>Xml Options</comment>
+  </data>
+  <data name="XmlImportObject" xml:space="preserve">
+    <value>Create C# Xml import class </value>
+    <comment>Xml Options</comment>
+  </data>
+  <data name="CsharpSimpleOrm" xml:space="preserve">
+    <value>Create C# Simple Orm Class</value>
+    <comment>C# Options</comment>
+  </data>
+</root>
