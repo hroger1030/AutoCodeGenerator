@@ -96,12 +96,6 @@ namespace Logging
                 }
             }
 
-            protected float GetSystemRam()
-            {
-                var ram_counter = new PerformanceCounter("Memory", "Available MBytes");
-                return ram_counter.NextValue();
-            }
-
         #endregion
     }
 }
