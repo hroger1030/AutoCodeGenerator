@@ -1,12 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Text;
-
-using AutoCodeGenLibrary;
-using DAL;
-using DAL.SqlMetadata;
 
 namespace TestApp
 {

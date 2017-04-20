@@ -62,15 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\IAesEncryption.cs" />
-    <Compile Include="Objects\ICryptoRng.cs" />
-    <Compile Include="Objects\IPasswordHashing.cs" />
-    <Compile Include="Objects\IRsaEncryption.cs" />
-    <Compile Include="Objects\PasswordHashing.cs" />
-    <Compile Include="Objects\CryptoRng.cs" />
-    <Compile Include="Objects\HashGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\AesEncryption.cs" />
-    <Compile Include="Objects\RsaEncryption.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
