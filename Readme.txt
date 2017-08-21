@@ -10,6 +10,8 @@ A quick note from me to you...
 
    As I mentioned, I have used this tool for a number of years, so basic functionality is pretty well tested. I expect that if you find any bugs it will be in areas involving more obscure SQU data types that I have had less call to use/test out.
 
+   I have moved the DAL assembly into its own project, so make sure that you pull down that repository too, or else the app will not build! This is better than trying to keep two seperate copies of the DAL, updates will be more frequent.(https://github.com/MadTigger/Database.git) 
+
    If you use this, I'd love to hear your feed back about it good or bad. If you really love it, feel free to contribute more code. There is plenty more that could be included in the functionality.
 
 Enjoy,

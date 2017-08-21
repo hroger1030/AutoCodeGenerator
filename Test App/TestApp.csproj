@@ -103,17 +103,9 @@
       <Project>{E6695000-6598-4362-B232-2F9776E2CF4B}</Project>
       <Name>AutoCodeGen</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{e2efdcd8-dd5a-4416-8b44-0f780431e98e}</Project>
-      <Name>DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Encryption\Encryption.csproj">
       <Project>{9108fdd8-4436-44e6-b4c6-913658f3cb42}</Project>
       <Name>Encryption</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{37d67b46-06d5-423c-a3f1-dab40c426af6}</Project>
-      <Name>Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

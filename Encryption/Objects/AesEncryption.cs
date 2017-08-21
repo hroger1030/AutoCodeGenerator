@@ -28,13 +28,7 @@ namespace Encryption
     /// </summary>
     public class AesEncryption : IAesEncryption
     {
-        #region constants
-            
             private const int DEFAULT_SALT_LENGTH = 64;
-
-        #endregion
-
-        #region Fields
 
             private RNGCryptoServiceProvider _Random = new RNGCryptoServiceProvider(); 
 
@@ -53,10 +47,6 @@ namespace Encryption
             /// Size of encryption key in bits. Allowed values are: 128, 192, and 256. 
             /// </summary>
             private int _KeySize;
-
-        #endregion
-
-        #region Methods
 
             public AesEncryption() { }
 
@@ -269,7 +259,5 @@ namespace Encryption
             {
                 return initial_vector.Length == 16;
             }
-
-        #endregion
     }
 }

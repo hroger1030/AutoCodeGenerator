@@ -28,107 +28,95 @@ namespace AutoCodeGen
 {
     public partial class FieldSelector : Form
     {
-        #region Constants
+        protected const string s_SelectedItems = "Selected Columns:";
 
-            protected const string s_SelectedItems = "Selected Columns:";
+        protected List<string> _SelectedColumns;
+        protected int _MinSelections;
+        protected int _MaxSelections;
 
-        #endregion
+        public FieldSelector(List<string> selected_columns, SqlTable sql_table, string instructions) : this(selected_columns, sql_table, instructions, 1, -1) { }
 
-        #region Fields
+        public FieldSelector(List<string> selected_columns, SqlTable sql_table, string instructions, int min_selections, int max_selections)
+        {
+            InitializeComponent();
 
-            protected List<string> _SelectedColumns;
-            protected int _MinSelections;
-            protected int _MaxSelections;
+            Size = new Size(Properties.Settings.Default.FieldSelectorWidth, Properties.Settings.Default.FieldSelectorHeight);
 
-        #endregion
+            _SelectedColumns = selected_columns;
+            _MinSelections = min_selections;
+            _MaxSelections = max_selections;
+            lblInstructions.Text = instructions;
 
-        #region Methods
+            ListSelectedColumns();
+            BindColumnList(sql_table);
 
-            public FieldSelector(List<string> selected_columns, SqlTable sql_table, string instructions) : this(selected_columns, sql_table, instructions, 1, -1) {}
+            btnDone.Enabled = ValidateSelections();
+        }
 
-            public FieldSelector(List<string> selected_columns, SqlTable sql_table, string instructions, int min_selections, int max_selections)
-            {
-                InitializeComponent();
+        private void BindColumnList(SqlTable sql_table)
+        {
+            if (clbColumns.Items.Count != 0)
+                clbColumns.Items.Clear();
 
-               this.Size = new Size(Properties.Settings.Default.FieldSelectorWidth, Properties.Settings.Default.FieldSelectorHeight);
+            foreach (var item in sql_table.Columns)
+                clbColumns.Items.AddRange(new object[] { item.Value.Name });
+        }
 
-                _SelectedColumns                = selected_columns;
-                _MinSelections                  = min_selections;
-                _MaxSelections                  = max_selections;
-                this.lblInstructions.Text       = instructions;
+        private void ListSelectedColumns()
+        {
+            var sb = new StringBuilder();
 
-                this.ListSelectedColumns();
-                this.BindColumnList(sql_table);
+            sb.AppendLine(s_SelectedItems);
 
-                this.btnDone.Enabled = ValidateSelections();
-            }
+            foreach (var item in _SelectedColumns)
+                sb.AppendLine(item);
 
-            private void BindColumnList(SqlTable sql_table)
-            {
-                if (this.clbColumns.Items.Count != 0)
-                    this.clbColumns.Items.Clear();
+            lblColumnList.Text = sb.ToString();
+        }
 
-                foreach (var item in sql_table.Columns)
-                    this.clbColumns.Items.AddRange(new object[] { item.Value.Name });
-            }
+        private void btnDone_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
 
-            private void ListSelectedColumns()
-            {
-                StringBuilder sb = new StringBuilder();
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < this.clbColumns.Items.Count; i++)
+                clbColumns.SetItemChecked(i, false);
 
-                sb.AppendLine(s_SelectedItems);
+            lblColumnList.Text = string.Empty;
 
-                foreach (var item in _SelectedColumns)
-                    sb.AppendLine(item);
+            _SelectedColumns.Clear();
 
-                this.lblColumnList.Text = sb.ToString();
-            }
+            ListSelectedColumns();
+        }
 
-            private void btnDone_Click(object sender, EventArgs e)
-            {
-                this.Close();
-            } 
+        private void clbColumns_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            string item = clbColumns.Items[e.Index].ToString();
 
-            private void btnClear_Click(object sender, EventArgs e)
-            {
-                for (int i = 0; i < this.clbColumns.Items.Count; i++)
-                    this.clbColumns.SetItemChecked(i, false);
+            if (e.NewValue == CheckState.Checked)
+                _SelectedColumns.Add(item);
+            else
+                _SelectedColumns.Remove(item);
 
-                this.lblColumnList.Text = string.Empty;
+            ListSelectedColumns();
 
-                _SelectedColumns.Clear();
+            btnDone.Enabled = ValidateSelections();
+        }
 
-                ListSelectedColumns();
-            }
+        private void FieldSelector_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.FieldSelectorHeight = Size.Height;
+            Properties.Settings.Default.FieldSelectorWidth = Size.Width;
 
-            private void clbColumns_ItemCheck(object sender, ItemCheckEventArgs e)
-            {
-                string item = this.clbColumns.Items[e.Index].ToString();
+            Properties.Settings.Default.Save();
+        }
 
-                if (e.NewValue == CheckState.Checked)
-                    _SelectedColumns.Add(item);
-                else
-                    _SelectedColumns.Remove(item);
-
-                ListSelectedColumns();
-
-                this.btnDone.Enabled = ValidateSelections();
-            }
-
-            private void FieldSelector_FormClosing(object sender, FormClosingEventArgs e)
-            {
-                Properties.Settings.Default.FieldSelectorHeight     = this.Size.Height;
-                Properties.Settings.Default.FieldSelectorWidth      = this.Size.Width;
-
-                Properties.Settings.Default.Save();
-            }
-
-            private bool ValidateSelections()
-            {
-                return (_SelectedColumns.Count >= _MinSelections || _MinSelections == -1) 
-                    && (_SelectedColumns.Count <= _MaxSelections || _MaxSelections == -1);
-            }
-
-        #endregion
+        private bool ValidateSelections()
+        {
+            return (_SelectedColumns.Count >= _MinSelections || _MinSelections == -1)
+                && (_SelectedColumns.Count <= _MaxSelections || _MaxSelections == -1);
+        }
     }
 }

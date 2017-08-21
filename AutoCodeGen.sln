@@ -1,17 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCodeGen", "AutoCodeGen\AutoCodeGen.csproj", "{E6695000-6598-4362-B232-2F9776E2CF4B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "Test App\TestApp.csproj", "{C7F5DEC6-10DA-4843-9433-1E30DD7AFB5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Logging\Logging.csproj", "{37D67B46-06D5-423C-A3F1-DAB40C426AF6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Encryption\Encryption.csproj", "{9108FDD8-4436-44E6-B4C6-913658F3CB42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "..\Database\DAL.csproj", "{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,30 +41,6 @@ Global
 		{C7F5DEC6-10DA-4843-9433-1E30DD7AFB5D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C7F5DEC6-10DA-4843-9433-1E30DD7AFB5D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C7F5DEC6-10DA-4843-9433-1E30DD7AFB5D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|.NET.Build.0 = Debug|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|.NET.ActiveCfg = Release|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|.NET.Build.0 = Release|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Debug|.NET.Build.0 = Debug|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Release|.NET.ActiveCfg = Release|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Release|.NET.Build.0 = Release|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{37D67B46-06D5-423C-A3F1-DAB40C426AF6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9108FDD8-4436-44E6-B4C6-913658F3CB42}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{9108FDD8-4436-44E6-B4C6-913658F3CB42}.Debug|.NET.Build.0 = Debug|Any CPU
 		{9108FDD8-4436-44E6-B4C6-913658F3CB42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -79,6 +53,18 @@ Global
 		{9108FDD8-4436-44E6-B4C6-913658F3CB42}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9108FDD8-4436-44E6-B4C6-913658F3CB42}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9108FDD8-4436-44E6-B4C6-913658F3CB42}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|.NET.Build.0 = Debug|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|.NET.ActiveCfg = Release|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|.NET.Build.0 = Release|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
