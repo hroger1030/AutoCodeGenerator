@@ -599,150 +599,6 @@
   <data name="&gt;&gt;tabAbout.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="&gt;&gt;btnCheckRegex.Name" xml:space="preserve">
-    <value>btnCheckRegex</value>
-  </data>
-  <data name="&gt;&gt;btnCheckRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCheckRegex.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;btnCheckRegex.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblRegexResult.Name" xml:space="preserve">
-    <value>lblRegexResult</value>
-  </data>
-  <data name="&gt;&gt;lblRegexResult.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblRegexResult.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;lblRegexResult.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txtTableNameRegex.Name" xml:space="preserve">
-    <value>txtTableNameRegex</value>
-  </data>
-  <data name="&gt;&gt;txtTableNameRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtTableNameRegex.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;txtTableNameRegex.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;lblTableNameRegex.Name" xml:space="preserve">
-    <value>lblTableNameRegex</value>
-  </data>
-  <data name="&gt;&gt;lblTableNameRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblTableNameRegex.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;lblTableNameRegex.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnSetDirectory.Name" xml:space="preserve">
-    <value>btnSetDirectory</value>
-  </data>
-  <data name="&gt;&gt;btnSetDirectory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnSetDirectory.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;btnSetDirectory.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;btnToggleOutput.Name" xml:space="preserve">
-    <value>btnToggleOutput</value>
-  </data>
-  <data name="&gt;&gt;btnToggleOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleOutput.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;btnToggleOutput.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;lblOutputPath.Name" xml:space="preserve">
-    <value>lblOutputPath</value>
-  </data>
-  <data name="&gt;&gt;lblOutputPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblOutputPath.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;lblOutputPath.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;txtOutputPath.Name" xml:space="preserve">
-    <value>txtOutputPath</value>
-  </data>
-  <data name="&gt;&gt;txtOutputPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtOutputPath.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;txtOutputPath.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;lblOutputOptions.Name" xml:space="preserve">
-    <value>lblOutputOptions</value>
-  </data>
-  <data name="&gt;&gt;lblOutputOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblOutputOptions.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;lblOutputOptions.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;clbOutputOptions.Name" xml:space="preserve">
-    <value>clbOutputOptions</value>
-  </data>
-  <data name="&gt;&gt;clbOutputOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbOutputOptions.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;clbOutputOptions.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="tabOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
-  </data>
-  <data name="tabOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
-  </data>
-  <data name="tabOutput.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="tabOutput.Text" xml:space="preserve">
-    <value>Output</value>
-  </data>
-  <data name="&gt;&gt;tabOutput.Name" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;tabOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabOutput.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabOutput.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <data name="btnCheckRegex.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 68</value>
   </data>
@@ -989,101 +845,29 @@
   <data name="&gt;&gt;clbOutputOptions.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="&gt;&gt;btnToggleWebXmlObjects.Name" xml:space="preserve">
-    <value>btnToggleWebXmlObjects</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebXmlObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebXmlObjects.Parent" xml:space="preserve">
-    <value>tabXml</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebXmlObjects.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblXml.Name" xml:space="preserve">
-    <value>lblXml</value>
-  </data>
-  <data name="&gt;&gt;lblXml.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblXml.Parent" xml:space="preserve">
-    <value>tabXml</value>
-  </data>
-  <data name="&gt;&gt;lblXml.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;clbXmlOptionsTables.Name" xml:space="preserve">
-    <value>clbXmlOptionsTables</value>
-  </data>
-  <data name="&gt;&gt;clbXmlOptionsTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbXmlOptionsTables.Parent" xml:space="preserve">
-    <value>tabXml</value>
-  </data>
-  <data name="&gt;&gt;clbXmlOptionsTables.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebXmlSqlTables.Name" xml:space="preserve">
-    <value>btnToggleWebXmlSqlTables</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebXmlSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebXmlSqlTables.Parent" xml:space="preserve">
-    <value>tabXml</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebXmlSqlTables.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;lblXMLExportTables.Name" xml:space="preserve">
-    <value>lblXMLExportTables</value>
-  </data>
-  <data name="&gt;&gt;lblXMLExportTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblXMLExportTables.Parent" xml:space="preserve">
-    <value>tabXml</value>
-  </data>
-  <data name="&gt;&gt;lblXMLExportTables.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;clbXmlSqlTables.Name" xml:space="preserve">
-    <value>clbXmlSqlTables</value>
-  </data>
-  <data name="&gt;&gt;clbXmlSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbXmlSqlTables.Parent" xml:space="preserve">
-    <value>tabXml</value>
-  </data>
-  <data name="&gt;&gt;clbXmlSqlTables.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tabXml.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tabOutput.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 26</value>
   </data>
-  <data name="tabXml.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="tabOutput.Size" type="System.Drawing.Size, System.Drawing">
     <value>561, 220</value>
   </data>
-  <data name="tabXml.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="tabOutput.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
-  <data name="tabXml.Text" xml:space="preserve">
-    <value>XML Export</value>
+  <data name="tabOutput.Text" xml:space="preserve">
+    <value>Output</value>
   </data>
-  <data name="&gt;&gt;tabXml.Name" xml:space="preserve">
-    <value>tabXml</value>
+  <data name="&gt;&gt;tabOutput.Name" xml:space="preserve">
+    <value>tabOutput</value>
   </data>
-  <data name="&gt;&gt;tabXml.Type" xml:space="preserve">
+  <data name="&gt;&gt;tabOutput.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabXml.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tabOutput.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
   </data>
-  <data name="&gt;&gt;tabXml.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="&gt;&gt;tabOutput.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="btnToggleWebXmlObjects.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -1244,200 +1028,32 @@
   <data name="&gt;&gt;clbXmlSqlTables.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="&gt;&gt;panCSharpOptions.Name" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;panCSharpOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panCSharpOptions.Parent" xml:space="preserve">
-    <value>tabCsharp</value>
-  </data>
-  <data name="&gt;&gt;panCSharpOptions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnToggleCsharpSqlTables.Name" xml:space="preserve">
-    <value>btnToggleCsharpSqlTables</value>
-  </data>
-  <data name="&gt;&gt;btnToggleCsharpSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleCsharpSqlTables.Parent" xml:space="preserve">
-    <value>tabCsharp</value>
-  </data>
-  <data name="&gt;&gt;btnToggleCsharpSqlTables.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;btnToggleCSharpObjects.Name" xml:space="preserve">
-    <value>btnToggleCSharpObjects</value>
-  </data>
-  <data name="&gt;&gt;btnToggleCSharpObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleCSharpObjects.Parent" xml:space="preserve">
-    <value>tabCsharp</value>
-  </data>
-  <data name="&gt;&gt;btnToggleCSharpObjects.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpObjects.Name" xml:space="preserve">
-    <value>lblCSharpObjects</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpObjects.Parent" xml:space="preserve">
-    <value>tabCsharp</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpObjects.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpTables.Name" xml:space="preserve">
-    <value>lblCSharpTables</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpTables.Parent" xml:space="preserve">
-    <value>tabCsharp</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpTables.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;clbCsharpSqlTables.Name" xml:space="preserve">
-    <value>clbCsharpSqlTables</value>
-  </data>
-  <data name="&gt;&gt;clbCsharpSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbCsharpSqlTables.Parent" xml:space="preserve">
-    <value>tabCsharp</value>
-  </data>
-  <data name="&gt;&gt;clbCsharpSqlTables.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;clbCsharpObjects.Name" xml:space="preserve">
-    <value>clbCsharpObjects</value>
-  </data>
-  <data name="&gt;&gt;clbCsharpObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbCsharpObjects.Parent" xml:space="preserve">
-    <value>tabCsharp</value>
-  </data>
-  <data name="&gt;&gt;clbCsharpObjects.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="tabCsharp.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tabXml.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 26</value>
   </data>
-  <data name="tabCsharp.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabCsharp.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="tabXml.Size" type="System.Drawing.Size, System.Drawing">
     <value>561, 220</value>
   </data>
-  <data name="tabCsharp.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="tabXml.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="tabCsharp.Text" xml:space="preserve">
-    <value>C# Code</value>
+  <data name="tabXml.Text" xml:space="preserve">
+    <value>XML Export</value>
   </data>
-  <data name="&gt;&gt;tabCsharp.Name" xml:space="preserve">
-    <value>tabCsharp</value>
+  <data name="&gt;&gt;tabXml.Name" xml:space="preserve">
+    <value>tabXml</value>
   </data>
-  <data name="&gt;&gt;tabCsharp.Type" xml:space="preserve">
+  <data name="&gt;&gt;tabXml.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabCsharp.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tabXml.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
   </data>
-  <data name="&gt;&gt;tabCsharp.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;tabXml.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="panCSharpOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;btnAddNamespace.Name" xml:space="preserve">
-    <value>btnAddNamespace</value>
-  </data>
-  <data name="&gt;&gt;btnAddNamespace.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnAddNamespace.Parent" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;btnAddNamespace.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;cboNamespaceIncludes.Name" xml:space="preserve">
-    <value>cboNamespaceIncludes</value>
-  </data>
-  <data name="&gt;&gt;cboNamespaceIncludes.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboNamespaceIncludes.Parent" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;cboNamespaceIncludes.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;cboCSharpVersion.Name" xml:space="preserve">
-    <value>cboCSharpVersion</value>
-  </data>
-  <data name="&gt;&gt;cboCSharpVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboCSharpVersion.Parent" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;cboCSharpVersion.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpVersion.Name" xml:space="preserve">
-    <value>lblCSharpVersion</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpVersion.Parent" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpVersion.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="panCSharpOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 142</value>
-  </data>
-  <data name="panCSharpOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 69</value>
-  </data>
-  <data name="panCSharpOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;panCSharpOptions.Name" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;panCSharpOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panCSharpOptions.Parent" xml:space="preserve">
-    <value>tabCsharp</value>
-  </data>
-  <data name="&gt;&gt;panCSharpOptions.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="btnAddNamespace.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -1570,6 +1186,27 @@
   </data>
   <data name="&gt;&gt;lblCSharpVersion.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="panCSharpOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>288, 142</value>
+  </data>
+  <data name="panCSharpOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 69</value>
+  </data>
+  <data name="panCSharpOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;panCSharpOptions.Name" xml:space="preserve">
+    <value>panCSharpOptions</value>
+  </data>
+  <data name="&gt;&gt;panCSharpOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panCSharpOptions.Parent" xml:space="preserve">
+    <value>tabCsharp</value>
+  </data>
+  <data name="&gt;&gt;panCSharpOptions.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="btnToggleCsharpSqlTables.Location" type="System.Drawing.Point, System.Drawing">
     <value>194, 16</value>
@@ -1724,6 +1361,33 @@
   <data name="&gt;&gt;clbCsharpObjects.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="tabCsharp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="tabCsharp.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabCsharp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 220</value>
+  </data>
+  <data name="tabCsharp.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tabCsharp.Text" xml:space="preserve">
+    <value>C# Code</value>
+  </data>
+  <data name="&gt;&gt;tabCsharp.Name" xml:space="preserve">
+    <value>tabCsharp</value>
+  </data>
+  <data name="&gt;&gt;tabCsharp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabCsharp.Parent" xml:space="preserve">
+    <value>tabcontrolAutoCodeGen</value>
+  </data>
+  <data name="&gt;&gt;tabCsharp.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="btnToggleAspSqlTables.Location" type="System.Drawing.Point, System.Drawing">
     <value>194, 16</value>
   </data>
@@ -1747,129 +1411,6 @@
   </data>
   <data name="&gt;&gt;btnToggleAspSqlTables.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblSQLVersion.Name" xml:space="preserve">
-    <value>lblSQLVersion</value>
-  </data>
-  <data name="&gt;&gt;lblSQLVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSQLVersion.Parent" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;lblSQLVersion.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;cmbSQLVersion.Name" xml:space="preserve">
-    <value>cmbSQLVersion</value>
-  </data>
-  <data name="&gt;&gt;cmbSQLVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cmbSQLVersion.Parent" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;cmbSQLVersion.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTsqlSqlObjects.Name" xml:space="preserve">
-    <value>btnToggleTsqlSqlObjects</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTsqlSqlObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTsqlSqlObjects.Parent" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTsqlSqlObjects.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTsqlSqlTables.Name" xml:space="preserve">
-    <value>btnToggleTsqlSqlTables</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTsqlSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTsqlSqlTables.Parent" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTsqlSqlTables.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;lblSQLObjects.Name" xml:space="preserve">
-    <value>lblSQLObjects</value>
-  </data>
-  <data name="&gt;&gt;lblSQLObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSQLObjects.Parent" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;lblSQLObjects.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;lblSQLTables.Name" xml:space="preserve">
-    <value>lblSQLTables</value>
-  </data>
-  <data name="&gt;&gt;lblSQLTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSQLTables.Parent" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;lblSQLTables.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;clbTsqlSqlObjects.Name" xml:space="preserve">
-    <value>clbTsqlSqlObjects</value>
-  </data>
-  <data name="&gt;&gt;clbTsqlSqlObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbTsqlSqlObjects.Parent" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;clbTsqlSqlObjects.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;clbTsqlSqlTables.Name" xml:space="preserve">
-    <value>clbTsqlSqlTables</value>
-  </data>
-  <data name="&gt;&gt;clbTsqlSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbTsqlSqlTables.Parent" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;clbTsqlSqlTables.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="tabSql.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
-  </data>
-  <data name="tabSql.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabSql.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
-  </data>
-  <data name="tabSql.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tabSql.Text" xml:space="preserve">
-    <value>SQL Code</value>
-  </data>
-  <data name="&gt;&gt;tabSql.Name" xml:space="preserve">
-    <value>tabSql</value>
-  </data>
-  <data name="&gt;&gt;tabSql.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabSql.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabSql.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="lblSQLVersion.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -2081,152 +1622,32 @@
   <data name="&gt;&gt;clbTsqlSqlTables.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="&gt;&gt;ckbLocalDb.Name" xml:space="preserve">
-    <value>ckbLocalDb</value>
-  </data>
-  <data name="&gt;&gt;ckbLocalDb.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ckbLocalDb.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;ckbLocalDb.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Name" xml:space="preserve">
-    <value>lblPassword</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
-    <value>txtPassword</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;txtLogon.Name" xml:space="preserve">
-    <value>txtLogon</value>
-  </data>
-  <data name="&gt;&gt;txtLogon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtLogon.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;txtLogon.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;txtServerName.Name" xml:space="preserve">
-    <value>txtServerName</value>
-  </data>
-  <data name="&gt;&gt;txtServerName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtServerName.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;txtServerName.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;lblLogon.Name" xml:space="preserve">
-    <value>lblLogon</value>
-  </data>
-  <data name="&gt;&gt;lblLogon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblLogon.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;lblLogon.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;cmbDatabaseList.Name" xml:space="preserve">
-    <value>cmbDatabaseList</value>
-  </data>
-  <data name="&gt;&gt;cmbDatabaseList.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cmbDatabaseList.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;cmbDatabaseList.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;lblDatabase.Name" xml:space="preserve">
-    <value>lblDatabase</value>
-  </data>
-  <data name="&gt;&gt;lblDatabase.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDatabase.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;lblDatabase.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;btnConnect.Name" xml:space="preserve">
-    <value>btnConnect</value>
-  </data>
-  <data name="&gt;&gt;btnConnect.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnConnect.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;btnConnect.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;lblServerName.Name" xml:space="preserve">
-    <value>lblServerName</value>
-  </data>
-  <data name="&gt;&gt;lblServerName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblServerName.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;lblServerName.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="tabServer.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tabSql.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 26</value>
   </data>
-  <data name="tabServer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="tabSql.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
-  <data name="tabServer.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="tabSql.Size" type="System.Drawing.Size, System.Drawing">
     <value>561, 220</value>
   </data>
-  <data name="tabServer.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="tabSql.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="tabServer.Text" xml:space="preserve">
-    <value>Server</value>
+  <data name="tabSql.Text" xml:space="preserve">
+    <value>SQL Code</value>
   </data>
-  <data name="&gt;&gt;tabServer.Name" xml:space="preserve">
-    <value>tabServer</value>
+  <data name="&gt;&gt;tabSql.Name" xml:space="preserve">
+    <value>tabSql</value>
   </data>
-  <data name="&gt;&gt;tabServer.Type" xml:space="preserve">
+  <data name="&gt;&gt;tabSql.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabServer.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tabSql.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
   </data>
-  <data name="&gt;&gt;tabServer.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;tabSql.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="ckbLocalDb.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2489,314 +1910,35 @@
   <data name="&gt;&gt;lblServerName.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="tabServer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="tabServer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabServer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 220</value>
+  </data>
+  <data name="tabServer.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabServer.Text" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Name" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Parent" xml:space="preserve">
+    <value>tabcontrolAutoCodeGen</value>
+  </data>
+  <data name="&gt;&gt;tabServer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="tabcontrolAutoCodeGen.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWinformObjects.Name" xml:space="preserve">
-    <value>btnToggleWinformObjects</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWinformObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWinformObjects.Parent" xml:space="preserve">
-    <value>tabWinform</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWinformObjects.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>tabWinform</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;clbWinformObjects.Name" xml:space="preserve">
-    <value>clbWinformObjects</value>
-  </data>
-  <data name="&gt;&gt;clbWinformObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbWinformObjects.Parent" xml:space="preserve">
-    <value>tabWinform</value>
-  </data>
-  <data name="&gt;&gt;clbWinformObjects.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>tabWinform</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWinformSqlTables.Name" xml:space="preserve">
-    <value>btnToggleWinformSqlTables</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWinformSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWinformSqlTables.Parent" xml:space="preserve">
-    <value>tabWinform</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWinformSqlTables.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;clbWinformSqlTables.Name" xml:space="preserve">
-    <value>clbWinformSqlTables</value>
-  </data>
-  <data name="&gt;&gt;clbWinformSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbWinformSqlTables.Parent" xml:space="preserve">
-    <value>tabWinform</value>
-  </data>
-  <data name="&gt;&gt;clbWinformSqlTables.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tabWinform.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
-  </data>
-  <data name="tabWinform.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabWinform.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
-  </data>
-  <data name="tabWinform.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="tabWinform.Text" xml:space="preserve">
-    <value>Winform</value>
-  </data>
-  <data name="&gt;&gt;tabWinform.Name" xml:space="preserve">
-    <value>tabWinform</value>
-  </data>
-  <data name="&gt;&gt;tabWinform.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabWinform.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabWinform.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebServicesSqlTables.Name" xml:space="preserve">
-    <value>btnToggleWebServicesSqlTables</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebServicesSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebServicesSqlTables.Parent" xml:space="preserve">
-    <value>tabWebService</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebServicesSqlTables.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebServiceObjects.Name" xml:space="preserve">
-    <value>btnToggleWebServiceObjects</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebServiceObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebServiceObjects.Parent" xml:space="preserve">
-    <value>tabWebService</value>
-  </data>
-  <data name="&gt;&gt;btnToggleWebServiceObjects.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lblWebServiceObjects.Name" xml:space="preserve">
-    <value>lblWebServiceObjects</value>
-  </data>
-  <data name="&gt;&gt;lblWebServiceObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWebServiceObjects.Parent" xml:space="preserve">
-    <value>tabWebService</value>
-  </data>
-  <data name="&gt;&gt;lblWebServiceObjects.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;clbWebServiceObjects.Name" xml:space="preserve">
-    <value>clbWebServiceObjects</value>
-  </data>
-  <data name="&gt;&gt;clbWebServiceObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbWebServiceObjects.Parent" xml:space="preserve">
-    <value>tabWebService</value>
-  </data>
-  <data name="&gt;&gt;clbWebServiceObjects.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;lblWebServiceTables.Name" xml:space="preserve">
-    <value>lblWebServiceTables</value>
-  </data>
-  <data name="&gt;&gt;lblWebServiceTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWebServiceTables.Parent" xml:space="preserve">
-    <value>tabWebService</value>
-  </data>
-  <data name="&gt;&gt;lblWebServiceTables.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;clbWebServiceSqlTables.Name" xml:space="preserve">
-    <value>clbWebServiceSqlTables</value>
-  </data>
-  <data name="&gt;&gt;clbWebServiceSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbWebServiceSqlTables.Parent" xml:space="preserve">
-    <value>tabWebService</value>
-  </data>
-  <data name="&gt;&gt;clbWebServiceSqlTables.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tabWebService.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
-  </data>
-  <data name="tabWebService.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabWebService.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
-  </data>
-  <data name="tabWebService.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="tabWebService.Text" xml:space="preserve">
-    <value>WebServices</value>
-  </data>
-  <data name="&gt;&gt;tabWebService.Name" xml:space="preserve">
-    <value>tabWebService</value>
-  </data>
-  <data name="&gt;&gt;tabWebService.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabWebService.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabWebService.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;lblASPTables.Name" xml:space="preserve">
-    <value>lblASPTables</value>
-  </data>
-  <data name="&gt;&gt;lblASPTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblASPTables.Parent" xml:space="preserve">
-    <value>tabAsp</value>
-  </data>
-  <data name="&gt;&gt;lblASPTables.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;clbAspSqlTables.Name" xml:space="preserve">
-    <value>clbAspSqlTables</value>
-  </data>
-  <data name="&gt;&gt;clbAspSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbAspSqlTables.Parent" xml:space="preserve">
-    <value>tabAsp</value>
-  </data>
-  <data name="&gt;&gt;clbAspSqlTables.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;lblASPObjects.Name" xml:space="preserve">
-    <value>lblASPObjects</value>
-  </data>
-  <data name="&gt;&gt;lblASPObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblASPObjects.Parent" xml:space="preserve">
-    <value>tabAsp</value>
-  </data>
-  <data name="&gt;&gt;lblASPObjects.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnToggleASPObjects.Name" xml:space="preserve">
-    <value>btnToggleASPObjects</value>
-  </data>
-  <data name="&gt;&gt;btnToggleASPObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleASPObjects.Parent" xml:space="preserve">
-    <value>tabAsp</value>
-  </data>
-  <data name="&gt;&gt;btnToggleASPObjects.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;clbAspObjects.Name" xml:space="preserve">
-    <value>clbAspObjects</value>
-  </data>
-  <data name="&gt;&gt;clbAspObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbAspObjects.Parent" xml:space="preserve">
-    <value>tabAsp</value>
-  </data>
-  <data name="&gt;&gt;clbAspObjects.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tabAsp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
-  </data>
-  <data name="tabAsp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
-  </data>
-  <data name="tabAsp.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="tabAsp.Text" xml:space="preserve">
-    <value>ASP.Net</value>
-  </data>
-  <data name="&gt;&gt;tabAsp.Name" xml:space="preserve">
-    <value>tabAsp</value>
-  </data>
-  <data name="&gt;&gt;tabAsp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabAsp.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabAsp.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tabcontrolAutoCodeGen.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="tabcontrolAutoCodeGen.Padding" type="System.Drawing.Point, System.Drawing">
-    <value>5, 5</value>
-  </data>
-  <data name="tabcontrolAutoCodeGen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>569, 250</value>
-  </data>
-  <data name="tabcontrolAutoCodeGen.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tabcontrolAutoCodeGen.Name" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabcontrolAutoCodeGen.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabcontrolAutoCodeGen.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tabcontrolAutoCodeGen.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="btnToggleWinformObjects.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -2954,6 +2096,33 @@
   <data name="&gt;&gt;clbWinformSqlTables.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="tabWinform.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="tabWinform.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabWinform.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 220</value>
+  </data>
+  <data name="tabWinform.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="tabWinform.Text" xml:space="preserve">
+    <value>Winform</value>
+  </data>
+  <data name="&gt;&gt;tabWinform.Name" xml:space="preserve">
+    <value>tabWinform</value>
+  </data>
+  <data name="&gt;&gt;tabWinform.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabWinform.Parent" xml:space="preserve">
+    <value>tabcontrolAutoCodeGen</value>
+  </data>
+  <data name="&gt;&gt;tabWinform.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="btnToggleWebServicesSqlTables.Location" type="System.Drawing.Point, System.Drawing">
     <value>194, 16</value>
   </data>
@@ -3107,6 +2276,33 @@
   <data name="&gt;&gt;clbWebServiceSqlTables.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="tabWebService.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="tabWebService.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabWebService.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 220</value>
+  </data>
+  <data name="tabWebService.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="tabWebService.Text" xml:space="preserve">
+    <value>WebServices</value>
+  </data>
+  <data name="&gt;&gt;tabWebService.Name" xml:space="preserve">
+    <value>tabWebService</value>
+  </data>
+  <data name="&gt;&gt;tabWebService.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabWebService.Parent" xml:space="preserve">
+    <value>tabcontrolAutoCodeGen</value>
+  </data>
+  <data name="&gt;&gt;tabWebService.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="lblASPTables.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3236,8 +2432,62 @@
   <data name="&gt;&gt;clbAspObjects.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="tabAsp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="tabAsp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 220</value>
+  </data>
+  <data name="tabAsp.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="tabAsp.Text" xml:space="preserve">
+    <value>ASP.Net</value>
+  </data>
+  <data name="&gt;&gt;tabAsp.Name" xml:space="preserve">
+    <value>tabAsp</value>
+  </data>
+  <data name="&gt;&gt;tabAsp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabAsp.Parent" xml:space="preserve">
+    <value>tabcontrolAutoCodeGen</value>
+  </data>
+  <data name="&gt;&gt;tabAsp.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tabcontrolAutoCodeGen.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="tabcontrolAutoCodeGen.Padding" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="tabcontrolAutoCodeGen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>569, 250</value>
+  </data>
+  <data name="tabcontrolAutoCodeGen.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabcontrolAutoCodeGen.Name" xml:space="preserve">
+    <value>tabcontrolAutoCodeGen</value>
+  </data>
+  <data name="&gt;&gt;tabcontrolAutoCodeGen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabcontrolAutoCodeGen.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabcontrolAutoCodeGen.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <data name="lvMessaging.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
+  </data>
+  <data name="Message.Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Message.Width" type="System.Int32, mscorlib">
+    <value>569</value>
   </data>
   <data name="lvMessaging.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 283</value>
@@ -3259,12 +2509,6 @@
   </data>
   <data name="&gt;&gt;lvMessaging.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="Message.Text" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="Message.Width" type="System.Int32, mscorlib">
-    <value>569</value>
   </data>
   <data name="lblMessages.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>

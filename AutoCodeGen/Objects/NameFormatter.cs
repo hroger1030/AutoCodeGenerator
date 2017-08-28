@@ -119,20 +119,34 @@ namespace AutoCodeGenLibrary
 
         /// <summary>
         /// Generates a complete parameter string. 
-        /// Sample: parameter = new SqlParameter("@TabIndex", SqlDbType.Int, 4);
+        /// Sample: new SqlParameter() { ParameterName = "AccountId", SqlDbType = SqlDbType.Int, Value = obj.AccountId },
         /// </summary>
-        public static string ToCSharpSQLParameterString(SqlColumn sql_column)
+        public static string ToCSharpSQLParameterTypeString(SqlColumn sql_column, bool convertNullableFields)
         {
-            // Output:
-            // parameter = new SqlParameter("@TabIndex", SqlDbType.Int, 4);
+            string property_name = ToCSharpPropertyName(sql_column.Name);
+            string column_value;
 
+            // some columns might be nullable types
+            if (sql_column.IsNullable && !convertNullableFields)
+                column_value = $"(obj.{property_name} == null) ? (object)DBNull.Value : obj.{property_name}";
+            else
+                column_value = $"obj.{property_name};";
+            
+            // only set length on columns that can actually vary
             switch (sql_column.SqlDataType)
             {
                 case SqlDbType.Text:
-                    return $"parameter = new SqlParameter(\"{ToTSQLVariableName(sql_column)}\", SqlDbType.{sql_column.SqlDataType.ToString()});";
+                case SqlDbType.NText:
+                case SqlDbType.VarChar:
+                case SqlDbType.NVarChar:
+                case SqlDbType.VarBinary:
+                case SqlDbType.Char:
+                case SqlDbType.NChar:
+                case SqlDbType.Xml:
+                    return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sql_column)}\", SqlDbType = {sql_column.SqlDataType.ToString()}, Value = {column_value}, Size = \"{sql_column.Length}\" }},";
 
                 default:
-                    return $"parameter = new SqlParameter(\"{ToTSQLVariableName(sql_column)}\", SqlDbType.{sql_column.SqlDataType.ToString()}, {sql_column.Length.ToString()});";
+                    return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sql_column)}\", SqlDbType = {sql_column.SqlDataType.ToString()}, Value = {column_value} }},";
             }
         }
 
@@ -258,7 +272,7 @@ namespace AutoCodeGenLibrary
             switch (sql_column.SqlDataType)
             {
                 case SqlDbType.BigInt: return "Convert.ToInt64";
-                //case SqlDbType.Binary:		    	return Convert"null";
+                //case SqlDbType.Binary: return Convert"null";
                 case SqlDbType.Bit: return "Convert.ToBoolean";
                 case SqlDbType.Char: return "Convert.ToChar";
                 case SqlDbType.Date: return "Convert.ToDateTime";
@@ -267,7 +281,7 @@ namespace AutoCodeGenLibrary
                 case SqlDbType.DateTimeOffset: return "DateTime.Now";
                 case SqlDbType.Decimal: return "Convert.ToDecimal";
                 case SqlDbType.Float: return "Convert.ToDouble";
-                //case SqlDbType.Image:               return "null";
+                //case SqlDbType.Image: return "null";
                 case SqlDbType.Int: return "Convert.ToInt32";
                 case SqlDbType.Money: return "Convert.ToDecimal";
                 case SqlDbType.NChar: return "Convert.ToString";
@@ -277,16 +291,16 @@ namespace AutoCodeGenLibrary
                 case SqlDbType.SmallDateTime: return "DateTime.Now";
                 case SqlDbType.SmallInt: return "Convert.ToInt16";
                 case SqlDbType.SmallMoney: return "Convert.ToDecimal";
-                //case SqlDbType.Structured:          return "null";         
+                //case SqlDbType.Structured: return "null";         
                 case SqlDbType.Text: return "Convert.ToString";
                 case SqlDbType.Time: return "DateTime.Now";
-                //case SqlDbType.Timestamp:           return "string.Empty";
+                //case SqlDbType.Timestamp: return "string.Empty";
                 case SqlDbType.TinyInt: return "byte.MinValue";
-                //case SqlDbType.Udt:                 return "null";
+                //case SqlDbType.Udt: return "null";
                 case SqlDbType.UniqueIdentifier: return "Convert.ToString";
-                //case SqlDbType.VarBinary:           return "null";
+                //case SqlDbType.VarBinary: return "null";
                 case SqlDbType.VarChar: return "Convert.ToString";
-                //case SqlDbType.Variant:             return "null";
+                //case SqlDbType.Variant: return "null";
                 case SqlDbType.Xml: return "Convert.ToString";
 
                 default:

@@ -33,6 +33,7 @@ namespace AutoCodeGen
             this.btnResetCurrentTab = new System.Windows.Forms.Button();
             this.lblConnectStatus = new System.Windows.Forms.Label();
             this.tabAbout = new System.Windows.Forms.TabPage();
+            this.lblCopyright = new System.Windows.Forms.Label();
             this.lnkEmail = new System.Windows.Forms.LinkLabel();
             this.lnkWebLink = new System.Windows.Forms.LinkLabel();
             this.pbxLogo = new System.Windows.Forms.PictureBox();
@@ -116,7 +117,6 @@ namespace AutoCodeGen
             this.lvMessaging = new System.Windows.Forms.ListView();
             this.Message = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblMessages = new System.Windows.Forms.Label();
-            this.lblCopyright = new System.Windows.Forms.Label();
             this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             this.tabOutput.SuspendLayout();
@@ -163,6 +163,11 @@ namespace AutoCodeGen
             resources.ApplyResources(this.tabAbout, "tabAbout");
             this.tabAbout.Name = "tabAbout";
             this.tabAbout.UseVisualStyleBackColor = true;
+            // 
+            // lblCopyright
+            // 
+            resources.ApplyResources(this.lblCopyright, "lblCopyright");
+            this.lblCopyright.Name = "lblCopyright";
             // 
             // lnkEmail
             // 
@@ -765,11 +770,6 @@ namespace AutoCodeGen
             // 
             resources.ApplyResources(this.lblMessages, "lblMessages");
             this.lblMessages.Name = "lblMessages";
-            // 
-            // lblCopyright
-            // 
-            resources.ApplyResources(this.lblCopyright, "lblCopyright");
-            this.lblCopyright.Name = "lblCopyright";
             // 
             // Main
             // 

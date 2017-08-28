@@ -37,6 +37,7 @@ namespace AutoCodeGenLibrary
         /// This object is a 'hit list' of characters to remove.
         /// </summary>
         internal static string[] s_CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", ":", ";", "|", "'", "<", ">", ",", ".", "?", "/", " ", "~", "`", "\"", "\\" };
+        internal static int[] s_PrimeList = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271 };
 
         protected readonly static string SQL_PARAMETER_TEMPLATE = "parameters.Add(new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }});";
 
@@ -94,7 +95,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
 
@@ -185,7 +186,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(")");
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
 
@@ -276,7 +277,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(")");
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
 
@@ -344,7 +345,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
 
@@ -439,7 +440,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("AS");
             sb.AppendLine();
 
-            sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
 
@@ -874,7 +875,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
             sb.AppendLine("SELECT\tCOUNT(*)");
@@ -914,7 +915,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(")");
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //sb.AppendLine("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
             sb.AppendLine("SELECT" + AddTabs(1) + "COUNT(*)");
@@ -1471,7 +1472,6 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
             sb.AppendLine("{");
-            //sb.AppendLine(AddTabs(1) + "[Serializable]");
 
             if (include_class_decoration)
                 sb.AppendLine(AddTabs(1) + "[SQLTableAttribute(DataBaseName=\"" + sql_table.Database.Name + "\", TableName=\"" + sql_table.Name + "\")]");
@@ -1782,11 +1782,9 @@ namespace AutoCodeGenLibrary
             #region Sample Output
             //public override bool Equals(object obj)
             //{
-            //    if (obj == null)
-            //        return false;
-            //
-            //    if (this.GetType() != obj.GetType()) 
-            //        return false;
+            //    if (ReferenceEquals(null, obj)) return false;
+            //    if (ReferenceEquals(this, obj)) return true;
+            //    if (GetType() != obj.GetType()) return false;
             //
             //    cArmor new_obj = (cArmor)obj;     
             //
@@ -1800,12 +1798,9 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "public override bool Equals(object obj)");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "if (obj == null)");
-            sb.AppendLine(AddTabs(5) + "return false;");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(4) + "if (this.GetType() != obj.GetType())");
-            sb.AppendLine(AddTabs(5) + "return false;");
+            sb.AppendLine(AddTabs(4) + "if (ReferenceEquals(null, obj)) return false;");
+            sb.AppendLine(AddTabs(4) + "if (ReferenceEquals(this, obj)) return true;");
+            sb.AppendLine(AddTabs(5) + "if (GetType() != obj.GetType()) return false;");
             sb.AppendLine();
 
             sb.AppendLine(AddTabs(4) + NameFormatter.ToCSharpClassName(sql_table.Name) + " new_obj = (" + NameFormatter.ToCSharpClassName(sql_table.Name) + ")obj;");
@@ -1835,9 +1830,9 @@ namespace AutoCodeGenLibrary
             //{
             //    int output = 0;
             //
-            //    output ^= _ArmorID;
-            //    output ^= _ArmorType.GetHashCode();
-            //    output ^= _Disabled.GetHashCode();
+            //    output ^= (_ArmorID * 2);
+            //    output ^= (_ArmorType.GetHashCode() * 3);
+            //    output ^= (_Disabled.GetHashCode() * 5);
             //
             //    return output;
             //}
@@ -1845,21 +1840,41 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "public override int GetHashCode()");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "int output = 0;");
+            sb.AppendLine(AddTabs(4) + "unchecked");
+            sb.AppendLine(AddTabs(4) + "{");
+            sb.AppendLine(AddTabs(5) + "int output = 0;");
             sb.AppendLine();
+
+            int prime = 0;
 
             foreach (var sql_column in sql_table.Columns.Values)
             {
                 // format: 
                 // output ^= _ArmorType.GetHashCode();
-                if (sql_column.SqlDataType == SqlDbType.Int)
-                    sb.AppendLine(AddTabs(4) + "output ^= " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ";");
-                else
-                    sb.AppendLine(AddTabs(4) + "output ^= " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ".GetHashCode();");
+                switch (sql_column.SqlDataType)
+                {
+                    case SqlDbType.TinyInt:
+                    case SqlDbType.SmallInt:
+                    case SqlDbType.Int:
+                    case SqlDbType.BigInt:
+                        sb.AppendLine(AddTabs(5) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)} * {s_PrimeList[prime]});");
+                        break;
+
+                    default:
+                        sb.AppendLine(AddTabs(5) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)}.GetHashCode() * {s_PrimeList[prime]});");
+                        break;
+                }
+
+                prime++;
+
+                // my what a wide table you have...
+                if (prime > s_PrimeList.Length)
+                    prime = 0;
             }
 
             sb.AppendLine();
-            sb.AppendLine(AddTabs(4) + "return output;");
+            sb.AppendLine(AddTabs(5) + "return output;");
+            sb.AppendLine(AddTabs(4) + "}");
             sb.AppendLine(AddTabs(3) + "}");
 
             ////////////////////////////////////////////////////////////////////////////////
@@ -2378,7 +2393,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "public bool Save(" + list_type + " item)");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = GetSqlParameterList(item);");
+            sb.AppendLine(AddTabs(4) + "var parameters = GetSqlParameterList(item);");
             sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sql_table.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.UpdateInsert, null) + "]\", parameters, _SQLConnection) > 0;");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
@@ -2573,60 +2588,31 @@ namespace AutoCodeGenLibrary
             ////////////////////////////////////////////////////////////////////////////////
 
             #region Code Sample
-            //protected List<SqlParameter> GetSqlParameterList(cGame obj)
+            //protected SqlParameter[] GetSqlParameterList(cRace obj)
             //{
-            //    List<SqlParameter> parameters = new List<SqlParameter>();
-            //    SqlParameter parameter;
-
-            //    parameter = new SqlParameter("@Id", SqlDbType.Int, 4);
-            //    parameter.Value = obj.Id;
-            //    parameters.Add(parameter);
-
-            //    parameter = new SqlParameter("@Disabled", SqlDbType.Bit, 1);
-            //    parameter.Value = obj.Disabled;
-            //    parameters.Add(parameter);
-
-            //    return parameters;
+            //    return new SqlParameter[]
+            //    {
+            //            new SqlParameter() { ParameterName = "AccountId", SqlDbType = SqlDbType.Int, Value = accountId },
+            //    };
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "protected List<SqlParameter> GetSqlParameterList(" + NameFormatter.ToCSharpClassName(sql_table.Name) + " obj)");
+            sb.AppendLine(AddTabs(3) + "protected SqlParameter[] GetSqlParameterList(" + NameFormatter.ToCSharpClassName(sql_table.Name) + " obj)");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
-            sb.AppendLine(AddTabs(4) + "SqlParameter parameter;");
-            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + "return new SqlParameter[]");
+            sb.AppendLine(AddTabs(4) + "{");
 
             // build parameter collection here
             foreach (var sql_column in sql_table.Columns.Values)
-            {
-                // REFACTOR
-                //sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPATE, "@SearchString", SqlDbType.VarChar, 50, "search_string"));
+                sb.AppendLine(AddTabs(5) + NameFormatter.ToCSharpSQLParameterTypeString(sql_column, convert_nullable_fields));
 
-                string column_name = NameFormatter.ToCSharpPropertyName(sql_column.Name);
-
-                sb.Append(AddTabs(4) + NameFormatter.ToCSharpSQLParameterString(sql_column));
-
-                if (sql_column.IsNullable && !convert_nullable_fields)
-                {
-                    //parameter.Value = (obj.CancelledDate == null) ? (object)DBNull.Value : _CancelledDate;
-                    sb.Append(Environment.NewLine + AddTabs(4) + "parameter.Value = (obj." + column_name + " == null) ? (object)DBNull.Value : obj." + column_name + ";");
-                }
-                else
-                {
-                    sb.Append(Environment.NewLine + AddTabs(4) + "parameter.Value = obj." + column_name + ";");
-                }
-
-                sb.Append(Environment.NewLine + AddTabs(4) + "parameters.Add(parameter);" + Environment.NewLine);
-                sb.AppendLine();
-            }
-
-            sb.AppendLine(AddTabs(4) + "return parameters;");
+            sb.AppendLine(AddTabs(4) + "};");
             sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine();
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
 
-            sb.AppendLine();
             sb.AppendLine(AddTabs(2) + "#endregion");
 
             sb.AppendLine(AddTabs(1) + "}");
@@ -2818,8 +2804,8 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(2) + "#region Fields");
             sb.AppendLine();
-            sb.AppendLine(AddTabs(3) + "protected bool _IsDirty       = false;");
-            sb.AppendLine(AddTabs(3) + "protected bool _LoadError     = false;");
+            sb.AppendLine(AddTabs(3) + "protected bool _IsDirty = false;");
+            sb.AppendLine(AddTabs(3) + "protected bool _LoadError = false;");
             sb.AppendLine();
             sb.AppendLine(AddTabs(2) + "#endregion");
             sb.AppendLine();
@@ -3629,13 +3615,13 @@ namespace AutoCodeGenLibrary
             if (connection_string == null)
                 return null;
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = ConfigurationManager.AppSettings["DefaultWebConfigFilename"];
             output.Type = OutputObject.eObjectType.WebConfig;
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            sb.AppendLine("<?xml version=\"1.0\"?>");
+            sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
             sb.AppendLine("<configuration>");
             sb.AppendLine();
             sb.AppendLine(AddTabs(1) + "<appSettings>");
@@ -3649,8 +3635,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
             sb.AppendLine(AddTabs(1) + "<system.web>");
             sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "<compilation debug=\"true\"/>");
-            sb.AppendLine(AddTabs(2) + "<authentication mode=\"Windows\"/>");
+            sb.AppendLine(AddTabs(2) + "<compilation debug=\"true\" />");
+            sb.AppendLine(AddTabs(2) + "<authentication mode=\"Windows\" />");
             sb.AppendLine();
             sb.AppendLine(AddTabs(1) + "</system.web>");
             sb.AppendLine();
@@ -3672,11 +3658,11 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("<%@ Master Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"" + ConfigurationManager.AppSettings["DefaultMasterPageFilename"] + ".cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(database_name) + ".MasterPage\" %>");
             sb.AppendLine();
-            sb.AppendLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
-            sb.AppendLine("<html xmlns=\"http://www.w3.org/1999/xhtml\" >");
+            sb.AppendLine("<!DOCTYPE html>");
             sb.AppendLine();
 
-            sb.AppendLine("<head runat=\"server\">");
+            sb.AppendLine("<html>");
+            sb.AppendLine("<head>");
             sb.AppendLine(AddTabs(1) + "<title>" + NameFormatter.ToFriendlyName(database_name) + " Admin Tool</title>");
             sb.AppendLine(AddTabs(1) + "<link href=\"" + ConfigurationManager.AppSettings["DefaultCSSFilename"] + ".css\" rel=\"stylesheet\" type=\"text/css\" />");
             sb.AppendLine(AddTabs(1) + "<asp:contentplaceholder id=\"head\" runat=\"server\">");
@@ -5264,7 +5250,7 @@ namespace AutoCodeGenLibrary
             // Script file header
             sb.Append("/* " + GenerateAuthorNotice() + " */");
             sb.Append(Environment.NewLine);
-            sb.Append("use [" + database_name + "]");
+            sb.Append("USE [" + database_name + "]");
             sb.Append(Environment.NewLine + "GO");
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
@@ -5358,22 +5344,6 @@ namespace AutoCodeGenLibrary
             sb.Append(Environment.NewLine + AddTabs(1) + procedure_name);
             sb.Append(Environment.NewLine + AddTabs(1) + GenerateAuthorNotice());
             sb.Append(Environment.NewLine + "*/");
-
-            return sb.ToString();
-        }
-        private static string GenerateCSharpHistoryRegion()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine(AddTabs(2) + "#region History");
-            sb.AppendLine();
-
-            string date = String.Format("{0:MM/dd/yy}", DateTime.Now);
-
-            sb.AppendLine(AddTabs(3) + "// " + date + " - Generated by Jolly Roger's Autocode Generator");
-
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "#endregion");
 
             return sb.ToString();
         }
