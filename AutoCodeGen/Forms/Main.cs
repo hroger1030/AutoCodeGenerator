@@ -270,7 +270,6 @@ namespace AutoCodeGen
             clbCsharpObjects.Items.AddRange(new object[]
             {
                     Properties.Resource.CsharpOrm,
-                    Properties.Resource.CsharpSimpleOrm,
                     Properties.Resource.CsharpOrmExtension,
                     Properties.Resource.CsharpDal,
                     Properties.Resource.CsharpExtensionDal,
@@ -1167,13 +1166,7 @@ namespace AutoCodeGen
 
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrm))
                         {
-                            output = CodeGenerator.GenerateCSharpOrmClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeSqlClassDecoration), clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeBaseClassRefrence), clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeIsDirtyFlag));
-                            file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpSimpleOrm))
-                        {
-                            output = CodeGenerator.GenerateCSharpSimpleOrmClass(current_table);
+                            output = CodeGenerator.GenerateCSharpOrmClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeSqlClassDecoration));
                             file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }

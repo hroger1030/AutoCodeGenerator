@@ -182,7 +182,7 @@
     <comment>C# Options</comment>
   </data>
   <data name="CsharpOrm" xml:space="preserve">
-    <value>Create C# Orm Class</value>
+    <value>Create C# Orm Poco Class</value>
     <comment>C# Options</comment>
   </data>
   <data name="CsharpOrmExtension" xml:space="preserve">
@@ -386,9 +386,5 @@
   <data name="XmlImportObject" xml:space="preserve">
     <value>Create C# Xml import class </value>
     <comment>Xml Options</comment>
-  </data>
-  <data name="CsharpSimpleOrm" xml:space="preserve">
-    <value>Create C# Simple Orm Class</value>
-    <comment>C# Options</comment>
   </data>
 </root>

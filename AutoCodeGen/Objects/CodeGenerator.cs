@@ -1445,19 +1445,27 @@ namespace AutoCodeGenLibrary
         }
 
         // C# Code Generation
-        public static OutputObject GenerateCSharpOrmClass(SqlTable sql_table, List<string> namespace_includes, bool include_class_decoration, bool include_base_class_ref, bool include_is_dirty_flag)
+        public static OutputObject GenerateCSharpOrmClass(SqlTable sqlTable, List<string> namespaceIncludes, bool includeClassDecoration)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = NameFormatter.ToCSharpClassName(sql_table.Name);
-            int longest_column = GetLongestColumnLength(sql_table);
+            //todo: wrire these up somewhere
+            bool include_region_blocks = false;
+            bool include_static_field_names = false;
+            bool include_to_string_overload = false;
+            bool include_equals_overload = false;
+            bool include_get_hash_overload = false;
+            bool include_reset_class_method = false;
 
-            OutputObject output = new OutputObject();
+            string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
+            int longest_column = GetLongestColumnLength(sqlTable);
+
+            var output = new OutputObject();
             output.Name = class_name + ".cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             #region Header block
 
@@ -1470,17 +1478,13 @@ namespace AutoCodeGenLibrary
 
             #endregion
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
 
-            if (include_class_decoration)
-                sb.AppendLine(AddTabs(1) + "[SQLTableAttribute(DataBaseName=\"" + sql_table.Database.Name + "\", TableName=\"" + sql_table.Name + "\")]");
+            //if (includeClassDecoration)
+            //    sb.AppendLine(AddTabs(1) + "[SQLTableAttribute(DataBaseName=\"" + sqlTable.Database.Name + "\", TableName=\"" + sqlTable.Name + "\")]");
 
-            if (include_base_class_ref)
-                sb.AppendLine(AddTabs(1) + "public partial class " + class_name + " : BaseClass");
-            else
-                sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
-
+            sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
             sb.AppendLine(AddTabs(1) + "{");
 
             #region Constants Bloc
@@ -1497,71 +1501,59 @@ namespace AutoCodeGenLibrary
             //#endregion
             #endregion
 
-            sb.AppendLine(AddTabs(2) + "#region Constants");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(3) + "public static class Db");
-            sb.AppendLine(AddTabs(3) + "{");
-
-            foreach (var sql_column in sql_table.Columns.Values)
+            if (include_static_field_names)
             {
-                // format: 
-                // public static string Id = "Id";
-                sb.AppendLine(AddTabs(4) + "public static string " + PadCSharpVariableName(NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column) + "= \"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\";");
-            }
+                if (include_region_blocks)
+                {
+                    sb.AppendLine(AddTabs(2) + "#region Constants");
+                    sb.AppendLine();
+                }
+                sb.AppendLine(AddTabs(2) + "public static class Db");
+                sb.AppendLine(AddTabs(2) + "{");
 
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "#endregion");
-            sb.AppendLine();
+                foreach (var sql_column in sqlTable.Columns.Values)
+                {
+                    // format: 
+                    // public static string Id = "Id";
+                    sb.AppendLine(AddTabs(3) + "public static string " + PadCSharpVariableName(NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column) + "= \"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\";");
+                }
 
-            ////////////////////////////////////////////////////////////////////////////////
-            #endregion
-
-            #region Fields bloc
-            ////////////////////////////////////////////////////////////////////////////////
-
-            sb.AppendLine(AddTabs(2) + "#region Fields");
-            sb.AppendLine();
-
-            foreach (var sql_column in sql_table.Columns.Values)
-            {
-                // format: 
-                // private string _State;
-                sb.AppendLine(AddTabs(3) + "protected " + NameFormatter.SQLTypeToCSharpType(sql_column) + " " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ";");
-            }
-
-            if (include_is_dirty_flag)
-            {
+                sb.AppendLine(AddTabs(2) + "}");
                 sb.AppendLine();
-                sb.AppendLine(AddTabs(3) + "protected bool _IsDirty;");
-            }
 
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "#endregion");
-            sb.AppendLine();
+                if (include_region_blocks)
+                {
+                    sb.AppendLine(AddTabs(2) + "#endregion");
+                    sb.AppendLine();
+                }
+            }
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
 
             #region Properties Block
             ////////////////////////////////////////////////////////////////////////////////
-            sb.AppendLine(AddTabs(2) + "#region Properties");
-            sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            if (include_region_blocks)
+            {
+                sb.AppendLine(AddTabs(2) + "#region Properties");
+                sb.AppendLine();
+            }
+
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 #region Sample Output
                 //[SQLColumn(ColumnName = "foo", SQLType = "int", Precision = "4", IsPrimaryKey = "false", IsNullable = "false")]
-                //public string SomeID
+                //public string SomeID { get; set; }
                 //{
                 //  get { return _SomeID; }
                 //  set { _SomeID = value; }
                 //}
                 #endregion Sample Output
 
-                if (include_class_decoration)
+                if (includeClassDecoration)
                 {
-                    sb.Append(AddTabs(3) + "[SQLColumnAttribute(");
+                    sb.Append(AddTabs(2) + "[SQLColumnAttribute(");
                     sb.Append("ColumnName=\"" + sql_column.Name + "\", ");
                     sb.Append("SQLType=SqlDbType." + sql_column.DataType + ", ");
                     sb.Append("Length=" + sql_column.Length.ToString() + ", ");
@@ -1570,372 +1562,224 @@ namespace AutoCodeGenLibrary
                     sb.Append(")]" + Environment.NewLine);
                 }
 
-                sb.AppendLine(AddTabs(3) + "public virtual " + NameFormatter.SQLTypeToCSharpType(sql_column) + " " + NameFormatter.ToCSharpPropertyName(sql_column.Name));
-                sb.AppendLine(AddTabs(3) + "{");
-                sb.AppendLine(AddTabs(4) + "get { return " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + "; }");
-
-                if (include_is_dirty_flag)
-                {
-                    sb.AppendLine(AddTabs(4) + "set");
-                    sb.AppendLine(AddTabs(4) + "{");
-                    sb.AppendLine(AddTabs(5) + "if (" + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + " != value)");
-                    sb.AppendLine(AddTabs(5) + "{");
-                    sb.AppendLine(AddTabs(6) + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + " = value;");
-                    sb.AppendLine(AddTabs(6) + "_IsDirty = true;");
-                    sb.AppendLine(AddTabs(5) + "}");
-                    sb.AppendLine(AddTabs(4) + "}");
-                }
-
-                else
-                {
-                    sb.AppendLine(AddTabs(4) + "set { " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + " = value; }");
-                }
-
-                sb.AppendLine(AddTabs(3) + "}");
+                sb.AppendLine(AddTabs(2) + $"public {NameFormatter.SQLTypeToCSharpType(sql_column)} {NameFormatter.ToCSharpPropertyName(sql_column.Name)} {{ get; set; }}");
             }
 
-            if (include_is_dirty_flag)
+            if (include_region_blocks)
             {
+                sb.AppendLine(AddTabs(2) + "#endregion");
                 sb.AppendLine();
-                sb.AppendLine(AddTabs(3) + "public bool IsDirty");
-                sb.AppendLine(AddTabs(3) + "{");
-                sb.AppendLine(AddTabs(4) + "get { return _IsDirty; }");
-                sb.AppendLine(AddTabs(4) + "set { _IsDirty = value; }");
-                sb.AppendLine(AddTabs(3) + "}");
             }
-
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "#endregion");
-            sb.AppendLine();
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
 
-            sb.AppendLine(AddTabs(2) + "#region Methods");
-            sb.AppendLine();
+            if (include_region_blocks)
+            {
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "#region Methods");
+            }
 
             #region Default CTOR
             ////////////////////////////////////////////////////////////////////////////////
 
             #region sample output
-            //public Foo()
-            //{
-            //    Reset();
-            //}
+            //public Foo() {}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "public " + NameFormatter.ToCSharpClassName(sql_table.Name) + "()");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "Reset();");
-            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "public " + NameFormatter.ToCSharpClassName(sqlTable.Name) + "() {}");
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion Default CTOR
 
-            #region Copy Object CTOR
-            ////////////////////////////////////////////////////////////////////////////////
-
-            #region Sample Output
-            //public Foo(TbCountry new_tbCountry)
-            //{
-            //    _CountryID      = new_tbCountry._CountryID;
-            //    _OldCountryID   = new_tbCountry._OldCountryID;
-            //    _CountryName    = new_tbCountry._CountryName;
-            //    _Side           = new_tbCountry._Side;
-            //    _Disabled       = new_tbCountry._Disabled;
-            //}
-            #endregion Sample Output
-
-            //string new_object_name = "new_" + sql_table.Name;
-
-            //sb.AppendLine(AddTabs(3) + "public " + NameFormatter.ToCSharpClassName(sql_table.Name) + "(" + NameFormatter.ToCSharpClassName(sql_table.Name) + " " + new_object_name + ")");
-            //sb.AppendLine(AddTabs(3) + "{");
-
-            //foreach (var sql_column in sql_table.Columns.Values)
-            //{
-            //    sb.Append(AddTabs(4));
-            //    sb.Append(PadCSharpVariableName(NameFormatter.ToCSharpPrivateVariable(sql_column.Name), longest_column, 1));
-            //    sb.Append("= " + new_object_name + "." + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ";" + Environment.NewLine);
-            //}
-
-            //if (include_is_dirty_flag)
-            //{
-            //    sb.Append(Environment.NewLine);
-            //    sb.Append(AddTabs(4));
-            //    sb.Append(PadCSharpVariableName("_IsDirty", GetLongestColumnLength(sql_table)));
-            //    sb.Append("= " + new_object_name + "._IsDirty;" + Environment.NewLine);
-            //}
-
-            //sb.AppendLine(AddTabs(3) + "}");
-
-            ////////////////////////////////////////////////////////////////////////////////
-            #endregion Copy CTOR
-
-            #region Copy by field CTOR
-            ////////////////////////////////////////////////////////////////////////////////
-            /*
-            sb.AppendLine(AddTabs(3) + "public " + NameFormatter.ToCSharpClassName(sql_table.Name) + "(" + NameFormatter.GenerateCSharpFunctionArgs(sql_table, eIncludedFields.All) + ")");
-            sb.AppendLine(AddTabs(3) + "{");
-
-            foreach (var sql_column in sql_table.Columns.Values)
-            {
-                sb.Append(AddTabs(4));
-                sb.Append(PadCSharpVariableName(NameFormatter.ToCSharpPrivateVariable(sql_column.Name), longest_column, 1));
-                sb.Append("= " + NameFormatter.ToCSharpLocalVariable(sql_column.Name) + ";" + Environment.NewLine);
-            }
-
-            if (include_is_dirty_flag)
-            {
-                sb.AppendLine();
-                sb.AppendLine(AddTabs(4) + "_IsDirty = true;");
-            }
-
-            sb.AppendLine(AddTabs(3) + "}");
-
-            */
-            ////////////////////////////////////////////////////////////////////////////////
-            #endregion Overloaded CTOR
-
-            sb.AppendLine();
-
             #region Reset Method
             //////////////////////////////////////////////////////////////////////////////
 
-            if (include_base_class_ref)
-                sb.AppendLine(AddTabs(3) + "public virtual override void Reset()");
-            else
-                sb.AppendLine(AddTabs(3) + "public virtual void Reset()");
-
-            sb.AppendLine(AddTabs(3) + "{");
-
-            foreach (var sql_column in sql_table.Columns.Values)
-            {
-                // format: 
-                // _State   = string.Empty;
-                sb.Append(AddTabs(4));
-                sb.Append(PadCSharpVariableName(NameFormatter.ToCSharpPrivateVariable(sql_column.Name), longest_column, 0));
-                sb.Append("= " + NameFormatter.GetCSharpDefaultValue(sql_column) + ";" + Environment.NewLine);
-            }
-
-            if (include_is_dirty_flag)
+            if (include_reset_class_method)
             {
                 sb.AppendLine();
-                sb.AppendLine(AddTabs(4) + "_IsDirty = false;");
-            }
+                sb.AppendLine(AddTabs(2) + "public void Reset()");
+                sb.AppendLine(AddTabs(2) + "{");
 
-            sb.AppendLine(AddTabs(3) + "}");
+                foreach (var sql_column in sqlTable.Columns.Values)
+                {
+                    // format: 
+                    // _State   = string.Empty;
+                    sb.Append(AddTabs(3));
+                    sb.Append(PadCSharpVariableName(NameFormatter.ToCSharpPrivateVariable(sql_column.Name), longest_column, 0));
+                    sb.Append("= " + NameFormatter.GetCSharpDefaultValue(sql_column) + ";" + Environment.NewLine);
+                }
+
+                sb.AppendLine(AddTabs(2) + "}");
+            }
 
             //////////////////////////////////////////////////////////////////////////////
             #endregion
-
-            sb.AppendLine();
 
             #region ToString Method
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Sample Output
-            //public override string ToString()
-            //{
-            //    StringBuilder sb = new StringBuilder();
-            //
-            //    sb.AppendLine("CountryID:" + _CountryID.ToString());
-            //    sb.AppendLine("OfficialName:" + _OfficialName);
-            //    sb.AppendLine("CommonName:" + _CommonName);
-            //    sb.AppendLine("CapitolName:" + _CapitolName);
-            //    sb.AppendLine("Disabled:" + _Disabled.ToString());
-            //
-            //    return sb.ToString();
-            //}
-            #endregion
-
-            sb.AppendLine(AddTabs(3) + "public override string ToString()");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "StringBuilder sb = new StringBuilder();");
-            sb.AppendLine();
-
-            foreach (var sql_column in sql_table.Columns.Values)
+            if (include_to_string_overload)
             {
-                // format: 
-                // sb.AppendLine("Foo:" + _Foo.ToString());
-                if (NameFormatter.SQLTypeToCSharpType(sql_column) == "string")
-                {
-                    sb.AppendLine(AddTabs(4) + "sb.AppendLine(\"" + sql_column.Name + ": \" + " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + " + \" \");");
-                }
-                else
-                {
-                    sb.AppendLine(AddTabs(4) + "sb.AppendLine(\"" + sql_column.Name + ": \" + " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ".ToString() + \" \");");
-                }
-            }
+                #region Sample Output
+                //public override string ToString()
+                //{
+                //    StringBuilder sb = new StringBuilder();
+                //
+                //    sb.AppendLine("CountryID:" + _CountryID.ToString());
+                //    sb.AppendLine("OfficialName:" + _OfficialName);
+                //    sb.AppendLine("CommonName:" + _CommonName);
+                //    sb.AppendLine("CapitolName:" + _CapitolName);
+                //    sb.AppendLine("Disabled:" + _Disabled.ToString());
+                //
+                //    return sb.ToString();
+                //}
+                #endregion
 
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(4) + "return sb.ToString();");
-            sb.AppendLine(AddTabs(3) + "}");
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "public override string ToString()");
+                sb.AppendLine(AddTabs(2) + "{");
+                sb.AppendLine(AddTabs(3) + "StringBuilder sb = new StringBuilder();");
+                sb.AppendLine();
+
+                foreach (var sql_column in sqlTable.Columns.Values)
+                {
+                    // format: 
+                    // sb.AppendLine("Foo:" + _Foo.ToString());
+                    if (NameFormatter.SQLTypeToCSharpType(sql_column) == "string")
+                    {
+                        sb.AppendLine(AddTabs(3) + "sb.AppendLine(\"" + sql_column.Name + ": \" + " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + " + \" \");");
+                    }
+                    else
+                    {
+                        sb.AppendLine(AddTabs(3) + "sb.AppendLine(\"" + sql_column.Name + ": \" + " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ".ToString() + \" \");");
+                    }
+                }
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(3) + "return sb.ToString();");
+                sb.AppendLine(AddTabs(2) + "}");
+            }
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
-
-            sb.AppendLine();
 
             #region Equals Method
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Sample Output
-            //public override bool Equals(object obj)
-            //{
-            //    if (ReferenceEquals(null, obj)) return false;
-            //    if (ReferenceEquals(this, obj)) return true;
-            //    if (GetType() != obj.GetType()) return false;
-            //
-            //    cArmor new_obj = (cArmor)obj;     
-            //
-            //    if (!Object.Equals(this._ArmorID, new_obj._ArmorID)) return false;
-            //    if (!Object.Equals(this._ArmorType, new_obj._ArmorType)) return false;
-            //    if (!Object.Equals(this._Disabled, new_obj._Disabled)) return false;
-            //
-            //    return true;
-            //}
-            #endregion
-
-            sb.AppendLine(AddTabs(3) + "public override bool Equals(object obj)");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "if (ReferenceEquals(null, obj)) return false;");
-            sb.AppendLine(AddTabs(4) + "if (ReferenceEquals(this, obj)) return true;");
-            sb.AppendLine(AddTabs(5) + "if (GetType() != obj.GetType()) return false;");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(4) + NameFormatter.ToCSharpClassName(sql_table.Name) + " new_obj = (" + NameFormatter.ToCSharpClassName(sql_table.Name) + ")obj;");
-            sb.AppendLine();
-
-            foreach (var sql_column in sql_table.Columns.Values)
+            if (include_equals_overload)
             {
-                // format: 
-                // if (!Object.Equals(this._ArmorID, new_obj._ArmorID)) return false;
-                sb.AppendLine(AddTabs(4) + "if (!object.Equals(this." + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ", new_obj." + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ")) return false;");
-            }
+                #region Sample Output
+                //public override bool Equals(object obj)
+                //{
+                //    if (ReferenceEquals(null, obj)) return false;
+                //    if (ReferenceEquals(this, obj)) return true;
+                //    if (GetType() != obj.GetType()) return false;
+                //
+                //    cArmor new_obj = (cArmor)obj;     
+                //
+                //    if (!Object.Equals(this._ArmorID, new_obj._ArmorID)) return false;
+                //    if (!Object.Equals(this._ArmorType, new_obj._ArmorType)) return false;
+                //    if (!Object.Equals(this._Disabled, new_obj._Disabled)) return false;
+                //
+                //    return true;
+                //}
+                #endregion
 
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(4) + "return true;");
-            sb.AppendLine(AddTabs(3) + "}");
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "public override bool Equals(object obj)");
+                sb.AppendLine(AddTabs(2) + "{");
+                sb.AppendLine(AddTabs(3) + "if (ReferenceEquals(null, obj)) return false;");
+                sb.AppendLine(AddTabs(3) + "if (ReferenceEquals(this, obj)) return true;");
+                sb.AppendLine(AddTabs(4) + "if (GetType() != obj.GetType()) return false;");
+                sb.AppendLine();
+
+                sb.AppendLine(AddTabs(3) + NameFormatter.ToCSharpClassName(sqlTable.Name) + " new_obj = (" + NameFormatter.ToCSharpClassName(sqlTable.Name) + ")obj;");
+                sb.AppendLine();
+
+                foreach (var sql_column in sqlTable.Columns.Values)
+                {
+                    // format: 
+                    // if (!Object.Equals(this._ArmorID, new_obj._ArmorID)) return false;
+                    sb.AppendLine(AddTabs(3) + "if (!object.Equals(this." + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ", new_obj." + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ")) return false;");
+                }
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(3) + "return true;");
+                sb.AppendLine(AddTabs(2) + "}");
+            }
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
-
-            sb.AppendLine();
 
             #region GetHashCode Method
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Sample Output
-            //public override int GetHashCode()
-            //{
-            //    int output = 0;
-            //
-            //    output ^= (_ArmorID * 2);
-            //    output ^= (_ArmorType.GetHashCode() * 3);
-            //    output ^= (_Disabled.GetHashCode() * 5);
-            //
-            //    return output;
-            //}
-            #endregion
-
-            sb.AppendLine(AddTabs(3) + "public override int GetHashCode()");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "unchecked");
-            sb.AppendLine(AddTabs(4) + "{");
-            sb.AppendLine(AddTabs(5) + "int output = 0;");
-            sb.AppendLine();
-
-            int prime = 0;
-
-            foreach (var sql_column in sql_table.Columns.Values)
-            {
-                // format: 
-                // output ^= _ArmorType.GetHashCode();
-                switch (sql_column.SqlDataType)
-                {
-                    case SqlDbType.TinyInt:
-                    case SqlDbType.SmallInt:
-                    case SqlDbType.Int:
-                    case SqlDbType.BigInt:
-                        sb.AppendLine(AddTabs(5) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)} * {s_PrimeList[prime]});");
-                        break;
-
-                    default:
-                        sb.AppendLine(AddTabs(5) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)}.GetHashCode() * {s_PrimeList[prime]});");
-                        break;
-                }
-
-                prime++;
-
-                // my what a wide table you have...
-                if (prime > s_PrimeList.Length)
-                    prime = 0;
-            }
-
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(5) + "return output;");
-            sb.AppendLine(AddTabs(4) + "}");
-            sb.AppendLine(AddTabs(3) + "}");
-
-            ////////////////////////////////////////////////////////////////////////////////
-            #endregion
-
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "#endregion");
-
-            sb.AppendLine(AddTabs(1) + "}");
-            sb.AppendLine("}");
-
-            output.Body = sb.ToString();
-            return output;
-        }
-        public static OutputObject GenerateCSharpSimpleOrmClass(SqlTable sql_table)
-        {
-            if (sql_table == null)
-                return null;
-
-            string class_name = NameFormatter.ToCSharpClassName(sql_table.Name);
-            int longest_column = GetLongestColumnLength(sql_table);
-
-            OutputObject output = new OutputObject();
-            output.Name = class_name + ".cs";
-            output.Type = OutputObject.eObjectType.CSharp;
-
-            StringBuilder sb = new StringBuilder();
-
-            #region Header block
-
-            sb.AppendLine("using System;");
-            sb.AppendLine();
-
-            #endregion
-
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
-            sb.AppendLine("{");
-
-            //sb.AppendLine(AddTabs(1) + "[Serializable]");
-            sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
-            sb.AppendLine(AddTabs(1) + "{");
-
-            #region Properties Block
-            ////////////////////////////////////////////////////////////////////////////////
-            sb.AppendLine(AddTabs(2) + "#region Properties");
-            sb.AppendLine();
-
-            foreach (var sql_column in sql_table.Columns.Values)
+            if (include_get_hash_overload)
             {
                 #region Sample Output
-                //public string SomeID { get;set; }
-                #endregion Sample Output
+                //public override int GetHashCode()
+                //{
+                //    int output = 0;
+                //
+                //    output ^= (_ArmorID * 2);
+                //    output ^= (_ArmorType.GetHashCode() * 3);
+                //    output ^= (_Disabled.GetHashCode() * 5);
+                //
+                //    return output;
+                //}
+                #endregion
 
-                sb.AppendLine(AddTabs(3) + "public virtual " + NameFormatter.SQLTypeToCSharpType(sql_column) + " " + NameFormatter.ToCSharpPropertyName(sql_column.Name) + " { get; set; }");
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "public override int GetHashCode()");
+                sb.AppendLine(AddTabs(2) + "{");
+                sb.AppendLine(AddTabs(3) + "unchecked");
+                sb.AppendLine(AddTabs(3) + "{");
+                sb.AppendLine(AddTabs(4) + "int output = 0;");
+                sb.AppendLine();
+
+                int prime = 0;
+
+                foreach (var sql_column in sqlTable.Columns.Values)
+                {
+                    // format: 
+                    // output ^= _ArmorType.GetHashCode();
+                    switch (sql_column.SqlDataType)
+                    {
+                        case SqlDbType.TinyInt:
+                        case SqlDbType.SmallInt:
+                        case SqlDbType.Int:
+                        case SqlDbType.BigInt:
+                            sb.AppendLine(AddTabs(4) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)} * {s_PrimeList[prime]});");
+                            break;
+
+                        default:
+                            sb.AppendLine(AddTabs(4) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)}.GetHashCode() * {s_PrimeList[prime]});");
+                            break;
+                    }
+
+                    prime++;
+
+                    // my what a wide table you have...
+                    if (prime > s_PrimeList.Length)
+                        prime = 0;
+                }
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(4) + "return output;");
+                sb.AppendLine(AddTabs(3) + "}");
+                sb.AppendLine(AddTabs(2) + "}");
             }
-
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "#endregion");
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
+
+            if (include_region_blocks)
+            {
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "#endregion");
+            }
 
             sb.AppendLine(AddTabs(1) + "}");
             sb.AppendLine("}");
@@ -3610,6 +3454,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+
         public static OutputObject GenerateWebConfig(ConnectionString connection_string)
         {
             if (connection_string == null)
@@ -3645,16 +3490,17 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+
         public static OutputObject GenerateMasterPageCodeInFront(string database_name, List<string> selected_tables)
         {
             if (string.IsNullOrEmpty(database_name))
                 return null;
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = ConfigurationManager.AppSettings["DefaultMasterPageFilename"];
             output.Type = OutputObject.eObjectType.CSharp;
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             sb.AppendLine("<%@ Master Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"" + ConfigurationManager.AppSettings["DefaultMasterPageFilename"] + ".cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(database_name) + ".MasterPage\" %>");
             sb.AppendLine();
@@ -3662,8 +3508,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
             sb.AppendLine("<html>");
-            sb.AppendLine("<head>");
-            sb.AppendLine(AddTabs(1) + "<title>" + NameFormatter.ToFriendlyName(database_name) + " Admin Tool</title>");
+            sb.AppendLine("<head runat=\"server\">");
+            sb.AppendLine(AddTabs(1) + $"<title>{NameFormatter.ToFriendlyName(database_name)}</title>");
             sb.AppendLine(AddTabs(1) + "<link href=\"" + ConfigurationManager.AppSettings["DefaultCSSFilename"] + ".css\" rel=\"stylesheet\" type=\"text/css\" />");
             sb.AppendLine(AddTabs(1) + "<asp:contentplaceholder id=\"head\" runat=\"server\">");
             sb.AppendLine(AddTabs(1) + "</asp:contentplaceholder>");
@@ -3744,6 +3590,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+
         public static OutputObject GenerateWebViewPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
         {
             if (sql_table == null)
@@ -4038,6 +3885,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+
         public static OutputObject GenerateWebEditPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
         {
             if (sql_table == null)
@@ -4496,6 +4344,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+
         public static OutputObject GenerateWebListPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
         {
             if (sql_table == null)
@@ -4905,6 +4754,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+
         public static OutputObject GenerateDefaultPageCodeInFront(string database_name)
         {
             if (string.IsNullOrEmpty(database_name))
