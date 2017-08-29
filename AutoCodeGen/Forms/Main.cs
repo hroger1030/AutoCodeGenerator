@@ -1313,6 +1313,7 @@ namespace AutoCodeGen
                             FileIo.WriteToFile(file_name, output.Body);
 
                             output = CodeGenerator.GenerateWebEditPageCodeBehind(current_table, _NamespaceIncludes);
+                            file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
@@ -1323,16 +1324,18 @@ namespace AutoCodeGen
                             FileIo.WriteToFile(file_name, output.Body);
 
                             output = CodeGenerator.GenerateWebListPageCodeBehind(current_table, _NamespaceIncludes);
+                            file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateViewPage))
                         {
-                            output = CodeGenerator.GenerateWebViewPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
+                            output = CodeGenerator.GenerateWebViewPageCodeInFront(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
 
                             output = CodeGenerator.GenerateWebViewPageCodeBehind(current_table, _NamespaceIncludes);
+                            file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                     }

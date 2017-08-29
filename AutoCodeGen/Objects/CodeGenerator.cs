@@ -63,13 +63,13 @@ namespace AutoCodeGenLibrary
         internal static int s_VisualStudioTabSize = Convert.ToInt32(ConfigurationManager.AppSettings["VisualStudioTabSize"]);
 
         // SQL Procs
-        public static OutputObject GenerateSelectSingleProc(SqlTable sql_table, bool generate_stored_proc_perms)
+        public static OutputObject GenerateSelectSingleProc(SqlTable sqlTable, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectSingle, null);
-            int longest_column = GetLongestColumnLength(sql_table) + sql_table.Name.Length;
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectSingle, null);
+            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
             bool flag_first_value;
             string name_buffer;
 
@@ -79,9 +79,9 @@ namespace AutoCodeGenLibrary
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
+            if (sqlTable.PkList.Count == 0)
             {
-                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sql_table.Name + ". */" + Environment.NewLine + Environment.NewLine;
+                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sqlTable.Name + ". */" + Environment.NewLine + Environment.NewLine;
                 return output;
             }
 
@@ -91,7 +91,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(GenerateHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
-            sb.AppendLine(GenerateSqlStoredProcParameters(sql_table, eIncludedFields.PKOnly));
+            sb.AppendLine(GenerateSqlStoredProcParameters(sqlTable, eIncludedFields.PKOnly));
 
             sb.AppendLine("AS");
             sb.AppendLine();
@@ -103,7 +103,7 @@ namespace AutoCodeGenLibrary
 
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (flag_first_value)
                 {
@@ -122,14 +122,14 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine();
             sb.AppendLine();
-            sb.AppendLine("FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.AppendLine("FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine();
 
             #region Where Clause
             flag_first_value = true;
-            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled]", longest_column) + "= 0");
+            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled]", longest_column) + "= 0");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string tsql_variablename = NameFormatter.ToTSQLVariableName(sql_column);
 
@@ -153,13 +153,13 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateSelectManyProc(SqlTable sql_table, List<string> sort_fields, bool generate_stored_proc_perms)
+        public static OutputObject GenerateSelectManyProc(SqlTable sqlTable, List<string> sort_fields, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectMany, null);
-            int longest_column = GetLongestColumnLength(sql_table) + sql_table.Name.Length;
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectMany, null);
+            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
             bool flag_first_value;
             string name_buffer;
 
@@ -169,9 +169,9 @@ namespace AutoCodeGenLibrary
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
+            if (sqlTable.PkList.Count == 0)
             {
-                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sql_table.Name + ". */" + Environment.NewLine + Environment.NewLine;
+                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sqlTable.Name + ". */" + Environment.NewLine + Environment.NewLine;
                 return output;
             }
 
@@ -196,7 +196,7 @@ namespace AutoCodeGenLibrary
 
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (flag_first_value)
                 {
@@ -214,20 +214,20 @@ namespace AutoCodeGenLibrary
             #endregion
 
             sb.AppendLine();
-            sb.AppendLine(Environment.NewLine + "FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.AppendLine(Environment.NewLine + "FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine();
 
             #region Where Clause
 
-            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled]", longest_column) + "= 0");
+            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled]", longest_column) + "= 0");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string tsql_variablename = NameFormatter.ToTSQLVariableName(sql_column);
 
                 if (sql_column.IsPk)
                 {
-                    sb.Append("AND" + AddTabs(2) + NameFormatter.ToTSQLName(sql_table.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name) + " in");
+                    sb.Append("AND" + AddTabs(2) + NameFormatter.ToTSQLName(sqlTable.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name) + " in");
                     sb.AppendLine();
                     break;
                 }
@@ -239,7 +239,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(1) + "SELECT IdValue FROM @TableVar");
             sb.AppendLine(")");
             sb.AppendLine();
-            sb.AppendLine(GenerateOrderByClause(sql_table, sort_fields));
+            sb.AppendLine(GenerateOrderByClause(sqlTable, sort_fields));
             sb.AppendLine("GO");
             sb.AppendLine();
 
@@ -252,13 +252,13 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateSelectManyByXProc(SqlTable sql_table, List<string> sort_fields, List<string> select_fields, bool generate_stored_proc_perms)
+        public static OutputObject GenerateSelectManyByXProc(SqlTable sqlTable, List<string> sort_fields, List<string> select_fields, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectManyByX, select_fields);
-            int longest_column = GetLongestColumnLength(sql_table) + sql_table.Name.Length;
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectManyByX, select_fields);
+            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
             bool flag_first_value;
             string name_buffer;
 
@@ -273,7 +273,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("(");
-            sb.AppendLine(GenerateSelectClauseArguments(sql_table, select_fields));
+            sb.AppendLine(GenerateSelectClauseArguments(sqlTable, select_fields));
             sb.AppendLine(")");
             sb.AppendLine("AS");
             sb.AppendLine();
@@ -285,7 +285,7 @@ namespace AutoCodeGenLibrary
 
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (flag_first_value)
                 {
@@ -304,13 +304,13 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine();
             sb.AppendLine();
-            sb.AppendLine("FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.AppendLine("FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine();
 
-            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled]", longest_column) + "= 0");
-            sb.AppendLine(GenerateSelectClause(sql_table, select_fields));
+            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled]", longest_column) + "= 0");
+            sb.AppendLine(GenerateSelectClause(sqlTable, select_fields));
             sb.AppendLine();
-            sb.AppendLine(GenerateOrderByClause(sql_table, sort_fields));
+            sb.AppendLine(GenerateOrderByClause(sqlTable, sort_fields));
             sb.AppendLine("GO");
             sb.AppendLine();
 
@@ -323,13 +323,13 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateSelectAllProc(SqlTable sql_table, List<string> sort_fields, bool generate_stored_proc_perms)
+        public static OutputObject GenerateSelectAllProc(SqlTable sqlTable, List<string> sort_fields, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectAll, null);
-            int longest_column = GetLongestColumnLength(sql_table) + sql_table.Name.Length;
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null);
+            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
             bool flag_first_value;
             string name_buffer;
 
@@ -353,7 +353,7 @@ namespace AutoCodeGenLibrary
 
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (flag_first_value)
                 {
@@ -372,11 +372,11 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine();
             sb.AppendLine();
-            sb.AppendLine("FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.AppendLine("FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine();
-            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled]", longest_column) + "= 0");
+            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled]", longest_column) + "= 0");
             sb.AppendLine();
-            sb.AppendLine(GenerateOrderByClause(sql_table, sort_fields));
+            sb.AppendLine(GenerateOrderByClause(sqlTable, sort_fields));
             sb.AppendLine("GO");
             sb.AppendLine();
 
@@ -389,13 +389,13 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateSelectAllPaginatedProc(SqlTable sql_table, List<string> sort_fields, List<string> search_fields, bool generate_stored_proc_perms)
+        public static OutputObject GenerateSelectAllPaginatedProc(SqlTable sqlTable, List<string> sort_fields, List<string> search_fields, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectAllPag, null);
-            int longest_column = GetLongestColumnLength(sql_table) + sql_table.Name.Length;
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAllPag, null);
+            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
             string name_buffer;
 
             OutputObject output = new OutputObject();
@@ -404,16 +404,16 @@ namespace AutoCodeGenLibrary
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
+            if (sqlTable.PkList.Count == 0)
             {
-                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sql_table.Name + ". */" + Environment.NewLine + Environment.NewLine;
+                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sqlTable.Name + ". */" + Environment.NewLine + Environment.NewLine;
                 return output;
             }
 
             #region Find the first pk
             string table_pk = string.Empty;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string tsql_variablename = NameFormatter.ToTSQLName(sql_column.Name);
 
@@ -448,11 +448,11 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("FROM");
             sb.AppendLine("(");
             sb.AppendLine(AddTabs(1) + "SELECT ROW_NUMBER()");
-            sb.Append(AddTabs(1) + "OVER (" + GenerateOrderByClause(sql_table, sort_fields) + ") AS Row");
+            sb.Append(AddTabs(1) + "OVER (" + GenerateOrderByClause(sqlTable, sort_fields) + ") AS Row");
 
             #region Selected Columns
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 name_buffer = NameFormatter.ToTSQLName(sql_column.Table.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name);
 
@@ -463,10 +463,10 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine();
             sb.AppendLine();
-            sb.AppendLine(AddTabs(1) + "FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.AppendLine(AddTabs(1) + "FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine();
-            sb.AppendLine(GenerateSearchClause(sql_table, search_fields, 1, 1));
-            sb.AppendLine(AddTabs(1) + "AND" + AddTabs(2) + NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled] = 0");
+            sb.AppendLine(GenerateSearchClause(sqlTable, search_fields, 1, 1));
+            sb.AppendLine(AddTabs(1) + "AND" + AddTabs(2) + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0");
             sb.AppendLine(") AS Page");
             sb.AppendLine("WHERE Page.Row >= @StartNumber");
             sb.AppendLine("AND Page.Row < @PageSize + @StartNumber");
@@ -482,13 +482,13 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateSetProc(SqlTable sql_table, bool generate_stored_proc_perms)
+        public static OutputObject GenerateSetProc(SqlTable sqlTable, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.UpdateInsert, null);
-            int longest_column = GetLongestColumnLength(sql_table);
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null);
+            int longest_column = GetLongestColumnLength(sqlTable);
             bool flag_first_value = true;
 
             OutputObject output = new OutputObject();
@@ -497,9 +497,9 @@ namespace AutoCodeGenLibrary
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
+            if (sqlTable.PkList.Count == 0)
             {
-                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sql_table.Name + ". */" + Environment.NewLine + Environment.NewLine;
+                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sqlTable.Name + ". */" + Environment.NewLine + Environment.NewLine;
                 return output;
             }
 
@@ -509,7 +509,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(GenerateHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
-            sb.AppendLine(GenerateSqlStoredProcParameters(sql_table, eIncludedFields.All));
+            sb.AppendLine(GenerateSqlStoredProcParameters(sqlTable, eIncludedFields.All));
 
             sb.AppendLine("AS");
             sb.AppendLine();
@@ -517,12 +517,12 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
             #region Existance Check
-            sb.Append("IF EXISTS (SELECT 1 FROM [" + sql_table.Name + "] ");
+            sb.Append("IF EXISTS (SELECT 1 FROM [" + sqlTable.Name + "] ");
 
             // Build where clause
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (sql_column.IsPk)
                 {
@@ -547,12 +547,12 @@ namespace AutoCodeGenLibrary
 
             #region Update Clause
             sb.Append(AddTabs(1) + "-- Already Exists, Update" + Environment.NewLine);
-            sb.Append(AddTabs(1) + "UPDATE\t[" + sql_table.Name + "]" + Environment.NewLine);
+            sb.Append(AddTabs(1) + "UPDATE\t[" + sqlTable.Name + "]" + Environment.NewLine);
 
             // list selected columns
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsPk && !sql_column.IsIdentity)
                 {
@@ -575,7 +575,7 @@ namespace AutoCodeGenLibrary
             // Build where clause
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (sql_column.IsPk)
                 {
@@ -604,13 +604,13 @@ namespace AutoCodeGenLibrary
 
             #region Insert Clause
             sb.AppendLine(AddTabs(1) + "-- New Entry, Insert");
-            sb.AppendLine(AddTabs(1) + "INSERT [" + sql_table.Name + "]");
+            sb.AppendLine(AddTabs(1) + "INSERT [" + sqlTable.Name + "]");
             sb.AppendLine(AddTabs(1) + "(");
 
             // list selected columns
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsIdentity)
                 {
@@ -635,7 +635,7 @@ namespace AutoCodeGenLibrary
             // Build where clause
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsIdentity)
                 {
@@ -672,12 +672,12 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateDeleteSingleProc(SqlTable sql_table, bool generate_stored_proc_perms)
+        public static OutputObject GenerateDeleteSingleProc(SqlTable sqlTable, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.DelSingle, null);
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null);
             bool flag_first_value = true;
 
             OutputObject output = new OutputObject();
@@ -686,9 +686,9 @@ namespace AutoCodeGenLibrary
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
+            if (sqlTable.PkList.Count == 0)
             {
-                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sql_table.Name + ". */" + Environment.NewLine + Environment.NewLine;
+                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sqlTable.Name + ". */" + Environment.NewLine + Environment.NewLine;
                 return output;
             }
 
@@ -698,19 +698,19 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(GenerateHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
-            sb.AppendLine(GenerateSqlStoredProcParameters(sql_table, eIncludedFields.PKOnly));
+            sb.AppendLine(GenerateSqlStoredProcParameters(sqlTable, eIncludedFields.PKOnly));
 
             sb.AppendLine("AS");
             sb.AppendLine();
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
-            sb.AppendLine("UPDATE" + AddTabs(1) + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.AppendLine("UPDATE" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine("SET" + AddTabs(2) + "[Disabled] = 1");
 
             #region Where Clause
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 // output:
                 // WHERE    [UserName] = @UserName
@@ -749,12 +749,12 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateDeleteManyProc(SqlTable sql_table, bool generate_stored_proc_perms)
+        public static OutputObject GenerateDeleteManyProc(SqlTable sqlTable, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.DelMany, null);
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelMany, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -762,9 +762,9 @@ namespace AutoCodeGenLibrary
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
+            if (sqlTable.PkList.Count == 0)
             {
-                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sql_table.Name + ". */" + Environment.NewLine + Environment.NewLine;
+                output.Body = "/* Cannot generate " + procedure_name + ", no primary keys set on " + sqlTable.Name + ". */" + Environment.NewLine + Environment.NewLine;
                 return output;
             }
 
@@ -785,10 +785,10 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(GenerateSqlListCode());
 
             #region UPDATE statement
-            sb.AppendLine("UPDATE" + AddTabs(1) + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.AppendLine("UPDATE" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine("SET" + AddTabs(2) + "[Disabled] = 1");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string tsql_variablename = NameFormatter.ToTSQLVariableName(sql_column);
 
@@ -819,12 +819,12 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateDeleteAllProc(SqlTable sql_table, bool generate_stored_proc_perms)
+        public static OutputObject GenerateDeleteAllProc(SqlTable sqlTable, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.DelAll, null);
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -840,7 +840,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
-            sb.AppendLine("UPDATE\t[" + sql_table.Name + "]");
+            sb.AppendLine("UPDATE\t[" + sqlTable.Name + "]");
             sb.AppendLine("SET\t\t[Disabled] = 1");
             sb.AppendLine();
             sb.AppendLine("RETURN @@ROWCOUNT");
@@ -856,12 +856,12 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateCountAllProc(SqlTable sql_table, bool generate_stored_proc_perms)
+        public static OutputObject GenerateCountAllProc(SqlTable sqlTable, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.CountAll, null);
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.CountAll, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -879,7 +879,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("SET NOCOUNT ON");
             sb.AppendLine();
             sb.AppendLine("SELECT\tCOUNT(*)");
-            sb.AppendLine("FROM\t[" + sql_table.Name + "]");
+            sb.AppendLine("FROM\t[" + sqlTable.Name + "]");
             sb.AppendLine("WHERE\t[Disabled] = 0");
             sb.AppendLine("GO");
             sb.AppendLine();
@@ -893,12 +893,12 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateCountSearchProc(SqlTable sql_table, List<string> search_fields, bool generate_stored_proc_perms)
+        public static OutputObject GenerateCountSearchProc(SqlTable sqlTable, List<string> search_fields, bool generate_stored_proc_perms)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string procedure_name = GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.CountSearch, null);
+            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.CountSearch, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -920,10 +920,10 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
             sb.AppendLine("SELECT" + AddTabs(1) + "COUNT(*)");
             sb.AppendLine();
-            sb.AppendLine("FROM" + AddTabs(1) + "[" + sql_table.Name + "]");
+            sb.AppendLine("FROM" + AddTabs(1) + "[" + sqlTable.Name + "]");
             sb.AppendLine();
-            sb.AppendLine(GenerateSearchClause(sql_table, search_fields, 0, 1));
-            sb.AppendLine("AND" + AddTabs(2) + NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled] = 0");
+            sb.AppendLine(GenerateSearchClause(sqlTable, search_fields, 0, 1));
+            sb.AppendLine("AND" + AddTabs(2) + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0");
             sb.AppendLine("GO");
             sb.AppendLine();
 
@@ -937,17 +937,17 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static string GenerateInlineSelectSingleProc(SqlTable sql_table)
+        public static string GenerateInlineSelectSingleProc(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             bool flag_first_value;
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
-                return "/* Cannot generate InlineSelectSingleProc, no primary keys set on " + sql_table.Name + ". */";
+            if (sqlTable.PkList.Count == 0)
+                return "/* Cannot generate InlineSelectSingleProc, no primary keys set on " + sqlTable.Name + ". */";
 
             StringBuilder sb = new StringBuilder();
 
@@ -955,7 +955,7 @@ namespace AutoCodeGenLibrary
 
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (flag_first_value)
                 {
@@ -971,14 +971,14 @@ namespace AutoCodeGenLibrary
             }
             #endregion
 
-            sb.Append(" FROM " + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.Append(" FROM " + NameFormatter.ToTSQLName(sqlTable.Name));
 
             #region Where Clause
 
             flag_first_value = true;
-            sb.Append(" WHERE" + NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled] = 0");
+            sb.Append(" WHERE" + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string tsql_variablename = NameFormatter.ToTSQLVariableName(sql_column);
 
@@ -989,17 +989,17 @@ namespace AutoCodeGenLibrary
 
             return sb.ToString();
         }
-        public static string GenerateInlineSelectManyProc(SqlTable sql_table, List<string> sort_fields)
+        public static string GenerateInlineSelectManyProc(SqlTable sqlTable, List<string> sort_fields)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             bool flag_first_value;
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
-                return "/* Cannot generate InlineSelectManyProc, no primary keys set on " + sql_table.Name + ". */";
+            if (sqlTable.PkList.Count == 0)
+                return "/* Cannot generate InlineSelectManyProc, no primary keys set on " + sqlTable.Name + ". */";
 
             StringBuilder sb = new StringBuilder();
 
@@ -1007,7 +1007,7 @@ namespace AutoCodeGenLibrary
 
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (flag_first_value)
                 {
@@ -1023,19 +1023,19 @@ namespace AutoCodeGenLibrary
             }
             #endregion
 
-            sb.Append(" FROM " + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.Append(" FROM " + NameFormatter.ToTSQLName(sqlTable.Name));
 
             #region Where Clause
 
-            sb.Append(" WHERE " + NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled] = 0");
+            sb.Append(" WHERE " + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string tsql_variablename = NameFormatter.ToTSQLVariableName(sql_column);
 
                 if (sql_column.IsPk)
                 {
-                    sb.Append(" AND " + NameFormatter.ToTSQLName(sql_table.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name) + " IN");
+                    sb.Append(" AND " + NameFormatter.ToTSQLName(sqlTable.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name) + " IN");
                     break;
                 }
             }
@@ -1043,13 +1043,13 @@ namespace AutoCodeGenLibrary
             #endregion
 
             sb.Append(" (SELECT IdValue FROM @TableVar) ");
-            sb.Append(GenerateOrderByClause(sql_table, sort_fields));
+            sb.Append(GenerateOrderByClause(sqlTable, sort_fields));
 
             return sb.ToString();
         }
-        public static string GenerateInlineSelectManyByXProc(SqlTable sql_table, List<string> sort_fields, List<string> select_fields)
+        public static string GenerateInlineSelectManyByXProc(SqlTable sqlTable, List<string> sort_fields, List<string> select_fields)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             bool flag_first_value = true;
@@ -1058,7 +1058,7 @@ namespace AutoCodeGenLibrary
 
             #region Selected Columns
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (flag_first_value)
                 {
@@ -1074,16 +1074,16 @@ namespace AutoCodeGenLibrary
             }
             #endregion
 
-            sb.Append(" FROM " + NameFormatter.ToTSQLName(sql_table.Name));
-            sb.Append(" WHERE " + NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled] = 0");
-            sb.Append(GenerateSelectClause(sql_table, select_fields));
-            sb.Append(GenerateOrderByClause(sql_table, sort_fields));
+            sb.Append(" FROM " + NameFormatter.ToTSQLName(sqlTable.Name));
+            sb.Append(" WHERE " + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0");
+            sb.Append(GenerateSelectClause(sqlTable, select_fields));
+            sb.Append(GenerateOrderByClause(sqlTable, sort_fields));
 
             return sb.ToString();
         }
-        public static string GenerateInlineSelectAllProc(SqlTable sql_table, List<string> sort_fields)
+        public static string GenerateInlineSelectAllProc(SqlTable sqlTable, List<string> sort_fields)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             bool flag_first_value;
@@ -1094,7 +1094,7 @@ namespace AutoCodeGenLibrary
 
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (flag_first_value)
                 {
@@ -1110,26 +1110,26 @@ namespace AutoCodeGenLibrary
             }
             #endregion
 
-            sb.Append(" FROM " + NameFormatter.ToTSQLName(sql_table.Name));
-            sb.Append(" WHERE " + NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled] = 0");
-            sb.Append(GenerateOrderByClause(sql_table, sort_fields));
+            sb.Append(" FROM " + NameFormatter.ToTSQLName(sqlTable.Name));
+            sb.Append(" WHERE " + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0");
+            sb.Append(GenerateOrderByClause(sqlTable, sort_fields));
 
             return sb.ToString();
         }
-        public static string GenerateInlineSelectAllPaginatedProc(SqlTable sql_table, List<string> sort_fields, List<string> search_fields)
+        public static string GenerateInlineSelectAllPaginatedProc(SqlTable sqlTable, List<string> sort_fields, List<string> search_fields)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
-                return "/* Cannot generate InlineSelectAllPaginatedProc, no primary keys set on " + sql_table.Name + ". */";
+            if (sqlTable.PkList.Count == 0)
+                return "/* Cannot generate InlineSelectAllPaginatedProc, no primary keys set on " + sqlTable.Name + ". */";
 
             #region Find the first pk
             string table_pk = string.Empty;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string tsql_variablename = NameFormatter.ToTSQLName(sql_column.Name);
 
@@ -1147,48 +1147,48 @@ namespace AutoCodeGenLibrary
             sb.Append("FROM ");
             sb.Append("(");
             sb.Append("SELECT ROW_NUMBER() ");
-            sb.Append("OVER (" + GenerateOrderByClause(sql_table, sort_fields) + ") AS Row");
+            sb.Append("OVER (" + GenerateOrderByClause(sqlTable, sort_fields) + ") AS Row");
 
             #region Selected Columns
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 sb.Append(",");
                 sb.Append(NameFormatter.ToTSQLName(sql_column.Table.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name));
             }
             #endregion
 
-            sb.Append(" FROM " + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.Append(" FROM " + NameFormatter.ToTSQLName(sqlTable.Name));
 
-            sb.Append(GenerateSearchClause(sql_table, search_fields, 1, 1));
-            sb.Append(" AND " + NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled] = 0");
+            sb.Append(GenerateSearchClause(sqlTable, search_fields, 1, 1));
+            sb.Append(" AND " + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0");
             sb.Append(") AS Page ");
             sb.Append("WHERE Page.Row >= @StartNumber ");
             sb.Append("AND Page.Row < @PageSize + @StartNumber ");
 
             return sb.ToString();
         }
-        public static string GenerateInlineSetProc(SqlTable sql_table)
+        public static string GenerateInlineSetProc(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             bool flag_first_value = true;
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
-                return "/* Cannot generate InlineSetProc, no primary keys set on " + sql_table.Name + ". */";
+            if (sqlTable.PkList.Count == 0)
+                return "/* Cannot generate InlineSetProc, no primary keys set on " + sqlTable.Name + ". */";
 
             StringBuilder sb = new StringBuilder();
 
             #region Existance Check
-            sb.Append("IF EXISTS (SELECT 1 FROM [" + sql_table.Name + "] ");
+            sb.Append("IF EXISTS (SELECT 1 FROM [" + sqlTable.Name + "] ");
 
             // Build where clause
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (sql_column.IsPk)
                 {
@@ -1213,12 +1213,12 @@ namespace AutoCodeGenLibrary
 
             #region Update Clause
 
-            sb.Append(" UPDATE [" + sql_table.Name + "]");
+            sb.Append(" UPDATE [" + sqlTable.Name + "]");
 
             // list selected columns
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsPk && !sql_column.IsIdentity)
                 {
@@ -1239,7 +1239,7 @@ namespace AutoCodeGenLibrary
             // Build where clause
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (sql_column.IsPk)
                 {
@@ -1265,13 +1265,13 @@ namespace AutoCodeGenLibrary
             sb.Append(" BEGIN ");
 
             #region Insert Clause
-            sb.Append(" INSERT [" + sql_table.Name + "]");
+            sb.Append(" INSERT [" + sqlTable.Name + "]");
             sb.Append("(");
 
             // list selected columns
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsIdentity)
                 {
@@ -1295,7 +1295,7 @@ namespace AutoCodeGenLibrary
             // Build where clause
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsIdentity)
                 {
@@ -1322,27 +1322,27 @@ namespace AutoCodeGenLibrary
 
             return sb.ToString();
         }
-        public static string GenerateInlineDeleteSingleProc(SqlTable sql_table)
+        public static string GenerateInlineDeleteSingleProc(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             bool flag_first_value = true;
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
-                return "/* Cannot generate InlineDeleteSingleProc, no primary keys set on " + sql_table.Name + ". */";
+            if (sqlTable.PkList.Count == 0)
+                return "/* Cannot generate InlineDeleteSingleProc, no primary keys set on " + sqlTable.Name + ". */";
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(" UPDATE " + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.Append(" UPDATE " + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.Append(" SET [Disabled] = 1 ");
 
             #region Where Clause
             flag_first_value = true;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 // output:
                 // WHERE    [UserName] = @UserName
@@ -1370,25 +1370,25 @@ namespace AutoCodeGenLibrary
 
             return sb.ToString();
         }
-        public static string GenerateInlineDeleteManyProc(SqlTable sql_table)
+        public static string GenerateInlineDeleteManyProc(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
-            if (sql_table.PkList.Count == 0)
-                return "/* Cannot generate InlineDeleteManyProc, no primary keys set on " + sql_table.Name + ". */";
+            if (sqlTable.PkList.Count == 0)
+                return "/* Cannot generate InlineDeleteManyProc, no primary keys set on " + sqlTable.Name + ". */";
 
             StringBuilder sb = new StringBuilder();
 
             sb.Append(GenerateSqlListCode());
 
             #region UPDATE statement
-            sb.Append(" UPDATE " + NameFormatter.ToTSQLName(sql_table.Name));
+            sb.Append(" UPDATE " + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.Append(" SET [Disabled] = 1");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string tsql_variablename = NameFormatter.ToTSQLVariableName(sql_column);
 
@@ -1408,38 +1408,38 @@ namespace AutoCodeGenLibrary
 
             return sb.ToString();
         }
-        public static string GenerateInlineDeleteAllProc(SqlTable sql_table)
+        public static string GenerateInlineDeleteAllProc(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(string.Format("UPDATE [{0}].[dbo].[{1}] SET [Disabled] = 1 RETURN @@ROWCOUNT", sql_table.Name, sql_table.Name));
+            sb.Append(string.Format("UPDATE [{0}].[dbo].[{1}] SET [Disabled] = 1 RETURN @@ROWCOUNT", sqlTable.Name, sqlTable.Name));
 
             return sb.ToString();
         }
-        public static string GenerateInlineCountAllProc(SqlTable sql_table)
+        public static string GenerateInlineCountAllProc(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(string.Format("SELECT COUNT(*) FROM [{0}].[dbo].[{1}] WHERE [Disabled] = 0", sql_table.Database.Name, sql_table.Name));
+            sb.Append(string.Format("SELECT COUNT(*) FROM [{0}].[dbo].[{1}] WHERE [Disabled] = 0", sqlTable.Database.Name, sqlTable.Name));
 
             return sb.ToString();
         }
-        public static string GenerateInlineCountSearchProc(SqlTable sql_table, List<string> search_fields)
+        public static string GenerateInlineCountSearchProc(SqlTable sqlTable, List<string> search_fields)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(string.Format("SELECT COUNT(*) FROM [{0}].[dbo].[{1}] ", sql_table.Database.Name, sql_table.Name));
-            sb.Append(GenerateSearchClause(sql_table, search_fields, 0, 1));
-            sb.Append("AND " + NameFormatter.ToTSQLName(sql_table.Name) + ".[Disabled] = 0 ");
+            sb.Append(string.Format("SELECT COUNT(*) FROM [{0}].[dbo].[{1}] ", sqlTable.Database.Name, sqlTable.Name));
+            sb.Append(GenerateSearchClause(sqlTable, search_fields, 0, 1));
+            sb.Append("AND " + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0 ");
 
             return sb.ToString();
         }
@@ -1787,12 +1787,12 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateCSharpExternalOrmClass(SqlTable sql_table, List<string> namespace_includes)
+        public static OutputObject GenerateCSharpExternalOrmClass(SqlTable sqlTable, List<string> namespace_includes)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = NameFormatter.ToCSharpClassName(sql_table.Name);
+            string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + "_Ext.cs";
@@ -1813,7 +1813,7 @@ namespace AutoCodeGenLibrary
 
             #endregion
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
             sb.AppendLine(AddTabs(1) + "{");
@@ -1824,7 +1824,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateCSharpDalClass(SqlTable sql_table, List<string> namespace_includes, bool convert_nullable_fields, bool include_is_dirty_flag)
+        public static OutputObject GenerateCSharpDalClass(SqlTable sqlTable, List<string> namespace_includes, bool convert_nullable_fields, bool include_is_dirty_flag)
         {
             #region SampleCode
             //public class FooClass
@@ -1849,14 +1849,14 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string list_type = NameFormatter.ToCSharpClassName(sql_table.Name);
-            string sql_tablename = NameFormatter.ToTSQLName(sql_table.Name);
+            string list_type = NameFormatter.ToCSharpClassName(sqlTable.Name);
+            string sql_tablename = NameFormatter.ToTSQLName(sqlTable.Name);
             string collection_type = "List<" + list_type + ">";
-            string class_name = NameFormatter.ToCSharpClassName("Dal" + sql_table.Name);
-            int longest_column = GetLongestColumnLength(sql_table);
+            string class_name = NameFormatter.ToCSharpClassName("Dal" + sqlTable.Name);
+            int longest_column = GetLongestColumnLength(sqlTable);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".cs";
@@ -1877,7 +1877,7 @@ namespace AutoCodeGenLibrary
 
             #endregion
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
             //sb.AppendLine(AddTabs(1) + "[Serializable]");
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
@@ -1934,7 +1934,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "public int GetCountFromDb()");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteScalarSp<int>(\"[" + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.CountAll, null) + "]\", null, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteScalarSp<int>(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.CountAll, null) + "]\", null, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -1958,7 +1958,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@SearchString", "VarChar", 50, "search_string"));
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteScalarSp<int>(\"" + NameFormatter.ToTSQLName(sql_table.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.CountSearch, null) + "]\", parameters, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteScalarSp<int>(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.CountSearch, null) + "]\", parameters, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -1977,7 +1977,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "public " + collection_type + " LoadAllFromDb()");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectAll, null) + "]\", null, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null) + "]\", null, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -1996,7 +1996,7 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            if (sql_table.PkList.Count == 0)
+            if (sqlTable.PkList.Count == 0)
             {
                 sb.AppendLine("// Cannot create LoadListFromDb() without a pk on database table.");
             }
@@ -2007,7 +2007,7 @@ namespace AutoCodeGenLibrary
 
                 sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
                 sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@IdList", "VarChar", -1, "Database.GenericListToStringList(id_list)"));
-                sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"" + NameFormatter.ToTSQLName(sql_table.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectMany, null) + "]\", parameters, _SQLConnection);");
+                sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectMany, null) + "]\", parameters, _SQLConnection);");
                 sb.AppendLine(AddTabs(3) + "}");
                 sb.AppendLine();
             }
@@ -2036,7 +2036,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@StartNumber", "Int", 4, "start_index"));
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@PageSize", "Int", 4, "page_size"));
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@SearchString", "VarChar", 50, "search_string"));
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectAllPag, null) + "]\", parameters, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAllPag, null) + "]\", parameters, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -2060,18 +2060,18 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "public " + list_type + " LoadSingleFromDb(" + NameFormatter.GenerateCSharpFunctionArgs(sql_table, eIncludedFields.PKOnly) + ")");
+            sb.AppendLine(AddTabs(3) + "public " + list_type + " LoadSingleFromDb(" + NameFormatter.GenerateCSharpFunctionArgs(sqlTable, eIncludedFields.PKOnly) + ")");
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
 
             // generate all Sp parameters
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (sql_column.IsPk)
                     sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, NameFormatter.ToTSQLVariableName(sql_column), sql_column.SqlDataType, sql_column.Length, NameFormatter.ToCSharpLocalVariable(sql_column.Name)));
             }
 
-            sb.AppendLine(AddTabs(4) + "var results = Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.SelectSingle, null) + "]\", parameters, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "var results = Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectSingle, null) + "]\", parameters, _SQLConnection);");
             sb.AppendLine();
 
             sb.AppendLine(AddTabs(4) + "if (results != null && results.Count > 0)");
@@ -2096,19 +2096,19 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "public bool DeleteSingleFromDb(" + NameFormatter.GenerateCSharpFunctionArgs(sql_table, eIncludedFields.PKOnly) + ")");
+            sb.AppendLine(AddTabs(3) + "public bool DeleteSingleFromDb(" + NameFormatter.GenerateCSharpFunctionArgs(sqlTable, eIncludedFields.PKOnly) + ")");
             sb.AppendLine(AddTabs(3) + "{");
 
             sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
 
             // generate all SP parameters
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (sql_column.IsPk)
                     sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, NameFormatter.ToTSQLVariableName(sql_column), sql_column.SqlDataType, sql_column.Length, NameFormatter.ToCSharpLocalVariable(sql_column.Name)));
             }
 
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sql_table.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.DelSingle, null) + "]\", parameters, _SQLConnection) > 0;");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null) + "]\", parameters, _SQLConnection) > 0;");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -2131,7 +2131,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@IdList", "VarChar", -1, "Database.GenericListToStringList(id_list)"));
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sql_table.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.DelMany, null) + "]\", parameters, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelMany, null) + "]\", parameters, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -2150,7 +2150,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "public int DeleteAllFromDb()");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sql_table.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.DelAll, null) + "]\", null, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null) + "]\", null, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -2173,7 +2173,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "string file_data = FileIo.ReadFromFile(filename);");
             sb.AppendLine(AddTabs(4) + "DataSet ds = XmlConverter.XmlStringToDataSet(file_data);");
-            sb.AppendLine(AddTabs(4) + "return LoadFromDataTable(ds.Tables[\"" + sql_table.Name + "\"]);");
+            sb.AppendLine(AddTabs(4) + "return LoadFromDataTable(ds.Tables[\"" + sqlTable.Name + "\"]);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -2195,7 +2195,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "public void SaveToXmlFile(" + collection_type + " collection, string filename)");
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "DataTable dt = ConvertToDataTable(collection);");
-            sb.AppendLine(AddTabs(4) + "string xml = XmlConverter.DataTableToXmlString(dt, \"" + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "\");");
+            sb.AppendLine(AddTabs(4) + "string xml = XmlConverter.DataTableToXmlString(dt, \"" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "\");");
             sb.AppendLine(AddTabs(4) + "FileIo.WriteToFile(filename, xml);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
@@ -2238,7 +2238,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "public bool Save(" + list_type + " item)");
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "var parameters = GetSqlParameterList(item);");
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sql_table.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sql_table.Name, eStoredProcType.UpdateInsert, null) + "]\", parameters, _SQLConnection) > 0;");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null) + "]\", parameters, _SQLConnection) > 0;");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -2288,10 +2288,10 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(4) + "foreach (DataRow dr in dt.Rows)");
             sb.AppendLine(AddTabs(4) + "{");
-            sb.AppendLine(AddTabs(5) + PadCSharpVariableName(NameFormatter.ToCSharpClassName(sql_table.Name) + " obj", longest_column) + "= new " + NameFormatter.ToCSharpClassName(sql_table.Name) + "();");
+            sb.AppendLine(AddTabs(5) + PadCSharpVariableName(NameFormatter.ToCSharpClassName(sqlTable.Name) + " obj", longest_column) + "= new " + NameFormatter.ToCSharpClassName(sqlTable.Name) + "();");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 sb.Append(AddTabs(5));
 
@@ -2398,11 +2398,11 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
             // dt.Columns.Add("Name", typeof(string));
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
                 sb.AppendLine(AddTabs(4) + "dt.Columns.Add(\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\", typeof(" + NameFormatter.SQLTypeToCSharpType(sql_column) + "));");
 
             sb.AppendLine();
-            sb.AppendLine(AddTabs(4) + "dt.TableName = \"" + sql_table.Name + "\";");
+            sb.AppendLine(AddTabs(4) + "dt.TableName = \"" + sqlTable.Name + "\";");
             sb.AppendLine();
 
             sb.AppendLine(AddTabs(4) + "foreach (var obj in collection)");
@@ -2410,7 +2410,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(5) + "DataRow dr = dt.NewRow();");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 sb.Append(AddTabs(5));
                 sb.Append(PadCSharpVariableName("dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]", longest_column + 7));
@@ -2441,13 +2441,13 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "protected SqlParameter[] GetSqlParameterList(" + NameFormatter.ToCSharpClassName(sql_table.Name) + " obj)");
+            sb.AppendLine(AddTabs(3) + "protected SqlParameter[] GetSqlParameterList(" + NameFormatter.ToCSharpClassName(sqlTable.Name) + " obj)");
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "return new SqlParameter[]");
             sb.AppendLine(AddTabs(4) + "{");
 
             // build parameter collection here
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
                 sb.AppendLine(AddTabs(5) + NameFormatter.ToCSharpSQLParameterTypeString(sql_column, convert_nullable_fields));
 
             sb.AppendLine(AddTabs(4) + "};");
@@ -2466,7 +2466,7 @@ namespace AutoCodeGenLibrary
 
             return output;
         }
-        public static OutputObject GenerateCSharpExternalDalClass(SqlTable sql_table, List<string> namespace_includes)
+        public static OutputObject GenerateCSharpExternalDalClass(SqlTable sqlTable, List<string> namespace_includes)
         {
             #region SampleCode
             //public partial class FooClass
@@ -2474,10 +2474,10 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = NameFormatter.ToCSharpClassName("Dal" + sql_table.Name);
+            string class_name = NameFormatter.ToCSharpClassName("Dal" + sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + "_Ext.cs";
@@ -2501,7 +2501,7 @@ namespace AutoCodeGenLibrary
 
             #endregion
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
             sb.AppendLine(AddTabs(1) + "{");
@@ -2513,12 +2513,12 @@ namespace AutoCodeGenLibrary
 
             return output;
         }
-        public static OutputObject GenerateCSharpClassInterface(SqlTable sql_table, List<string> namespace_includes, bool include_is_dirty_flag)
+        public static OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespace_includes, bool include_is_dirty_flag)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string interface_name = NameFormatter.ToCSharpInterfaceName(sql_table.Name);
+            string interface_name = NameFormatter.ToCSharpInterfaceName(sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = interface_name + ".cs";
@@ -2545,7 +2545,7 @@ namespace AutoCodeGenLibrary
 
             #endregion
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
 
             sb.AppendLine(AddTabs(1) + "public interface " + interface_name);
@@ -2556,7 +2556,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + "#region Properties");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 // Sample: string SomeID { get; set; }
                 sb.AppendLine(AddTabs(3) + NameFormatter.SQLTypeToCSharpType(sql_column) + " " + NameFormatter.ToCSharpPropertyName(sql_column.Name) + " { get; set; }");
@@ -2580,13 +2580,13 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateCSharpEnumeration(SqlTable sql_table, string string_column, string value_column, DataTable data_table)
+        public static OutputObject GenerateCSharpEnumeration(SqlTable sqlTable, string string_column, string value_column, DataTable data_table)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string enum_name = NameFormatter.ToCSharpEnumName(sql_table.Name);
-            int longest_column = GetLongestColumnLength(sql_table);
+            string enum_name = NameFormatter.ToCSharpEnumName(sqlTable.Name);
+            int longest_column = GetLongestColumnLength(sqlTable);
 
             OutputObject output = new OutputObject();
             output.Name = enum_name + ".cs";
@@ -2597,9 +2597,9 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System;");
             sb.AppendLine();
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
-            sb.AppendLine(AddTabs(1) + "public enum " + NameFormatter.ToCSharpEnumName(sql_table.Name));
+            sb.AppendLine(AddTabs(1) + "public enum " + NameFormatter.ToCSharpEnumName(sqlTable.Name));
             sb.AppendLine(AddTabs(1) + "{");
 
             // list enumeration
@@ -2700,7 +2700,7 @@ namespace AutoCodeGenLibrary
         }
 
         // WinForm Generation
-        public static OutputObject GenerateWinformEditCode(SqlTable sql_table)
+        public static OutputObject GenerateWinformEditCode(SqlTable sqlTable)
         {
             #region Sample Output
             //using System;
@@ -2724,11 +2724,11 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = "frmEdit" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
-            string dal_name = NameFormatter.ToCSharpClassName("Dal" + sql_table.Name);
+            string class_name = "frmEdit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            string dal_name = NameFormatter.ToCSharpClassName("Dal" + sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".cs";
@@ -2748,10 +2748,10 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
             sb.AppendLine("using DAL;");
-            sb.AppendLine("using " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + ";");
+            sb.AppendLine("using " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + ";");
             sb.AppendLine();
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "Editor");
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "Editor");
             sb.AppendLine("{");
 
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name + " : Form");
@@ -2791,8 +2791,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(6) + "if (dal.Collection != null && dal.Collection.Count != 0)");
             sb.AppendLine(AddTabs(6) + "{");
             sb.AppendLine(AddTabs(7) + "cboItemList.BeginUpdate();");
-            sb.AppendLine(AddTabs(7) + "cboItemList.ValueMember     = \"" + FindIdField(sql_table) + "\";");
-            sb.AppendLine(AddTabs(7) + "cboItemList.DisplayMember   = \"" + FindNameField(sql_table) + "\";");
+            sb.AppendLine(AddTabs(7) + "cboItemList.ValueMember     = \"" + FindIdField(sqlTable) + "\";");
+            sb.AppendLine(AddTabs(7) + "cboItemList.DisplayMember   = \"" + FindNameField(sqlTable) + "\";");
             sb.AppendLine(AddTabs(7) + "cboItemList.DataSource      = dal.Collection;");
             sb.AppendLine(AddTabs(7) + "cboItemList.EndUpdate();");
             sb.AppendLine(AddTabs(6) + "}");
@@ -2836,7 +2836,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateWinformEditCodeDesigner(SqlTable sql_table)
+        public static OutputObject GenerateWinformEditCodeDesigner(SqlTable sqlTable)
         {
             #region Code Output
             //namespace MarvelSuperheroesEditor
@@ -2938,20 +2938,20 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = "frmEdit" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
+            string class_name = "frmEdit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".Designer.cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
-            int total_form_height = 56 + (26 * sql_table.Columns.Values.Count);
+            int total_form_height = 56 + (26 * sqlTable.Columns.Values.Count);
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "Editor");
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "Editor");
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "partial class " + class_name);
             sb.AppendLine(AddTabs(1) + "{");
@@ -2988,7 +2988,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "this.cboItemList = new System.Windows.Forms.ComboBox();");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 sb.AppendLine(AddTabs(3) + "this.lbl" + sql_column.Name + " = new System.Windows.Forms.Label();");
                 sb.AppendLine(AddTabs(3) + "this.txt" + sql_column.Name + " = new System.Windows.Forms.TextBox();");
@@ -3032,7 +3032,7 @@ namespace AutoCodeGenLibrary
             int height = 26;
             int tab_index = 3;
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 string label_name = "lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name);
                 string textbox_name = "txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name);
@@ -3075,7 +3075,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "this.Controls.Add(this.cboItemList);");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 sb.AppendLine(AddTabs(3) + "this.Controls.Add(this.txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ");");
                 sb.AppendLine(AddTabs(3) + "this.Controls.Add(this.lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ");");
@@ -3084,7 +3084,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "this.MinimumSize = new System.Drawing.Size(319," + total_form_height.ToString() + ");");
             sb.AppendLine(AddTabs(3) + "this.Name = \"" + class_name + "\";");
-            sb.AppendLine(AddTabs(3) + "this.Text = \"" + NameFormatter.ToCSharpPropertyName(sql_table.Name) + "\";");
+            sb.AppendLine(AddTabs(3) + "this.Text = \"" + NameFormatter.ToCSharpPropertyName(sqlTable.Name) + "\";");
             sb.AppendLine();
 
             sb.AppendLine(AddTabs(3) + "this.ResumeLayout(false);");
@@ -3100,7 +3100,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + "private System.Windows.Forms.ComboBox cboItemList;");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 sb.AppendLine(AddTabs(2) + "private System.Windows.Forms.Label lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
                 sb.AppendLine(AddTabs(2) + "private System.Windows.Forms.TextBox txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
@@ -3113,30 +3113,30 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateWinformViewCode(SqlTable sql_table)
+        public static OutputObject GenerateWinformViewCode(SqlTable sqlTable)
         {
             return null;
         }
-        public static OutputObject GenerateWinformViewCodeDesigner(SqlTable sql_table)
+        public static OutputObject GenerateWinformViewCodeDesigner(SqlTable sqlTable)
         {
             return null;
         }
-        public static OutputObject GenerateWinformMainCode(SqlTable sql_table)
+        public static OutputObject GenerateWinformMainCode(SqlTable sqlTable)
         {
             return null;
         }
-        public static OutputObject GenerateWinformMainCodeDesigner(SqlTable sql_table)
+        public static OutputObject GenerateWinformMainCodeDesigner(SqlTable sqlTable)
         {
             return null;
         }
 
         // Webservice Generation
-        public static OutputObject GenerateWebServiceCodeInfrontClass(SqlTable sql_table)
+        public static OutputObject GenerateWebServiceCodeInfrontClass(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = NameFormatter.ToCSharpClassName(sql_table.Name);
+            string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".asmx";
@@ -3149,12 +3149,12 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateWebServiceCodeBehindClass(SqlTable sql_table, List<string> namespace_includes)
+        public static OutputObject GenerateWebServiceCodeBehindClass(SqlTable sqlTable, List<string> namespace_includes)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = NameFormatter.ToCSharpClassName(sql_table.Name);
+            string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".asmx.cs";
@@ -3591,35 +3591,143 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateWebViewPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
+        public static OutputObject GenerateWebViewPageCodeInFront(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string view_class_name = "View" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
+            string view_class_name = "View" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            string table_name = NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = view_class_name + ".aspx";
             output.Type = OutputObject.eObjectType.Aspx;
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            if (create_as_asp_control)
+            sb.AppendLine($"<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"True\" CodeBehind=\"{view_class_name}.aspx.cs\" Inherits=\"WebControls.{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}.{view_class_name}\" %>");
+            sb.AppendLine();
+            sb.AppendLine("<asp:Content ID=\"Content1\" ContentPlaceHolderID=\"head\" Runat=\"Server\">");
+            sb.AppendLine();
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+
+            sb.AppendLine(AddTabs(1) + "<script type = \"text/javascript\">");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "$(function()");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + $"Load{table_name}();");
+            sb.AppendLine(AddTabs(2) + "});");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + $"function Load{table_name}()");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "var data = { };");
+            sb.AppendLine(AddTabs(3) + $"CallAjax(data, '{output.Name}/Load{table_name}', Load{table_name}Response);");
+            sb.AppendLine(AddTabs(2) + "}");
+
+            sb.AppendLine(AddTabs(2) + $"function Load{table_name}Response(response)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "if (response.Success)");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "var buffer = '';");
+            sb.AppendLine(AddTabs(4) + $"var template = $('#{table_name}Template').html();");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + $"response.DataList.forEach(function(i)");
+            sb.AppendLine(AddTabs(4) + "{");
+            sb.AppendLine(AddTabs(5) + "buffer += eval('`' + template + '`');");
+            sb.AppendLine(AddTabs(4) + "}");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + $"$('#{table_name}List').html(buffer);");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(3) + "else");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "$('#txtMessage').text(response.Message);");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + $"function Save{table_name}()");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "var data = { };");
+
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
-                sb.AppendLine("<%@ Control Language=\"C#\" AutoEventWireup=\"true\" CodeBehind=\"" + view_class_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "." + view_class_name + "\" %>");
-            }
-            else
-            {
-                sb.AppendLine("<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"True\" CodeBehind=\"" + view_class_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "." + view_class_name + "\" %>");
-                sb.AppendLine();
-                sb.AppendLine("<asp:Content ID=\"Content1\" ContentPlaceHolderID=\"head\" Runat=\"Server\">");
-                sb.AppendLine("</asp:Content>");
-                sb.AppendLine();
-                sb.AppendLine("<asp:Content ID=\"Content2\" ContentPlaceHolderID=\"body\" Runat=\"Server\">");
+                string colum_name = NameFormatter.ToCSharpPropertyName(sql_column.Name);
+                sb.AppendLine(AddTabs(3) + $"data.{colum_name} = $('#txt{colum_name}').val();");
             }
 
             sb.AppendLine();
-            sb.AppendLine("<div class=\"PageTitle\">View " + NameFormatter.ToFriendlyName(sql_table.Name) + "</div>");
+            sb.AppendLine(AddTabs(3) + $"CallAjax(data, '{output.Name}/Save{table_name}', Save{table_name}Response);");
+            sb.AppendLine(AddTabs(2) + "}");
+
+            sb.AppendLine(AddTabs(2) + $"function Save{table_name}Response(response)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "if (response.Success)");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + $"Load{table_name}();");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(3) + "else");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "$('#txtMessage').text(response.Message);");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "</script>");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + $"<script type = 'text/template' id='{table_name}Template'>");
+            sb.AppendLine(AddTabs(2) + "<tr>");
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                string colum_name = NameFormatter.ToCSharpPropertyName(sql_column.Name);
+                sb.AppendLine(AddTabs(3) + $"<td>${{i.{colum_name}}}</td>");
+            }
+
+            sb.AppendLine(AddTabs(2) + "</tr>");
+            sb.AppendLine(AddTabs(2) + "</script>");
+            sb.AppendLine();
+            sb.AppendLine("</asp:Content>");
+            sb.AppendLine();
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+
+            sb.AppendLine("<asp:Content ID=\"Content2\" ContentPlaceHolderID=\"body\" Runat=\"Server\">");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(1) + $"<div id='pan{table_name}List'>");
+            sb.AppendLine(AddTabs(2) + $"<div style='overflow: auto;'>");
+
+            //< div class="SectionTitle" style="float: left;">Languages</div>
+            //<div style = "float: right;" >
+            //< input type="button" class="Button" value="Add New Language" onclick="$('#dialog-AddLanguage').dialog('open');" />
+            //</div>
+            //</div>
+
+            //<table>
+            //<thead>
+            //<tr>
+            //<th>Language</th>
+            //<th>Family</th>
+            //<th>Format</th>
+            //<th>Difficulty</th>
+            //<th>Rarity</th>
+            //</tr>
+            //</thead>
+            //<tbody id = "LangaugeList" ></ tbody >
+            //</ table >
+            //</ div >
+
+
+
+
+
+
+
+
+            sb.AppendLine();
+            sb.AppendLine("<div class=\"PageTitle\">View " + NameFormatter.ToFriendlyName(sqlTable.Name) + "</div>");
             sb.AppendLine();
 
             sb.AppendLine("<asp:Panel CssClass=\"DetailsPanel\" ID=\"panDetails\" runat=\"server\">");
@@ -3634,7 +3742,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + "</tr>");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsPk)
                 {
@@ -3669,12 +3777,6 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(1) + "</div>");
             sb.AppendLine();
             sb.AppendLine("</asp:Panel>");
-
-            if (!create_as_asp_control)
-            {
-                sb.AppendLine();
-                sb.AppendLine("</asp:Content>");
-            }
 
             output.Body = sb.ToString();
             return output;
