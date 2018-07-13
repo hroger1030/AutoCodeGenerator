@@ -975,7 +975,7 @@ namespace AutoCodeGen
                 }
 
                 SqlDatabase sql_database = new SqlDatabase();
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 OutputObject output = new OutputObject();
 
                 string regex_string = txtTableNameRegex.Text;
@@ -1098,7 +1098,7 @@ namespace AutoCodeGen
                         bool create_sql_permissions = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLCreateSqlSpPerms);
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelSingle))
-                            sql_procedures.Add(CodeGenerator.GenerateSelectSingleProc(sql_table, create_sql_permissions));
+                            sql_procedures.Add(CodeGenerator.GenerateSelectSingleProc(sql_table, create_sql_permissions, true));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany))
                             sql_procedures.Add(CodeGenerator.GenerateSelectManyProc(sql_table, sort_fields, create_sql_permissions));
@@ -1841,7 +1841,7 @@ namespace AutoCodeGen
         {
             // todo remove
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             sb.Append(path1);
 

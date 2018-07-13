@@ -12,7 +12,7 @@ namespace TestApp
             //SqlDatabase test_db = new SqlDatabase("Orion", conn);
             //SqlTable test_table = new SqlTable(test_db, "Drive");
 
-            //StringBuilder sb = new StringBuilder();
+            //var sb = new StringBuilder();
 
             //try
             //{

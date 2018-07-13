@@ -25,6 +25,8 @@ namespace AutoCodeGenLibrary
         SQL2000     = 2000,
         SQL2005     = 2005,
         SQL2008     = 2008,
-        SQL2012     = 2012
+        SQL2012     = 2012,
+        SQL2014     = 2014,
+        SQL2016     = 2016,
     }
 }

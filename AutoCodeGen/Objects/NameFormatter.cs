@@ -131,7 +131,7 @@ namespace AutoCodeGenLibrary
                 column_value = $"(obj.{property_name} == null) ? (object)DBNull.Value : obj.{property_name}";
             else
                 column_value = $"obj.{property_name};";
-            
+
             // only set length on columns that can actually vary
             switch (sql_column.SqlDataType)
             {
@@ -368,7 +368,7 @@ namespace AutoCodeGenLibrary
         /// </summary>
         public static string ToTSQLName(string input)
         {
-            return "[" + input + "]";
+            return $"[{input}]";
         }
 
         /// <summary>
@@ -590,7 +590,7 @@ namespace AutoCodeGenLibrary
         /// </summary>
         public static string GenerateCSharpFunctionArgs(SqlTable sql_table, eIncludedFields include_types)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             bool first_flag = true;
 
             foreach (SqlColumn sql_column in sql_table.Columns.Values)
@@ -648,7 +648,7 @@ namespace AutoCodeGenLibrary
         /// </summary>
         public static string GenerateCSharpFunctionList(SqlTable sql_table, eIncludedFields include_types)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             bool first_flag = true;
 
             foreach (SqlColumn sql_column in sql_table.Columns.Values)
@@ -756,7 +756,7 @@ namespace AutoCodeGenLibrary
             // foo_bar -> FooBar
             // TODO: this function might need more testing..
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             bool first_flag = true;
 
             foreach (Char c in input)
@@ -795,7 +795,7 @@ namespace AutoCodeGenLibrary
         {
             // FooBar -> foo_bar
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             bool first_flag = true;
 
             foreach (Char c in input)
@@ -817,7 +817,7 @@ namespace AutoCodeGenLibrary
         {
             // FooBar -> Foo Bar
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             bool first_flag = true;
 
             foreach (Char c in input)
