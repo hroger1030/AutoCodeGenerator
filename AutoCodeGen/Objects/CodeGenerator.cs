@@ -1808,7 +1808,7 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateCStyleHeader(database_name));
+            sb.AppendLine(GenerateDescriptionHeader(database_name));
             sb.AppendLine();
 
             //////////////////////////////////////////////////////////////////////////////

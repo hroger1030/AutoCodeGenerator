@@ -75,11 +75,11 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
             sb.AppendLine();
-            sb.Append(GenerateCStyleHeader(procedure_name));
+            sb.Append(GenerateDescriptionHeader(procedure_name));
 
-            sb.AppendLine($"CREATE PROCEDURE {procedure_name}");
+            sb.AppendLine($"CREATE PROCEDURE [dbo].[{procedure_name}]");
             sb.AppendLine(GenerateSqlStoredProcParameters(sqlTable, eIncludedFields.PKOnly));
 
             sb.AppendLine("AS");
@@ -155,6 +155,7 @@ namespace AutoCodeGenLibrary
                 return null;
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectMany, null);
+            string table_type_name = $"Tbl{procedure_name}";
             int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
             bool flag_first_value;
             string name_buffer;
@@ -171,10 +172,46 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            // need to create table type for SP
+            sb.AppendLine(GenerateSqlTableTypeExistanceChecker("TblIdList"));
+            sb.AppendLine();
 
-            sb.AppendLine("CREATE PROCEDURE " + procedure_name);
+            var hack = new StringBuilder();
+            hack.AppendLine("--temp hack");
+            hack.AppendLine("CREATE TYPE [dbo].[TblIdList] AS TABLE");
+            hack.AppendLine("(");
+            hack.AppendLine("[Id] [int] NULL");
+            hack.AppendLine(")");
+            hack.AppendLine("GO");
+
+            sb.AppendLine(hack.ToString());
+            sb.AppendLine();
+
+
+//ALTER PROCEDURE[dbo].[Card_SelectByTags]
+//(
+//    @Skip INT,
+//    @Take INT
+//)
+//AS
+
+//SET NOCOUNT ON
+
+//SELECT*
+
+//FROM[Card] c
+//WHERE[CardId] IN
+//(
+//SELECT[Id] FROM @AndTagIds
+//)
+
+//ORDER BY[Name]
+
+            // now on to SP code
+        sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
+
+            sb.AppendLine($"CREATE PROCEDURE [dbo].[{procedure_name}]");
             sb.AppendLine("(");
             sb.AppendLine(AddTabs(1) + "@IdList VARCHAR(MAX)");
             sb.AppendLine(")");
@@ -262,8 +299,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("(");
@@ -333,8 +370,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("AS");
@@ -422,8 +459,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine($"CREATE PROCEDURE [{procedure_name}]");
             sb.AppendLine("(");
@@ -504,8 +541,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine(GenerateSqlStoredProcParameters(sqlTable, eIncludedFields.All));
@@ -694,8 +731,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine(GenerateSqlStoredProcParameters(sqlTable, eIncludedFields.PKOnly));
@@ -771,8 +808,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("(");
@@ -834,8 +871,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("AS");
@@ -872,8 +909,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("AS");
@@ -909,8 +946,8 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlExistanceChecker(procedure_name));
-            sb.AppendLine(GenerateCStyleHeader(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
             sb.AppendLine("(");
@@ -1128,7 +1165,7 @@ namespace AutoCodeGenLibrary
 
             // tried title case here, gets a little odd.
             tableName = tableName.Replace(" ", "_");
-            tableName = $"{s_SpNamePrefix}[{tableName}_{suffix}]";
+            tableName = $"{s_SpNamePrefix}{tableName}_{suffix}";
             tableName = tableName.Replace("__", "_");
 
             return tableName;
@@ -1148,26 +1185,36 @@ namespace AutoCodeGenLibrary
         }
 
         // helper script methods
-        private static string GenerateAuthorNotice()
-        {
-            return "Generated by Jolly Roger's Autocode Generator on " + DateTime.Now.ToString();
-        }
 
-        private static string GenerateSqlExistanceChecker(string procedureName)
+        private static string GenerateSqlSpExistanceChecker(string procedureName)
         {
             if (string.IsNullOrEmpty(procedureName))
-                throw new Exception("Cannot generate tsql existance check without a database name.");
+                throw new Exception("Cannot generate sql existance check without a database name.");
 
             var sb = new StringBuilder();
 
-            sb.AppendLine($"IF EXISTS (SELECT name FROM sysobjects WHERE name = '{procedureName}' AND type = 'P')");
-            sb.AppendLine("DROP PROCEDURE " + procedureName);
+            sb.AppendLine($"IF EXISTS (SELECT name FROM sys.objects WHERE name = '{procedureName}' AND type = 'P')");
+            sb.AppendLine($"DROP PROCEDURE [dbo].[{procedureName}]");
             sb.Append("GO");
 
             return sb.ToString();
         }
 
-        private static string GenerateCStyleHeader(string procedureName)
+        private static string GenerateSqlTableTypeExistanceChecker(string tableName)
+        {
+            if (string.IsNullOrEmpty(tableName))
+                throw new Exception("Cannot generate sql existance check without a database name.");
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"IF EXISTS (SELECT name FROM sys.table_types WHERE name = '{tableName}' AND is_table_type = 1)");
+            sb.AppendLine($"DROP TYPE [dbo].[{tableName}]");
+            sb.Append("GO");
+
+            return sb.ToString();
+        }
+
+        private static string GenerateDescriptionHeader(string procedureName)
         {
             if (string.IsNullOrEmpty(procedureName))
                 throw new ArgumentException("Cannot generate procedure header without a procedure name.");
@@ -1175,7 +1222,8 @@ namespace AutoCodeGenLibrary
             var sb = new StringBuilder();
 
             sb.AppendLine("/*");
-            sb.AppendLine(AddTabs(1) + procedureName);
+            sb.AppendLine($"{AddTabs(1)}{procedureName}");
+            sb.AppendLine($"{AddTabs(1)}EXEC [dbo].[{procedureName}] -- todo need arg defaults");
             sb.AppendLine(AddTabs(1) + GenerateAuthorNotice());
             sb.AppendLine("*/");
 
