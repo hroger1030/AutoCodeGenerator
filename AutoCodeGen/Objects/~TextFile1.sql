@@ -30,9 +30,11 @@ SELECT	sc.[Name]			AS [ColumnName],
 		sc.[xprec]			AS [Precision],
 		sc.[xScale]			AS [Scale],
 		sc.[isnullable]		AS [IsNullable]
+
 FROM	sysobjects so
 		INNER JOIN syscolumns sc ON so.[ID] = sc.[ID]
 		INNER JOIN systypes st ON sc.[xtype] = st.[xtype]
+
 WHERE	so.[name] = @TableName
 ORDER	BY sc.colorder
 
@@ -42,10 +44,12 @@ SET		[isIdentity] = 1
 WHERE	[ColumnName] IN
 (
 	SELECT	c.[name]
+
 	FROM	syscolumns c 
 			INNER JOIN sysobjects o ON o.[id] = c.[id]
-	AND c.[autoval] IS NOT NULL
-	AND o.[name] = @TableName
+
+	AND		c.[autoval] IS NOT NULL
+	AND		o.[name] = @TableName
 )
 
 
@@ -55,9 +59,11 @@ SET [isPK] = 1
 WHERE [ColumnName] IN
 (
 	SELECT	ColumnName = convert(SYSNAME,c.[name])
+
 	FROM	sysindexes i, 
 			syscolumns c,
 			sysobjects o
+
 	WHERE	o.[id] = object_id(quotename(@TableName))
 	AND		o.[id] = c.[id]
 	AND		o.[id] = i.[id]

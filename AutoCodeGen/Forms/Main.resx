@@ -1059,7 +1059,7 @@
     <value>Top, Right</value>
   </data>
   <data name="btnAddNamespace.Location" type="System.Drawing.Point, System.Drawing">
-    <value>207, 37</value>
+    <value>207, 4</value>
   </data>
   <data name="btnAddNamespace.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 24</value>
@@ -1086,7 +1086,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="cboNamespaceIncludes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>116, 37</value>
+    <value>116, 7</value>
   </data>
   <data name="cboNamespaceIncludes.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 21</value>
@@ -1110,7 +1110,7 @@
     <value>True</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 40</value>
+    <value>3, 10</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 13</value>
@@ -1133,65 +1133,11 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="cboCSharpVersion.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="cboCSharpVersion.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="cboCSharpVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>116, 7</value>
-  </data>
-  <data name="cboCSharpVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 21</value>
-  </data>
-  <data name="cboCSharpVersion.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;cboCSharpVersion.Name" xml:space="preserve">
-    <value>cboCSharpVersion</value>
-  </data>
-  <data name="&gt;&gt;cboCSharpVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboCSharpVersion.Parent" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;cboCSharpVersion.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lblCSharpVersion.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblCSharpVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 10</value>
-  </data>
-  <data name="lblCSharpVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 13</value>
-  </data>
-  <data name="lblCSharpVersion.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblCSharpVersion.Text" xml:space="preserve">
-    <value>C# Output Version</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpVersion.Name" xml:space="preserve">
-    <value>lblCSharpVersion</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpVersion.Parent" xml:space="preserve">
-    <value>panCSharpOptions</value>
-  </data>
-  <data name="&gt;&gt;lblCSharpVersion.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="panCSharpOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 142</value>
+    <value>288, 175</value>
   </data>
   <data name="panCSharpOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 69</value>
+    <value>260, 36</value>
   </data>
   <data name="panCSharpOptions.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1344,7 +1290,7 @@
     <value>288, 42</value>
   </data>
   <data name="clbCsharpObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 94</value>
+    <value>260, 124</value>
   </data>
   <data name="clbCsharpObjects.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

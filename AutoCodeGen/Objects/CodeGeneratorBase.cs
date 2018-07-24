@@ -67,5 +67,45 @@ namespace AutoCodeGenLibrary
             int pad_length = longest_string_length + (tab_size - (longest_string_length % tab_size));
             return input.PadRight(pad_length, ' ');
         }
+
+        protected static string FindIdField(SqlTable sql_table)
+        {
+            // occasionally we might need to figure out a primary key for a table.
+            // this method isn't perfect, but its a decent stab at the problem.
+            // grab the first PK we have. If there is no PKs defined, grab the
+            // first int we find.
+
+            if (sql_table.PkList.Count == 0)
+            {
+                foreach (var column in sql_table.Columns)
+                {
+                    if (column.Value.BaseType == eSqlBaseType.Integer)
+                        return column.Key;
+                }
+
+                // still here? no matches then...
+                return string.Empty;
+            }
+            else
+            {
+                return sql_table.PkList[0].Name;
+            }
+        }
+
+        protected static string FindNameField(SqlTable sql_table)
+        {
+            // occasionally we might need to figure out a friendly name field for 
+            // a table. this method isn't perfect, but its a decent stab at the problem.
+            // grab the first text field we have, and hope for the best.
+
+            foreach (var column in sql_table.Columns)
+            {
+                if (column.Value.BaseType == eSqlBaseType.String)
+                    return column.Key;
+            }
+
+            // still here? no matches then...
+            return string.Empty;
+        }
     }
 }

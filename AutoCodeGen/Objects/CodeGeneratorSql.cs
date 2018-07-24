@@ -31,24 +31,23 @@ namespace AutoCodeGenLibrary
 {
     public partial class CodeGenerator : CodeGeneratorBase
     {
-        private static string s_SpNamePrefix = ConfigurationManager.AppSettings["SpNamePrefix"];
-        private static string s_SelectSingleByXSpSuffix = ConfigurationManager.AppSettings["SelectSingleByXSpSuffix"];
-        private static string s_SelectManySpSuffix = ConfigurationManager.AppSettings["SelectManySpSuffix"];
-        private static string s_SelectManyByXSpSuffix = ConfigurationManager.AppSettings["SelectManyByXSpSuffix"];
-        private static string s_SelectAllSpSuffix = ConfigurationManager.AppSettings["SelectAllSpSuffix"];
-        private static string s_SelectAllPagSpSuffix = ConfigurationManager.AppSettings["SelectAllPagSpSuffix"];
-        private static string s_InsertSingleSpSuffix = ConfigurationManager.AppSettings["InsertSingleSpSuffix"];
-        private static string s_UpdateSpSuffix = ConfigurationManager.AppSettings["UpdateSpSuffix"];
-        private static string s_UpdateInsertSpSuffix = ConfigurationManager.AppSettings["UpdateInsertSpSuffix"];
-        private static string s_DelAllSpSuffix = ConfigurationManager.AppSettings["DelAllSpSuffix"];
-        private static string s_DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
-        private static string s_DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
-        private static string s_CountAllSpSuffix = ConfigurationManager.AppSettings["CountAllSpSuffix"];
-        private static string s_CountSearchSpSuffix = ConfigurationManager.AppSettings["CountSearchSpSuffix"];
+        private static string _SpNamePrefix = ConfigurationManager.AppSettings["SpNamePrefix"];
+        private static string _SelectSingleByXSpSuffix = ConfigurationManager.AppSettings["SelectSingleByXSpSuffix"];
+        private static string _SelectManySpSuffix = ConfigurationManager.AppSettings["SelectManySpSuffix"];
+        private static string _SelectManyByXSpSuffix = ConfigurationManager.AppSettings["SelectManyByXSpSuffix"];
+        private static string _SelectAllSpSuffix = ConfigurationManager.AppSettings["SelectAllSpSuffix"];
+        private static string _SelectAllPagSpSuffix = ConfigurationManager.AppSettings["SelectAllPagSpSuffix"];
+        private static string _InsertSingleSpSuffix = ConfigurationManager.AppSettings["InsertSingleSpSuffix"];
+        private static string _UpdateSpSuffix = ConfigurationManager.AppSettings["UpdateSpSuffix"];
+        private static string _UpdateInsertSpSuffix = ConfigurationManager.AppSettings["UpdateInsertSpSuffix"];
+        private static string _DelAllSpSuffix = ConfigurationManager.AppSettings["DelAllSpSuffix"];
+        private static string _DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
+        private static string _DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
+        private static string _CountAllSpSuffix = ConfigurationManager.AppSettings["CountAllSpSuffix"];
+        private static string _CountSearchSpSuffix = ConfigurationManager.AppSettings["CountSearchSpSuffix"];
 
-        private static string s_DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
-
-        private static int s_SQLTabSize = Convert.ToInt32(ConfigurationManager.AppSettings["SQLTabSize"]);
+        private static string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
+        private static int _SQLTabSize = Convert.ToInt32(ConfigurationManager.AppSettings["SQLTabSize"]);
 
         public static OutputObject GenerateSelectSingleProc(SqlTable sqlTable, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
@@ -188,27 +187,27 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
 
-//ALTER PROCEDURE[dbo].[Card_SelectByTags]
-//(
-//    @Skip INT,
-//    @Take INT
-//)
-//AS
+            //ALTER PROCEDURE[dbo].[Card_SelectByTags]
+            //(
+            //    @Skip INT,
+            //    @Take INT
+            //)
+            //AS
 
-//SET NOCOUNT ON
+            //SET NOCOUNT ON
 
-//SELECT*
+            //SELECT*
 
-//FROM[Card] c
-//WHERE[CardId] IN
-//(
-//SELECT[Id] FROM @AndTagIds
-//)
+            //FROM[Card] c
+            //WHERE[CardId] IN
+            //(
+            //SELECT[Id] FROM @AndTagIds
+            //)
 
-//ORDER BY[Name]
+            //ORDER BY[Name]
 
             // now on to SP code
-        sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name));
             sb.AppendLine(GenerateDescriptionHeader(procedure_name));
 
             sb.AppendLine($"CREATE PROCEDURE [dbo].[{procedure_name}]");
@@ -1145,19 +1144,19 @@ namespace AutoCodeGenLibrary
 
             switch (procType)
             {
-                case eStoredProcType.SelectSingle: suffix = string.Format(s_SelectSingleByXSpSuffix, selected_fields_string); break;
-                case eStoredProcType.SelectMany: suffix = s_SelectManySpSuffix; break;
-                case eStoredProcType.SelectManyByX: suffix = string.Format(s_SelectManyByXSpSuffix, selected_fields_string); break;
-                case eStoredProcType.SelectAll: suffix = s_SelectAllSpSuffix; break;
-                case eStoredProcType.SelectAllPag: suffix = s_SelectAllPagSpSuffix; break;
-                case eStoredProcType.Insert: suffix = s_InsertSingleSpSuffix; break;
-                case eStoredProcType.Update: suffix = s_UpdateSpSuffix; break;
-                case eStoredProcType.UpdateInsert: suffix = s_UpdateInsertSpSuffix; break;
-                case eStoredProcType.DelSingle: suffix = s_DelSingleSpSuffix; break;
-                case eStoredProcType.DelMany: suffix = s_DelManySpSuffix; break;
-                case eStoredProcType.DelAll: suffix = s_DelAllSpSuffix; break;
-                case eStoredProcType.CountAll: suffix = s_CountAllSpSuffix; break;
-                case eStoredProcType.CountSearch: suffix = s_CountSearchSpSuffix; break;
+                case eStoredProcType.SelectSingle: suffix = string.Format(_SelectSingleByXSpSuffix, selected_fields_string); break;
+                case eStoredProcType.SelectMany: suffix = _SelectManySpSuffix; break;
+                case eStoredProcType.SelectManyByX: suffix = string.Format(_SelectManyByXSpSuffix, selected_fields_string); break;
+                case eStoredProcType.SelectAll: suffix = _SelectAllSpSuffix; break;
+                case eStoredProcType.SelectAllPag: suffix = _SelectAllPagSpSuffix; break;
+                case eStoredProcType.Insert: suffix = _InsertSingleSpSuffix; break;
+                case eStoredProcType.Update: suffix = _UpdateSpSuffix; break;
+                case eStoredProcType.UpdateInsert: suffix = _UpdateInsertSpSuffix; break;
+                case eStoredProcType.DelSingle: suffix = _DelSingleSpSuffix; break;
+                case eStoredProcType.DelMany: suffix = _DelManySpSuffix; break;
+                case eStoredProcType.DelAll: suffix = _DelAllSpSuffix; break;
+                case eStoredProcType.CountAll: suffix = _CountAllSpSuffix; break;
+                case eStoredProcType.CountSearch: suffix = _CountSearchSpSuffix; break;
 
                 default:
                     throw new Exception($"StoredProcType unknown: {procType}");
@@ -1165,7 +1164,7 @@ namespace AutoCodeGenLibrary
 
             // tried title case here, gets a little odd.
             tableName = tableName.Replace(" ", "_");
-            tableName = $"{s_SpNamePrefix}{tableName}_{suffix}";
+            tableName = $"{_SpNamePrefix}{tableName}_{suffix}";
             tableName = tableName.Replace("__", "_");
 
             return tableName;
@@ -1178,7 +1177,7 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine("GRANT EXECUTE ON [dbo].[" + stored_procedure_name + "] TO [" + s_DefaultDbUserName + "]");
+            sb.AppendLine("GRANT EXECUTE ON [dbo].[" + stored_procedure_name + "] TO [" + _DefaultDbUserName + "]");
             sb.AppendLine("GO");
 
             return sb.ToString();
@@ -1440,50 +1439,12 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string FindIdField(SqlTable sql_table)
-        {
-            // occasionally we might need to figure out a primary key for a table.
-            // this method isn't perfect, but its a decent stab at the problem.
-            // grab the first PK we have. If there is no PKs defined, grab the
-            // first int we find.
 
-            if (sql_table.PkList.Count == 0)
-            {
-                foreach (var column in sql_table.Columns)
-                {
-                    if (column.Value.BaseType == eSqlBaseType.Integer)
-                        return column.Key;
-                }
-
-                // still here? no matches then...
-                return string.Empty;
-            }
-            else
-            {
-                return sql_table.PkList[0].Name;
-            }
-        }
-
-        private static string FindNameField(SqlTable sql_table)
-        {
-            // occasionally we might need to figure out a friendly name field for 
-            // a table. this method isn't perfect, but its a decent stab at the problem.
-            // grab the first text field we have, and hope for the best.
-
-            foreach (var column in sql_table.Columns)
-            {
-                if (column.Value.BaseType == eSqlBaseType.String)
-                    return column.Key;
-            }
-
-            // still here? no matches then...
-            return string.Empty;
-        }
 
         // formatting methods
         private static string PadSqlVariableName(string input, int longest_string_length)
         {
-            return PadVariableName(input, longest_string_length, 0, s_SQLTabSize);
+            return PadVariableName(input, longest_string_length, 0, _SQLTabSize);
         }
     }
 }

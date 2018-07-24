@@ -23,6 +23,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -59,14 +60,14 @@ namespace AutoCodeGen
         // Misc
         private static string[] s_FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.aspx", "*.ascx", "*.master", "*.css", "*.asmx " };
         private static string[] s_DirectoriesUsed = { s_DirectoryAspPages, s_DirectoryOrm, s_DirectoryOrmExt, s_DirectoryDal, s_DirectoryDalExt, s_DirectoryWebService, s_DirectoryInterface, s_DirectoryWinforms, s_DirectoryXMlData, s_DirectoryEnums };
+        private static HashSet<string> _FilteredTableNames = new HashSet<string>() { "master", "model", "msdb", "tempdb" };
 
         private static int MAX_MESSAGES = 50;
 
 
         private AesEncryption _AesEncryption;
         private ConnectionString _Conn;
-        private DataTable _DbTables;
-        private List<string> _DbTablesList;
+        private List<TableMetadata> _DbTables;
         private string _DatabaseName;
         private string _OutputPath;
         private List<string> _NamespaceIncludes;
@@ -100,16 +101,12 @@ namespace AutoCodeGen
             {
                 InitializeComponent();
 
-
-
                 // set encryption properties
                 _AesEncryption = new AesEncryption(_InitialVector, 5349, 256);
 
                 this.Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
 
                 _Conn = new ConnectionString();
-                _DbTables = new DataTable();
-                _DbTablesList = new List<string>();
                 _DatabaseName = string.Empty;
                 _OutputPath = string.Empty;
                 _NamespaceIncludes = new List<string>();
@@ -277,22 +274,6 @@ namespace AutoCodeGen
                     Properties.Resource.CsharpEnum
             });
 
-            cboCSharpVersion.Items.Clear();
-            cboCSharpVersion.Items.AddRange(new object[]
-            {
-                    Properties.Resource.Csharp10,
-                    Properties.Resource.Csharp20,
-                    Properties.Resource.Csharp30,
-                    Properties.Resource.Csharp35,
-                    Properties.Resource.Csharp40,
-                    Properties.Resource.Csharp50
-            });
-
-            if (string.IsNullOrEmpty(Properties.Settings.Default.SqlTargetVersion))
-                cboCSharpVersion.Text = "C# 4.0";
-            else
-                cboCSharpVersion.Text = Properties.Settings.Default.CsharpTargetVersion;
-
             clbCsharpObjectsCheckedCount = clbCsharpObjects.CheckedItems.Count;
         }
 
@@ -430,22 +411,20 @@ namespace AutoCodeGen
         }
 
         // helper functions
-        public static DataTable ExcecuteDbCall(string sqlQuerry, SqlParameter[] parameters, string connectionString)
-        {
-            var database = new Database(connectionString);
-            return database.ExecuteQuery(sqlQuerry, parameters);
-        }
 
-        private void BindDataTableToCheckBoxList(DataTable dt, string bound_column_name, CheckedListBox clb)
+        private void BindDataTableToCheckBoxList(List<TableMetadata> tables, string bound_column_name, CheckedListBox clb)
         {
             if (clb.Items.Count != 0)
                 clb.Items.Clear();
 
-            foreach (DataRow row in dt.Rows)
+            if (tables == null || tables.Count < 1)
+                return;
+
+            foreach (var table in tables)
             {
                 // Doesnt work - why?
                 //this.cblTables.Items.Add(new object[] { row["TABLE_NAME"] });
-                clb.Items.AddRange(new object[] { row[bound_column_name] });
+                clb.Items.AddRange(new object[] { table.TableName });
             }
         }
 
@@ -495,31 +474,33 @@ namespace AutoCodeGen
             if (string.IsNullOrEmpty(_DatabaseName))
                 throw new ArgumentException("Database name is null or empty");
 
-            string sql_query = string.Format("[{0}].[dbo].[sp_tables] null,dbo,'{0}'", _DatabaseName);
-            _DbTables = ExcecuteDbCall(sql_query, null, _Conn.ToString());
+            var db = new Database(_Conn.ToString());
 
-            // filter out any non-user tables.
-            if (_DbTables != null && _DbTables.Rows.Count != 0 && _DbTables.Columns.Count != 0)
+            string sql_query = $"[{_DatabaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
+
+            Func<SqlDataReader, List<TableMetadata>> processer = delegate (SqlDataReader reader)
             {
-                string table_name;
+                var output = new List<TableMetadata>();
 
-                foreach (DataRow dr in _DbTables.Rows)
+                while (reader.Read())
                 {
-                    table_name = (string)dr["TABLE_NAME"];
+                    var buffer = new TableMetadata();
 
-                    if ((string)dr["TABLE_TYPE"] == "TABLE" && (table_name == "dtproperties" || table_name == "sysdiagrams"))
-                        dr.Delete();
+                    buffer.DbName = (string)reader["TABLE_QUALIFIER"];
+                    buffer.Schema = (string)reader["TABLE_OWNER"];
+                    buffer.TableName = (string)reader["TABLE_NAME"];
+                    buffer.TableType = (string)reader["TABLE_TYPE"];
+
+                    output.Add(buffer);
                 }
 
-                _DbTables.AcceptChanges();
+                return output;
+            };
 
-                // Clear out list
-                _DbTablesList.Clear();
-
-                // Copy tablenames to list
-                foreach (DataRow dr in _DbTables.Rows)
-                    _DbTablesList.Add((string)dr["TABLE_NAME"]);
-            }
+            _DbTables = db.ExecuteQuery(sql_query, null, processer)
+                .Where(c => c.Schema != "sys" && c.TableName != "sysdiagrams")
+                .OrderBy(c => c.TableName)
+                .ToList();
         }
 
         private void GetOutputFlagSettings()
@@ -717,7 +698,6 @@ namespace AutoCodeGen
             Properties.Settings.Default.MainFormWidth = this.Size.Width;
             Properties.Settings.Default.TableNameRegex = txtTableNameRegex.Text;
             Properties.Settings.Default.SqlTargetVersion = (string)cmbSQLVersion.SelectedItem;
-            Properties.Settings.Default.CsharpTargetVersion = (string)cboCSharpVersion.SelectedItem;
 
             Properties.Settings.Default.Save();
 
@@ -1097,8 +1077,10 @@ namespace AutoCodeGen
                         // should we be generating permissisons with the sp?
                         bool create_sql_permissions = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLCreateSqlSpPerms);
 
+                        // todo - wire up filter disabled flag? is this a useful feature?
+                        // hard coded to false for now....
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelSingle))
-                            sql_procedures.Add(CodeGenerator.GenerateSelectSingleProc(sql_table, create_sql_permissions, true));
+                            sql_procedures.Add(CodeGenerator.GenerateSelectSingleProc(sql_table, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany))
                             sql_procedures.Add(CodeGenerator.GenerateSelectManyProc(sql_table, sort_fields, create_sql_permissions));
@@ -1240,37 +1222,37 @@ namespace AutoCodeGen
 
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsEditPage))
                         {
-                            output = CodeGenerator.GenerateWinformEditCode(current_table);
+                            output = CodeGeneratorWinform.GenerateWinformEditCode(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsEditDesigner))
                         {
-                            output = CodeGenerator.GenerateWinformEditCodeDesigner(current_table);
+                            output = CodeGeneratorWinform.GenerateWinformEditCodeDesigner(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsViewPage))
                         {
-                            output = CodeGenerator.GenerateWinformViewCode(current_table);
+                            output = CodeGeneratorWinform.GenerateWinformViewCode(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsViewDesigner))
                         {
-                            output = CodeGenerator.GenerateWinformViewCodeDesigner(current_table);
+                            output = CodeGeneratorWinform.GenerateWinformViewCodeDesigner(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsMainPage))
                         {
-                            output = CodeGenerator.GenerateWinformMainCode(current_table);
+                            output = CodeGeneratorWinform.GenerateWinformMainCode(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsMainDesigner))
                         {
-                            output = CodeGenerator.GenerateWinformMainCodeDesigner(current_table);
+                            output = CodeGeneratorWinform.GenerateWinformMainCodeDesigner(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
@@ -1419,9 +1401,28 @@ namespace AutoCodeGen
                 // 2) enable tabs that are now valid
                 // 3) clear out db list and populate with new data
 
-                DataTable database_list = ExcecuteDbCall("[Master].[dbo].[sp_databases]", null, _Conn.ToString());
+                var db = new Database(_Conn.ToString());
 
-                if (database_list == null)
+                Func<SqlDataReader, List<DataBaseMetadata>> processer = delegate (SqlDataReader reader)
+                {
+                    var output = new List<DataBaseMetadata>();
+
+                    while (reader.Read())
+                    {
+                        var buffer = new DataBaseMetadata();
+
+                        buffer.TableName = (string)reader["DATABASE_NAME"];
+
+                        if (!_FilteredTableNames.Contains(buffer.TableName))
+                            output.Add(buffer);
+                    }
+
+                    return output;
+                };
+
+                var results = db.ExecuteQuery("[Master].[dbo].[sp_databases]", null, processer);
+
+                if (results == null)
                 {
                     // connection failed, bail
                     DisplayMessage(Properties.Resource.DbConnectionFailed, true);
@@ -1438,12 +1439,12 @@ namespace AutoCodeGen
                 SetConnectStatusLabel(connection_message);
                 DisplayMessage(connection_message, false);
 
-                if (database_list != null && database_list.Rows.Count != 0 && database_list.Columns.Count != 0)
+                if (results != null && results.Count != 0)
                 {
                     cmbDatabaseList.BeginUpdate();
-                    cmbDatabaseList.DisplayMember = "DATABASE_NAME";
-                    cmbDatabaseList.ValueMember = "DATABASE_NAME";
-                    cmbDatabaseList.DataSource = database_list;
+                    cmbDatabaseList.DisplayMember = "TableName";
+                    cmbDatabaseList.ValueMember = "TableName";
+                    cmbDatabaseList.DataSource = results;
                     cmbDatabaseList.EndUpdate();
                 }
             }

@@ -64,8 +64,6 @@ namespace AutoCodeGen
             this.btnAddNamespace = new System.Windows.Forms.Button();
             this.cboNamespaceIncludes = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.cboCSharpVersion = new System.Windows.Forms.ComboBox();
-            this.lblCSharpVersion = new System.Windows.Forms.Label();
             this.btnToggleCsharpSqlTables = new System.Windows.Forms.Button();
             this.btnToggleCSharpObjects = new System.Windows.Forms.Button();
             this.lblCSharpObjects = new System.Windows.Forms.Label();
@@ -360,8 +358,6 @@ namespace AutoCodeGen
             this.panCSharpOptions.Controls.Add(this.btnAddNamespace);
             this.panCSharpOptions.Controls.Add(this.cboNamespaceIncludes);
             this.panCSharpOptions.Controls.Add(this.label1);
-            this.panCSharpOptions.Controls.Add(this.cboCSharpVersion);
-            this.panCSharpOptions.Controls.Add(this.lblCSharpVersion);
             this.panCSharpOptions.Name = "panCSharpOptions";
             // 
             // btnAddNamespace
@@ -382,18 +378,6 @@ namespace AutoCodeGen
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            // 
-            // cboCSharpVersion
-            // 
-            resources.ApplyResources(this.cboCSharpVersion, "cboCSharpVersion");
-            this.cboCSharpVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCSharpVersion.FormattingEnabled = true;
-            this.cboCSharpVersion.Name = "cboCSharpVersion";
-            // 
-            // lblCSharpVersion
-            // 
-            resources.ApplyResources(this.lblCSharpVersion, "lblCSharpVersion");
-            this.lblCSharpVersion.Name = "lblCSharpVersion";
             // 
             // btnToggleCsharpSqlTables
             // 
@@ -889,8 +873,6 @@ namespace AutoCodeGen
         private System.Windows.Forms.Label lblSQLVersion;
         private System.Windows.Forms.ComboBox cmbSQLVersion;
         private System.Windows.Forms.Panel panCSharpOptions;
-        private System.Windows.Forms.ComboBox cboCSharpVersion;
-        private System.Windows.Forms.Label lblCSharpVersion;
         private System.Windows.Forms.ComboBox cboNamespaceIncludes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAddNamespace;

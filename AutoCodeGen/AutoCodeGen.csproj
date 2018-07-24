@@ -86,14 +86,17 @@
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\CodeGeneratorWinform.cs" />
     <Compile Include="Objects\CodeGeneratorBase.cs" />
-    <Compile Include="Objects\SqlCodeGenerator.cs" />
+    <Compile Include="Objects\CodeGeneratorSql.cs" />
     <Compile Include="Objects\ConnectionString.cs" />
     <Compile Include="Objects\OutputObject.cs" />
     <Compile Include="Objects\CodeGenerator.cs" />
     <Compile Include="Enums\eIncludedFields.cs" />
     <Compile Include="Objects\NameFormatter.cs" />
     <Compile Include="Enums\eStoredProcType.cs" />
+    <Compile Include="Objects\DataBaseMetadata.cs" />
+    <Compile Include="Objects\TableMetadata.cs" />
     <Compile Include="Objects\XmlConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -124,60 +124,6 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C# 1.0.
-        /// </summary>
-        internal static string Csharp10 {
-            get {
-                return ResourceManager.GetString("Csharp10", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C# 2.0.
-        /// </summary>
-        internal static string Csharp20 {
-            get {
-                return ResourceManager.GetString("Csharp20", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C# 3.0.
-        /// </summary>
-        internal static string Csharp30 {
-            get {
-                return ResourceManager.GetString("Csharp30", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C# 3.5.
-        /// </summary>
-        internal static string Csharp35 {
-            get {
-                return ResourceManager.GetString("Csharp35", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C# 4.0.
-        /// </summary>
-        internal static string Csharp40 {
-            get {
-                return ResourceManager.GetString("Csharp40", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C# 5.0.
-        /// </summary>
-        internal static string Csharp50 {
-            get {
-                return ResourceManager.GetString("Csharp50", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Create C# Dal Object.
         /// </summary>
         internal static string CsharpDal {
@@ -588,6 +534,15 @@ namespace AutoCodeGen.Properties {
         internal static string SqlUpdIns {
             get {
                 return ResourceManager.GetString("SqlUpdIns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DataTable data_table =.
+        /// </summary>
+        internal static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         

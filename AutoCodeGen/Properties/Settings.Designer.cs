@@ -313,18 +313,6 @@ namespace AutoCodeGen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C# 4.0")]
-        public string CsharpTargetVersion {
-            get {
-                return ((string)(this["CsharpTargetVersion"]));
-            }
-            set {
-                this["CsharpTargetVersion"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Sql 2008")]
         public string SqlTargetVersion {
             get {

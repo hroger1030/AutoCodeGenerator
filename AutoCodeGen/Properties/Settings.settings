@@ -74,9 +74,6 @@
     <Setting Name="AspCreateDefaultPage" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="CsharpTargetVersion" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C# 4.0</Value>
-    </Setting>
     <Setting Name="SqlTargetVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)">Sql 2008</Value>
     </Setting>

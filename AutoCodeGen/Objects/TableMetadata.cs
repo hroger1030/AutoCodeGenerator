@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2007 Roger Hill
@@ -18,23 +18,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace AutoCodeGenLibrary
 {
-    public class OutputObject
+    public class TableMetadata
     {
-        public enum eObjectType
-        {
-            CSharp,
-            Sql,
-            Aspx,
-            Css,
-            MasterPage,
-            WebConfig,
-            WebService
-        }
+        public string DbName { get; set; }
+        public string Schema { get; set; }
+        public string TableName { get; set; }
+        public string TableType { get; set; }
 
-        public string Name { get; set; }
-        public string Body { get; set; }
-        public eObjectType Type { get; set; }
-
-        public OutputObject() { }
+        public TableMetadata() { }
     }
 }

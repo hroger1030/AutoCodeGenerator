@@ -141,30 +141,6 @@
   <data name="ConnectionMessage" xml:space="preserve">
     <value>Connected To:</value>
   </data>
-  <data name="Csharp10" xml:space="preserve">
-    <value>C# 1.0</value>
-    <comment>C# Target Version</comment>
-  </data>
-  <data name="Csharp20" xml:space="preserve">
-    <value>C# 2.0</value>
-    <comment>C# Target Version</comment>
-  </data>
-  <data name="Csharp30" xml:space="preserve">
-    <value>C# 3.0</value>
-    <comment>C# Target Version</comment>
-  </data>
-  <data name="Csharp35" xml:space="preserve">
-    <value>C# 3.5</value>
-    <comment>C# Target Version</comment>
-  </data>
-  <data name="Csharp40" xml:space="preserve">
-    <value>C# 4.0</value>
-    <comment>C# Target Version</comment>
-  </data>
-  <data name="Csharp50" xml:space="preserve">
-    <value>C# 5.0</value>
-    <comment>C# Target Version</comment>
-  </data>
   <data name="CsharpDal" xml:space="preserve">
     <value>Create C# Dal Object</value>
     <comment>C# Options</comment>
@@ -386,5 +362,8 @@
   <data name="XmlImportObject" xml:space="preserve">
     <value>Create C# Xml import class </value>
     <comment>Xml Options</comment>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>DataTable data_table =</value>
   </data>
 </root>
