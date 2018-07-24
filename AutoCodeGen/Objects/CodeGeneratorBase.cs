@@ -17,6 +17,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Text;
 
 using DAL.SqlMetadata;
 
@@ -106,6 +109,46 @@ namespace AutoCodeGenLibrary
 
             // still here? no matches then...
             return string.Empty;
+        }
+
+        protected static string GenerateNamespaceIncludes(List<string> namespaceIncludes)
+        {
+            if (namespaceIncludes == null || namespaceIncludes.Count == 0)
+                return string.Empty;
+
+            var sb = new StringBuilder();
+
+            namespaceIncludes.Sort();
+
+            foreach (var item in namespaceIncludes)
+            {
+                string buffer = item.Trim();
+
+                if (!string.IsNullOrEmpty(item))
+                {
+                    if (buffer.Contains(";"))
+                        buffer = buffer.Replace(";", string.Empty);
+
+                    sb.AppendLine(string.Format("using {0};", buffer));
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        // formatting methods 
+        // todo - remove
+
+        // figure out tab size
+        internal static int _VisualStudioTabSize = Convert.ToInt32(ConfigurationManager.AppSettings["VisualStudioTabSize"]);
+
+        protected static string PadCSharpVariableName(string input, int longest_string_length)
+        {
+            return PadVariableName(input, longest_string_length, 0, _VisualStudioTabSize);
+        }
+        protected static string PadCSharpVariableName(string input, int longest_string_length, int padding)
+        {
+            return PadVariableName(input, longest_string_length, padding, _VisualStudioTabSize);
         }
     }
 }

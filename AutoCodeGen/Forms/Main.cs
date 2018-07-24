@@ -994,19 +994,19 @@ namespace AutoCodeGen
                     foreach (string table_name in clbAspSqlTables.CheckedItems)
                         selected_tables.Add(table_name);
 
-                    output = CodeGenerator.GenerateMasterPageCodeInFront(sql_database.Name, selected_tables);
+                    output = CodeGeneratorAspDotNet.GenerateMasterPageCodeInFront(sql_database.Name, selected_tables);
                     file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
 
-                    output = CodeGenerator.GenerateMasterPageCodeBehind(sql_database.Name);
+                    output = CodeGeneratorAspDotNet.GenerateMasterPageCodeBehind(sql_database.Name);
                     file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateCSSPage))
                 {
-                    output = CodeGenerator.GenerateCSSSheet(_DatabaseName);
+                    output = CodeGeneratorAspDotNet.GenerateCSSSheet(_DatabaseName);
 
                     // this file is a css file
                     output.Name += ".css";
@@ -1017,19 +1017,19 @@ namespace AutoCodeGen
                 }
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateWebConfig))
                 {
-                    output = CodeGenerator.GenerateWebConfig(_Conn);
+                    output = CodeGeneratorAspDotNet.GenerateWebConfig(_Conn.ToConfigString());
                     file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateDefaultPage))
                 {
-                    output = CodeGenerator.GenerateDefaultPageCodeInFront(sql_database.Name);
+                    output = CodeGeneratorAspDotNet.GenerateDefaultPageCodeInFront(sql_database.Name);
                     file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
 
-                    output = CodeGenerator.GenerateDefaultPageCodeBehind(sql_database.Name);
+                    output = CodeGeneratorAspDotNet.GenerateDefaultPageCodeBehind(sql_database.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
@@ -1290,33 +1290,33 @@ namespace AutoCodeGen
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateEditPage))
                         {
-                            output = CodeGenerator.GenerateWebEditPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
+                            output = CodeGeneratorAspDotNet.GenerateWebEditPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
 
-                            output = CodeGenerator.GenerateWebEditPageCodeBehind(current_table, _NamespaceIncludes);
+                            output = CodeGeneratorAspDotNet.GenerateWebEditPageCodeBehind(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateListPage))
                         {
-                            output = CodeGenerator.GenerateWebListPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
+                            output = CodeGeneratorAspDotNet.GenerateWebListPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
 
-                            output = CodeGenerator.GenerateWebListPageCodeBehind(current_table, _NamespaceIncludes);
+                            output = CodeGeneratorAspDotNet.GenerateWebListPageCodeBehind(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateViewPage))
                         {
-                            output = CodeGenerator.GenerateWebViewPageCodeInFront(current_table);
+                            output = CodeGeneratorAspDotNet.GenerateWebViewPageCodeInFront(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
 
-                            output = CodeGenerator.GenerateWebViewPageCodeBehind(current_table, _NamespaceIncludes);
+                            output = CodeGeneratorAspDotNet.GenerateWebViewPageCodeBehind(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }

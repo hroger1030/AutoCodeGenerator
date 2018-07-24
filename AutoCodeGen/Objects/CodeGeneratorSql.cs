@@ -1271,31 +1271,6 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateNamespaceIncludes(List<string> namespace_includes)
-        {
-            if (namespace_includes == null || namespace_includes.Count == 0)
-                return string.Empty;
-
-            var sb = new StringBuilder();
-
-            namespace_includes.Sort();
-
-            foreach (var item in namespace_includes)
-            {
-                string buffer = item.Trim();
-
-                if (!string.IsNullOrEmpty(item))
-                {
-                    if (buffer.Contains(";"))
-                        buffer = buffer.Replace(";", string.Empty);
-
-                    sb.AppendLine(string.Format("using {0};", buffer));
-                }
-            }
-
-            return sb.ToString();
-        }
-
         private static string GenerateOrderByClause(SqlTable sql_table, List<string> column_names)
         {
             if (column_names == null || column_names.Count == 0)
