@@ -954,9 +954,9 @@ namespace AutoCodeGen
                     return;
                 }
 
-                SqlDatabase sql_database = new SqlDatabase();
+                var sql_database = new SqlDatabase();
                 var sb = new StringBuilder();
-                OutputObject output = new OutputObject();
+                var output = new OutputObject();
 
                 string regex_string = txtTableNameRegex.Text;
                 string output_file_name = string.Empty;
@@ -1079,11 +1079,12 @@ namespace AutoCodeGen
 
                         // todo - wire up filter disabled flag? is this a useful feature?
                         // hard coded to false for now....
+
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelSingle))
                             sql_procedures.Add(CodeGenerator.GenerateSelectSingleProc(sql_table, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany))
-                            sql_procedures.Add(CodeGenerator.GenerateSelectManyProc(sql_table, sort_fields, create_sql_permissions));
+                            sql_procedures.Add(CodeGenerator.GenerateSelectManyProc(sql_table, sort_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX))
                             sql_procedures.Add(CodeGenerator.GenerateSelectManyByXProc(sql_table, sort_fields, select_fields, create_sql_permissions));
@@ -1268,11 +1269,11 @@ namespace AutoCodeGen
                     {
                         SqlTable current_table = sql_database.Tables[table_name];
 
-                        output = CodeGenerator.GenerateWebServiceCodeInfrontClass(current_table);
+                        output = CodeGeneratorWebservice.GenerateWebServiceCodeInfrontClass(current_table);
                         file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
 
-                        output = CodeGenerator.GenerateWebServiceCodeBehindClass(current_table, _NamespaceIncludes);
+                        output = CodeGeneratorWebservice.GenerateWebServiceCodeBehindClass(current_table, _NamespaceIncludes);
                         file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
                     }

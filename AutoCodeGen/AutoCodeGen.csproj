@@ -86,6 +86,7 @@
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\CodeGeneratorWebservice.cs" />
     <Compile Include="Objects\CodeGeneratorAspDotNet.cs" />
     <Compile Include="Objects\CodeGeneratorWinform.cs" />
     <Compile Include="Objects\CodeGeneratorBase.cs" />
