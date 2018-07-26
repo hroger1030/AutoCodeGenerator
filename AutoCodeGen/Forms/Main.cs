@@ -1047,6 +1047,7 @@ namespace AutoCodeGen
                         List<string> search_fields = new List<string>();
                         List<string> select_fields = new List<string>();
 
+                        // get sort fields
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany) ||
                             clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX) ||
                             clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAll) ||
@@ -1056,6 +1057,7 @@ namespace AutoCodeGen
                             field_selector.ShowDialog(this);
                         }
 
+                        // get search fields
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAllPage) ||
                             clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlCountSearch))
                         {
@@ -1063,7 +1065,9 @@ namespace AutoCodeGen
                             field_selector.ShowDialog(this);
                         }
 
-                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX))
+                        // get select fields
+                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX) ||
+                            clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany))
                         {
                             FieldSelector field_selector = new FieldSelector(select_fields, sql_table, string.Format(Properties.Resource.SelectSelectField, sql_table.Name));
                             field_selector.ShowDialog(this);
@@ -1084,7 +1088,7 @@ namespace AutoCodeGen
                             sql_procedures.Add(CodeGenerator.GenerateSelectSingleProc(sql_table, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany))
-                            sql_procedures.Add(CodeGenerator.GenerateSelectManyProc(sql_table, sort_fields, create_sql_permissions, false));
+                            sql_procedures.Add(CodeGenerator.GenerateSelectManyProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX))
                             sql_procedures.Add(CodeGenerator.GenerateSelectManyByXProc(sql_table, sort_fields, select_fields, create_sql_permissions));
