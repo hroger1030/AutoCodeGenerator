@@ -52,7 +52,7 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateSelectSingleProc(SqlTable sqlTable, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
 
             // todo: add in pk name list
 
@@ -151,7 +151,10 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateSelectManyProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (sortFields == null || sortFields.Count == 0)
+                throw new ArgumentException("Sort names cannot be null or empty");
 
             if (selectFields == null || selectFields.Count != 1)
                 throw new ArgumentException("A select many proc can only be created if there is a single select column");
@@ -174,45 +177,47 @@ namespace AutoCodeGenLibrary
             //insert @Ids(id) values(2)
             //EXEC[Spell].[SpellData_SelectMany] 0, 10, @Ids
 
-            //ALTER PROCEDURE[dbo].[Card_SelectByTags]
+            //CREATE PROCEDURE[Spell].[SpellData_SelectMany]
             //(
-            //               @Skip INT,
-            //               @Take INT,
-            //	@NotTagIds[dbo].[TblIdList] READONLY
+            //  @skip INT,
+            //  @take INT,
+            //  @IdList[Spell].[TblSpellDataIdList] READONLY
             //)
             //AS
 
             //SET NOCOUNT ON
 
-            //SELECT c.[Name]
+            //SELECT[SpellData].[Id],
+            //		[SpellData].[Name],
+            //		[SpellData].[Description],
+            //		[SpellData].[Rarity],
+            //		[SpellData].[AreaOfEffect],
+            //		[SpellData].[Range],
+            //		[SpellData].[CastingCost],
+            //		[SpellData].[CastingDifficulty],
+            //		[SpellData].[CastingTime],
+            //		[SpellData].[Duration],
+            //		[SpellData].[LearningDifficulty],
+            //		[SpellData].[MagicResistancePenetration],
+            //		[SpellData].[MagicSchool],
+            //		[SpellData].[WrittenLength],
+            //		[SpellData].[MaterialComponents],
+            //		[SpellData].[VerbalComponents],
+            //		[SpellData].[SomaticComponents],
+            //		[SpellData].[PublishStateId]
 
-            //FROM [Card] c
-            //      INNER JOIN
-            //      (
-            //        SELECT[FixedName]
-            //        FROM    [CardTag]
-            //        WHERE   [TagId] IN
-            //        (
-            //            SELECT[Id] FROM @AndTagIds
-            //        )
-            //        GROUP BY[FixedName]
-            //        HAVING COUNT(DISTINCT[TagId]) = @count
-            //      ) A ON a.FixedName = c.FixedName
+            //        FROM[Spell].[SpellData]
 
-            //WHERE c.[FixedName] IN
-            //(
-            //    SELECT [FixedName]
-            //    FROM    [CardTag]
-            //    WHERE   [TagId] IN
-            //    (
-            //      SELECT[Id] 
-            //      FROM @NotTagIds
-            //    )
-            //)
+            //        WHERE[SpellData].[Id]
+            //        IN
+            //     (
+            //         SELECT[Id]
+            //         FROM    @IdList
+            //     )
 
-            //GROUP BY[Name]
-            //ORDER BY[Name]
-            //OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
+            //ORDER BY[SpellData].[Name]
+            //        OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
+            //GO
 
             // now on to SP code
             sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name, sqlTable.Schema));
@@ -261,11 +266,10 @@ namespace AutoCodeGenLibrary
                 .Where(c => c.Name == selectFields[0])
                 .FirstOrDefault();
 
-
             sb.AppendLine($"WHERE {AddTabs(1)}{NameFormatter.ToTSQLName(search_column.Table.Name)}.{NameFormatter.ToTSQLName(search_column.Name)} IN");
             sb.AppendLine("(");
-            sb.AppendLine(AddTabs(1) + "SELECT " + NameFormatter.ToTSQLName(search_column.Name));
-            sb.AppendLine(AddTabs(1) + "FROM @IdList");
+            sb.AppendLine(AddTabs(1) + "SELECT " + AddTabs(1) + NameFormatter.ToTSQLName(search_column.Name));
+            sb.AppendLine(AddTabs(1) + "FROM " + AddTabs(1) + "@IdList");
             sb.AppendLine(")");
             sb.AppendLine();
 
@@ -292,15 +296,19 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateSelectManyByXProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms)
+        public static OutputObject GenerateSelectManyByXProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (sortFields == null || sortFields.Count == 0)
+                throw new ArgumentException("Sort names cannot be null or empty");
+
+            if (selectFields == null || selectFields.Count == 0)
+                throw new ArgumentException("Select names cannot be null or empty");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectManyByX, selectFields);
-            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
             bool flag_first_value;
-            string name_buffer;
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -309,9 +317,11 @@ namespace AutoCodeGenLibrary
             var sb = new StringBuilder();
 
             sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name, sqlTable.Schema));
+            sb.AppendLine();
+
             sb.AppendLine(GenerateDescriptionHeader(procedure_name, sqlTable.Schema));
 
-            sb.AppendLine("CREATE PROCEDURE " + procedure_name);
+            sb.AppendLine($"CREATE PROCEDURE [{sqlTable.Schema}].[{procedure_name}]");
             sb.AppendLine("(");
             sb.AppendLine(GenerateSelectClauseArguments(sqlTable, selectFields));
             sb.AppendLine(")");
@@ -336,17 +346,20 @@ namespace AutoCodeGenLibrary
                     sb.Append("," + Environment.NewLine + AddTabs(2));
                 }
 
-                name_buffer = NameFormatter.ToTSQLName(sql_column.Table.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name);
-                sb.Append(PadSqlVariableName(name_buffer, longest_column) + "AS " + NameFormatter.ToTSQLName(sql_column.Name));
+                sb.Append(NameFormatter.ToTSQLName(sql_column.Table.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name));
             }
             #endregion
 
             sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
+            sb.AppendLine(Environment.NewLine + "FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Schema) + "." + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine();
 
-            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled]", longest_column) + "= 0");
+            if (includeDisabledCheck)
+            {
+                sb.AppendLine($"AND {NameFormatter.ToTSQLName(sqlTable.Name)}.[Disabled] = 0");
+                sb.AppendLine();
+            }
+
             sb.AppendLine(GenerateSelectClause(sqlTable, selectFields));
             sb.AppendLine();
             sb.AppendLine(GenerateOrderByClause(sqlTable, sortFields));
@@ -366,12 +379,13 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateSelectAllProc(SqlTable sqlTable, List<string> sortFields, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (sortFields == null || sortFields.Count == 0)
+                throw new ArgumentException("Sort names cannot be null or empty");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null);
-            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
             bool flag_first_value;
-            string name_buffer;
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -380,6 +394,8 @@ namespace AutoCodeGenLibrary
             var sb = new StringBuilder();
 
             sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name, sqlTable.Schema));
+            sb.AppendLine();
+
             sb.AppendLine(GenerateDescriptionHeader(procedure_name, sqlTable.Schema));
 
             sb.AppendLine("CREATE PROCEDURE " + procedure_name);
@@ -404,16 +420,14 @@ namespace AutoCodeGenLibrary
                     sb.Append("," + Environment.NewLine + AddTabs(2));
                 }
 
-                name_buffer = NameFormatter.ToTSQLName(sql_column.Table.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name);
-                sb.Append(PadSqlVariableName(name_buffer, longest_column) + "AS " + NameFormatter.ToTSQLName(sql_column.Name));
+                sb.Append(NameFormatter.ToTSQLName(sql_column.Table.Name) + "." + NameFormatter.ToTSQLName(sql_column.Name));
             }
             #endregion
 
             sb.AppendLine();
-            sb.AppendLine();
             sb.AppendLine("FROM" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name));
             sb.AppendLine();
-            sb.AppendLine("WHERE" + AddTabs(1) + PadSqlVariableName(NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled]", longest_column) + "= 0");
+            sb.AppendLine("WHERE" + AddTabs(1) + NameFormatter.ToTSQLName(sqlTable.Name) + ".[Disabled] = 0");
             sb.AppendLine();
             sb.AppendLine(GenerateOrderByClause(sqlTable, sortFields));
             sb.AppendLine("GO");
@@ -432,7 +446,13 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateSelectAllPaginatedProc(SqlTable sqlTable, List<string> sortFields, List<string> searchFields, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (sortFields == null || sortFields.Count == 0)
+                throw new ArgumentException("Sort names cannot be null or empty");
+
+            if (searchFields == null || searchFields.Count == 0)
+                throw new ArgumentException("Search names cannot be null or empty");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAllPag, null);
             int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
@@ -530,7 +550,7 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateSetProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null);
             int longest_column = GetLongestColumnLength(sqlTable);
@@ -721,7 +741,7 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateDeleteSingleProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null);
             bool flag_first_value = true;
@@ -799,7 +819,7 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateDeleteManyProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelMany, null);
 
@@ -868,7 +888,7 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateDeleteAllProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null);
 
@@ -906,7 +926,7 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateCountAllProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.CountAll, null);
 
@@ -943,7 +963,7 @@ namespace AutoCodeGenLibrary
         public static OutputObject GenerateCountSearchProc(SqlTable sqlTable, List<string> searchFields, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null");
 
             string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.CountSearch, null);
 
@@ -1195,6 +1215,12 @@ namespace AutoCodeGenLibrary
 
         private static string GeneratePkTableType(SqlTable sqlTable, string columnName)
         {
+            if (sqlTable == null)
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (string.IsNullOrWhiteSpace(columnName))
+                throw new ArgumentException("Column name cannot be null or empty");
+
             // this will generate a sql table type based off the primary keys from a sql table.
 
             // EX:
@@ -1240,6 +1266,9 @@ namespace AutoCodeGenLibrary
 
         private static string GeneratePkTableType(SqlTable sqlTable)
         {
+            if (sqlTable == null)
+                throw new ArgumentException("Sql table cannot be null");
+
             // this will generate a sql table type based off the primary keys from a sql table.
 
             // EX:
@@ -1286,7 +1315,10 @@ namespace AutoCodeGenLibrary
         private static string GenerateSqlSpExistanceChecker(string procedureName, string schema)
         {
             if (string.IsNullOrEmpty(procedureName))
-                throw new Exception("Cannot generate sql existance check without a database name.");
+                throw new Exception("Cannot generate sql existance check without a procedure name");
+
+            if (string.IsNullOrEmpty(schema))
+                throw new Exception("Cannot generate sql existance check without schema");
 
             var sb = new StringBuilder();
 
@@ -1314,7 +1346,10 @@ namespace AutoCodeGenLibrary
         private static string GenerateDescriptionHeader(string procedureName, string schema)
         {
             if (string.IsNullOrEmpty(procedureName))
-                throw new ArgumentException("Cannot generate procedure header without a procedure name.");
+                throw new ArgumentException("Cannot generate procedure header without a procedure name");
+
+            if (string.IsNullOrEmpty(schema))
+                throw new ArgumentException("Cannot generate procedure header without a schema");
 
             var sb = new StringBuilder();
 
@@ -1330,7 +1365,7 @@ namespace AutoCodeGenLibrary
         private static string GenerateSqlStoredProcParameters(SqlTable sqlTable, eIncludedFields includedFields)
         {
             if (sqlTable == null)
-                throw new ArgumentException("Cannot generate stored procedure parameters without a sql table.");
+                throw new ArgumentException("Sql table cannot be null");
 
             #region Sample Output
             //(
@@ -1371,12 +1406,18 @@ namespace AutoCodeGenLibrary
 
         private static string GenerateOrderByClause(SqlTable sqlTable, List<string> columnNames)
         {
+            if (sqlTable == null)
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (columnNames == null || columnNames.Count == 0)
+                throw new ArgumentException("Column names cannot be null or empty");
+
             if (columnNames == null || columnNames.Count == 0)
                 return "-- ORDER BY [<A_COLUMN_NAME>]";
 
             var sb = new StringBuilder();
 
-            sb.Append("ORDER    BY ");
+            sb.Append("ORDER" + AddTabs(1) + "BY ");
 
             bool flag_first_value = true;
 
@@ -1395,8 +1436,11 @@ namespace AutoCodeGenLibrary
 
         private static string GenerateSearchClause(SqlTable sqlTable, List<string> columnNames, int tabsIn, int tabsOver)
         {
-            if (sqlTable == null || columnNames == null || columnNames.Count == 0)
-                return string.Empty;
+            if (sqlTable == null)
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (columnNames == null || columnNames.Count == 0)
+                throw new ArgumentException("Column names cannot be null or empty");
 
             var sb = new StringBuilder();
 
@@ -1423,30 +1467,36 @@ namespace AutoCodeGenLibrary
 
         private static string GenerateSelectClause(SqlTable sqlTable, List<string> columnNames)
         {
+            if (sqlTable == null)
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (columnNames == null || columnNames.Count == 0)
+                throw new ArgumentException("Column names cannot be null or empty");
+
             #region Sample output:
-            // AND [UserId]     = @UserId
+            // WHERE [UserId]    = @UserId
             // AND [Age]        = @Age
             // AND [ShoeSize]   = @ShoeSize
             #endregion
 
-            if (sqlTable == null || columnNames == null || columnNames.Count == 0)
+            if (columnNames == null || columnNames.Count == 0)
                 return string.Empty;
 
             var sb = new StringBuilder();
 
-            bool flag_first_value = true;
-            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
+            bool first_flag = true;
+            string join_clause = "WHERE ";
 
             foreach (var item in columnNames)
             {
                 string field_name = NameFormatter.ToTSQLName(sqlTable.Name) + "." + NameFormatter.ToTSQLName(item);
+                sb.Append(join_clause + AddTabs(1) + field_name + " = " + NameFormatter.ToTSQLVariableName(sqlTable.Columns[item]));
 
-                if (flag_first_value)
-                    flag_first_value = false;
-                else
-                    sb.Append(Environment.NewLine);
-
-                sb.Append("AND" + AddTabs(2) + PadSqlVariableName(field_name, longest_column) + "= " + NameFormatter.ToTSQLVariableName(sqlTable.Columns[item]));
+                if (first_flag)
+                {
+                    first_flag = false;
+                    join_clause = Environment.NewLine + "AND ";
+                }
             }
 
             return sb.ToString();
@@ -1454,6 +1504,12 @@ namespace AutoCodeGenLibrary
 
         private static string GenerateSelectClauseArguments(SqlTable sqlTable, List<string> columnNames)
         {
+            if (sqlTable == null)
+                throw new ArgumentException("Sql table cannot be null");
+
+            if (columnNames == null || columnNames.Count == 0)
+                throw new ArgumentException("Column names cannot be null or empty");
+
             if (columnNames == null)
                 return AddTabs(1) + "-- @A_VALUE [SOME_DATA_TYPE]";
 

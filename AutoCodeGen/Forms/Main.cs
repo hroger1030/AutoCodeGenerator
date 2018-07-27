@@ -1091,7 +1091,7 @@ namespace AutoCodeGen
                             sql_procedures.Add(CodeGenerator.GenerateSelectManyProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX))
-                            sql_procedures.Add(CodeGenerator.GenerateSelectManyByXProc(sql_table, sort_fields, select_fields, create_sql_permissions));
+                            sql_procedures.Add(CodeGenerator.GenerateSelectManyByXProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAll))
                             sql_procedures.Add(CodeGenerator.GenerateSelectAllProc(sql_table, sort_fields, create_sql_permissions));
