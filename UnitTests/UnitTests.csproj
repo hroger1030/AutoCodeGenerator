@@ -54,6 +54,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Database\DAL.csproj">
+      <Project>{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoCodeGen\AutoCodeGen.csproj">
+      <Project>{e6695000-6598-4362-b232-2f9776e2cf4b}</Project>
+      <Name>AutoCodeGen</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

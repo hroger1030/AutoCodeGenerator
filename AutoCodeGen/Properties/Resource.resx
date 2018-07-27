@@ -288,8 +288,8 @@
     <value>Select All Rows</value>
     <comment>Tsql Options</comment>
   </data>
-  <data name="SqlSelAllPage" xml:space="preserve">
-    <value>Select All Rows Paginated</value>
+  <data name="SqlSearchPaged" xml:space="preserve">
+    <value>Search Paginated</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlSelMany" xml:space="preserve">

@@ -484,20 +484,20 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search Paginated.
+        /// </summary>
+        internal static string SqlSearchPaged {
+            get {
+                return ResourceManager.GetString("SqlSearchPaged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select All Rows.
         /// </summary>
         internal static string SqlSelAll {
             get {
                 return ResourceManager.GetString("SqlSelAll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select All Rows Paginated.
-        /// </summary>
-        internal static string SqlSelAllPage {
-            get {
-                return ResourceManager.GetString("SqlSelAllPage", resourceCulture);
             }
         }
         

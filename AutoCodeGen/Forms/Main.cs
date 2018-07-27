@@ -228,7 +228,7 @@ namespace AutoCodeGen
                     Properties.Resource.SqlSelMany,
                     Properties.Resource.SqlSelManyByX,
                     Properties.Resource.SqlSelAll,
-                    Properties.Resource.SqlSelAllPage,
+                    Properties.Resource.SqlSearchPaged,
                     Properties.Resource.SqlUpdIns,
                     Properties.Resource.SqlDelSingle,
                     Properties.Resource.SqlDelMany,
@@ -1051,14 +1051,14 @@ namespace AutoCodeGen
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany) ||
                             clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX) ||
                             clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAll) ||
-                            clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAllPage))
+                            clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSearchPaged))
                         {
                             FieldSelector field_selector = new FieldSelector(sort_fields, sql_table, string.Format(Properties.Resource.SelectSortField, sql_table.Name));
                             field_selector.ShowDialog(this);
                         }
 
                         // get search fields
-                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAllPage) ||
+                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSearchPaged) ||
                             clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlCountSearch))
                         {
                             FieldSelector field_selector = new FieldSelector(search_fields, sql_table, string.Format(Properties.Resource.SelectSearchField, sql_table.Name));
@@ -1094,10 +1094,10 @@ namespace AutoCodeGen
                             sql_procedures.Add(CodeGenerator.GenerateSelectManyByXProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAll))
-                            sql_procedures.Add(CodeGenerator.GenerateSelectAllProc(sql_table, sort_fields, create_sql_permissions));
+                            sql_procedures.Add(CodeGenerator.GenerateSelectAllProc(sql_table, sort_fields, create_sql_permissions, false));
 
-                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAllPage))
-                            sql_procedures.Add(CodeGenerator.GenerateSelectAllPaginatedProc(sql_table, sort_fields, search_fields, create_sql_permissions));
+                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSearchPaged))
+                            sql_procedures.Add(CodeGenerator.GenerateSearchAllPaginatedProc(sql_table, sort_fields, search_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlUpdIns))
                             sql_procedures.Add(CodeGenerator.GenerateSetProc(sql_table, create_sql_permissions));

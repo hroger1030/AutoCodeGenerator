@@ -64,23 +64,23 @@ namespace AutoCodeGenLibrary
             return longest_column_length;
         }
 
-        protected static string PadVariableName(string input, int longest_string_length, int additional_characters, int tab_size)
+        protected static string PadVariableName(string input, int longestStringLength, int additionalCharacters, int tabSize)
         {
-            longest_string_length += tab_size + additional_characters;
-            int pad_length = longest_string_length + (tab_size - (longest_string_length % tab_size));
+            longestStringLength += tabSize + additionalCharacters;
+            int pad_length = longestStringLength + (tabSize - (longestStringLength % tabSize));
             return input.PadRight(pad_length, ' ');
         }
 
-        protected static string FindIdField(SqlTable sql_table)
+        protected static string FindIdField(SqlTable sqlTable)
         {
             // occasionally we might need to figure out a primary key for a table.
             // this method isn't perfect, but its a decent stab at the problem.
             // grab the first PK we have. If there is no PKs defined, grab the
             // first int we find.
 
-            if (sql_table.PkList.Count == 0)
+            if (sqlTable.PkList.Count == 0)
             {
-                foreach (var column in sql_table.Columns)
+                foreach (var column in sqlTable.Columns)
                 {
                     if (column.Value.BaseType == eSqlBaseType.Integer)
                         return column.Key;
@@ -91,17 +91,17 @@ namespace AutoCodeGenLibrary
             }
             else
             {
-                return sql_table.PkList[0].Name;
+                return sqlTable.PkList[0].Name;
             }
         }
 
-        protected static string FindNameField(SqlTable sql_table)
+        protected static string FindNameField(SqlTable sqlTable)
         {
             // occasionally we might need to figure out a friendly name field for 
             // a table. this method isn't perfect, but its a decent stab at the problem.
             // grab the first text field we have, and hope for the best.
 
-            foreach (var column in sql_table.Columns)
+            foreach (var column in sqlTable.Columns)
             {
                 if (column.Value.BaseType == eSqlBaseType.String)
                     return column.Key;
@@ -129,7 +129,7 @@ namespace AutoCodeGenLibrary
                     if (buffer.Contains(";"))
                         buffer = buffer.Replace(";", string.Empty);
 
-                    sb.AppendLine(string.Format("using {0};", buffer));
+                    sb.AppendLine($"using {buffer};");
                 }
             }
 

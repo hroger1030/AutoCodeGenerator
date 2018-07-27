@@ -24,7 +24,7 @@ namespace AutoCodeGenLibrary
         SelectMany,
         SelectManyByX,
         SelectAll,
-        SelectAllPag,
+        SearchPaged,
         Insert,
         Update,
         UpdateInsert,

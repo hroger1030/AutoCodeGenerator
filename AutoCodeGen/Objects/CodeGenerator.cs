@@ -632,7 +632,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@StartNumber", "Int", 4, "start_index"));
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@PageSize", "Int", 4, "page_size"));
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@SearchString", "VarChar", 50, "search_string"));
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAllPag, null) + "]\", parameters, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SearchPaged, null) + "]\", parameters, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
