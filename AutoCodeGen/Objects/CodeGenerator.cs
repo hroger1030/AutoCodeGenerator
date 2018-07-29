@@ -40,7 +40,6 @@ namespace AutoCodeGenLibrary
 
         protected readonly static string SQL_PARAMETER_TEMPLATE = "parameters.Add(new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }});";
 
-        // C# Code Generation
         public static OutputObject GenerateCSharpOrmClass(SqlTable sqlTable, List<string> namespaceIncludes, bool includeClassDecoration)
         {
             if (sqlTable == null)
@@ -55,7 +54,6 @@ namespace AutoCodeGenLibrary
             bool include_reset_class_method = false;
 
             string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
-            int longest_column = GetLongestColumnLength(sqlTable);
 
             var output = new OutputObject();
             output.Name = class_name + ".cs";
@@ -111,7 +109,7 @@ namespace AutoCodeGenLibrary
                 {
                     // format: 
                     // public static string Id = "Id";
-                    sb.AppendLine(AddTabs(3) + "public static string " + PadCSharpVariableName(NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column) + "= \"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\";");
+                    sb.AppendLine(AddTabs(3) + "public static string " + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "= \"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\";");
                 }
 
                 sb.AppendLine(AddTabs(2) + "}");
@@ -202,9 +200,7 @@ namespace AutoCodeGenLibrary
                 {
                     // format: 
                     // _State   = string.Empty;
-                    sb.Append(AddTabs(3));
-                    sb.Append(PadCSharpVariableName(NameFormatter.ToCSharpPrivateVariable(sql_column.Name), longest_column, 0));
-                    sb.Append("= " + NameFormatter.GetCSharpDefaultValue(sql_column) + ";" + Environment.NewLine);
+                    sb.Append(AddTabs(3) + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + " = " + NameFormatter.GetCSharpDefaultValue(sql_column) + ";" + Environment.NewLine);
                 }
 
                 sb.AppendLine(AddTabs(2) + "}");
@@ -383,7 +379,8 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateCSharpExternalOrmClass(SqlTable sqlTable, List<string> namespace_includes)
+
+        public static OutputObject GenerateCSharpExternalOrmClass(SqlTable sqlTable, List<string> namespaceIncludes)
         {
             if (sqlTable == null)
                 return null;
@@ -420,7 +417,8 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateCSharpDalClass(SqlTable sqlTable, List<string> namespace_includes, bool convert_nullable_fields, bool include_is_dirty_flag)
+
+        public static OutputObject GenerateCSharpDalClass(SqlTable sqlTable, List<string> namespaceIncludes, bool convertNullableFields, bool includeIsDirtyFlag)
         {
             #region SampleCode
             //public class FooClass
@@ -450,9 +448,8 @@ namespace AutoCodeGenLibrary
 
             string list_type = NameFormatter.ToCSharpClassName(sqlTable.Name);
             string sql_tablename = NameFormatter.ToTSQLName(sqlTable.Name);
-            string collection_type = "List<" + list_type + ">";
+            string collection_type = $"List<{list_type}>";
             string class_name = NameFormatter.ToCSharpClassName("Dal" + sqlTable.Name);
-            int longest_column = GetLongestColumnLength(sqlTable);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".cs";
@@ -469,7 +466,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
             sb.AppendLine("using DAL;");
-            sb.AppendLine(GenerateNamespaceIncludes(namespace_includes));
+            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
             #endregion
 
@@ -482,20 +479,11 @@ namespace AutoCodeGenLibrary
             #region Fields bloc
             ////////////////////////////////////////////////////////////////////////////////
 
-            sb.AppendLine(AddTabs(2) + "#region Fields");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(3) + "protected string _SQLConnection;");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(2) + "#endregion");
+            sb.AppendLine(AddTabs(2) + "protected string _SQLConnection;");
             sb.AppendLine();
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
-
-            sb.AppendLine(AddTabs(2) + "#region Methods");
-            sb.AppendLine();
 
             #region Default CTOR
             ////////////////////////////////////////////////////////////////////////////////
@@ -507,10 +495,11 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "public " + class_name + "(string sql_conn)");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "_SQLConnection = sql_conn;");
-            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(2) + $"public {class_name}(string sqlConn)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "_SQLConnection = sqlConn;");
+            sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
@@ -525,10 +514,10 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "public " + collection_type + " LoadAllFromDb()");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null) + "]\", null, _SQLConnection);");
-            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(2) + $"public {collection_type} LoadAllFromDb()");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + $"return Database.ExecuteQuerySp<{list_type}>(\"[{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}].[{sqlTable.Schema}].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null) + "]\", null, _SQLConnection);");
+            sb.AppendLine(AddTabs(2) + "}");
             sb.AppendLine();
 
             ////////////////////////////////////////////////////////////////////////////////
@@ -785,11 +774,11 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "public bool Save(" + list_type + " item)");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "var parameters = GetSqlParameterList(item);");
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null) + "]\", parameters, _SQLConnection) > 0;");
-            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(2) + "public bool Save(" + list_type + " item)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "var parameters = GetSqlParameterList(item);");
+            sb.AppendLine(AddTabs(3) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null) + "]\", parameters, _SQLConnection) > 0;");
+            sb.AppendLine(AddTabs(2) + "}");
             sb.AppendLine();
 
             ////////////////////////////////////////////////////////////////////////////////
@@ -808,7 +797,7 @@ namespace AutoCodeGenLibrary
 
             //    foreach (DataRow dr in dt.Rows)
             //    {
-            //        cGame obj = new cGame();
+            //        var obj = new cGame();
 
             //        obj.Id = Convert.ToInt32(dr["Id"]);
             //        obj.Name = Convert.ToString(dr["Name"]);
@@ -826,7 +815,7 @@ namespace AutoCodeGenLibrary
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "protected " + collection_type + " LoadFromDataTable(DataTable dt)");
+            sb.AppendLine(AddTabs(3) + $"protected {collection_type} LoadFromDataTable(DataTable dt)");
             sb.AppendLine(AddTabs(3) + "{");
 
             sb.AppendLine(AddTabs(4) + "if (dt == null || dt.Rows.Count < 1 || dt.Columns.Count < 1)");
@@ -838,12 +827,12 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(4) + "foreach (DataRow dr in dt.Rows)");
             sb.AppendLine(AddTabs(4) + "{");
-            sb.AppendLine(AddTabs(5) + PadCSharpVariableName(NameFormatter.ToCSharpClassName(sqlTable.Name) + " obj", longest_column) + "= new " + NameFormatter.ToCSharpClassName(sqlTable.Name) + "();");
+            sb.AppendLine(AddTabs(5) + NameFormatter.ToCSharpClassName(sqlTable.Name) + " obj = new " + NameFormatter.ToCSharpClassName(sqlTable.Name) + "();");
             sb.AppendLine();
 
             foreach (var sql_column in sqlTable.Columns.Values)
             {
-                sb.Append(AddTabs(5));
+                sb.Append(AddTabs(4));
 
                 if (sql_column.IsNullable)
                 {
@@ -852,21 +841,21 @@ namespace AutoCodeGenLibrary
                     {
                         case SqlDbType.Float:
 
-                            sb.Append(PadCSharpVariableName("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column));
+                            sb.Append("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name));
                             sb.Append("= (dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"] == DBNull.Value) ? null : ");
                             sb.Append("new double?(" + NameFormatter.GetCSharpCastString(sql_column) + "(dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]));");
                             break;
 
                         case SqlDbType.UniqueIdentifier:
 
-                            sb.Append(PadCSharpVariableName("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column));
+                            sb.Append("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name));
                             sb.Append("= (dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"] == DBNull.Value) ? null : ");
                             sb.Append("new Guid?(new Guid((string)dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]));");
                             break;
 
                         case SqlDbType.DateTime:
 
-                            sb.Append(PadCSharpVariableName("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column));
+                            sb.Append("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name));
                             sb.Append("= (dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"] == DBNull.Value) ? null : ");
                             sb.Append("new DateTime?(Convert.ToDateTime(dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]));");
                             break;
@@ -875,7 +864,7 @@ namespace AutoCodeGenLibrary
 
                         default:
 
-                            sb.Append(PadCSharpVariableName("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column));
+                            sb.Append("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name));
                             sb.Append("= (dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"] == DBNull.Value) ? null : ");
                             sb.Append(NameFormatter.GetCSharpCastString(sql_column) + "(dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]);");
                             break;
@@ -887,13 +876,13 @@ namespace AutoCodeGenLibrary
                     {
                         case SqlDbType.UniqueIdentifier:
 
-                            sb.Append(PadCSharpVariableName("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column));
+                            sb.Append("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name));
                             sb.Append("= new Guid((string)(dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]));");
                             break;
 
                         default:
 
-                            sb.Append(PadCSharpVariableName("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column));
+                            sb.Append("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name));
                             sb.Append("= " + NameFormatter.GetCSharpCastString(sql_column) + "(dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]);");
                             break;
                     }
@@ -919,7 +908,7 @@ namespace AutoCodeGenLibrary
             #region Code Sample
             //protected DataTable ConvertToDataTable(List<cGame> collection)
             //{
-            //    DataTable dt = new DataTable();
+            //    var dt = new DataTable();
 
             //    dt.Columns.Add("Id", typeof(int));
             //    dt.Columns.Add("Name", typeof(string));
@@ -929,7 +918,7 @@ namespace AutoCodeGenLibrary
 
             //    foreach (var obj in collection)
             //    {
-            //        DataRow dr = dt.NewRow();
+            //        var dr = dt.NewRow();
 
             //        dr["Id"]            = obj.Id;
             //        dr["Name"]          = obj.Name;
@@ -944,7 +933,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "protected DataTable ConvertToDataTable(" + collection_type + " collection)");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "DataTable dt = new DataTable();");
+            sb.AppendLine(AddTabs(4) + "var dt = new DataTable();");
             sb.AppendLine();
 
             // dt.Columns.Add("Name", typeof(string));
@@ -957,13 +946,13 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(4) + "foreach (var obj in collection)");
             sb.AppendLine(AddTabs(4) + "{");
-            sb.AppendLine(AddTabs(5) + "DataRow dr = dt.NewRow();");
+            sb.AppendLine(AddTabs(5) + "var dr = dt.NewRow();");
             sb.AppendLine();
 
             foreach (var sql_column in sqlTable.Columns.Values)
             {
                 sb.Append(AddTabs(5));
-                sb.Append(PadCSharpVariableName("dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]", longest_column + 7));
+                sb.Append("dr[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"]");
                 sb.Append("= obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";" + Environment.NewLine);
             }
 
@@ -986,28 +975,25 @@ namespace AutoCodeGenLibrary
             //{
             //    return new SqlParameter[]
             //    {
-            //            new SqlParameter() { ParameterName = "AccountId", SqlDbType = SqlDbType.Int, Value = accountId },
+            //          new SqlParameter() { ParameterName = "AccountId", SqlDbType = SqlDbType.Int, Value = accountId },
             //    };
             //}
             #endregion
 
-            sb.AppendLine(AddTabs(3) + "protected SqlParameter[] GetSqlParameterList(" + NameFormatter.ToCSharpClassName(sqlTable.Name) + " obj)");
+            sb.AppendLine(AddTabs(2) + "protected SqlParameter[] GetSqlParameterList(" + NameFormatter.ToCSharpClassName(sqlTable.Name) + " obj)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "return new SqlParameter[]");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return new SqlParameter[]");
-            sb.AppendLine(AddTabs(4) + "{");
 
             // build parameter collection here
             foreach (var sql_column in sqlTable.Columns.Values)
-                sb.AppendLine(AddTabs(5) + NameFormatter.ToCSharpSQLParameterTypeString(sql_column, convert_nullable_fields));
+                sb.AppendLine(AddTabs(4) + NameFormatter.ToCSharpSQLParameterTypeString(sql_column, convertNullableFields));
 
-            sb.AppendLine(AddTabs(4) + "};");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine();
+            sb.AppendLine(AddTabs(3) + "};");
+            sb.AppendLine(AddTabs(2) + "}");
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
-
-            sb.AppendLine(AddTabs(2) + "#endregion");
 
             sb.AppendLine(AddTabs(1) + "}");
             sb.AppendLine("}");
@@ -1016,7 +1002,8 @@ namespace AutoCodeGenLibrary
 
             return output;
         }
-        public static OutputObject GenerateCSharpExternalDalClass(SqlTable sqlTable, List<string> namespace_includes)
+
+        public static OutputObject GenerateCSharpExternalDalClass(SqlTable sqlTable, List<string> namespaceIncludes)
         {
             #region SampleCode
             //public partial class FooClass
@@ -1047,7 +1034,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
             sb.AppendLine("using DAL;");
-            sb.AppendLine(GenerateNamespaceIncludes(namespace_includes));
+            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
             #endregion
 
@@ -1063,7 +1050,8 @@ namespace AutoCodeGenLibrary
 
             return output;
         }
-        public static OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespace_includes, bool include_is_dirty_flag)
+
+        public static OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespaceIncludes, bool include_is_dirty_flag)
         {
             if (sqlTable == null)
                 return null;
@@ -1091,7 +1079,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System.Data;");
             sb.AppendLine();
 
-            sb.AppendLine(GenerateNamespaceIncludes(namespace_includes));
+            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
             #endregion
 
@@ -1130,6 +1118,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+
         public static OutputObject GenerateCSharpEnumeration(SqlTable sqlTable, string string_column, string value_column, DataTable data_table)
         {
             if (sqlTable == null)
@@ -1175,6 +1164,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+
         public static OutputObject GenerateCSharpBaseClass(string database_name)
         {
             if (string.IsNullOrEmpty(database_name))
@@ -1249,31 +1239,29 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static DataTable GenerateSqlTableData(string database_name, string table_name, string connection_string)
+        public static DataTable GenerateSqlTableData(SqlTable sqlTable, string connection_string)
         {
-            if (string.IsNullOrEmpty(database_name))
-                throw new ArgumentException("database name is null or empty");
+            if (sqlTable == null)
+                throw new ArgumentException("SqlTable is null");
 
-            if (string.IsNullOrEmpty(table_name))
-                throw new ArgumentException("table name is null or empty");
-
-            string query = "SELECT * FROM [" + database_name + "].[dbo].[" + table_name + "]";
+            string query = $"SELECT * FROM [{sqlTable.Database.Name}].[{sqlTable.Schema}].[{sqlTable.Name}]";
             var db = new Database(connection_string);
 
             DataTable data_table = db.ExecuteQuery(query, null);
-            data_table.TableName = table_name;
+            data_table.TableName = sqlTable.Name;
 
             return data_table;
         }
-        public static OutputObject GenerateXmlLoader(SqlTable sql_table)
+
+        public static OutputObject GenerateXmlLoader(SqlTable sqlTable)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string object_name = NameFormatter.ToCSharpClassName(sql_table.Name);
+            string object_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
             string class_name = object_name + "DataLoader";
             string collection_type = "List<" + object_name + ">";
-            int longest_column = GetLongestColumnLength(sql_table) + sql_table.Name.Length;
+            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".cs";
@@ -1292,7 +1280,7 @@ namespace AutoCodeGenLibrary
 
             #endregion
 
-            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "[Serializable]");
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
@@ -1343,14 +1331,14 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(5) + "document = new XmlDocument();");
             sb.AppendLine(AddTabs(5) + "document.InnerXml = xml;");
             sb.AppendLine();
-            sb.AppendLine(AddTabs(5) + "selected_nodes = document.SelectNodes(\"//" + NameFormatter.ToCSharpPropertyName(sql_table.Name) + "\");");
+            sb.AppendLine(AddTabs(5) + "selected_nodes = document.SelectNodes(\"//" + NameFormatter.ToCSharpPropertyName(sqlTable.Name) + "\");");
             sb.AppendLine();
             sb.AppendLine(AddTabs(5) + "foreach (XmlNode item in selected_nodes)");
             sb.AppendLine(AddTabs(5) + "{");
             sb.AppendLine(AddTabs(6) + "item_data = new " + object_name + "();");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 // format: 
                 // critter_data.Name       = item.Attributes["Name"].Value;

@@ -58,7 +58,7 @@ namespace AutoCodeGen
         private static readonly string _Salt = "AutoCodeGenSalt";
 
         // Misc
-        private static string[] _FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.aspx", "*.ascx", "*.master", "*.css", "*.asmx " };
+        private static string[] _FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.aspx", "*.ascx", "*.master", "*.css" };
         private static string[] _DirectoriesUsed = { s_DirectoryAspPages, s_DirectoryOrm, s_DirectoryOrmExt, s_DirectoryDal, s_DirectoryDalExt, s_DirectoryWebService, s_DirectoryInterface, s_DirectoryWinforms, s_DirectoryXMlData, s_DirectoryEnums };
         private static HashSet<string> _FilteredTableNames = new HashSet<string>() { "master", "model", "msdb", "tempdb" };
 
@@ -978,6 +978,7 @@ namespace AutoCodeGen
 
                     FileIo.WriteToFile(file_name, script);
                 }
+
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpCreateBaseClass))
                 {
                     output = CodeGenerator.GenerateCSharpBaseClass(_DatabaseName);
@@ -985,6 +986,7 @@ namespace AutoCodeGen
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
+
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateMasterPage))
                 {
                     // grab a list of all the selected tables
@@ -1003,6 +1005,7 @@ namespace AutoCodeGen
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
+
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateCSSPage))
                 {
                     output = CodeGeneratorAspDotNet.GenerateCSSSheet(_DatabaseName);
@@ -1014,6 +1017,7 @@ namespace AutoCodeGen
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
+
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateWebConfig))
                 {
                     output = CodeGeneratorAspDotNet.GenerateWebConfig(_Conn.ToConfigString());
@@ -1021,6 +1025,7 @@ namespace AutoCodeGen
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
+
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateDefaultPage))
                 {
                     output = CodeGeneratorAspDotNet.GenerateDefaultPageCodeInFront(sql_database.Name);
@@ -1084,7 +1089,22 @@ namespace AutoCodeGen
                         // hard coded to false for now....
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelSingle))
-                            sql_procedures.Add(CodeGenerator.GenerateSelectSingleProc(sql_table, create_sql_permissions, false));
+                        {
+                            // temp hack - trying out new subscription model
+
+                            GeneratorManifest manifest = new GeneratorManifest();
+
+                            manifest.SearchFields = search_fields;
+                            manifest.SelectFields = select_fields;
+                            manifest.SortFields = sort_fields;
+
+                            manifest.SetOptionState(CodeGenerator.INCLUDE_DISABLED_CHECK, GeneratorManifest.OptionsState.False);
+                            manifest.SetOptionState(CodeGenerator.GENERATE_STORED_PROC_PERMS, (create_sql_permissions == true) ? GeneratorManifest.OptionsState.True : GeneratorManifest.OptionsState.False);
+
+                            // other settings?
+
+                            sql_procedures.Add(CodeGenerator.GenerateSelectSingleProc(sql_table, manifest));
+                        }
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany))
                             sql_procedures.Add(CodeGenerator.GenerateSelectManyProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
@@ -1140,6 +1160,7 @@ namespace AutoCodeGen
                     DisplayMessage("SQL objects created.", false);
                 }
                 #endregion
+
                 #region C# Code Generation
                 if (clbCsharpSqlTables.CheckedItems.Count > 0 && clbCsharpObjects.CheckedItems.Count > 0)
                 {
@@ -1202,7 +1223,7 @@ namespace AutoCodeGen
                             else
                             {
                                 // we have table metadata, get table data
-                                DataTable data_table = CodeGenerator.GenerateSqlTableData(_DatabaseName, table_name, this._Conn.ToString());
+                                DataTable data_table = CodeGenerator.GenerateSqlTableData(current_table, _Conn.ToString());
 
                                 output = CodeGenerator.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], data_table);
                                 file_name = Combine(_OutputPath, s_DirectoryEnums, output.Name);
@@ -1214,6 +1235,7 @@ namespace AutoCodeGen
                     DisplayMessage("C# objects created", false);
                 }
                 #endregion
+
                 #region Winform Code Generation
                 if (clbWinformSqlTables.CheckedItems.Count > 0 && clbWinformObjects.CheckedItems.Count > 0)
                 {
@@ -1265,6 +1287,7 @@ namespace AutoCodeGen
                     DisplayMessage("Winform objects created", false);
                 }
                 #endregion
+
                 #region WebService Code Generation
                 if (clbWebServiceSqlTables.CheckedItems.Count > 0 && clbWebServiceObjects.CheckedItems.Count > 0)
                 {
@@ -1272,11 +1295,7 @@ namespace AutoCodeGen
                     {
                         SqlTable current_table = sql_database.Tables[table_name];
 
-                        output = CodeGeneratorWebservice.GenerateWebServiceCodeInfrontClass(current_table);
-                        file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
-                        FileIo.WriteToFile(file_name, output.Body);
-
-                        output = CodeGeneratorWebservice.GenerateWebServiceCodeBehindClass(current_table, _NamespaceIncludes);
+                        output = CodeGeneratorWebservice.GenerateWebServiceControllerClass(current_table, _NamespaceIncludes);
                         file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
                     }
@@ -1285,6 +1304,7 @@ namespace AutoCodeGen
                 }
 
                 #endregion
+
                 #region Aspx Code Generation
                 if (clbAspSqlTables.CheckedItems.Count > 0 && clbAspObjects.CheckedItems.Count > 0)
                 {
@@ -1329,6 +1349,7 @@ namespace AutoCodeGen
                     DisplayMessage("ASP objects created.", false);
                 }
                 #endregion
+
                 #region XML Generation
                 // XML Output
                 if (clbXmlSqlTables.CheckedItems.Count > 0 && this.clbXmlOptionsTables.CheckedItems.Count > 0)
@@ -1350,14 +1371,12 @@ namespace AutoCodeGen
                         // Xml Export
                         if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlExportData))
                         {
-                            DataTable data_table = CodeGenerator.GenerateSqlTableData(_DatabaseName, table_name, _Conn.ToString());
+                            DataTable data_table = CodeGenerator.GenerateSqlTableData(current_table, _Conn.ToString());
 
                             if (generate_with_attributes)
                             {
                                 foreach (DataColumn column in data_table.Columns)
-                                {
                                     column.ColumnMapping = MappingType.Attribute;
-                                }
                             }
 
                             data_table.TableName = table_name;

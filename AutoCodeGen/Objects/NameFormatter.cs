@@ -130,7 +130,7 @@ namespace AutoCodeGenLibrary
             if (sqlColumn.IsNullable && !convertNullableFields)
                 column_value = $"(obj.{property_name} == null) ? (object)DBNull.Value : obj.{property_name}";
             else
-                column_value = $"obj.{property_name};";
+                column_value = $"obj.{property_name}";
 
             // only set length on columns that can actually vary
             switch (sqlColumn.SqlDataType)

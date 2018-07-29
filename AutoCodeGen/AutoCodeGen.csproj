@@ -79,19 +79,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\eCSharpVersion.cs" />
+    <Compile Include="Enums\eCategory.cs" />
     <Compile Include="Enums\eSqlServerVersion.cs" />
+    <Compile Include="Enums\eLanguage.cs" />
     <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\IGenerator.cs" />
     <Compile Include="Objects\CodeGeneratorWebservice.cs" />
     <Compile Include="Objects\CodeGeneratorAspDotNet.cs" />
     <Compile Include="Objects\CodeGeneratorWinform.cs" />
     <Compile Include="Objects\CodeGeneratorBase.cs" />
     <Compile Include="Objects\CodeGeneratorSql.cs" />
     <Compile Include="Objects\ConnectionString.cs" />
+    <Compile Include="Objects\GeneratorManifest.cs" />
     <Compile Include="Objects\OutputObject.cs" />
     <Compile Include="Objects\CodeGenerator.cs" />
     <Compile Include="Enums\eIncludedFields.cs" />

@@ -26,7 +26,7 @@ using DAL.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public partial class CodeGenerator : CodeGeneratorBase
+    public partial class CodeGenerator : CodeGeneratorBase, IGenerator
     {
         private static string _SpNamePrefix = ConfigurationManager.AppSettings["SpNamePrefix"];
         private static string _SelectSingleByXSpSuffix = ConfigurationManager.AppSettings["SelectSingleByXSpSuffix"];
@@ -40,14 +40,55 @@ namespace AutoCodeGenLibrary
         private static string _DelAllSpSuffix = ConfigurationManager.AppSettings["DelAllSpSuffix"];
         private static string _DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
         private static string _DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
-
         private static string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
-        private static int _SQLTabSize = Convert.ToInt32(ConfigurationManager.AppSettings["SQLTabSize"]);
 
-        public static OutputObject GenerateSelectSingleProc(SqlTable sqlTable, bool generateStoredProcPerms, bool includeDisabledCheck)
+        public const string GENERATE_STORED_PROC_PERMS = "Generate Stored Proc Perms";
+        public const string INCLUDE_DISABLED_CHECK = "Include Disabled Check";
+
+        public CodeGenerator()
+        {
+        }
+
+        public eLanguage Language
+        {
+            get { return eLanguage.MsSql; }
+        }
+        public eCategory Category
+        {
+            get { return eCategory.Database; }
+        }
+        public Dictionary<string, string> Methods
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                {
+                    { "Select Single By Id", "GenerateSelectSingleProc" },
+                    { "Select Many By List", "GenerateSelectManyProc" },
+                    { "Select Many By Criteria", "GenerateSelectManyByXProc" },
+                    // todo: moar
+                };
+            }
+        }
+        public Dictionary<string, bool> Options
+        {
+            get
+            {
+                return new Dictionary<string, bool>()
+                {
+                    { GENERATE_STORED_PROC_PERMS, false},
+                    { INCLUDE_DISABLED_CHECK, false},
+                };
+            }
+        }
+
+        public static OutputObject GenerateSelectSingleProc(SqlTable sqlTable, GeneratorManifest manifest)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
+
+            if (manifest == null)
+                throw new ArgumentException("Manifest cannot be null");
 
             // todo: add in pk name list
 
@@ -106,7 +147,7 @@ namespace AutoCodeGenLibrary
                 }
             }
 
-            if (includeDisabledCheck)
+            if (manifest.GetOptionState(INCLUDE_DISABLED_CHECK) == GeneratorManifest.OptionsState.True)
                 sb.AppendLine($"{join_conjunction}{NameFormatter.ToTSQLName(sqlTable.Name)}.[Disabled] = 0");
 
             #endregion
@@ -114,7 +155,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("GO");
             sb.AppendLine();
 
-            if (generateStoredProcPerms)
+
+            if (manifest.GetOptionState(GENERATE_STORED_PROC_PERMS) == GeneratorManifest.OptionsState.True)
             {
                 sb.AppendLine(GenerateSqlStoredProcPerms(procedure_name));
                 sb.AppendLine();
@@ -148,7 +190,7 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GeneratePkTableType(sqlTable, selectFields[0]));
+            sb.AppendLine(GenerateSinglePkTableType(sqlTable, selectFields[0]));
             sb.AppendLine();
 
             // sample test:
@@ -923,7 +965,7 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GeneratePkTableType(sqlTable, selectFields[0]));
+            sb.AppendLine(GenerateSinglePkTableType(sqlTable, selectFields[0]));
             sb.AppendLine();
 
             // sample test:
@@ -1259,7 +1301,7 @@ namespace AutoCodeGenLibrary
 
         // helper script methods
 
-        private static string GeneratePkTableType(SqlTable sqlTable, string columnName)
+        private static string GenerateSinglePkTableType(SqlTable sqlTable, string columnName)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -1626,11 +1668,5 @@ namespace AutoCodeGenLibrary
 
         //    return sb.ToString();
         //}
-
-        // formatting methods
-        private static string PadSqlVariableName(string input, int longestStringLength)
-        {
-            return PadVariableName(input, longestStringLength, 0, _SQLTabSize);
-        }
     }
 }
