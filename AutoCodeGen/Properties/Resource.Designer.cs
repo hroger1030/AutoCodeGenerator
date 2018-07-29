@@ -439,24 +439,6 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Count All Rows.
-        /// </summary>
-        internal static string SqlCountAll {
-            get {
-                return ResourceManager.GetString("SqlCountAll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Count Search Rows.
-        /// </summary>
-        internal static string SqlCountSearch {
-            get {
-                return ResourceManager.GetString("SqlCountSearch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Delete All Rows.
         /// </summary>
         internal static string SqlDelAll {
@@ -466,7 +448,7 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete Many Rows.
+        ///   Looks up a localized string similar to Delete Many Rows (By List).
         /// </summary>
         internal static string SqlDelMany {
             get {
@@ -475,7 +457,7 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete Single Row.
+        ///   Looks up a localized string similar to Delete Single Row (By List).
         /// </summary>
         internal static string SqlDelSingle {
             get {
@@ -484,7 +466,16 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search Paginated.
+        ///   Looks up a localized string similar to Insert Single Row.
+        /// </summary>
+        internal static string SqlIns {
+            get {
+                return ResourceManager.GetString("SqlIns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search (Paginated).
         /// </summary>
         internal static string SqlSearchPaged {
             get {
@@ -502,7 +493,7 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select Many Rows.
+        ///   Looks up a localized string similar to Select Many Rows (By List).
         /// </summary>
         internal static string SqlSelMany {
             get {
@@ -511,7 +502,7 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select Many Rows By (X).
+        ///   Looks up a localized string similar to Select Many Rows (By Criteria).
         /// </summary>
         internal static string SqlSelManyByX {
             get {
@@ -520,11 +511,20 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select Single Row.
+        ///   Looks up a localized string similar to Select Single Row (By List).
         /// </summary>
         internal static string SqlSelSingle {
             get {
                 return ResourceManager.GetString("SqlSelSingle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Single Row.
+        /// </summary>
+        internal static string SqlUpd {
+            get {
+                return ResourceManager.GetString("SqlUpd", resourceCulture);
             }
         }
         
@@ -534,15 +534,6 @@ namespace AutoCodeGen.Properties {
         internal static string SqlUpdIns {
             get {
                 return ResourceManager.GetString("SqlUpdIns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DataTable data_table =.
-        /// </summary>
-        internal static string String {
-            get {
-                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         

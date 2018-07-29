@@ -31,7 +31,5 @@ namespace AutoCodeGenLibrary
         DelSingle,
         DelMany,
         DelAll,
-        CountAll,
-        CountSearch,
      }
 }

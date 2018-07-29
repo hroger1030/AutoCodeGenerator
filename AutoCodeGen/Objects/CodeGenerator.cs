@@ -515,52 +515,6 @@ namespace AutoCodeGenLibrary
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
 
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(3) + "// Public Methods");
-
-            #region GetCountFromDb
-            ////////////////////////////////////////////////////////////////////////////////
-
-            #region Code Sample
-            //public int GetCountFromDb()
-            //{
-            //    return Database.ExecuteScalarSp<int>("[GalacticConquest].[dbo].[up_Game_CountAll]", null, _SQLConnection);
-            //}
-            #endregion
-
-            sb.AppendLine(AddTabs(3) + "public int GetCountFromDb()");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteScalarSp<int>(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.CountAll, null) + "]\", null, _SQLConnection);");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine();
-
-            ////////////////////////////////////////////////////////////////////////////////
-            #endregion
-
-            #region GetSearchCountFromDb
-            ////////////////////////////////////////////////////////////////////////////////
-
-            #region Code Sample
-            //public int GetSearchCountFromDb(string search_string)
-            //{
-            //    List<SqlParameter> parameters = new List<SqlParameter>();
-            //    parameters.Add(new SqlParameter() { ParameterName = "@SearchString", SqlDbType = SqlDbType.VarChar, Size = 50, Value = search_string });
-            //    return Database.ExecuteScalarSp<int>("[GalacticConquest].[dbo].[up_Game_CountSearch]", parameters, _SQLConnection);
-            //}
-            #endregion
-
-            sb.AppendLine(AddTabs(3) + "public int GetSearchCountFromDb(string search_string)");
-            sb.AppendLine(AddTabs(3) + "{");
-
-            sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
-            sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@SearchString", "VarChar", 50, "search_string"));
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteScalarSp<int>(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.CountSearch, null) + "]\", parameters, _SQLConnection);");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine();
-
-            ////////////////////////////////////////////////////////////////////////////////
-            #endregion
-
             #region LoadAllFromDb
             ////////////////////////////////////////////////////////////////////////////////
 

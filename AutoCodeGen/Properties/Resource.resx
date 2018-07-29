@@ -264,24 +264,16 @@
     <value>Sql 1997</value>
     <comment>Sql Target Version</comment>
   </data>
-  <data name="SqlCountAll" xml:space="preserve">
-    <value>Count All Rows</value>
-    <comment>Tsql Options</comment>
-  </data>
-  <data name="SqlCountSearch" xml:space="preserve">
-    <value>Count Search Rows</value>
-    <comment>Tsql Options</comment>
-  </data>
   <data name="SqlDelAll" xml:space="preserve">
     <value>Delete All Rows</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlDelMany" xml:space="preserve">
-    <value>Delete Many Rows</value>
+    <value>Delete Many Rows (By List)</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlDelSingle" xml:space="preserve">
-    <value>Delete Single Row</value>
+    <value>Delete Single Row (By List)</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlSelAll" xml:space="preserve">
@@ -289,19 +281,19 @@
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlSearchPaged" xml:space="preserve">
-    <value>Search Paginated</value>
+    <value>Search (Paginated)</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlSelMany" xml:space="preserve">
-    <value>Select Many Rows</value>
+    <value>Select Many Rows (By List)</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlSelManyByX" xml:space="preserve">
-    <value>Select Many Rows By (X)</value>
+    <value>Select Many Rows (By Criteria)</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlSelSingle" xml:space="preserve">
-    <value>Select Single Row</value>
+    <value>Select Single Row (By List)</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlUpdIns" xml:space="preserve">
@@ -363,7 +355,12 @@
     <value>Create C# Xml import class </value>
     <comment>Xml Options</comment>
   </data>
-  <data name="String" xml:space="preserve">
-    <value>DataTable data_table =</value>
+  <data name="SqlIns" xml:space="preserve">
+    <value>Insert Single Row</value>
+    <comment>Tsql Options</comment>
+  </data>
+  <data name="SqlUpd" xml:space="preserve">
+    <value>Update Single Row</value>
+    <comment>Tsql Options</comment>
   </data>
 </root>

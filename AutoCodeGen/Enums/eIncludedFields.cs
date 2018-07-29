@@ -22,6 +22,7 @@ namespace AutoCodeGenLibrary
     {
         All,
         PKOnly,
-        NoIdentities
+        NoIdentities,
+        None,
     }
 }

@@ -58,12 +58,11 @@ namespace AutoCodeGen
         private static readonly string _Salt = "AutoCodeGenSalt";
 
         // Misc
-        private static string[] s_FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.aspx", "*.ascx", "*.master", "*.css", "*.asmx " };
-        private static string[] s_DirectoriesUsed = { s_DirectoryAspPages, s_DirectoryOrm, s_DirectoryOrmExt, s_DirectoryDal, s_DirectoryDalExt, s_DirectoryWebService, s_DirectoryInterface, s_DirectoryWinforms, s_DirectoryXMlData, s_DirectoryEnums };
+        private static string[] _FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.aspx", "*.ascx", "*.master", "*.css", "*.asmx " };
+        private static string[] _DirectoriesUsed = { s_DirectoryAspPages, s_DirectoryOrm, s_DirectoryOrmExt, s_DirectoryDal, s_DirectoryDalExt, s_DirectoryWebService, s_DirectoryInterface, s_DirectoryWinforms, s_DirectoryXMlData, s_DirectoryEnums };
         private static HashSet<string> _FilteredTableNames = new HashSet<string>() { "master", "model", "msdb", "tempdb" };
 
         private static int MAX_MESSAGES = 50;
-
 
         private AesEncryption _AesEncryption;
         private ConnectionString _Conn;
@@ -229,12 +228,12 @@ namespace AutoCodeGen
                     Properties.Resource.SqlSelManyByX,
                     Properties.Resource.SqlSelAll,
                     Properties.Resource.SqlSearchPaged,
+                    Properties.Resource.SqlUpd,
+                    Properties.Resource.SqlIns,
                     Properties.Resource.SqlUpdIns,
                     Properties.Resource.SqlDelSingle,
                     Properties.Resource.SqlDelMany,
                     Properties.Resource.SqlDelAll,
-                    Properties.Resource.SqlCountAll,
-                    Properties.Resource.SqlCountSearch,
             });
 
             cmbSQLVersion.Items.Clear();
@@ -439,7 +438,7 @@ namespace AutoCodeGen
 
             try
             {
-                foreach (string file_extension in s_FileExtensionsUsed)
+                foreach (string file_extension in _FileExtensionsUsed)
                 {
                     string[] delete_list = Directory.GetFiles(_OutputPath, file_extension);
 
@@ -447,7 +446,7 @@ namespace AutoCodeGen
                         File.Delete(file_name);
                 }
 
-                foreach (string folder_name in s_DirectoriesUsed)
+                foreach (string folder_name in _DirectoriesUsed)
                 {
                     if (Directory.Exists(application_path + folder_name))
                         FileIo.DeleteDirectoryTree(_OutputPath + folder_name);
@@ -1058,8 +1057,7 @@ namespace AutoCodeGen
                         }
 
                         // get search fields
-                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSearchPaged) ||
-                            clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlCountSearch))
+                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSearchPaged))
                         {
                             FieldSelector field_selector = new FieldSelector(search_fields, sql_table, string.Format(Properties.Resource.SelectSearchField, sql_table.Name));
                             field_selector.ShowDialog(this);
@@ -1067,7 +1065,8 @@ namespace AutoCodeGen
 
                         // get select fields
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX) ||
-                            clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany))
+                            clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany) ||
+                            clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlDelMany))
                         {
                             FieldSelector field_selector = new FieldSelector(select_fields, sql_table, string.Format(Properties.Resource.SelectSelectField, sql_table.Name));
                             field_selector.ShowDialog(this);
@@ -1097,7 +1096,13 @@ namespace AutoCodeGen
                             sql_procedures.Add(CodeGenerator.GenerateSelectAllProc(sql_table, sort_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSearchPaged))
-                            sql_procedures.Add(CodeGenerator.GenerateSearchAllPaginatedProc(sql_table, sort_fields, search_fields, create_sql_permissions, false));
+                            sql_procedures.Add(CodeGenerator.GeneratePaginatedSearchProc(sql_table, sort_fields, search_fields, create_sql_permissions, false));
+
+                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlUpd))
+                            sql_procedures.Add(CodeGenerator.GenerateUpdateProc(sql_table, create_sql_permissions));
+
+                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlIns))
+                            sql_procedures.Add(CodeGenerator.GenerateInsertProc(sql_table, create_sql_permissions));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlUpdIns))
                             sql_procedures.Add(CodeGenerator.GenerateSetProc(sql_table, create_sql_permissions));
@@ -1106,19 +1111,13 @@ namespace AutoCodeGen
                             sql_procedures.Add(CodeGenerator.GenerateDeleteSingleProc(sql_table, create_sql_permissions));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlDelMany))
-                            sql_procedures.Add(CodeGenerator.GenerateDeleteManyProc(sql_table, create_sql_permissions));
+                            sql_procedures.Add(CodeGenerator.GenerateDeleteManyProc(sql_table, select_fields, create_sql_permissions));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlDelAll))
                             sql_procedures.Add(CodeGenerator.GenerateDeleteAllProc(sql_table, create_sql_permissions));
 
-                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlCountAll))
-                            sql_procedures.Add(CodeGenerator.GenerateCountAllProc(sql_table, create_sql_permissions));
-
-                        if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlCountSearch))
-                            sql_procedures.Add(CodeGenerator.GenerateCountSearchProc(sql_table, search_fields, create_sql_permissions));
-
                         // build one script or many?
-                        if (this.clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLSeperateFiles))
+                        if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLSeperateFiles))
                         {
                             string sql_header = sb.ToString();
 
