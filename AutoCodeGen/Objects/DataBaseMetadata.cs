@@ -18,10 +18,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace AutoCodeGenLibrary
 {
-    public class DataBaseMetadata
+    public class DatabaseMetadata
     {
         public string TableName { get; set; }
 
-        public DataBaseMetadata() { }
+        public DatabaseMetadata() { }
     }
 }

@@ -35,6 +35,7 @@ namespace AutoCodeGenLibrary
         public List<string> SortFields { get; set; }
         public List<string> SelectFields { get; set; }
         public List<string> SearchFields { get; set; }
+        public List<string> NamespaceIncludes { get; set; }
 
         public GeneratorManifest()
         {

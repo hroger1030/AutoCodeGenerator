@@ -70,6 +70,7 @@ namespace AutoCodeGen
         private string _DatabaseName;
         private string _OutputPath;
         private List<string> _NamespaceIncludes;
+        private HashSet<IGenerator> _RegisteredGenerators;
 
         // Counts to help manage onChecked events for checkboxlists.
         // When event is fired, change has not been applied to object 
@@ -109,6 +110,10 @@ namespace AutoCodeGen
                 _DatabaseName = string.Empty;
                 _OutputPath = string.Empty;
                 _NamespaceIncludes = new List<string>();
+                _RegisteredGenerators = new HashSet<IGenerator>();
+
+                _RegisteredGenerators.Add(new CodeGenerator());
+                _RegisteredGenerators.Add(new CodeGeneratorSql());
 
                 // display version info
                 lblVersion.Text = "Version " + Application.ProductVersion;
@@ -397,7 +402,6 @@ namespace AutoCodeGen
         }
 
         // UI Label changes
-
         protected void SetConnectStatusLabel(string message)
         {
             if (lblConnectStatus.InvokeRequired)
@@ -1231,10 +1235,7 @@ namespace AutoCodeGen
                             }
                             else
                             {
-                                // we have table metadata, get table data
-                                DataTable data_table = code_generator.GenerateSqlTableData(current_table, _Conn.ToString());
-
-                                output = code_generator.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], data_table);
+                                output = code_generator.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], _Conn.ToString());
                                 file_name = Combine(_OutputPath, s_DirectoryEnums, output.Name);
                                 FileIo.WriteToFile(file_name, output.Body);
                             }
@@ -1431,13 +1432,13 @@ namespace AutoCodeGen
 
                 var db = new Database(_Conn.ToString());
 
-                Func<SqlDataReader, List<DataBaseMetadata>> processer = delegate (SqlDataReader reader)
+                Func<SqlDataReader, List<DatabaseMetadata>> processer = delegate (SqlDataReader reader)
                 {
-                    var output = new List<DataBaseMetadata>();
+                    var output = new List<DatabaseMetadata>();
 
                     while (reader.Read())
                     {
-                        var buffer = new DataBaseMetadata();
+                        var buffer = new DatabaseMetadata();
 
                         buffer.TableName = (string)reader["DATABASE_NAME"];
 

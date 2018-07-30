@@ -24,13 +24,55 @@ using DAL.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public class CodeGeneratorAspDotNet : CodeGeneratorBase
+    public class CodeGeneratorAspDotNet : CodeGeneratorBase, IGenerator
     {
+        public static readonly string CREATE_AS_ASP_CONTROL = "Create As Asp Control";
+
+        public eLanguage Language
+        {
+            get { return eLanguage.Csharp; }
+        }
+        public eCategory Category
+        {
+            get { return eCategory.WebApp; }
+        }
+        public Dictionary<string, string> Methods
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                {
+                    { "CSS Sheet", "GenerateCSSSheet" },
+                    { "Web Config", "GenerateWebConfig" },
+                    { "Master Page Code In Front", "GenerateMasterPageCodeInFront" },
+                    { "Master Page Code Behind", "GenerateMasterPageCodeBehind" },
+                    { "Code Generator Asp", "CodeGeneratorAsp" },
+                    { "Web Edit Page Code In Front", "GenerateWebEditPageCodeInFront" },
+                    { "Web Edit Page Code Behind", "GenerateWebEditPageCodeBehind" },
+                    { "Web List Page Code In Front", "GenerateWebListPageCodeInFront" },
+                    { "Web List Page Code Behind", "GenerateWebListPageCodeBehind" },
+                    { "Default Page Code In Front", "GenerateDefaultPageCodeInFront" },
+                    { "Default Page Code Behind", "GenerateDefaultPageCodeBehind" },
+                    { "Web View Page Code In Front", "GenerateWebViewPageCodeInFront" },
+                };
+            }
+        }
+        public Dictionary<string, bool> Options
+        {
+            get
+            {
+                return new Dictionary<string, bool>()
+                {
+                    { CREATE_AS_ASP_CONTROL, false},
+                };
+            }
+        }
+
         public CodeGeneratorAspDotNet() { }
 
-        public OutputObject GenerateCSSSheet(string database_name)
+        public OutputObject GenerateCSSSheet(string databaseName)
         {
-            if (string.IsNullOrEmpty(database_name))
+            if (string.IsNullOrEmpty(databaseName))
                 return null;
 
             OutputObject output = new OutputObject();
@@ -291,9 +333,9 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateWebConfig(string connection_string)
+        public OutputObject GenerateWebConfig(string connectionString)
         {
-            if (connection_string == null)
+            if (connectionString == null)
                 return null;
 
             var output = new OutputObject();
@@ -310,7 +352,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
             sb.AppendLine(AddTabs(1) + "<connectionStrings>");
             sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + connection_string);
+            sb.AppendLine(AddTabs(2) + connectionString);
             sb.AppendLine();
             sb.AppendLine(AddTabs(1) + "</connectionStrings>");
             sb.AppendLine();
@@ -327,9 +369,9 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateMasterPageCodeInFront(string database_name, List<string> selected_tables)
+        public OutputObject GenerateMasterPageCodeInFront(string databaseName, List<string> selectedTables)
         {
-            if (string.IsNullOrEmpty(database_name))
+            if (string.IsNullOrEmpty(databaseName))
                 return null;
 
             var output = new OutputObject();
@@ -338,14 +380,14 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine("<%@ Master Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"" + ConfigurationManager.AppSettings["DefaultMasterPageFilename"] + ".cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(database_name) + ".MasterPage\" %>");
+            sb.AppendLine("<%@ Master Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"" + ConfigurationManager.AppSettings["DefaultMasterPageFilename"] + ".cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(databaseName) + ".MasterPage\" %>");
             sb.AppendLine();
             sb.AppendLine("<!DOCTYPE html>");
             sb.AppendLine();
 
             sb.AppendLine("<html>");
             sb.AppendLine("<head runat=\"server\">");
-            sb.AppendLine(AddTabs(1) + $"<title>{NameFormatter.ToFriendlyName(database_name)}</title>");
+            sb.AppendLine(AddTabs(1) + $"<title>{NameFormatter.ToFriendlyName(databaseName)}</title>");
             sb.AppendLine(AddTabs(1) + "<link href=\"" + ConfigurationManager.AppSettings["DefaultCSSFilename"] + ".css\" rel=\"stylesheet\" type=\"text/css\" />");
             sb.AppendLine(AddTabs(1) + "<asp:contentplaceholder id=\"head\" runat=\"server\">");
             sb.AppendLine(AddTabs(1) + "</asp:contentplaceholder>");
@@ -357,7 +399,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
             sb.AppendLine(AddTabs(1) + "<div id=\"header\">");
-            sb.AppendLine(AddTabs(2) + "<div class=\"PageTitle\">Database " + NameFormatter.ToFriendlyName(database_name) + " Tools</div>");
+            sb.AppendLine(AddTabs(2) + "<div class=\"PageTitle\">Database " + NameFormatter.ToFriendlyName(databaseName) + " Tools</div>");
             sb.AppendLine(AddTabs(2) + "<div>" + GenerateAuthorNotice() + "</div>");
             sb.AppendLine(AddTabs(1) + "</div>");
             sb.AppendLine();
@@ -367,10 +409,10 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(1) + "<div class=\"SectionTitle\">Tables</div>");
             sb.AppendLine(AddTabs(1) + "<ul>");
 
-            for (int i = 0; i < selected_tables.Count; i++)
+            for (int i = 0; i < selectedTables.Count; i++)
             {
                 // loop through table links here
-                sb.AppendLine(AddTabs(2) + "<li><asp:HyperLink ID=\"HL" + (i + 1).ToString() + "\" NavigateUrl=\"List" + selected_tables[i] + ".aspx\" Text=\"" + selected_tables[i] + "\" runat=\"server\" /></li>");
+                sb.AppendLine(AddTabs(2) + "<li><asp:HyperLink ID=\"HL" + (i + 1).ToString() + "\" NavigateUrl=\"List" + selectedTables[i] + ".aspx\" Text=\"" + selectedTables[i] + "\" runat=\"server\" /></li>");
             }
 
             sb.AppendLine(AddTabs(1) + "</ul>");
@@ -390,9 +432,9 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateMasterPageCodeBehind(string database_name)
+        public OutputObject GenerateMasterPageCodeBehind(string databaseName)
         {
-            if (string.IsNullOrEmpty(database_name))
+            if (string.IsNullOrEmpty(databaseName))
                 return null;
 
             OutputObject output = new OutputObject();
@@ -413,7 +455,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System.Web.UI.HtmlControls;");
             sb.AppendLine();
 
-            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(database_name) + "MasterPage");
+            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(databaseName) + "MasterPage");
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "public partial class MasterPage : System.Web.UI.MasterPage");
             sb.AppendLine(AddTabs(1) + "{");
@@ -428,19 +470,19 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject code_generator_asp(SqlTable sql_table, List<string> namespace_includes)
+        public OutputObject CodeGeneratorAsp(SqlTable sqlTable, List<string> namespaceIncludes)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string view_class_name = "View" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
-            int longest_column = GetLongestColumnLength(sql_table) + sql_table.Name.Length;
+            string view_class_name = "View" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
 
             OutputObject output = new OutputObject();
             output.Name = view_class_name + ".aspx.cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
-            namespace_includes.Add(NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            namespaceIncludes.Add(NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
 
             var sb = new StringBuilder();
 
@@ -458,12 +500,12 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System.Web.UI.HtmlControls;");
             sb.AppendLine();
 
-            sb.AppendLine(GenerateNamespaceIncludes(namespace_includes));
+            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
             sb.AppendLine();
 
             #endregion
 
-            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "public partial class " + view_class_name + " : System.Web.UI.Page");
             sb.AppendLine(AddTabs(1) + "{");
@@ -542,13 +584,13 @@ namespace AutoCodeGenLibrary
             #region BindForm Method
             sb.AppendLine(AddTabs(3) + "protected void BindForm()");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + NameFormatter.ToCSharpClassName("DAL" + sql_table.Name) + " dal_obj = new " + NameFormatter.ToCSharpClassName("DAL" + sql_table.Name) + "(_SQLConnection);");
+            sb.AppendLine(AddTabs(4) + NameFormatter.ToCSharpClassName("DAL" + sqlTable.Name) + " dal_obj = new " + NameFormatter.ToCSharpClassName("DAL" + sqlTable.Name) + "(_SQLConnection);");
             sb.AppendLine(AddTabs(4) + "dal_obj.LoadSingleFromDb(this.EditingID);");
             sb.AppendLine();
             sb.AppendLine(AddTabs(4) + "if (dal_obj.Collection.Count > 0)");
             sb.AppendLine(AddTabs(4) + "{");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsPk)
                 {
@@ -635,13 +677,13 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateWebEditPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
+        public OutputObject GenerateWebEditPageCodeInFront(SqlTable sqlTable, bool createAsAspControl)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string list_class_name = "List" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
-            string edit_class_name = "Edit" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
+            string list_class_name = "List" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            string edit_class_name = "Edit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = edit_class_name + ".aspx";
@@ -649,13 +691,13 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            if (create_as_asp_control)
+            if (createAsAspControl)
             {
-                sb.AppendLine("<%@ Control Language=\"C#\" AutoEventWireup=\"true\" CodeBehind=\"" + edit_class_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "." + edit_class_name + "\" %>");
+                sb.AppendLine("<%@ Control Language=\"C#\" AutoEventWireup=\"true\" CodeBehind=\"" + edit_class_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "." + edit_class_name + "\" %>");
             }
             else
             {
-                sb.AppendLine("<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"True\" CodeBehind=\"" + edit_class_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "." + edit_class_name + "\" %>");
+                sb.AppendLine("<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"True\" CodeBehind=\"" + edit_class_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "." + edit_class_name + "\" %>");
                 sb.AppendLine();
                 sb.AppendLine("<asp:Content ID=\"Content1\" ContentPlaceHolderID=\"head\" Runat=\"Server\">");
                 sb.AppendLine("</asp:Content>");
@@ -664,7 +706,7 @@ namespace AutoCodeGenLibrary
             }
 
             sb.AppendLine();
-            sb.AppendLine("<div class=\"PageTitle\">" + NameFormatter.ToFriendlyName(sql_table.Name) + "</div>");
+            sb.AppendLine("<div class=\"PageTitle\">" + NameFormatter.ToFriendlyName(sqlTable.Name) + "</div>");
             sb.AppendLine();
 
             sb.AppendLine("<asp:Panel CssClass=\"DetailsPanel\" ID=\"panDetails\" runat=\"server\">");
@@ -679,7 +721,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + "</tr>");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsPk)
                 {
@@ -741,7 +783,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
             sb.AppendLine("</asp:Panel>");
 
-            if (!create_as_asp_control)
+            if (!createAsAspControl)
             {
                 sb.AppendLine();
                 sb.AppendLine("</asp:Content>");
@@ -751,19 +793,19 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateWebEditPageCodeBehind(SqlTable sql_table, List<string> namespace_includes)
+        public OutputObject GenerateWebEditPageCodeBehind(SqlTable sqlTable, List<string> namespaceIncludes)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = "Edit" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
-            int longest_column = GetLongestColumnLength(sql_table) + sql_table.Name.Length;
+            string class_name = "Edit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".aspx.cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
-            namespace_includes.Add(NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            namespaceIncludes.Add(NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
 
             var sb = new StringBuilder();
 
@@ -781,12 +823,12 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System.Web.UI.HtmlControls;");
             sb.AppendLine();
 
-            sb.AppendLine(GenerateNamespaceIncludes(namespace_includes));
+            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
             sb.AppendLine();
 
             #endregion
 
-            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name + " : System.Web.UI.Page");
             sb.AppendLine(AddTabs(1) + "{");
@@ -864,13 +906,13 @@ namespace AutoCodeGenLibrary
             #region BindForm Method
             sb.AppendLine(AddTabs(3) + "protected void BindForm()");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + NameFormatter.ToCSharpClassName("DAL" + sql_table.Name) + " dal_obj = new " + NameFormatter.ToCSharpClassName("DAL" + sql_table.Name) + "(_SQLConnection);");
+            sb.AppendLine(AddTabs(4) + NameFormatter.ToCSharpClassName("DAL" + sqlTable.Name) + " dal_obj = new " + NameFormatter.ToCSharpClassName("DAL" + sqlTable.Name) + "(_SQLConnection);");
             sb.AppendLine(AddTabs(4) + "dal_obj.LoadSingleFromDb(this.EditingID);");
             sb.AppendLine();
             sb.AppendLine(AddTabs(4) + "if (dal_obj.Collection.Count > 0)");
             sb.AppendLine(AddTabs(4) + "{");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsPk)
                 {
@@ -923,7 +965,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "protected void ClearForm()");
             sb.AppendLine(AddTabs(3) + "{");
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsPk)
                 {
@@ -954,8 +996,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "try");
             sb.AppendLine(AddTabs(4) + "{");
-            sb.AppendLine(AddTabs(5) + NameFormatter.ToCSharpClassName("DAL" + sql_table.Name) + " dal_obj = new " + NameFormatter.ToCSharpClassName("DAL" + sql_table.Name) + "(_SQLConnection);");
-            sb.AppendLine(AddTabs(5) + NameFormatter.ToCSharpClassName(sql_table.Name) + " obj = new " + NameFormatter.ToCSharpClassName(sql_table.Name) + "();");
+            sb.AppendLine(AddTabs(5) + NameFormatter.ToCSharpClassName("DAL" + sqlTable.Name) + " dal_obj = new " + NameFormatter.ToCSharpClassName("DAL" + sqlTable.Name) + "(_SQLConnection);");
+            sb.AppendLine(AddTabs(5) + NameFormatter.ToCSharpClassName(sqlTable.Name) + " obj = new " + NameFormatter.ToCSharpClassName(sqlTable.Name) + "();");
             sb.AppendLine();
             sb.AppendLine(AddTabs(5) + "if (this.EditingID > 0)");
             sb.AppendLine(AddTabs(5) + "{");
@@ -966,7 +1008,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(5) + "}");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 if (!sql_column.IsPk)
                 {
@@ -1095,14 +1137,14 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateWebListPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
+        public OutputObject GenerateWebListPageCodeInFront(SqlTable sqlTable, bool createAsAspControl)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string list_object_name = "List" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
-            string edit_object_name = "Edit" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
-            string orm_class_name = NameFormatter.ToCSharpClassName(sql_table.Name);
+            string list_object_name = "List" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            string edit_object_name = "Edit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            string orm_class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
             string list_class_name = NameFormatter.ToCSharpClassName(list_object_name);
 
             OutputObject output = new OutputObject();
@@ -1113,13 +1155,13 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            if (create_as_asp_control)
+            if (createAsAspControl)
             {
-                sb.AppendLine("<%@ Control Language=\"C#\" AutoEventWireup=\"true\" CodeBehind=\"" + list_object_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "." + list_object_name + "\" %>");
+                sb.AppendLine("<%@ Control Language=\"C#\" AutoEventWireup=\"true\" CodeBehind=\"" + list_object_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "." + list_object_name + "\" %>");
             }
             else
             {
-                sb.AppendLine("<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"true\" CodeBehind=\"" + list_object_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name) + "." + list_object_name + "\" %>");
+                sb.AppendLine("<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"true\" CodeBehind=\"" + list_object_name + ".aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "." + list_object_name + "\" %>");
                 sb.AppendLine();
                 sb.AppendLine("<asp:Content ID=\"Content1\" ContentPlaceHolderID=\"head\" Runat=\"Server\">");
                 sb.AppendLine("</asp:Content>");
@@ -1130,7 +1172,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("<asp:Panel ID=\"panList\" DefaultButton=\"btnSearch\" runat=\"server\">");
             sb.AppendLine();
 
-            sb.AppendLine(AddTabs(1) + "<div class=\"PageTitle\">" + NameFormatter.ToFriendlyName(sql_table.Name));
+            sb.AppendLine(AddTabs(1) + "<div class=\"PageTitle\">" + NameFormatter.ToFriendlyName(sqlTable.Name));
             sb.AppendLine(AddTabs(1) + "<asp:LinkButton ID=\"btnAddNewItem\" OnClick=\"btnAddNewItem_Click\" runat=\"server\" Text=\"(Add new item)\" CssClass=\"AddItemLink\" />");
             sb.AppendLine(AddTabs(1) + "</div>");
             sb.AppendLine();
@@ -1148,7 +1190,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + "<tr class=\"RepeaterHeaderStyle\">");
             sb.AppendLine();
 
-            foreach (var sql_column in sql_table.Columns.Values)
+            foreach (var sql_column in sqlTable.Columns.Values)
             {
                 sb.AppendLine(AddTabs(3) + "<td><span class=\"RepeaterHeader\">" + NameFormatter.ToFriendlyName(sql_column.Name) + "</span></td>");
             }
@@ -1165,9 +1207,9 @@ namespace AutoCodeGenLibrary
 
             first_flag = true;
 
-            foreach (var item in sql_table.Columns.Values)
+            foreach (var item in sqlTable.Columns.Values)
             {
-                string current_item_binding = "((" + sql_table.Database.Name + "." + orm_class_name + ")Container.DataItem)." + NameFormatter.ToCSharpPropertyNameString(item);
+                string current_item_binding = "((" + sqlTable.Database.Name + "." + orm_class_name + ")Container.DataItem)." + NameFormatter.ToCSharpPropertyNameString(item);
 
                 if (first_flag)
                 {
@@ -1192,9 +1234,9 @@ namespace AutoCodeGenLibrary
 
             first_flag = true;
 
-            foreach (var item in sql_table.Columns.Values)
+            foreach (var item in sqlTable.Columns.Values)
             {
-                string current_item_binding = "((" + sql_table.Database.Name + "." + orm_class_name + ")Container.DataItem)." + NameFormatter.ToCSharpPropertyNameString(item);
+                string current_item_binding = "((" + sqlTable.Database.Name + "." + orm_class_name + ")Container.DataItem)." + NameFormatter.ToCSharpPropertyNameString(item);
 
                 if (first_flag)
                 {
@@ -1230,25 +1272,25 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
             sb.AppendLine("</asp:Panel>");
 
-            if (!create_as_asp_control)
+            if (!createAsAspControl)
                 sb.AppendLine("</asp:Content>");
 
             output.Body = sb.ToString();
             return output;
         }
 
-        public OutputObject GenerateWebListPageCodeBehind(SqlTable sql_table, List<string> namespace_includes)
+        public OutputObject GenerateWebListPageCodeBehind(SqlTable sqlTable, List<string> namespaceIncludes)
         {
-            if (sql_table == null)
+            if (sqlTable == null)
                 return null;
 
-            string class_name = "List" + NameFormatter.ToCSharpPropertyName(sql_table.Name);
+            string class_name = "List" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".aspx.cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
-            namespace_includes.Add(NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            namespaceIncludes.Add(NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
 
             var sb = new StringBuilder();
 
@@ -1266,12 +1308,12 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System.Web.UI.HtmlControls;");
             sb.AppendLine();
 
-            sb.AppendLine(GenerateNamespaceIncludes(namespace_includes));
+            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
             sb.AppendLine();
 
             #endregion
 
-            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(sql_table.Database.Name));
+            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name + " : System.Web.UI.Page");
             sb.AppendLine(AddTabs(1) + "{");
@@ -1364,7 +1406,7 @@ namespace AutoCodeGenLibrary
             #region Bind Repeater method
             sb.AppendLine(AddTabs(3) + "protected void BindRepeater()");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "var dal_obj = new " + NameFormatter.ToCSharpClassName("Dal" + sql_table.Name) + "(_SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "var dal_obj = new " + NameFormatter.ToCSharpClassName("Dal" + sqlTable.Name) + "(_SQLConnection);");
             sb.AppendLine(AddTabs(4) + "dal_obj.LoadAllFromDbPaged(this.PageinationData.ItemIndex, this.PageinationData.PageSize, this.SearchString);");
             sb.AppendLine();
             sb.AppendLine(AddTabs(4) + "this.PageinationData.SetSize = dal_obj.GetSearchCountFromDb(this.SearchString);");
@@ -1472,7 +1514,7 @@ namespace AutoCodeGenLibrary
             #region btnAddNewItem_Click method
             sb.AppendLine(AddTabs(3) + "protected void btnAddNewItem_Click(object sender, EventArgs e)");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "this.Response.Redirect(\"Edit" + NameFormatter.ToCSharpPropertyName(sql_table.Name) + ".Aspx?id=0&ReturnPage=\" + this.PageName + \"&PageData=\" + this.PageinationData.ToString(), true);");
+            sb.AppendLine(AddTabs(4) + "this.Response.Redirect(\"Edit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name) + ".Aspx?id=0&ReturnPage=\" + this.PageName + \"&PageData=\" + this.PageinationData.ToString(), true);");
             sb.AppendLine(AddTabs(3) + "}");
             #endregion
 
@@ -1506,9 +1548,9 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateDefaultPageCodeInFront(string database_name)
+        public OutputObject GenerateDefaultPageCodeInFront(string databaseName)
         {
-            if (string.IsNullOrEmpty(database_name))
+            if (string.IsNullOrEmpty(databaseName))
                 return null;
 
             OutputObject output = new OutputObject();
@@ -1517,7 +1559,7 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine("<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"true\" CodeBehind=\"Default.aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(database_name) + ".Default\" %>");
+            sb.AppendLine("<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"true\" CodeBehind=\"Default.aspx.cs\" Inherits=\"WebControls." + NameFormatter.ToCSharpPropertyName(databaseName) + ".Default\" %>");
             sb.AppendLine();
 
             sb.AppendLine("<asp:Content ID=\"Content1\" ContentPlaceHolderID=\"head\" Runat=\"Server\">");
@@ -1532,9 +1574,9 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateDefaultPageCodeBehind(string database_name)
+        public OutputObject GenerateDefaultPageCodeBehind(string databaseName)
         {
-            if (string.IsNullOrEmpty(database_name))
+            if (string.IsNullOrEmpty(databaseName))
                 return null;
 
             OutputObject output = new OutputObject();
@@ -1555,7 +1597,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System.Web.UI.HtmlControls;");
             sb.AppendLine();
 
-            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(database_name));
+            sb.AppendLine("namespace WebControls." + NameFormatter.ToCSharpPropertyName(databaseName));
             sb.AppendLine("{");
             sb.AppendLine(AddTabs(1) + "public partial class Default : System.Web.UI.Page");
             sb.AppendLine(AddTabs(1) + "{");
@@ -1570,7 +1612,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        protected string GenerateRegexValidator(eSqlBaseType base_type, string control_ID, string control_to_validate)
+        protected string GenerateRegexValidator(eSqlBaseType baseType, string controlId, string controlToValidate)
         {
             string is_bool = @"^([0-1]|true|false)$";
             string is_int = @"[-+]?[0-9]{1,10}";
@@ -1580,22 +1622,22 @@ namespace AutoCodeGenLibrary
 
             string regex;
 
-            switch (base_type)
+            switch (baseType)
             {
                 case eSqlBaseType.Bool:
-                    regex = "<asp:RegularExpressionValidator ID=\"" + control_ID + "\" ControlToValidate=\"" + control_to_validate + "\" ErrorMessage=\"Value is not an boolean value\" ValidationExpression=\"" + is_bool + "\" runat=\"server\" />";
+                    regex = "<asp:RegularExpressionValidator ID=\"" + controlId + "\" ControlToValidate=\"" + controlToValidate + "\" ErrorMessage=\"Value is not an boolean value\" ValidationExpression=\"" + is_bool + "\" runat=\"server\" />";
                     break;
 
                 case eSqlBaseType.Integer:
-                    regex = "<asp:RegularExpressionValidator ID=\"" + control_ID + "\" ControlToValidate=\"" + control_to_validate + "\" ErrorMessage=\"Value is not an integer value\" ValidationExpression=\"" + is_int + "\" runat=\"server\" />";
+                    regex = "<asp:RegularExpressionValidator ID=\"" + controlId + "\" ControlToValidate=\"" + controlToValidate + "\" ErrorMessage=\"Value is not an integer value\" ValidationExpression=\"" + is_int + "\" runat=\"server\" />";
                     break;
 
                 case eSqlBaseType.Float:
-                    regex = "<asp:RegularExpressionValidator ID=\"" + control_ID + "\" ControlToValidate=\"" + control_to_validate + "\" ErrorMessage=\"Value is not a decimal value\" ValidationExpression=\"" + is_float + "\" runat=\"server\" />";
+                    regex = "<asp:RegularExpressionValidator ID=\"" + controlId + "\" ControlToValidate=\"" + controlToValidate + "\" ErrorMessage=\"Value is not a decimal value\" ValidationExpression=\"" + is_float + "\" runat=\"server\" />";
                     break;
 
                 case eSqlBaseType.Guid:
-                    regex = "<asp:RegularExpressionValidator ID=\"" + control_ID + "\" ControlToValidate=\"" + control_to_validate + "\" ErrorMessage=\"Value is not a GUID\" ValidationExpression=\"" + is_guid + "\" runat=\"server\" />";
+                    regex = "<asp:RegularExpressionValidator ID=\"" + controlId + "\" ControlToValidate=\"" + controlToValidate + "\" ErrorMessage=\"Value is not a GUID\" ValidationExpression=\"" + is_guid + "\" runat=\"server\" />";
                     break;
 
                 // DateTimeRegex isn't good enough yet        
@@ -1610,7 +1652,6 @@ namespace AutoCodeGenLibrary
 
             return regex;
         }
-
 
         // todo create html 5 Single page class?
         public OutputObject GenerateWebViewPageCodeInFront(SqlTable sqlTable)

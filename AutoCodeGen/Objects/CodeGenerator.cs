@@ -22,23 +22,59 @@ using System.Data;
 using System.Text;
 
 using DAL.SqlMetadata;
-using log4net;
 using DAL;
 
 namespace AutoCodeGenLibrary
 {
-    public class CodeGenerator : CodeGeneratorBase
+    public class CodeGenerator : CodeGeneratorBase, IGenerator
     {
-        private static readonly ILog _Log = LogManager.GetLogger(typeof(CodeGenerator));
-
         /// <summary>
         /// This object is a collection of characters that could create problems if they are used in c# variable names. 
         /// This object is a 'hit list' of characters to remove.
         /// </summary>
-        private string[] _CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", ":", ";", "|", "'", "<", ">", ",", ".", "?", "/", " ", "~", "`", "\"", "\\" };
-        private int[] _PrimeList = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271 };
+        private readonly static string[] CSHARP_UNDESIREABLES = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", ":", ";", "|", "'", "<", ">", ",", ".", "?", "/", " ", "~", "`", "\"", "\\" };
+        private readonly static int[] PRIME_NUMBER_LIST = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271 };
+        private readonly static string SQL_PARAMETER_TEMPLATE = "parameters.Add(new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }});";
 
-        protected readonly string SQL_PARAMETER_TEMPLATE = "parameters.Add(new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }});";
+        public static readonly string CONVERT_NULLABLE_FIELDS = "Convert Nullable Fields";
+        public static readonly string INCLUDE_IS_DIRTY_FLAG = "Include Is Dirty Flag";
+
+        public eLanguage Language
+        {
+            get { return eLanguage.Csharp; }
+        }
+        public eCategory Category
+        {
+            get { return eCategory.MiddleTier; }
+        }
+        public Dictionary<string, string> Methods
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                {
+                    { "C# Orm Class", "GenerateCSharpOrmClass" },
+                    { "C# External Orm Class", "GenerateCSharpExternalOrmClass" },
+                    { "C# Dal Class", "GenerateCSharpDalClass" },
+                    { "C# External Dal Class", "GenerateCSharpExternalDalClass" },
+                    { "C# Class Interface", "GenerateCSharpClassInterface" },
+                    { "C# Enumeration", "GenerateCSharpEnumeration" },
+                    { "C# Base Class", "GenerateCSharpBaseClass" },
+                    { "Xml Loader", "GenerateXmlLoader" },
+                };
+            }
+        }
+        public Dictionary<string, bool> Options
+        {
+            get
+            {
+                return new Dictionary<string, bool>()
+                {
+                    { CONVERT_NULLABLE_FIELDS, false},
+                    { INCLUDE_IS_DIRTY_FLAG, false},
+                };
+            }
+        }
 
         public CodeGenerator() { }
 
@@ -345,18 +381,18 @@ namespace AutoCodeGenLibrary
                         case SqlDbType.SmallInt:
                         case SqlDbType.Int:
                         case SqlDbType.BigInt:
-                            sb.AppendLine(AddTabs(4) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)} * {_PrimeList[prime]});");
+                            sb.AppendLine(AddTabs(4) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)} * {PRIME_NUMBER_LIST[prime]});");
                             break;
 
                         default:
-                            sb.AppendLine(AddTabs(4) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)}.GetHashCode() * {_PrimeList[prime]});");
+                            sb.AppendLine(AddTabs(4) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)}.GetHashCode() * {PRIME_NUMBER_LIST[prime]});");
                             break;
                     }
 
                     prime++;
 
                     // my what a wide table you have...
-                    if (prime > _PrimeList.Length)
+                    if (prime > PRIME_NUMBER_LIST.Length)
                         prime = 0;
                 }
 
@@ -1053,7 +1089,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespaceIncludes, bool include_is_dirty_flag)
+        public OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespaceIncludes, bool includeIsDirtyFlag)
         {
             if (sqlTable == null)
                 return null;
@@ -1102,7 +1138,7 @@ namespace AutoCodeGenLibrary
                 sb.AppendLine(AddTabs(3) + NameFormatter.SQLTypeToCSharpType(sql_column) + " " + NameFormatter.ToCSharpPropertyName(sql_column.Name) + " { get; set; }");
             }
 
-            if (include_is_dirty_flag)
+            if (includeIsDirtyFlag)
             {
                 sb.AppendLine();
                 sb.AppendLine(AddTabs(3) + "bool IsDirty { get; set; }");
@@ -1121,19 +1157,21 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateCSharpEnumeration(SqlTable sqlTable, string string_column, string value_column, DataTable data_table)
+        public OutputObject GenerateCSharpEnumeration(SqlTable sqlTable, string stringColumn, string valueColumn, string connectionString)
         {
             if (sqlTable == null)
                 return null;
 
             string enum_name = NameFormatter.ToCSharpEnumName(sqlTable.Name);
-            int longest_column = GetLongestColumnLength(sqlTable);
 
             OutputObject output = new OutputObject();
             output.Name = enum_name + ".cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
             var sb = new StringBuilder();
+
+            // we have table metadata, get table data
+            DataTable data_table = GenerateSqlTableData(sqlTable, connectionString);
 
             sb.AppendLine("using System;");
             sb.AppendLine();
@@ -1146,18 +1184,18 @@ namespace AutoCodeGenLibrary
             // list enumeration
             foreach (DataRow dr in data_table.Rows)
             {
-                string value_string = dr[value_column].ToString();
-                string enum_string = dr[string_column].ToString();
+                string value_string = dr[valueColumn].ToString();
+                string enum_string = dr[stringColumn].ToString();
 
                 // make sure that enums are legal names.
-                foreach (string character in _CSharpUndesireables)
+                foreach (string character in CSHARP_UNDESIREABLES)
                     enum_string = enum_string.Replace(character, string.Empty);
 
                 // no leading numbers, foo!
                 if (Char.IsNumber(enum_string[0]))
                     enum_string = "N" + enum_string;
 
-                sb.AppendLine(AddTabs(2) + enum_string + "= " + value_string + ",");
+                sb.AppendLine(AddTabs(2) + enum_string + " = " + value_string + ",");
             }
 
             sb.AppendLine(AddTabs(1) + "}");
@@ -1167,10 +1205,10 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateCSharpBaseClass(string database_name)
+        public OutputObject GenerateCSharpBaseClass(string sqlDatabaseName)
         {
-            if (string.IsNullOrEmpty(database_name))
-                return null;
+            if (string.IsNullOrWhiteSpace(sqlDatabaseName))
+                throw new ArgumentException("Sql database name cannot be null or empty");
 
             OutputObject output = new OutputObject();
             output.Name = "BaseClass.cs";
@@ -1181,23 +1219,17 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Text;");
             sb.AppendLine();
-            sb.AppendLine("namespace " + database_name);
+            sb.AppendLine("namespace " + sqlDatabaseName);
             sb.AppendLine("{");
 
             sb.AppendLine(AddTabs(1) + "[Serializable]");
             sb.AppendLine(AddTabs(1) + "public abstract class BaseClass");
             sb.AppendLine(AddTabs(1) + "{");
 
-            sb.AppendLine(AddTabs(2) + "#region Fields");
-            sb.AppendLine();
             sb.AppendLine(AddTabs(3) + "protected bool _IsDirty = false;");
             sb.AppendLine(AddTabs(3) + "protected bool _LoadError = false;");
             sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "#endregion");
-            sb.AppendLine();
 
-            sb.AppendLine(AddTabs(2) + "#region Properties");
-            sb.AppendLine();
             sb.AppendLine(AddTabs(3) + "public bool IsDirty");
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "get { return _IsDirty; }");
@@ -1208,11 +1240,6 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(4) + "get { return _LoadError; }");
             sb.AppendLine(AddTabs(4) + "set { _LoadError = value; }");
             sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "#endregion");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(2) + "#region Methods");
             sb.AppendLine();
 
             sb.AppendLine(AddTabs(3) + "public virtual void Reset()");
@@ -1232,8 +1259,6 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(4) + "return sb.ToString();");
             sb.AppendLine(AddTabs(3) + "}");
 
-            sb.AppendLine(AddTabs(2) + "#endregion");
-
             sb.AppendLine(AddTabs(1) + "}");
             sb.AppendLine("}");
 
@@ -1241,13 +1266,13 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public DataTable GenerateSqlTableData(SqlTable sqlTable, string connection_string)
+        public DataTable GenerateSqlTableData(SqlTable sqlTable, string connectionString)
         {
             if (sqlTable == null)
                 throw new ArgumentException("SqlTable is null");
 
             string query = $"SELECT * FROM [{sqlTable.Database.Name}].[{sqlTable.Schema}].[{sqlTable.Name}]";
-            var db = new Database(connection_string);
+            var db = new Database(connectionString);
 
             DataTable data_table = db.ExecuteQuery(query, null);
             data_table.TableName = sqlTable.Name;
@@ -1262,8 +1287,7 @@ namespace AutoCodeGenLibrary
 
             string object_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
             string class_name = object_name + "DataLoader";
-            string collection_type = "List<" + object_name + ">";
-            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
+            string collection_type = $"List<{object_name}>";
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".cs";
@@ -1271,16 +1295,12 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            #region Header block
-
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using System.Xml;");
             sb.AppendLine();
             sb.AppendLine("using DAL;");
             sb.AppendLine();
-
-            #endregion
 
             sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
@@ -1320,8 +1340,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(4) + "string xml;");
             sb.AppendLine(AddTabs(4) + "string error_message;");
             sb.AppendLine();
-            sb.AppendLine(AddTabs(4) + "_ParseErrors        = !FileIo.ReadFromFile(file_name, out xml, out error_message);");
-            sb.AppendLine(AddTabs(4) + "_CollectionData     = new " + collection_type + "();");
+            sb.AppendLine(AddTabs(4) + "_ParseErrors = !FileIo.ReadFromFile(file_name, out xml, out error_message);");
+            sb.AppendLine(AddTabs(4) + "_CollectionData = new " + collection_type + "();");
             sb.AppendLine();
             sb.AppendLine(AddTabs(4) + "XmlDocument document;");
             sb.AppendLine(AddTabs(4) + "XmlNodeList selected_nodes;");
@@ -1343,8 +1363,8 @@ namespace AutoCodeGenLibrary
             foreach (var sql_column in sqlTable.Columns.Values)
             {
                 // format: 
-                // critter_data.Name       = item.Attributes["Name"].Value;
-                sb.AppendLine(AddTabs(6) + PadCSharpVariableName("item_data." + NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column + 7) + "= " + NameFormatter.GetCSharpCastString(sql_column) + "(item.Attributes[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"].Value);");
+                // critter_data.Name = item.Attributes["Name"].Value;
+                sb.AppendLine(AddTabs(6) + "item_data." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + " = " + NameFormatter.GetCSharpCastString(sql_column) + "(item.Attributes[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"].Value);");
             }
 
             sb.AppendLine();
@@ -1357,8 +1377,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(4) + "}");
             sb.AppendLine(AddTabs(4) + "finally");
             sb.AppendLine(AddTabs(4) + "{");
-            sb.AppendLine(AddTabs(5) + "document        = null;");
-            sb.AppendLine(AddTabs(5) + "selected_nodes  = null;");
+            sb.AppendLine(AddTabs(5) + "document = null;");
+            sb.AppendLine(AddTabs(5) + "selected_nodes = null;");
             sb.AppendLine(AddTabs(4) + "}");
             sb.AppendLine();
 

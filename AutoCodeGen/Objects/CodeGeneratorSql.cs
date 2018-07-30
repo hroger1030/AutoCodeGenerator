@@ -50,7 +50,14 @@ namespace AutoCodeGenLibrary
                     { "Select Single By Id", "GenerateSelectSingleProc" },
                     { "Select Many By List", "GenerateSelectManyProc" },
                     { "Select Many By Criteria", "GenerateSelectManyByXProc" },
-                    // todo: moar
+                    { "Select All", "GenerateSelectAllProc" },
+                    { "Paginated Search", "GeneratePaginatedSearchProc" },
+                    { "InsertProc", "GenerateInsertProc" },
+                    { "UpdateProc", "GenerateUpdateProc" },
+                    { "SetProc", "GenerateSetProc" },
+                    { "Delete Single By Id", "GenerateDeleteSingleProc" },
+                    { "Delete Many By List", "GenerateDeleteManyProc" },
+                    { "Delete All", "GenerateDeleteAllProc" },
                 };
             }
         }
