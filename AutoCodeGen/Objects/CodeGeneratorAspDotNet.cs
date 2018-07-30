@@ -26,8 +26,9 @@ namespace AutoCodeGenLibrary
 {
     public class CodeGeneratorAspDotNet : CodeGeneratorBase
     {
-        // Asp.Net Generation
-        public static OutputObject GenerateCSSSheet(string database_name)
+        public CodeGeneratorAspDotNet() { }
+
+        public OutputObject GenerateCSSSheet(string database_name)
         {
             if (string.IsNullOrEmpty(database_name))
                 return null;
@@ -290,7 +291,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateWebConfig(string connection_string)
+        public OutputObject GenerateWebConfig(string connection_string)
         {
             if (connection_string == null)
                 return null;
@@ -326,7 +327,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateMasterPageCodeInFront(string database_name, List<string> selected_tables)
+        public OutputObject GenerateMasterPageCodeInFront(string database_name, List<string> selected_tables)
         {
             if (string.IsNullOrEmpty(database_name))
                 return null;
@@ -388,7 +389,8 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateMasterPageCodeBehind(string database_name)
+
+        public OutputObject GenerateMasterPageCodeBehind(string database_name)
         {
             if (string.IsNullOrEmpty(database_name))
                 return null;
@@ -426,197 +428,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateWebViewPageCodeInFront(SqlTable sqlTable)
-        {
-            if (sqlTable == null)
-                return null;
-
-            string view_class_name = "View" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
-            string table_name = NameFormatter.ToCSharpPropertyName(sqlTable.Name);
-
-            var output = new OutputObject();
-            output.Name = view_class_name + ".aspx";
-            output.Type = OutputObject.eObjectType.Aspx;
-
-            var sb = new StringBuilder();
-
-            sb.AppendLine($"<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"True\" CodeBehind=\"{view_class_name}.aspx.cs\" Inherits=\"WebControls.{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}.{view_class_name}\" %>");
-            sb.AppendLine();
-            sb.AppendLine("<asp:Content ID=\"Content1\" ContentPlaceHolderID=\"head\" Runat=\"Server\">");
-            sb.AppendLine();
-
-            /////////////////////////////////////////////////////////////////////////////////////////////
-
-            sb.AppendLine(AddTabs(1) + "<script type = \"text/javascript\">");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "$(function()");
-            sb.AppendLine(AddTabs(2) + "{");
-            sb.AppendLine(AddTabs(3) + $"Load{table_name}();");
-            sb.AppendLine(AddTabs(2) + "});");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(2) + $"function Load{table_name}()");
-            sb.AppendLine(AddTabs(2) + "{");
-            sb.AppendLine(AddTabs(3) + "var data = { };");
-            sb.AppendLine(AddTabs(3) + $"CallAjax(data, '{output.Name}/Load{table_name}', Load{table_name}Response);");
-            sb.AppendLine(AddTabs(2) + "}");
-
-            sb.AppendLine(AddTabs(2) + $"function Load{table_name}Response(response)");
-            sb.AppendLine(AddTabs(2) + "{");
-            sb.AppendLine(AddTabs(3) + "if (response.Success)");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "var buffer = '';");
-            sb.AppendLine(AddTabs(4) + $"var template = $('#{table_name}Template').html();");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(4) + $"response.DataList.forEach(function(i)");
-            sb.AppendLine(AddTabs(4) + "{");
-            sb.AppendLine(AddTabs(5) + "buffer += eval('`' + template + '`');");
-            sb.AppendLine(AddTabs(4) + "}");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(4) + $"$('#{table_name}List').html(buffer);");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine(AddTabs(3) + "else");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "$('#txtMessage').text(response.Message);");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(2) + $"function Save{table_name}()");
-            sb.AppendLine(AddTabs(2) + "{");
-            sb.AppendLine(AddTabs(3) + "var data = { };");
-
-            foreach (var sql_column in sqlTable.Columns.Values)
-            {
-                string colum_name = NameFormatter.ToCSharpPropertyName(sql_column.Name);
-                sb.AppendLine(AddTabs(3) + $"data.{colum_name} = $('#txt{colum_name}').val();");
-            }
-
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(3) + $"CallAjax(data, '{output.Name}/Save{table_name}', Save{table_name}Response);");
-            sb.AppendLine(AddTabs(2) + "}");
-
-            sb.AppendLine(AddTabs(2) + $"function Save{table_name}Response(response)");
-            sb.AppendLine(AddTabs(2) + "{");
-            sb.AppendLine(AddTabs(3) + "if (response.Success)");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + $"Load{table_name}();");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine(AddTabs(3) + "else");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "$('#txtMessage').text(response.Message);");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine(AddTabs(2) + "}");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(2) + "</script>");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(2) + $"<script type = 'text/template' id='{table_name}Template'>");
-            sb.AppendLine(AddTabs(2) + "<tr>");
-
-            foreach (var sql_column in sqlTable.Columns.Values)
-            {
-                string colum_name = NameFormatter.ToCSharpPropertyName(sql_column.Name);
-                sb.AppendLine(AddTabs(3) + $"<td>${{i.{colum_name}}}</td>");
-            }
-
-            sb.AppendLine(AddTabs(2) + "</tr>");
-            sb.AppendLine(AddTabs(2) + "</script>");
-            sb.AppendLine();
-            sb.AppendLine("</asp:Content>");
-            sb.AppendLine();
-
-            /////////////////////////////////////////////////////////////////////////////////////////////
-
-            sb.AppendLine("<asp:Content ID=\"Content2\" ContentPlaceHolderID=\"body\" Runat=\"Server\">");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(1) + $"<div id='pan{table_name}List'>");
-            sb.AppendLine(AddTabs(2) + $"<div style='overflow: auto;'>");
-
-            //< div class="SectionTitle" style="float: left;">Languages</div>
-            //<div style = "float: right;" >
-            //< input type="button" class="Button" value="Add New Language" onclick="$('#dialog-AddLanguage').dialog('open');" />
-            //</div>
-            //</div>
-
-            //<table>
-            //<thead>
-            //<tr>
-            //<th>Language</th>
-            //<th>Family</th>
-            //<th>Format</th>
-            //<th>Difficulty</th>
-            //<th>Rarity</th>
-            //</tr>
-            //</thead>
-            //<tbody id = "LangaugeList" ></ tbody >
-            //</ table >
-            //</ div >
-
-
-
-
-
-
-
-
-            sb.AppendLine();
-            sb.AppendLine("<div class=\"PageTitle\">View " + NameFormatter.ToFriendlyName(sqlTable.Name) + "</div>");
-            sb.AppendLine();
-
-            sb.AppendLine("<asp:Panel CssClass=\"DetailsPanel\" ID=\"panDetails\" runat=\"server\">");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(1) + "<div class=\"Spacer\">");
-            sb.AppendLine();
-
-            sb.AppendLine(AddTabs(2) + "<table border=\"0\" width=\"100%\">");
-            sb.AppendLine(AddTabs(2) + "<tr>");
-            sb.AppendLine(AddTabs(3) + "<td></td>");
-            sb.AppendLine(AddTabs(3) + "<td class=\"SectionTitle\"><asp:Label ID=\"lblTitle\" runat=\"server\" /></td>");
-            sb.AppendLine(AddTabs(2) + "</tr>");
-            sb.AppendLine();
-
-            foreach (var sql_column in sqlTable.Columns.Values)
-            {
-                if (!sql_column.IsPk)
-                {
-                    sb.AppendLine(AddTabs(2) + "<tr>");
-                    sb.AppendLine(AddTabs(3) + "<td class=\"ControlLabel\">" + NameFormatter.ToFriendlyName(sql_column.Name) + ":</td>");
-
-                    switch (sql_column.BaseType)
-                    {
-                        case eSqlBaseType.Bool:
-                            sb.AppendLine(AddTabs(3) + "<td><asp:CheckBox ID=\"chk" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\" Enabled=\"False\"  runat=\"server\" /></td>");
-                            break;
-
-                        //case eSqlBaseType.Time:
-                        //sb.AppendLine(AddTabs(3) + "<td><asp:Calendar ID=\"cal" + NameFormatter.ToCSharpPropertyName(sql_column.ColumnName) + " runat=\"server\" /></td>");
-                        //break;
-
-                        default:
-                            sb.AppendLine(AddTabs(3) + "<td><asp:Label ID=\"lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\" runat=\"server\" /></td>");
-                            break;
-                    }
-
-                    sb.AppendLine(AddTabs(2) + "</tr>");
-                    sb.AppendLine();
-                }
-            }
-
-            // buttons
-            sb.AppendLine(AddTabs(2) + "</table>");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(2) + "<asp:Label ID=\"lblErrorMessage\" CssClass=\"ErrorMessage\" runat=\"server\" />");
-            sb.AppendLine();
-            sb.AppendLine(AddTabs(1) + "</div>");
-            sb.AppendLine();
-            sb.AppendLine("</asp:Panel>");
-
-            output.Body = sb.ToString();
-            return output;
-        }
-        public static OutputObject GenerateWebViewPageCodeBehind(SqlTable sql_table, List<string> namespace_includes)
+        public OutputObject code_generator_asp(SqlTable sql_table, List<string> namespace_includes)
         {
             if (sql_table == null)
                 return null;
@@ -823,7 +635,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateWebEditPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
+        public OutputObject GenerateWebEditPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
         {
             if (sql_table == null)
                 return null;
@@ -938,7 +750,8 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateWebEditPageCodeBehind(SqlTable sql_table, List<string> namespace_includes)
+
+        public OutputObject GenerateWebEditPageCodeBehind(SqlTable sql_table, List<string> namespace_includes)
         {
             if (sql_table == null)
                 return null;
@@ -1282,7 +1095,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateWebListPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
+        public OutputObject GenerateWebListPageCodeInFront(SqlTable sql_table, bool create_as_asp_control)
         {
             if (sql_table == null)
                 return null;
@@ -1423,7 +1236,8 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateWebListPageCodeBehind(SqlTable sql_table, List<string> namespace_includes)
+
+        public OutputObject GenerateWebListPageCodeBehind(SqlTable sql_table, List<string> namespace_includes)
         {
             if (sql_table == null)
                 return null;
@@ -1692,7 +1506,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateDefaultPageCodeInFront(string database_name)
+        public OutputObject GenerateDefaultPageCodeInFront(string database_name)
         {
             if (string.IsNullOrEmpty(database_name))
                 return null;
@@ -1717,7 +1531,8 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateDefaultPageCodeBehind(string database_name)
+
+        public OutputObject GenerateDefaultPageCodeBehind(string database_name)
         {
             if (string.IsNullOrEmpty(database_name))
                 return null;
@@ -1755,8 +1570,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        // Asp.net
-        private static string GenerateRegexValidator(eSqlBaseType base_type, string control_ID, string control_to_validate)
+        protected string GenerateRegexValidator(eSqlBaseType base_type, string control_ID, string control_to_validate)
         {
             string is_bool = @"^([0-1]|true|false)$";
             string is_int = @"[-+]?[0-9]{1,10}";
@@ -1795,6 +1609,199 @@ namespace AutoCodeGenLibrary
             }
 
             return regex;
+        }
+
+
+        // todo create html 5 Single page class?
+        public OutputObject GenerateWebViewPageCodeInFront(SqlTable sqlTable)
+        {
+            if (sqlTable == null)
+                return null;
+
+            string view_class_name = "View" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            string table_name = NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+
+            var output = new OutputObject();
+            output.Name = view_class_name + ".aspx";
+            output.Type = OutputObject.eObjectType.Aspx;
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"<%@ Page Language=\"C#\" MasterPageFile=\"~/MasterPage.master\" AutoEventWireup=\"True\" CodeBehind=\"{view_class_name}.aspx.cs\" Inherits=\"WebControls.{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}.{view_class_name}\" %>");
+            sb.AppendLine();
+            sb.AppendLine("<asp:Content ID=\"Content1\" ContentPlaceHolderID=\"head\" Runat=\"Server\">");
+            sb.AppendLine();
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+
+            sb.AppendLine(AddTabs(1) + "<script type = \"text/javascript\">");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "$(function()");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + $"Load{table_name}();");
+            sb.AppendLine(AddTabs(2) + "});");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + $"function Load{table_name}()");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "var data = { };");
+            sb.AppendLine(AddTabs(3) + $"CallAjax(data, '{output.Name}/Load{table_name}', Load{table_name}Response);");
+            sb.AppendLine(AddTabs(2) + "}");
+
+            sb.AppendLine(AddTabs(2) + $"function Load{table_name}Response(response)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "if (response.Success)");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "var buffer = '';");
+            sb.AppendLine(AddTabs(4) + $"var template = $('#{table_name}Template').html();");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + $"response.DataList.forEach(function(i)");
+            sb.AppendLine(AddTabs(4) + "{");
+            sb.AppendLine(AddTabs(5) + "buffer += eval('`' + template + '`');");
+            sb.AppendLine(AddTabs(4) + "}");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + $"$('#{table_name}List').html(buffer);");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(3) + "else");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "$('#txtMessage').text(response.Message);");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + $"function Save{table_name}()");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "var data = { };");
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                string colum_name = NameFormatter.ToCSharpPropertyName(sql_column.Name);
+                sb.AppendLine(AddTabs(3) + $"data.{colum_name} = $('#txt{colum_name}').val();");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(3) + $"CallAjax(data, '{output.Name}/Save{table_name}', Save{table_name}Response);");
+            sb.AppendLine(AddTabs(2) + "}");
+
+            sb.AppendLine(AddTabs(2) + $"function Save{table_name}Response(response)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "if (response.Success)");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + $"Load{table_name}();");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(3) + "else");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "$('#txtMessage').text(response.Message);");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "</script>");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + $"<script type = 'text/template' id='{table_name}Template'>");
+            sb.AppendLine(AddTabs(2) + "<tr>");
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                string colum_name = NameFormatter.ToCSharpPropertyName(sql_column.Name);
+                sb.AppendLine(AddTabs(3) + $"<td>${{i.{colum_name}}}</td>");
+            }
+
+            sb.AppendLine(AddTabs(2) + "</tr>");
+            sb.AppendLine(AddTabs(2) + "</script>");
+            sb.AppendLine();
+            sb.AppendLine("</asp:Content>");
+            sb.AppendLine();
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+
+            sb.AppendLine("<asp:Content ID=\"Content2\" ContentPlaceHolderID=\"body\" Runat=\"Server\">");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(1) + $"<div id='pan{table_name}List'>");
+            sb.AppendLine(AddTabs(2) + $"<div style='overflow: auto;'>");
+
+            //< div class="SectionTitle" style="float: left;">Languages</div>
+            //<div style = "float: right;" >
+            //< input type="button" class="Button" value="Add New Language" onclick="$('#dialog-AddLanguage').dialog('open');" />
+            //</div>
+            //</div>
+
+            //<table>
+            //<thead>
+            //<tr>
+            //<th>Language</th>
+            //<th>Family</th>
+            //<th>Format</th>
+            //<th>Difficulty</th>
+            //<th>Rarity</th>
+            //</tr>
+            //</thead>
+            //<tbody id = "LangaugeList" ></ tbody >
+            //</ table >
+            //</ div >
+
+
+
+
+
+
+
+
+            sb.AppendLine();
+            sb.AppendLine("<div class=\"PageTitle\">View " + NameFormatter.ToFriendlyName(sqlTable.Name) + "</div>");
+            sb.AppendLine();
+
+            sb.AppendLine("<asp:Panel CssClass=\"DetailsPanel\" ID=\"panDetails\" runat=\"server\">");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(1) + "<div class=\"Spacer\">");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "<table border=\"0\" width=\"100%\">");
+            sb.AppendLine(AddTabs(2) + "<tr>");
+            sb.AppendLine(AddTabs(3) + "<td></td>");
+            sb.AppendLine(AddTabs(3) + "<td class=\"SectionTitle\"><asp:Label ID=\"lblTitle\" runat=\"server\" /></td>");
+            sb.AppendLine(AddTabs(2) + "</tr>");
+            sb.AppendLine();
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                if (!sql_column.IsPk)
+                {
+                    sb.AppendLine(AddTabs(2) + "<tr>");
+                    sb.AppendLine(AddTabs(3) + "<td class=\"ControlLabel\">" + NameFormatter.ToFriendlyName(sql_column.Name) + ":</td>");
+
+                    switch (sql_column.BaseType)
+                    {
+                        case eSqlBaseType.Bool:
+                            sb.AppendLine(AddTabs(3) + "<td><asp:CheckBox ID=\"chk" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\" Enabled=\"False\"  runat=\"server\" /></td>");
+                            break;
+
+                        //case eSqlBaseType.Time:
+                        //sb.AppendLine(AddTabs(3) + "<td><asp:Calendar ID=\"cal" + NameFormatter.ToCSharpPropertyName(sql_column.ColumnName) + " runat=\"server\" /></td>");
+                        //break;
+
+                        default:
+                            sb.AppendLine(AddTabs(3) + "<td><asp:Label ID=\"lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\" runat=\"server\" /></td>");
+                            break;
+                    }
+
+                    sb.AppendLine(AddTabs(2) + "</tr>");
+                    sb.AppendLine();
+                }
+            }
+
+            // buttons
+            sb.AppendLine(AddTabs(2) + "</table>");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "<asp:Label ID=\"lblErrorMessage\" CssClass=\"ErrorMessage\" runat=\"server\" />");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(1) + "</div>");
+            sb.AppendLine();
+            sb.AppendLine("</asp:Panel>");
+
+            output.Body = sb.ToString();
+            return output;
         }
     }
 }

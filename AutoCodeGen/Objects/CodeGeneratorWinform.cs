@@ -22,10 +22,11 @@ using DAL.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public partial class CodeGeneratorWinform : CodeGeneratorBase
+    public class CodeGeneratorWinform : CodeGeneratorBase
     {
-        // WinForm Generation
-        public static OutputObject GenerateWinformEditCode(SqlTable sqlTable)
+        public CodeGeneratorWinform() { }
+
+        public OutputObject GenerateWinformEditCode(SqlTable sqlTable)
         {
             #region Sample Output
             //using System;
@@ -161,7 +162,8 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateWinformEditCodeDesigner(SqlTable sqlTable)
+
+        public OutputObject GenerateWinformEditCodeDesigner(SqlTable sqlTable)
         {
             #region Code Output
             //namespace MarvelSuperheroesEditor
@@ -438,19 +440,23 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
-        public static OutputObject GenerateWinformViewCode(SqlTable sqlTable)
+
+        public OutputObject GenerateWinformViewCode(SqlTable sqlTable)
         {
             return null;
         }
-        public static OutputObject GenerateWinformViewCodeDesigner(SqlTable sqlTable)
+
+        public OutputObject GenerateWinformViewCodeDesigner(SqlTable sqlTable)
         {
             return null;
         }
-        public static OutputObject GenerateWinformMainCode(SqlTable sqlTable)
+
+        public OutputObject GenerateWinformMainCode(SqlTable sqlTable)
         {
             return null;
         }
-        public static OutputObject GenerateWinformMainCodeDesigner(SqlTable sqlTable)
+
+        public OutputObject GenerateWinformMainCodeDesigner(SqlTable sqlTable)
         {
             return null;
         }

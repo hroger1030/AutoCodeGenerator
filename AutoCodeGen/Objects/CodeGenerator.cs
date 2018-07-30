@@ -27,7 +27,7 @@ using DAL;
 
 namespace AutoCodeGenLibrary
 {
-    public partial class CodeGenerator
+    public class CodeGenerator : CodeGeneratorBase
     {
         private static readonly ILog _Log = LogManager.GetLogger(typeof(CodeGenerator));
 
@@ -35,12 +35,14 @@ namespace AutoCodeGenLibrary
         /// This object is a collection of characters that could create problems if they are used in c# variable names. 
         /// This object is a 'hit list' of characters to remove.
         /// </summary>
-        private static string[] _CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", ":", ";", "|", "'", "<", ">", ",", ".", "?", "/", " ", "~", "`", "\"", "\\" };
-        private static int[] _PrimeList = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271 };
+        private string[] _CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", ":", ";", "|", "'", "<", ">", ",", ".", "?", "/", " ", "~", "`", "\"", "\\" };
+        private int[] _PrimeList = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271 };
 
-        protected readonly static string SQL_PARAMETER_TEMPLATE = "parameters.Add(new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }});";
+        protected readonly string SQL_PARAMETER_TEMPLATE = "parameters.Add(new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }});";
 
-        public static OutputObject GenerateCSharpOrmClass(SqlTable sqlTable, List<string> namespaceIncludes, bool includeClassDecoration)
+        public CodeGenerator() { }
+
+        public OutputObject GenerateCSharpOrmClass(SqlTable sqlTable, List<string> namespaceIncludes, bool includeClassDecoration)
         {
             if (sqlTable == null)
                 return null;
@@ -380,7 +382,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateCSharpExternalOrmClass(SqlTable sqlTable, List<string> namespaceIncludes)
+        public OutputObject GenerateCSharpExternalOrmClass(SqlTable sqlTable, List<string> namespaceIncludes)
         {
             if (sqlTable == null)
                 return null;
@@ -418,7 +420,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateCSharpDalClass(SqlTable sqlTable, List<string> namespaceIncludes, bool convertNullableFields, bool includeIsDirtyFlag)
+        public OutputObject GenerateCSharpDalClass(SqlTable sqlTable, List<string> namespaceIncludes, bool convertNullableFields, bool includeIsDirtyFlag)
         {
             #region SampleCode
             //public class FooClass
@@ -516,7 +518,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(2) + $"public {collection_type} LoadAllFromDb()");
             sb.AppendLine(AddTabs(2) + "{");
-            sb.AppendLine(AddTabs(3) + $"return Database.ExecuteQuerySp<{list_type}>(\"[{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}].[{sqlTable.Schema}].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null) + "]\", null, _SQLConnection);");
+            sb.AppendLine(AddTabs(3) + $"return Database.ExecuteQuerySp<{list_type}>(\"[{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}].[{sqlTable.Schema}].[" + NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null) + "]\", null, _SQLConnection);");
             sb.AppendLine(AddTabs(2) + "}");
             sb.AppendLine();
 
@@ -546,7 +548,7 @@ namespace AutoCodeGenLibrary
 
                 sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
                 sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@IdList", "VarChar", -1, "Database.GenericListToStringList(id_list)"));
-                sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectMany, null) + "]\", parameters, _SQLConnection);");
+                sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectMany, null) + "]\", parameters, _SQLConnection);");
                 sb.AppendLine(AddTabs(3) + "}");
                 sb.AppendLine();
             }
@@ -575,7 +577,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@StartNumber", "Int", 4, "start_index"));
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@PageSize", "Int", 4, "page_size"));
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@SearchString", "VarChar", 50, "search_string"));
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SearchPaged, null) + "]\", parameters, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + $"return Database.ExecuteQuerySp<{list_type}>(\"[{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}].[{sqlTable.Schema}].[{NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SearchPaged, null)}]\", parameters, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -610,7 +612,7 @@ namespace AutoCodeGenLibrary
                     sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, NameFormatter.ToTSQLVariableName(sql_column), sql_column.SqlDataType, sql_column.Length, NameFormatter.ToCSharpLocalVariable(sql_column.Name)));
             }
 
-            sb.AppendLine(AddTabs(4) + "var results = Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectSingle, null) + "]\", parameters, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "var results = Database.ExecuteQuerySp<" + list_type + ">(\"[" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "].[dbo].[" + NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectSingle, null) + "]\", parameters, _SQLConnection);");
             sb.AppendLine();
 
             sb.AppendLine(AddTabs(4) + "if (results != null && results.Count > 0)");
@@ -647,7 +649,7 @@ namespace AutoCodeGenLibrary
                     sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, NameFormatter.ToTSQLVariableName(sql_column), sql_column.SqlDataType, sql_column.Length, NameFormatter.ToCSharpLocalVariable(sql_column.Name)));
             }
 
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null) + "]\", parameters, _SQLConnection) > 0;");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null) + "]\", parameters, _SQLConnection) > 0;");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -670,7 +672,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "List<SqlParameter> parameters = new List<SqlParameter>();");
             sb.AppendLine(AddTabs(4) + string.Format(SQL_PARAMETER_TEMPLATE, "@IdList", "VarChar", -1, "Database.GenericListToStringList(id_list)"));
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelMany, null) + "]\", parameters, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelMany, null) + "]\", parameters, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -689,7 +691,7 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "public int DeleteAllFromDb()");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null) + "]\", null, _SQLConnection);");
+            sb.AppendLine(AddTabs(4) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null) + "]\", null, _SQLConnection);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -777,7 +779,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + "public bool Save(" + list_type + " item)");
             sb.AppendLine(AddTabs(2) + "{");
             sb.AppendLine(AddTabs(3) + "var parameters = GetSqlParameterList(item);");
-            sb.AppendLine(AddTabs(3) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null) + "]\", parameters, _SQLConnection) > 0;");
+            sb.AppendLine(AddTabs(3) + "return Database.ExecuteNonQuerySp(\"" + NameFormatter.ToTSQLName(sqlTable.Database.Name) + ".[dbo].[" + NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null) + "]\", parameters, _SQLConnection) > 0;");
             sb.AppendLine(AddTabs(2) + "}");
             sb.AppendLine();
 
@@ -1003,7 +1005,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateCSharpExternalDalClass(SqlTable sqlTable, List<string> namespaceIncludes)
+        public OutputObject GenerateCSharpExternalDalClass(SqlTable sqlTable, List<string> namespaceIncludes)
         {
             #region SampleCode
             //public partial class FooClass
@@ -1051,7 +1053,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespaceIncludes, bool include_is_dirty_flag)
+        public OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespaceIncludes, bool include_is_dirty_flag)
         {
             if (sqlTable == null)
                 return null;
@@ -1119,7 +1121,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateCSharpEnumeration(SqlTable sqlTable, string string_column, string value_column, DataTable data_table)
+        public OutputObject GenerateCSharpEnumeration(SqlTable sqlTable, string string_column, string value_column, DataTable data_table)
         {
             if (sqlTable == null)
                 return null;
@@ -1155,7 +1157,7 @@ namespace AutoCodeGenLibrary
                 if (Char.IsNumber(enum_string[0]))
                     enum_string = "N" + enum_string;
 
-                sb.AppendLine(AddTabs(2) + PadCSharpVariableName(enum_string, longest_column) + "= " + value_string + ",");
+                sb.AppendLine(AddTabs(2) + enum_string + "= " + value_string + ",");
             }
 
             sb.AppendLine(AddTabs(1) + "}");
@@ -1165,7 +1167,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateCSharpBaseClass(string database_name)
+        public OutputObject GenerateCSharpBaseClass(string database_name)
         {
             if (string.IsNullOrEmpty(database_name))
                 return null;
@@ -1239,7 +1241,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static DataTable GenerateSqlTableData(SqlTable sqlTable, string connection_string)
+        public DataTable GenerateSqlTableData(SqlTable sqlTable, string connection_string)
         {
             if (sqlTable == null)
                 throw new ArgumentException("SqlTable is null");
@@ -1253,7 +1255,7 @@ namespace AutoCodeGenLibrary
             return data_table;
         }
 
-        public static OutputObject GenerateXmlLoader(SqlTable sqlTable)
+        public OutputObject GenerateXmlLoader(SqlTable sqlTable)
         {
             if (sqlTable == null)
                 return null;

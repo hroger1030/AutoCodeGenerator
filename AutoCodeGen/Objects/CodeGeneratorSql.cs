@@ -26,28 +26,12 @@ using DAL.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public partial class CodeGenerator : CodeGeneratorBase, IGenerator
+    public class CodeGeneratorSql : CodeGeneratorBase, IGenerator
     {
-        private static string _SpNamePrefix = ConfigurationManager.AppSettings["SpNamePrefix"];
-        private static string _SelectSingleByXSpSuffix = ConfigurationManager.AppSettings["SelectSingleByXSpSuffix"];
-        private static string _SelectManySpSuffix = ConfigurationManager.AppSettings["SelectManySpSuffix"];
-        private static string _SelectManyByXSpSuffix = ConfigurationManager.AppSettings["SelectManyByXSpSuffix"];
-        private static string _SelectAllSpSuffix = ConfigurationManager.AppSettings["SelectAllSpSuffix"];
-        private static string _SearchPagedSpSuffix = ConfigurationManager.AppSettings["SearchPagedSpSuffix"];
-        private static string _InsertSingleSpSuffix = ConfigurationManager.AppSettings["InsertSingleSpSuffix"];
-        private static string _UpdateSpSuffix = ConfigurationManager.AppSettings["UpdateSpSuffix"];
-        private static string _UpdateInsertSpSuffix = ConfigurationManager.AppSettings["UpdateInsertSpSuffix"];
-        private static string _DelAllSpSuffix = ConfigurationManager.AppSettings["DelAllSpSuffix"];
-        private static string _DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
-        private static string _DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
-        private static string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
+        private string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
 
-        public const string GENERATE_STORED_PROC_PERMS = "Generate Stored Proc Perms";
-        public const string INCLUDE_DISABLED_CHECK = "Include Disabled Check";
-
-        public CodeGenerator()
-        {
-        }
+        public static readonly string GENERATE_STORED_PROC_PERMS = "Generate Stored Proc Perms";
+        public static readonly string INCLUDE_DISABLED_CHECK = "Include Disabled Check";
 
         public eLanguage Language
         {
@@ -82,7 +66,9 @@ namespace AutoCodeGenLibrary
             }
         }
 
-        public static OutputObject GenerateSelectSingleProc(SqlTable sqlTable, GeneratorManifest manifest)
+        public CodeGeneratorSql() { }
+
+        public OutputObject GenerateSelectSingleProc(SqlTable sqlTable, GeneratorManifest manifest)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -92,7 +78,7 @@ namespace AutoCodeGenLibrary
 
             // todo: add in pk name list
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectSingle, sqlTable.PkNames);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectSingle, sqlTable.PkNames);
             string join_conjunction;
 
             var output = new OutputObject();
@@ -166,7 +152,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateSelectManyProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms, bool includeDisabledCheck)
+        public OutputObject GenerateSelectManyProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -177,7 +163,7 @@ namespace AutoCodeGenLibrary
             if (selectFields == null || selectFields.Count != 1)
                 throw new ArgumentException("A select many proc can only be created if there is a single select column");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectMany, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectMany, null);
 
             var search_column = sqlTable.Columns
                 .Select(c => c.Value)
@@ -288,7 +274,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateSelectManyByXProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms, bool includeDisabledCheck)
+        public OutputObject GenerateSelectManyByXProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -299,7 +285,7 @@ namespace AutoCodeGenLibrary
             if (selectFields == null || selectFields.Count == 0)
                 throw new ArgumentException("Select names cannot be null or empty");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectManyByX, selectFields);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectManyByX, selectFields);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -349,7 +335,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateSelectAllProc(SqlTable sqlTable, List<string> sortFields, bool generateStoredProcPerms, bool includeDisabledCheck)
+        public OutputObject GenerateSelectAllProc(SqlTable sqlTable, List<string> sortFields, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -357,7 +343,7 @@ namespace AutoCodeGenLibrary
             if (sortFields == null || sortFields.Count == 0)
                 throw new ArgumentException("Sort names cannot be null or empty");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -403,7 +389,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GeneratePaginatedSearchProc(SqlTable sqlTable, List<string> sortFields, List<string> searchFields, bool generateStoredProcPerms, bool includeDisabledCheck)
+        public OutputObject GeneratePaginatedSearchProc(SqlTable sqlTable, List<string> sortFields, List<string> searchFields, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -414,7 +400,7 @@ namespace AutoCodeGenLibrary
             if (searchFields == null || searchFields.Count == 0)
                 throw new ArgumentException("Search names cannot be null or empty");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SearchPaged, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SearchPaged, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -501,12 +487,12 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateInsertProc(SqlTable sqlTable, bool generateStoredProcPerms)
+        public OutputObject GenerateInsertProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.Insert, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.Insert, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -584,12 +570,12 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateUpdateProc(SqlTable sqlTable, bool generateStoredProcPerms)
+        public OutputObject GenerateUpdateProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.Update, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.Update, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -680,12 +666,12 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateSetProc(SqlTable sqlTable, bool generateStoredProcPerms)
+        public OutputObject GenerateSetProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -871,12 +857,12 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateDeleteSingleProc(SqlTable sqlTable, bool generateStoredProcPerms)
+        public OutputObject GenerateDeleteSingleProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -944,7 +930,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateDeleteManyProc(SqlTable sqlTable, List<string> selectFields, bool generateStoredProcPerms)
+        public OutputObject GenerateDeleteManyProc(SqlTable sqlTable, List<string> selectFields, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -952,7 +938,7 @@ namespace AutoCodeGenLibrary
             if (selectFields == null || selectFields.Count != 1)
                 throw new ArgumentException("A select many proc can only be created if there is a single select column");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelMany, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelMany, null);
 
             var search_column = sqlTable.Columns
                 .Select(c => c.Value)
@@ -1028,12 +1014,12 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static OutputObject GenerateDeleteAllProc(SqlTable sqlTable, bool generateStoredProcPerms)
+        public OutputObject GenerateDeleteAllProc(SqlTable sqlTable, bool generateStoredProcPerms)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
 
-            string procedure_name = GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null);
+            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null);
 
             OutputObject output = new OutputObject();
             output.Name = procedure_name + ".sql";
@@ -1072,7 +1058,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public static string GenerateGetTableDetailsStoredProcedure()
+        public string GenerateGetTableDetailsStoredProcedure()
         {
             var procedure_name = "sp_TableDetails";
             var schema = "dbo";
@@ -1112,7 +1098,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        public static string GenerateGetTableDetailsLogic()
+        public string GenerateGetTableDetailsLogic()
         {
             var sb = new StringBuilder();
 
@@ -1207,7 +1193,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        public static string GenerateSelectedColumns(SqlTable sqlTable)
+        public string GenerateSelectedColumns(SqlTable sqlTable)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -1231,7 +1217,7 @@ namespace AutoCodeGenLibrary
         }
 
         // Script Header Generation
-        public static string GenerateSqlScriptHeader(string databaseName)
+        public string GenerateSqlScriptHeader(string databaseName)
         {
             if (string.IsNullOrEmpty(databaseName))
                 throw new Exception("Cannot generate stored procedure name without a database name.");
@@ -1249,44 +1235,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        protected static string GenerateSqlStoredProcName(string tableName, eStoredProcType procType, IEnumerable<string> selectedFields)
-        {
-            // Sample:
-            // [dbo].[Events_SelectSingle]
-
-            if (string.IsNullOrEmpty(tableName))
-                throw new ArgumentException("Cannot generate stored procedure name without a table name.");
-
-            string suffix = string.Empty;
-            string selected_fields_string = (selectedFields == null) ? string.Empty : String.Join(string.Empty, selectedFields);
-
-            switch (procType)
-            {
-                case eStoredProcType.SelectSingle: suffix = string.Format(_SelectSingleByXSpSuffix, selected_fields_string); break;
-                case eStoredProcType.SelectMany: suffix = _SelectManySpSuffix; break;
-                case eStoredProcType.SelectManyByX: suffix = string.Format(_SelectManyByXSpSuffix, selected_fields_string); break;
-                case eStoredProcType.SelectAll: suffix = _SelectAllSpSuffix; break;
-                case eStoredProcType.SearchPaged: suffix = _SearchPagedSpSuffix; break;
-                case eStoredProcType.Insert: suffix = _InsertSingleSpSuffix; break;
-                case eStoredProcType.Update: suffix = _UpdateSpSuffix; break;
-                case eStoredProcType.UpdateInsert: suffix = _UpdateInsertSpSuffix; break;
-                case eStoredProcType.DelSingle: suffix = _DelSingleSpSuffix; break;
-                case eStoredProcType.DelMany: suffix = _DelManySpSuffix; break;
-                case eStoredProcType.DelAll: suffix = _DelAllSpSuffix; break;
-
-                default:
-                    throw new Exception($"StoredProcType unknown: {procType}");
-            }
-
-            // tried title case here, gets a little odd.
-            tableName = tableName.Replace(" ", "_");
-            tableName = $"{_SpNamePrefix}{tableName}_{suffix}";
-            tableName = tableName.Replace("__", "_");
-
-            return tableName;
-        }
-
-        public static string GenerateSqlStoredProcPerms(string storedProcedureName)
+        public string GenerateSqlStoredProcPerms(string storedProcedureName)
         {
             if (string.IsNullOrEmpty(storedProcedureName))
                 throw new Exception("Cannot generate permissions without a stored procedure name.");
@@ -1301,7 +1250,7 @@ namespace AutoCodeGenLibrary
 
         // helper script methods
 
-        private static string GenerateSinglePkTableType(SqlTable sqlTable, string columnName)
+        private string GenerateSinglePkTableType(SqlTable sqlTable, string columnName)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -1352,7 +1301,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GeneratePkTableType(SqlTable sqlTable)
+        private string GeneratePkTableType(SqlTable sqlTable)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -1400,7 +1349,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateSqlSpExistanceChecker(string procedureName, string schema)
+        private string GenerateSqlSpExistanceChecker(string procedureName, string schema)
         {
             if (string.IsNullOrEmpty(procedureName))
                 throw new Exception("Cannot generate sql existance check without a procedure name");
@@ -1417,7 +1366,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateSqlWarning(string message)
+        private string GenerateSqlWarning(string message)
         {
             if (string.IsNullOrEmpty(message))
                 throw new ArgumentException("Cannot warning with empty message");
@@ -1431,7 +1380,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateDescriptionHeader(string procedureName, string schema)
+        private string GenerateDescriptionHeader(string procedureName, string schema)
         {
             if (string.IsNullOrEmpty(procedureName))
                 throw new ArgumentException("Cannot generate procedure header without a procedure name");
@@ -1450,7 +1399,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateSqlStoredProcParameters(SqlTable sqlTable, eIncludedFields includedFields, bool includeCountParameter)
+        private string GenerateSqlStoredProcParameters(SqlTable sqlTable, eIncludedFields includedFields, bool includeCountParameter)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -1500,7 +1449,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateOrderByClause(SqlTable sqlTable, List<string> columnNames)
+        private string GenerateOrderByClause(SqlTable sqlTable, List<string> columnNames)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -1530,7 +1479,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateSearchClause(SqlTable sqlTable, List<string> columnNames, int tabsIn)
+        private string GenerateSearchClause(SqlTable sqlTable, List<string> columnNames, int tabsIn)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -1566,7 +1515,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateSelectClause(SqlTable sqlTable, List<string> columnNames)
+        private string GenerateSelectClause(SqlTable sqlTable, List<string> columnNames)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -1603,7 +1552,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private static string GenerateSelectClauseArguments(SqlTable sqlTable, List<string> columnNames)
+        private string GenerateSelectClauseArguments(SqlTable sqlTable, List<string> columnNames)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");

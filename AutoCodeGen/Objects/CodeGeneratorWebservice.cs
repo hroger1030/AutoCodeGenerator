@@ -24,9 +24,11 @@ using DAL.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public partial class CodeGeneratorWebservice : CodeGeneratorBase
+    public class CodeGeneratorWebservice : CodeGeneratorBase
     {
-        public static OutputObject GenerateWebServiceControllerClass(SqlTable sqlTable, List<string> namespaceIncludes)
+        public CodeGeneratorWebservice() { }
+
+        public OutputObject GenerateWebServiceControllerClass(SqlTable sqlTable, List<string> namespaceIncludes)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");

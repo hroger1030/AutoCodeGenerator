@@ -17,6 +17,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Text;
@@ -28,6 +29,19 @@ namespace AutoCodeGenLibrary
 {
     public static class NameFormatter
     {
+        private static string _SpNamePrefix = ConfigurationManager.AppSettings["SpNamePrefix"];
+        private static string _SelectSingleByXSpSuffix = ConfigurationManager.AppSettings["SelectSingleByXSpSuffix"];
+        private static string _SelectManySpSuffix = ConfigurationManager.AppSettings["SelectManySpSuffix"];
+        private static string _SelectManyByXSpSuffix = ConfigurationManager.AppSettings["SelectManyByXSpSuffix"];
+        private static string _SelectAllSpSuffix = ConfigurationManager.AppSettings["SelectAllSpSuffix"];
+        private static string _SearchPagedSpSuffix = ConfigurationManager.AppSettings["SearchPagedSpSuffix"];
+        private static string _InsertSingleSpSuffix = ConfigurationManager.AppSettings["InsertSingleSpSuffix"];
+        private static string _UpdateSpSuffix = ConfigurationManager.AppSettings["UpdateSpSuffix"];
+        private static string _UpdateInsertSpSuffix = ConfigurationManager.AppSettings["UpdateInsertSpSuffix"];
+        private static string _DelAllSpSuffix = ConfigurationManager.AppSettings["DelAllSpSuffix"];
+        private static string _DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
+        private static string _DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
+
         private static string s_CSharpClassPrefix = ConfigurationManager.AppSettings["CSharpClassPrefix"];
         private static string s_CSharpEnumPrefix = ConfigurationManager.AppSettings["CSharpEnumPrefix"];
         private static string s_CSharpInterfacePrefix = ConfigurationManager.AppSettings["CSharpInterfacePrefix"];
@@ -701,6 +715,43 @@ namespace AutoCodeGenLibrary
             }
 
             return sb.ToString();
+        }
+
+        public static string GenerateSqlStoredProcName(string tableName, eStoredProcType procType, IEnumerable<string> selectedFields)
+        {
+            // Sample:
+            // [dbo].[Events_SelectSingle]
+
+            if (string.IsNullOrEmpty(tableName))
+                throw new ArgumentException("Cannot generate stored procedure name without a table name.");
+
+            string suffix = string.Empty;
+            string selected_fields_string = (selectedFields == null) ? string.Empty : String.Join(string.Empty, selectedFields);
+
+            switch (procType)
+            {
+                case eStoredProcType.SelectSingle: suffix = string.Format(_SelectSingleByXSpSuffix, selected_fields_string); break;
+                case eStoredProcType.SelectMany: suffix = _SelectManySpSuffix; break;
+                case eStoredProcType.SelectManyByX: suffix = string.Format(_SelectManyByXSpSuffix, selected_fields_string); break;
+                case eStoredProcType.SelectAll: suffix = _SelectAllSpSuffix; break;
+                case eStoredProcType.SearchPaged: suffix = _SearchPagedSpSuffix; break;
+                case eStoredProcType.Insert: suffix = _InsertSingleSpSuffix; break;
+                case eStoredProcType.Update: suffix = _UpdateSpSuffix; break;
+                case eStoredProcType.UpdateInsert: suffix = _UpdateInsertSpSuffix; break;
+                case eStoredProcType.DelSingle: suffix = _DelSingleSpSuffix; break;
+                case eStoredProcType.DelMany: suffix = _DelManySpSuffix; break;
+                case eStoredProcType.DelAll: suffix = _DelAllSpSuffix; break;
+
+                default:
+                    throw new Exception($"StoredProcType unknown: {procType}");
+            }
+
+            // tried title case here, gets a little odd.
+            tableName = tableName.Replace(" ", "_");
+            tableName = $"{_SpNamePrefix}{tableName}_{suffix}";
+            tableName = tableName.Replace("__", "_");
+
+            return tableName;
         }
 
         /// <summary>
