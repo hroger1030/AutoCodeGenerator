@@ -458,16 +458,15 @@ namespace AutoCodeGenLibrary
 
         public OutputObject GenerateCSharpDalClass(SqlTable sqlTable, List<string> namespaceIncludes, bool convertNullableFields, bool includeIsDirtyFlag)
         {
-            #region SampleCode
             //public class FooClass
             //{
             //    private List<FooDataStrure> _Foo = null;
-
+            //
             //    //public FooClass()
             //    //{ 
             //    //    // foo
             //    //}
-
+            //
             //    public List<FooDataStrure> LoadData(DataTable dt)
             //    {
             //        _Foo.Clear();  
@@ -475,27 +474,29 @@ namespace AutoCodeGenLibrary
             //        {
             //            p_Foo.Add(new FooDataStrure(Convert.ToInt32(dr["whatever"])));
             //        }
-
+            //
             //        return _Foo;
             //    }
             //}
-            #endregion
 
             if (sqlTable == null)
-                return null;
+                throw new ArgumentException("Sql table cannot be null or empty");
 
             string list_type = NameFormatter.ToCSharpClassName(sqlTable.Name);
             string sql_tablename = NameFormatter.ToTSQLName(sqlTable.Name);
             string collection_type = $"List<{list_type}>";
             string class_name = NameFormatter.ToCSharpClassName("Dal" + sqlTable.Name);
+            SqlColumn id_column = sqlTable.GetIdColumn();
+
+            // todo filter this for list results?
+            if (id_column == null)
+                throw new ArgumentException("Sql table needs an identity or primary key");
 
             OutputObject output = new OutputObject();
             output.Name = class_name + ".cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
             var sb = new StringBuilder();
-
-            #region Header block
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
@@ -506,32 +507,26 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using DAL;");
             sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
-            #endregion
-
             sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
             //sb.AppendLine(AddTabs(1) + "[Serializable]");
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
             sb.AppendLine(AddTabs(1) + "{");
 
-            #region Fields bloc
             ////////////////////////////////////////////////////////////////////////////////
 
             sb.AppendLine(AddTabs(2) + "protected string _SQLConnection;");
             sb.AppendLine();
 
             ////////////////////////////////////////////////////////////////////////////////
-            #endregion
 
             #region Default CTOR
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region sample output
             //public Foo()
             //{
             //    //foo
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(2) + $"public {class_name}(string sqlConn)");
             sb.AppendLine(AddTabs(2) + "{");
@@ -718,12 +713,10 @@ namespace AutoCodeGenLibrary
             #region DeleteAllFromDb
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Code Sample
             //public int DeleteAllFromDb()
             //{
             //    return Database.ExecuteNonQuerySp("[GalacticConquest].[dbo].[up_Game_DeleteAll]", null, _SQLConnection);
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(3) + "public int DeleteAllFromDb()");
             sb.AppendLine(AddTabs(3) + "{");
@@ -737,14 +730,12 @@ namespace AutoCodeGenLibrary
             #region LoadFromXmlFile
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Code Sample
             //public bool LoadFromXmlFile(string filename)
             //{
             //    string file_data = FileIo.ReadFromFile(filename, out file_data);
             //    DataSet ds = XmlConverter.XmlStringToDataSet(file_data);
             //    return LoadFromDataTable(ds.Tables["Game"], out results, out exception);
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(3) + "public " + collection_type + " LoadFromXmlFile(string filename)");
             sb.AppendLine(AddTabs(3) + "{");
@@ -760,14 +751,12 @@ namespace AutoCodeGenLibrary
             #region SaveToXmlFile
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Code Sample
             //public void SaveToXmlFile(List<cGame> collection, string filename)
             //{
             //    DataTable dt = ConvertToDataTable(collection);
             //    string xml = XmlConverter.DataTableToXmlString(dt, "GalacticConquest");
             //    FileIo.WriteToFile(filename, xml);
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(3) + "public void SaveToXmlFile(" + collection_type + " collection, string filename)");
             sb.AppendLine(AddTabs(3) + "{");
@@ -783,13 +772,11 @@ namespace AutoCodeGenLibrary
             #region SaveAll Method
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Code Sample
             //public void SaveAll(List<cGame> collection)
             //{
             //    foreach (var item in collection)
             //        Save(item);
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(3) + "public void SaveAll(" + collection_type + " collection)");
             sb.AppendLine(AddTabs(3) + "{");
@@ -804,13 +791,11 @@ namespace AutoCodeGenLibrary
             #region Save Method
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Code Sample
             //public bool Save(cGame item)
             //{
             //    List<SqlParameter> parameters = GetSqlParameterList(item);
             //    return Database.ExecuteNonQuerySp("[GalacticConquest].[dbo].[up_Game_Set]", parameters, _SQLConnection) > 0;
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(2) + "public bool Save(" + list_type + " item)");
             sb.AppendLine(AddTabs(2) + "{");
@@ -825,7 +810,6 @@ namespace AutoCodeGenLibrary
             #region LoadFromDataTable
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Code Sample
             //protected List<cGame> LoadFromDataTable(DataTable dt)
             //{
             //    if (dt == null || dt.Rows.Count < 1 || dt.Columns.Count < 1)
@@ -851,7 +835,6 @@ namespace AutoCodeGenLibrary
 
             //    return results;
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(3) + $"protected {collection_type} LoadFromDataTable(DataTable dt)");
             sb.AppendLine(AddTabs(3) + "{");
@@ -943,7 +926,6 @@ namespace AutoCodeGenLibrary
             #region ConvertToDataTable
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Code Sample
             //protected DataTable ConvertToDataTable(List<cGame> collection)
             //{
             //    var dt = new DataTable();
@@ -967,7 +949,6 @@ namespace AutoCodeGenLibrary
 
             //    return dt;
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(3) + "protected DataTable ConvertToDataTable(" + collection_type + " collection)");
             sb.AppendLine(AddTabs(3) + "{");
@@ -1008,7 +989,6 @@ namespace AutoCodeGenLibrary
             #region GetSqlParameterList Method
             ////////////////////////////////////////////////////////////////////////////////
 
-            #region Code Sample
             //protected SqlParameter[] GetSqlParameterList(cRace obj)
             //{
             //    return new SqlParameter[]
@@ -1016,7 +996,6 @@ namespace AutoCodeGenLibrary
             //          new SqlParameter() { ParameterName = "AccountId", SqlDbType = SqlDbType.Int, Value = accountId },
             //    };
             //}
-            #endregion
 
             sb.AppendLine(AddTabs(2) + "protected SqlParameter[] GetSqlParameterList(" + NameFormatter.ToCSharpClassName(sqlTable.Name) + " obj)");
             sb.AppendLine(AddTabs(2) + "{");
@@ -1029,6 +1008,102 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine(AddTabs(3) + "};");
             sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            #region ListLoader Method
+            ////////////////////////////////////////////////////////////////////////////////
+
+            //public List<string> Load(SqlDataReader reader)
+            //{
+            //    var output = new List<string>();
+            //
+            //    while (reader.Read())
+            //    {
+            //        string name = (string)reader["Name"];
+            //
+            //        output.Add(id, name);
+            //    }
+            //
+            //    return output;
+            //}
+
+            string orm_name = NameFormatter.ToCSharpClassName(sqlTable);
+
+            sb.AppendLine(AddTabs(2) + $"public List<{orm_name}> LoadList(SqlDataReader reader)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + $"var output = new List<{orm_name}>();");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(3) + "while (reader.Read())");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + $"var buffer = new {orm_name}();");
+            sb.AppendLine();
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                string type = NameFormatter.SQLTypeToCSharpType(sql_column);
+                string name = NameFormatter.ToCSharpPropertyName(sql_column);
+
+                sb.AppendLine($"{AddTabs(4)}buffer.{name} = ({type})reader[\"{sql_column.Name}\"];");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + "output.Add(buffer);");
+
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(3) + "return output;");
+            sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            #region DatabaseLoader Method
+            ////////////////////////////////////////////////////////////////////////////////
+
+            //public Dictionary<int, string> Load(SqlDataReader reader)
+            //{
+            //    var output = new Dictionary<int, string>();
+            //
+            //    while (reader.Read())
+            //    {
+            //        int id = (int)reader["Id"];
+            //        string name = (string)reader["Name"];
+            //
+            //        output.Add(id, name);
+            //    }
+            //
+            //    return output;
+            //}
+
+            sb.AppendLine(AddTabs(2) + $"public Dictionary<{NameFormatter.SQLTypeToCSharpType(id_column)}, {orm_name}> LoadDictionary(SqlDataReader reader)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + $"var output = new Dictionary<{NameFormatter.SQLTypeToCSharpType(id_column)}, {orm_name}>();");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(3) + "while (reader.Read())");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + $"var buffer = new {orm_name}();");
+            sb.AppendLine();
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                string type = NameFormatter.SQLTypeToCSharpType(sql_column);
+                string name = NameFormatter.ToCSharpPropertyName(sql_column);
+
+                sb.AppendLine($"{AddTabs(4)}buffer.{name} = ({type})reader[\"{sql_column.Name}\"];");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + "output.Add(buffer.Id, buffer);");
+
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(3) + "return output;");
+            sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
 
             ////////////////////////////////////////////////////////////////////////////////
             #endregion
@@ -1205,9 +1280,9 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateCSharpBaseClass(string sqlDatabaseName)
+        public OutputObject GenerateCSharpBaseClass(string databaseName)
         {
-            if (string.IsNullOrWhiteSpace(sqlDatabaseName))
+            if (string.IsNullOrWhiteSpace(databaseName))
                 throw new ArgumentException("Sql database name cannot be null or empty");
 
             OutputObject output = new OutputObject();
@@ -1219,7 +1294,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Text;");
             sb.AppendLine();
-            sb.AppendLine("namespace " + sqlDatabaseName);
+            sb.AppendLine("namespace " + databaseName);
             sb.AppendLine("{");
 
             sb.AppendLine(AddTabs(1) + "[Serializable]");

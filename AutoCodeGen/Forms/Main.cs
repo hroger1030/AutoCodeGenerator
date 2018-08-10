@@ -1110,6 +1110,7 @@ namespace AutoCodeGen
                             manifest.SearchFields = search_fields;
                             manifest.SelectFields = select_fields;
                             manifest.SortFields = sort_fields;
+                            manifest.ConnectionString = _Conn.ToString();
 
                             manifest.SetOptionState(CodeGeneratorSql.INCLUDE_DISABLED_CHECK, GeneratorManifest.OptionsState.False);
                             manifest.SetOptionState(CodeGeneratorSql.GENERATE_STORED_PROC_PERMS, (create_sql_permissions == true) ? GeneratorManifest.OptionsState.True : GeneratorManifest.OptionsState.False);

@@ -84,6 +84,15 @@ namespace AutoCodeGenLibrary
         /// Returns the SQL column name formatted as a C# class name
         /// Sample: FooBar -> cFooBar
         /// </summary>
+        public static string ToCSharpClassName(SqlTable input)
+        {
+            return s_CSharpClassPrefix + NormalizeForCSharp(input.Name);
+        }
+
+        /// <summary>
+        /// Returns the SQL column name formatted as a C# class name
+        /// Sample: FooBar -> cFooBar
+        /// </summary>
         public static string ToCSharpClassName(string input)
         {
             return s_CSharpClassPrefix + NormalizeForCSharp(input);
@@ -114,6 +123,15 @@ namespace AutoCodeGenLibrary
         public static string ToCSharpPropertyName(string input)
         {
             return NormalizeForCSharp(input);
+        }
+
+        /// <summary>
+        /// Returns the SQL column name formatted as a C# property name
+        /// Sample: foo_bar -> FooBar
+        /// </summary>
+        public static string ToCSharpPropertyName(SqlColumn input)
+        {
+            return NormalizeForCSharp(input.Name);
         }
 
         /// <summary>

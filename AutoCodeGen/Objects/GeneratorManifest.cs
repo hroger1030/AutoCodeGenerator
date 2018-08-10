@@ -36,6 +36,7 @@ namespace AutoCodeGenLibrary
         public List<string> SelectFields { get; set; }
         public List<string> SearchFields { get; set; }
         public List<string> NamespaceIncludes { get; set; }
+        public string ConnectionString { get; set; }
 
         public GeneratorManifest()
         {
@@ -62,7 +63,7 @@ namespace AutoCodeGenLibrary
                 if (_Options.ContainsKey(kvp.Key))
                     throw new Exception("Duplicate option key detected");
                 else
-                    _Options.Add(kvp.Key, (kvp.Value == true) ? OptionsState.True: OptionsState.False);
+                    _Options.Add(kvp.Key, (kvp.Value == true) ? OptionsState.True : OptionsState.False);
             }
         }
     }
