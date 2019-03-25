@@ -4,7 +4,13 @@ A quick note from me to you...
 
    Code generation is a technique that has been around for awhile. The idea is pretty cool, you design a code pattern, test it thoroughly and then reuse it to generate bug free code. There are several ways of defining your code patterns. For this application, I chose to use a SQL DB schema for the ORM and DAL objects. The tool also allows you to auto-generate SQL stored procs, and even some front end asp.net web pages. (although they are a little out of date, at some point I will probably move the UI code to an MVC pattern to be a little more contemporary)
 
-   To use it, point it at a SQL DB, and then select the objects that you wish to generate and click the button. The files will be spit out in a subdirectory and you can add them to your project. If you make any changes to your SQL schema, regenerate the files and your code will reflect the changes.
+Generating Code
+
+   Fire up VS and build the code. You can start debugging or run the exe, and on the first tab ("server") you will see several fields to enter your sql credentials. Once you have done this, click the connect button. The Database dropdown will be popluated with all the avaialable databases that you have access to. Select the db you want to generate code for and then select a tab. 
+   
+   In each tab there will be a pane on the left that has a list of the tables that are in the db you have selected, and a pane on the right that has all the types of objects that you can generate. Select at least one thing from each column, and then click the generate code button on the lower right corner of the application. There are some additional flags to tweak the files that you are generating under the "output" tab that you can play with.
+   
+   The files will be spit out in a subdirectory in whatever folder you are running the exe out of. Take the files and add them to your actual project, and you are off to the races. If you make any changes to your SQL schema, regenerate the files and your code will reflect the changes.
 
    The ORM and DAL objects are pretty cool, as they are wired up so you can just include the DAL project that is part of the code generator project in your own project and it becomes very easy to pull back strongly typed generic collections from a SQL DB with just a few lines of code.
 
