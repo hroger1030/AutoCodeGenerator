@@ -21,8 +21,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-using DAL.SqlMetadata;
-using DAL;
+using DAL.Framework;
+using DAL.Framework.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
@@ -36,8 +36,8 @@ namespace AutoCodeGenLibrary
         private readonly static int[] PRIME_NUMBER_LIST = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271 };
         private readonly static string SQL_PARAMETER_TEMPLATE = "parameters.Add(new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }});";
 
-        public static readonly string CONVERT_NULLABLE_FIELDS = "Convert Nullable Fields";
-        public static readonly string INCLUDE_IS_DIRTY_FLAG = "Include Is Dirty Flag";
+        public readonly static string CONVERT_NULLABLE_FIELDS = "Convert Nullable Fields";
+        public readonly static string INCLUDE_IS_DIRTY_FLAG = "Include Is Dirty Flag";
 
         public eLanguage Language
         {
@@ -93,9 +93,11 @@ namespace AutoCodeGenLibrary
 
             string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
 
-            var output = new OutputObject();
-            output.Name = class_name + ".cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = class_name + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -105,8 +107,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System.Text;");
             sb.AppendLine();
 
-            // not needed here
-            //sb.AppendLine(GenerateNamespaceIncludes(namespace_includes, null));
+            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
             #endregion
 
@@ -425,9 +426,11 @@ namespace AutoCodeGenLibrary
 
             string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
 
-            OutputObject output = new OutputObject();
-            output.Name = class_name + "_Ext.cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            OutputObject output = new OutputObject
+            {
+                Name = class_name + "_Ext.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -492,9 +495,11 @@ namespace AutoCodeGenLibrary
             if (id_column == null)
                 throw new ArgumentException("Sql table needs an identity or primary key");
 
-            OutputObject output = new OutputObject();
-            output.Name = class_name + ".cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            OutputObject output = new OutputObject
+            {
+                Name = class_name + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -755,14 +760,14 @@ namespace AutoCodeGenLibrary
             //{
             //    DataTable dt = ConvertToDataTable(collection);
             //    string xml = XmlConverter.DataTableToXmlString(dt, "GalacticConquest");
-            //    FileIo.WriteToFile(filename, xml);
+            //    File.WriteAllText(filename, xml);
             //}
 
             sb.AppendLine(AddTabs(3) + "public void SaveToXmlFile(" + collection_type + " collection, string filename)");
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "DataTable dt = ConvertToDataTable(collection);");
             sb.AppendLine(AddTabs(4) + "string xml = XmlConverter.DataTableToXmlString(dt, \"" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "\");");
-            sb.AppendLine(AddTabs(4) + "FileIo.WriteToFile(filename, xml);");
+            sb.AppendLine(AddTabs(4) + "File.WriteAllText(filename, xml);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 
@@ -1129,9 +1134,11 @@ namespace AutoCodeGenLibrary
 
             string class_name = NameFormatter.ToCSharpClassName("Dal" + sqlTable.Name);
 
-            OutputObject output = new OutputObject();
-            output.Name = class_name + "_Ext.cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            OutputObject output = new OutputObject
+            {
+                Name = class_name + "_Ext.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -1171,9 +1178,11 @@ namespace AutoCodeGenLibrary
 
             string interface_name = NameFormatter.ToCSharpInterfaceName(sqlTable.Name);
 
-            OutputObject output = new OutputObject();
-            output.Name = interface_name + ".cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            OutputObject output = new OutputObject
+            {
+                Name = interface_name + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             #region SampleCode
             //public interface ICar
@@ -1239,9 +1248,11 @@ namespace AutoCodeGenLibrary
 
             string enum_name = NameFormatter.ToCSharpEnumName(sqlTable.Name);
 
-            OutputObject output = new OutputObject();
-            output.Name = enum_name + ".cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            OutputObject output = new OutputObject
+            {
+                Name = enum_name + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -1285,9 +1296,11 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrWhiteSpace(databaseName))
                 throw new ArgumentException("Sql database name cannot be null or empty");
 
-            OutputObject output = new OutputObject();
-            output.Name = "BaseClass.cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            OutputObject output = new OutputObject
+            {
+                Name = "BaseClass.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 

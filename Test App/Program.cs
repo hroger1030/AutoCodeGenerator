@@ -32,7 +32,7 @@ namespace TestApp
             //    sb.AppendLine(ex.ToString());
             //}
 
-            //FileIo.WriteToFile("c:\\temp\\inline_test.sql", sb.ToString());
+            //File.WriteAllText("c:\\temp\\inline_test.sql", sb.ToString());
 
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();

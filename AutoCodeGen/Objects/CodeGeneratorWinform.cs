@@ -18,7 +18,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Text;
 
-using DAL.SqlMetadata;
+using DAL.Framework.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {

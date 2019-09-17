@@ -47,9 +47,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Database\DAL.csproj">
+    <ProjectReference Include="..\..\Database\DAL.Framework\DAL.Framework.csproj">
       <Project>{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}</Project>
-      <Name>DAL</Name>
+      <Name>DAL.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoCodeGen\AutoCodeGen.csproj">
       <Project>{e6695000-6598-4362-b232-2f9776e2cf4b}</Project>

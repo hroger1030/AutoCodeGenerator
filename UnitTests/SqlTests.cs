@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using DAL.SqlMetadata;
-using NUnit.Framework;
 using AutoCodeGenLibrary;
+using DAL.Framework.SqlMetadata;
+using NUnit.Framework;
 
 namespace UnitTests
 {
