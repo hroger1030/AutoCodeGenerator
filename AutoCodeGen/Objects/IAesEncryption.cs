@@ -18,17 +18,5 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace Encryption
 {
-    public interface IAesEncryption
-    {
-        string Decrypt(string cipher_text, string password, string salt);
-        byte[] Decrypt(byte[] cipher_text, string password, string salt);
-        string Decrypt(string cipher_text, string password, string salt, string initial_vector, int password_iterations, int key_size);
-        byte[] Decrypt(byte[] cipher_text, string password, string salt, string initial_vector, int password_iterations, int key_size);
-        string Encrypt(string plain_text, string password, string salt);
-        byte[] Encrypt(byte[] plain_text, string password, string salt);
-        string Encrypt(string plain_text, string password, string salt, string initial_vector, int password_iterations, int key_size);
-        byte[] Encrypt(byte[] plain_text, string password, string salt, string initial_vector, int password_iterations, int key_size);
-        string GenerateSalt();
-        string GenerateSalt(int length);
-    }
+
 }

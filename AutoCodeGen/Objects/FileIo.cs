@@ -43,7 +43,7 @@ namespace AutoCodeGenLibrary
             if (File.Exists(filePath) && File.GetAttributes(filePath) != FileAttributes.Normal)
                 File.SetAttributes(filePath, FileAttributes.Normal);
 
-            File.WriteAllText(filePath, outputData);
+            FileIo.WriteToFile(filePath, outputData);
         }
 
         /// <summary>

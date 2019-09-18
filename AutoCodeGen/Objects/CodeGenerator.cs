@@ -21,8 +21,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-using DAL.Framework;
-using DAL.Framework.SqlMetadata;
+using DAL.Standard;
+using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
@@ -760,14 +760,14 @@ namespace AutoCodeGenLibrary
             //{
             //    DataTable dt = ConvertToDataTable(collection);
             //    string xml = XmlConverter.DataTableToXmlString(dt, "GalacticConquest");
-            //    File.WriteAllText(filename, xml);
+            //    FileIo.WriteToFile(filename, xml);
             //}
 
             sb.AppendLine(AddTabs(3) + "public void SaveToXmlFile(" + collection_type + " collection, string filename)");
             sb.AppendLine(AddTabs(3) + "{");
             sb.AppendLine(AddTabs(4) + "DataTable dt = ConvertToDataTable(collection);");
             sb.AppendLine(AddTabs(4) + "string xml = XmlConverter.DataTableToXmlString(dt, \"" + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name) + "\");");
-            sb.AppendLine(AddTabs(4) + "File.WriteAllText(filename, xml);");
+            sb.AppendLine(AddTabs(4) + "FileIo.WriteToFile(filename, xml);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine();
 

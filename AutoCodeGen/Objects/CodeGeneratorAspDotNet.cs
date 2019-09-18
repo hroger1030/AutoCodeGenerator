@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 
-using DAL.Framework.SqlMetadata;
+using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {

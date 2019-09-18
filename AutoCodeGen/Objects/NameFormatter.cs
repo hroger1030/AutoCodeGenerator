@@ -23,7 +23,7 @@ using System.Data;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using DAL.Framework.SqlMetadata;
+using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {

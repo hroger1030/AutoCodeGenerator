@@ -22,7 +22,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using DAL.Framework.SqlMetadata;
+using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGen
 {
