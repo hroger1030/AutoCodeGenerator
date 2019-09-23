@@ -26,22 +26,22 @@ using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public class CodeGeneratorSql : CodeGeneratorBase, IGenerator
+    public class CodeGeneratorSql : CodeGeneratorBase
     {
-        private string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
+        private readonly string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
 
         public static readonly string GENERATE_STORED_PROC_PERMS = "Generate Stored Proc Perms";
         public static readonly string INCLUDE_DISABLED_CHECK = "Include Disabled Check";
 
-        public eLanguage Language
+        public override eLanguage Language
         {
             get { return eLanguage.MsSql; }
         }
-        public eCategory Category
+        public override eCategory Category
         {
             get { return eCategory.Database; }
         }
-        public Dictionary<string, string> Methods
+        public override IDictionary<string, string> Methods
         {
             get
             {
@@ -61,7 +61,7 @@ namespace AutoCodeGenLibrary
                 };
             }
         }
-        public Dictionary<string, bool> Options
+        public override IDictionary<string, bool> Options
         {
             get
             {
@@ -71,6 +71,10 @@ namespace AutoCodeGenLibrary
                     { INCLUDE_DISABLED_CHECK, false},
                 };
             }
+        }
+        public override string TabType
+        {
+            get { return "SqlTabSize"; }
         }
 
         public CodeGeneratorSql() { }
@@ -294,7 +298,7 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectManyByX, selectFields);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = procedure_name + ".sql";
             output.Type = OutputObject.eObjectType.Sql;
 
@@ -352,7 +356,7 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = procedure_name + ".sql";
             output.Type = OutputObject.eObjectType.Sql;
 
@@ -409,7 +413,7 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SearchPaged, null);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = procedure_name + ".sql";
             output.Type = OutputObject.eObjectType.Sql;
 
@@ -501,7 +505,7 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.Insert, null);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = procedure_name + ".sql";
             output.Type = OutputObject.eObjectType.Sql;
 
@@ -584,7 +588,7 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.Update, null);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = procedure_name + ".sql";
             output.Type = OutputObject.eObjectType.Sql;
 
@@ -680,7 +684,7 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = procedure_name + ".sql";
             output.Type = OutputObject.eObjectType.Sql;
 
@@ -871,7 +875,7 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = procedure_name + ".sql";
             output.Type = OutputObject.eObjectType.Sql;
 
@@ -1028,7 +1032,7 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = procedure_name + ".sql";
             output.Type = OutputObject.eObjectType.Sql;
 

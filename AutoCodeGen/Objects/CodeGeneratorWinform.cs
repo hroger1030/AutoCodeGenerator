@@ -16,6 +16,7 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+using System.Collections.Generic;
 using System.Text;
 
 using DAL.Standard.SqlMetadata;
@@ -24,6 +25,40 @@ namespace AutoCodeGenLibrary
 {
     public class CodeGeneratorWinform : CodeGeneratorBase
     {
+        public override eLanguage Language
+        {
+            get { return eLanguage.Csharp; }
+        }
+        public override eCategory Category
+        {
+            get { return eCategory.DeskTopApp; }
+        }
+        public override IDictionary<string, string> Methods
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                {
+                    // { "Create WebService 2.0 Controller ", "GenerateWebServiceControllerClass" },
+                };
+            }
+        }
+        public override IDictionary<string, bool> Options
+        {
+            get
+            {
+                return new Dictionary<string, bool>()
+                {
+                    //{ CONVERT_NULLABLE_FIELDS, false},
+                    //{ INCLUDE_IS_DIRTY_FLAG, false},
+                };
+            }
+        }
+        public override string TabType
+        {
+            get { return "CSharpTabSize"; }
+        }
+
         public CodeGeneratorWinform() { }
 
         public OutputObject GenerateWinformEditCode(SqlTable sqlTable)
@@ -56,9 +91,11 @@ namespace AutoCodeGenLibrary
             string class_name = "frmEdit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
             string dal_name = NameFormatter.ToCSharpClassName("Dal" + sqlTable.Name);
 
-            OutputObject output = new OutputObject();
-            output.Name = class_name + ".cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = class_name + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -270,9 +307,11 @@ namespace AutoCodeGenLibrary
 
             string class_name = "frmEdit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
-            OutputObject output = new OutputObject();
-            output.Name = class_name + ".Designer.cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = class_name + ".Designer.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             int total_form_height = 56 + (26 * sqlTable.Columns.Values.Count);
 

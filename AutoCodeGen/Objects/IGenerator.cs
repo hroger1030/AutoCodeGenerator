@@ -24,7 +24,8 @@ namespace AutoCodeGenLibrary
     {
         eCategory Category { get; }
         eLanguage Language { get; }
-        Dictionary<string, string> Methods { get; }
-        Dictionary<string, bool> Options { get; }
+        IDictionary<string, string> Methods { get; }
+        IDictionary<string, bool> Options { get; }
+        string TabType { get; }
     }
 }

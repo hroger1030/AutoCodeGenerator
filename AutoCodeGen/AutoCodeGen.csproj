@@ -81,6 +81,7 @@
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Objects\AesEncryption.cs" />
     <Compile Include="Objects\FileIo.cs" />
     <Compile Include="Objects\IAesEncryption.cs" />
@@ -93,7 +94,7 @@
     <Compile Include="Objects\ConnectionString.cs" />
     <Compile Include="Objects\GeneratorManifest.cs" />
     <Compile Include="Objects\OutputObject.cs" />
-    <Compile Include="Objects\CodeGenerator.cs" />
+    <Compile Include="Objects\CodeGeneratorCSharp.cs" />
     <Compile Include="Enums\eIncludedFields.cs" />
     <Compile Include="Objects\NameFormatter.cs" />
     <Compile Include="Enums\eStoredProcType.cs" />

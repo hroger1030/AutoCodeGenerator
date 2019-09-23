@@ -196,13 +196,13 @@
     <value>C# - Convert nullable Db fields to non-nullable</value>
     <comment>Build Options</comment>
   </data>
-  <data name="OptCsharpCreateBaseClass" xml:space="preserve">
-    <value>C# - Generate a base class object</value>
+  <data name="CsharpCreateBaseClass" xml:space="preserve">
+    <value>Create C# base class object</value>
     <comment>Build Options</comment>
   </data>
   <data name="OptCsharpIncludeBaseClassRefrence" xml:space="preserve">
     <value>C# - Include a 'Base Class' refrence in objects</value>
-    <comment>Build Options</comment>
+    <comment>C# Options</comment>
   </data>
   <data name="OptCsharpIncludeIsDirtyFlag" xml:space="preserve">
     <value>C# - Include 'IsDirty' flag in objects</value>
@@ -300,8 +300,8 @@
     <value>Update/Insert Single Row</value>
     <comment>Tsql Options</comment>
   </data>
-  <data name="WebServicePage" xml:space="preserve">
-    <value>Create WebService page (NYI)</value>
+  <data name="WebServiceController" xml:space="preserve">
+    <value>Create C# WebService 2.0 Controller </value>
     <comment>WebService Options</comment>
   </data>
   <data name="WebsiteUrl" xml:space="preserve">
@@ -362,5 +362,13 @@
   <data name="SqlUpd" xml:space="preserve">
     <value>Update Single Row</value>
     <comment>Tsql Options</comment>
+  </data>
+  <data name="WebServiceControllerBase" xml:space="preserve">
+    <value>Create C# WebService Base Controller</value>
+    <comment>WebService Options</comment>
+  </data>
+  <data name="WebServiceResponseObject" xml:space="preserve">
+    <value>Create C# WebService Response Object</value>
+    <comment>WebService Options</comment>
   </data>
 </root>

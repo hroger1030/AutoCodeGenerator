@@ -104,7 +104,7 @@ namespace AutoCodeGen
                 // set encryption properties
                 _AesEncryption = new AesEncryption(_InitialVector, 5349, 256);
 
-                this.Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
+                Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
 
                 _Conn = new ConnectionString();
                 _DatabaseName = string.Empty;
@@ -112,8 +112,11 @@ namespace AutoCodeGen
                 _NamespaceIncludes = new List<string>();
                 _RegisteredGenerators = new HashSet<IGenerator>
                 {
-                    new CodeGenerator(),
-                    new CodeGeneratorSql()
+                    new CodeGeneratorCSharp(),
+                    new CodeGeneratorSql(),
+                    new CodeGeneratorAspDotNet(),
+                    new CodeGeneratorWebservice(),
+                    new CodeGeneratorWinform(),
                 };
 
                 // display version info
@@ -229,27 +232,27 @@ namespace AutoCodeGen
             clbTsqlSqlObjects.Items.Clear();
             clbTsqlSqlObjects.Items.AddRange(new object[]
             {
-                    Properties.Resource.SqlSelSingle,
-                    Properties.Resource.SqlSelMany,
-                    Properties.Resource.SqlSelManyByX,
-                    Properties.Resource.SqlSelAll,
-                    Properties.Resource.SqlSearchPaged,
-                    Properties.Resource.SqlUpd,
-                    Properties.Resource.SqlIns,
-                    Properties.Resource.SqlUpdIns,
-                    Properties.Resource.SqlDelSingle,
-                    Properties.Resource.SqlDelMany,
-                    Properties.Resource.SqlDelAll,
+                Properties.Resource.SqlSelSingle,
+                Properties.Resource.SqlSelMany,
+                Properties.Resource.SqlSelManyByX,
+                Properties.Resource.SqlSelAll,
+                Properties.Resource.SqlSearchPaged,
+                Properties.Resource.SqlUpd,
+                Properties.Resource.SqlIns,
+                Properties.Resource.SqlUpdIns,
+                Properties.Resource.SqlDelSingle,
+                Properties.Resource.SqlDelMany,
+                Properties.Resource.SqlDelAll,
             });
 
             cmbSQLVersion.Items.Clear();
             cmbSQLVersion.Items.AddRange(new object[]
             {
-                    Properties.Resource.Sql97,
-                    Properties.Resource.Sql2K,
-                    Properties.Resource.Sql2K5,
-                    Properties.Resource.Sql2K8,
-                    Properties.Resource.Sql2K12
+                Properties.Resource.Sql97,
+                Properties.Resource.Sql2K,
+                Properties.Resource.Sql2K5,
+                Properties.Resource.Sql2K8,
+                Properties.Resource.Sql2K12
             });
 
             if (string.IsNullOrEmpty(Properties.Settings.Default.SqlTargetVersion))
@@ -271,12 +274,15 @@ namespace AutoCodeGen
             clbCsharpObjects.Items.Clear();
             clbCsharpObjects.Items.AddRange(new object[]
             {
-                    Properties.Resource.CsharpOrm,
-                    Properties.Resource.CsharpOrmExtension,
-                    Properties.Resource.CsharpDal,
-                    Properties.Resource.CsharpExtensionDal,
-                    Properties.Resource.CsharpInterface,
-                    Properties.Resource.CsharpEnum
+                Properties.Resource.CsharpOrm,
+                Properties.Resource.CsharpOrmExtension,
+                Properties.Resource.CsharpDal,
+                Properties.Resource.CsharpExtensionDal,
+                Properties.Resource.CsharpInterface,
+                Properties.Resource.CsharpEnum,
+                Properties.Resource.CsharpCreateBaseClass,
+
+                Properties.Resource.OptCsharpIncludeBaseClassRefrence,
             });
 
             clbCsharpObjectsCheckedCount = clbCsharpObjects.CheckedItems.Count;
@@ -315,7 +321,9 @@ namespace AutoCodeGen
             clbWebServiceObjects.Items.Clear();
             clbWebServiceObjects.Items.AddRange(new object[]
             {
-                    Properties.Resource.WebServicePage
+                Properties.Resource.WebServiceController,
+                Properties.Resource.WebServiceControllerBase,
+                Properties.Resource.WebServiceResponseObject,
             });
 
             clbWebServiceObjectsCheckedCount = clbWebServiceObjects.CheckedItems.Count;
@@ -375,26 +383,24 @@ namespace AutoCodeGen
             clbOutputOptions.Items.Clear();
             clbOutputOptions.Items.AddRange(new object[]
             {
-                    Properties.Resource.OptSQLCreateHelperSp,
-                    Properties.Resource.OptSQLCreateSqlSpPerms,
-                    Properties.Resource.OptSQLSeperateFiles,
+                Properties.Resource.OptSQLCreateHelperSp,
+                Properties.Resource.OptSQLCreateSqlSpPerms,
+                Properties.Resource.OptSQLSeperateFiles,
 
-                    Properties.Resource.OptMiscRemoveExistingScripts,
+                Properties.Resource.OptMiscRemoveExistingScripts,
 
-                    Properties.Resource.OptCsharpConvertNullableFields,
-                    Properties.Resource.OptCsharpCreateBaseClass,
-                    Properties.Resource.OptCsharpIncludeSqlClassDecoration,
-                    Properties.Resource.OptCsharpIncludeIsDirtyFlag,
-                    Properties.Resource.OptCsharpIncludeBaseClassRefrence,
+                Properties.Resource.OptCsharpConvertNullableFields,
+                Properties.Resource.OptCsharpIncludeSqlClassDecoration,
+                Properties.Resource.OptCsharpIncludeIsDirtyFlag,
 
-                    Properties.Resource.OptAspCreateDefaultPage,
-                    Properties.Resource.OptAspCreatePageAsConrol,
-                    Properties.Resource.OptAspCreateCSSPage,
-                    Properties.Resource.OptAspCreateMasterPage,
-                    Properties.Resource.OptAspCreateWebConfig,
+                Properties.Resource.OptAspCreateDefaultPage,
+                Properties.Resource.OptAspCreatePageAsConrol,
+                Properties.Resource.OptAspCreateCSSPage,
+                Properties.Resource.OptAspCreateMasterPage,
+                Properties.Resource.OptAspCreateWebConfig,
 
-                    Properties.Resource.OptXmlFormat,
-                    Properties.Resource.OptXmlIncludeNs,
+                Properties.Resource.OptXmlFormat,
+                Properties.Resource.OptXmlIncludeNs,
             });
 
             GetOutputFlagSettings();
@@ -515,7 +521,7 @@ namespace AutoCodeGen
             if (Properties.Settings.Default.SqlSeperateFiles) CheckCheckboxListItem(Properties.Resource.OptSQLSeperateFiles);
 
             if (Properties.Settings.Default.CsIncludeIsDirtyFlag) CheckCheckboxListItem(Properties.Resource.OptCsharpIncludeIsDirtyFlag);
-            if (Properties.Settings.Default.CsCreateBaseClass) CheckCheckboxListItem(Properties.Resource.OptCsharpCreateBaseClass);
+            if (Properties.Settings.Default.CsCreateBaseClass) CheckCheckboxListItem(Properties.Resource.CsharpCreateBaseClass);
             if (Properties.Settings.Default.CsIncludeSqlClassDecoration) CheckCheckboxListItem(Properties.Resource.OptCsharpIncludeSqlClassDecoration);
             if (Properties.Settings.Default.CsIncludeBaseClassRefrence) CheckCheckboxListItem(Properties.Resource.OptCsharpIncludeBaseClassRefrence);
             if (Properties.Settings.Default.CsConvertNullableFields) CheckCheckboxListItem(Properties.Resource.OptCsharpConvertNullableFields);
@@ -540,7 +546,7 @@ namespace AutoCodeGen
             Properties.Settings.Default.SqlSeperateFiles = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLSeperateFiles);
 
             Properties.Settings.Default.CsIncludeIsDirtyFlag = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeIsDirtyFlag);
-            Properties.Settings.Default.CsCreateBaseClass = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpCreateBaseClass);
+            Properties.Settings.Default.CsCreateBaseClass = clbOutputOptions.CheckedItems.Contains(Properties.Resource.CsharpCreateBaseClass);
             Properties.Settings.Default.CsIncludeSqlClassDecoration = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeSqlClassDecoration);
             Properties.Settings.Default.CsIncludeBaseClassRefrence = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeBaseClassRefrence);
             Properties.Settings.Default.CsConvertNullableFields = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields);
@@ -969,7 +975,7 @@ namespace AutoCodeGen
 
                 //temp hack
 
-                var code_generator = new CodeGenerator();
+                var code_generator_csharp = new CodeGeneratorCSharp();
                 var code_generator_sql = new CodeGeneratorSql();
                 var code_generator_asp = new CodeGeneratorAspDotNet();
                 var code_generator_rest = new CodeGeneratorWebservice();
@@ -983,6 +989,7 @@ namespace AutoCodeGen
                 foreach (var item in sql_database.ErrorList)
                     DisplayMessage(item.Message, true);
 
+                #region Basic options
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptMiscRemoveExistingScripts))
                     DeleteOldScriptFiles();
 
@@ -992,14 +999,6 @@ namespace AutoCodeGen
                     file_name = Combine(_OutputPath, ConfigurationManager.AppSettings["DefaultTableDetailsSPName"]);
 
                     FileIo.WriteToFile(file_name, script);
-                }
-
-                if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpCreateBaseClass))
-                {
-                    output = code_generator.GenerateCSharpBaseClass(_DatabaseName);
-                    file_name = Combine(_OutputPath, output.Name);
-
-                    FileIo.WriteToFile(file_name, output.Body);
                 }
 
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateMasterPage))
@@ -1052,6 +1051,7 @@ namespace AutoCodeGen
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
+                #endregion
 
                 #region Sql Code Generation
                 if (clbTsqlSqlTables.CheckedItems.Count > 0 && clbTsqlSqlObjects.CheckedItems.Count > 0)
@@ -1184,6 +1184,9 @@ namespace AutoCodeGen
                 #region C# Code Generation
                 if (clbCsharpSqlTables.CheckedItems.Count > 0 && clbCsharpObjects.CheckedItems.Count > 0)
                 {
+                    // todo: check for local flags being set, such as
+                    // if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeBaseClassRefrence))
+
                     foreach (string table_name in clbCsharpSqlTables.CheckedItems)
                     {
                         if (!sql_database.Tables.ContainsKey(table_name))
@@ -1193,31 +1196,31 @@ namespace AutoCodeGen
 
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrm))
                         {
-                            output = code_generator.GenerateCSharpOrmClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeSqlClassDecoration));
+                            output = code_generator_csharp.GenerateCSharpPoCoClass(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrmExtension))
                         {
-                            output = code_generator.GenerateCSharpExternalOrmClass(current_table, _NamespaceIncludes);
+                            output = code_generator_csharp.GenerateCSharpExternalOrmClass(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryOrmExt, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpInterface))
                         {
-                            output = code_generator.GenerateCSharpClassInterface(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeIsDirtyFlag));
+                            output = code_generator_csharp.GenerateCSharpClassInterface(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeIsDirtyFlag));
                             file_name = Combine(_OutputPath, s_DirectoryInterface, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpDal))
                         {
-                            output = code_generator.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields), clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeIsDirtyFlag));
+                            output = code_generator_csharp.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields), clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeIsDirtyFlag));
                             file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpExtensionDal))
                         {
-                            output = code_generator.GenerateCSharpExternalDalClass(current_table, _NamespaceIncludes);
+                            output = code_generator_csharp.GenerateCSharpExternalDalClass(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryDalExt, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
@@ -1231,6 +1234,7 @@ namespace AutoCodeGen
 
                             field_selector = new FieldSelector(key_fields, current_table, Properties.Resource.SelectEnumNameField, 1, 1);
                             field_selector.ShowDialog(this);
+                            field_selector.Dispose();
 
                             field_selector = new FieldSelector(value_fields, current_table, Properties.Resource.SelectEnumValueField, 1, 1);
                             field_selector.ShowDialog(this);
@@ -1243,11 +1247,20 @@ namespace AutoCodeGen
                             }
                             else
                             {
-                                output = code_generator.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], _Conn.ToString());
+                                output = code_generator_csharp.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], _Conn.ToString());
                                 file_name = Combine(_OutputPath, s_DirectoryEnums, output.Name);
                                 FileIo.WriteToFile(file_name, output.Body);
                             }
                         }
+                    }
+
+                    // todo: do we want to write out the base class generation to the DAL dir?
+                    if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpCreateBaseClass))
+                    {
+                        output = code_generator_csharp.GenerateCSharpBaseClass(_DatabaseName);
+                        file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
+
+                        FileIo.WriteToFile(file_name, output.Body);
                     }
 
                     DisplayMessage("C# objects created", false);
@@ -1309,11 +1322,39 @@ namespace AutoCodeGen
                 #region WebService Code Generation
                 if (clbWebServiceSqlTables.CheckedItems.Count > 0 && clbWebServiceObjects.CheckedItems.Count > 0)
                 {
+                    bool generate_base_controller = clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceControllerBase);
+                    bool generate_response_base = clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceResponseObject);
+
+                    var options = new Dictionary<string, bool>()
+                    {
+                        { CodeGeneratorWebservice.GENERATE_BASE_CONTROLLER, generate_base_controller },
+                        { CodeGeneratorWebservice.GENERATE_BASE_RESPONSE_OBJECT, generate_response_base },
+                    };
+
                     foreach (string table_name in clbWebServiceSqlTables.CheckedItems)
                     {
+                        if (!sql_database.Tables.ContainsKey(table_name))
+                            continue;
+
                         SqlTable current_table = sql_database.Tables[table_name];
 
-                        output = code_generator_rest.GenerateWebServiceControllerClass(current_table, _NamespaceIncludes);
+                        if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceController))
+                        {
+                            output = code_generator_rest.GenerateWebServiceControllerClass(current_table, _NamespaceIncludes, options);
+                            file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
+                            FileIo.WriteToFile(file_name, output.Body);
+                        }
+                    }
+
+                    if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceControllerBase))
+                    {
+                        output = code_generator_rest.GenerateWebServiceBaseControllerClass();
+                        file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
+                        FileIo.WriteToFile(file_name, output.Body);
+                    }
+                    if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceResponseObject))
+                    {
+                        output = code_generator_rest.GenerateResponseBaseClass();
                         file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
                     }
@@ -1385,7 +1426,7 @@ namespace AutoCodeGen
                         // Xml Export
                         if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlExportData))
                         {
-                            DataTable data_table = code_generator.GenerateSqlTableData(current_table, _Conn.ToString());
+                            DataTable data_table = code_generator_csharp.GenerateSqlTableData(current_table, _Conn.ToString());
 
                             if (generate_with_attributes)
                             {
@@ -1403,7 +1444,7 @@ namespace AutoCodeGen
                         // Xml Loader object
                         if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlImportObject))
                         {
-                            output = code_generator.GenerateXmlLoader(current_table);
+                            output = code_generator_csharp.GenerateXmlLoader(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryXMlData, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }

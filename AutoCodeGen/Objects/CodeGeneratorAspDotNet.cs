@@ -24,19 +24,19 @@ using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public class CodeGeneratorAspDotNet : CodeGeneratorBase, IGenerator
+    public class CodeGeneratorAspDotNet : CodeGeneratorBase
     {
         public static readonly string CREATE_AS_ASP_CONTROL = "Create As Asp Control";
 
-        public eLanguage Language
+        public override eLanguage Language
         {
             get { return eLanguage.Csharp; }
         }
-        public eCategory Category
+        public override eCategory Category
         {
             get { return eCategory.WebApp; }
         }
-        public Dictionary<string, string> Methods
+        public override IDictionary<string, string> Methods
         {
             get
             {
@@ -57,7 +57,12 @@ namespace AutoCodeGenLibrary
                 };
             }
         }
-        public Dictionary<string, bool> Options
+        public override string TabType
+        {
+            get { return "CSharpTabSize"; }
+        }
+
+        public override IDictionary<string, bool> Options
         {
             get
             {
@@ -75,9 +80,11 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(databaseName))
                 return null;
 
-            OutputObject output = new OutputObject();
-            output.Name = ConfigurationManager.AppSettings["DefaultCSSFilename"];
-            output.Type = OutputObject.eObjectType.Css;
+            var output = new OutputObject
+            {
+                Name = ConfigurationManager.AppSettings["DefaultCSSFilename"],
+                Type = OutputObject.eObjectType.Css
+            };
 
             string spacer = "/*******************************************************************************/";
 
@@ -374,9 +381,11 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(databaseName))
                 return null;
 
-            var output = new OutputObject();
-            output.Name = ConfigurationManager.AppSettings["DefaultMasterPageFilename"];
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = ConfigurationManager.AppSettings["DefaultMasterPageFilename"],
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -437,7 +446,7 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(databaseName))
                 return null;
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = ConfigurationManager.AppSettings["DefaultMasterPageFilename"] + ".cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
@@ -476,11 +485,13 @@ namespace AutoCodeGenLibrary
                 return null;
 
             string view_class_name = "View" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
-            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
+            //int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
 
-            OutputObject output = new OutputObject();
-            output.Name = view_class_name + ".aspx.cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = view_class_name + ".aspx.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             namespaceIncludes.Add(NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
 
@@ -599,27 +610,27 @@ namespace AutoCodeGenLibrary
                     switch (sql_column.BaseType)
                     {
                         case eSqlBaseType.Bool:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("chk" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Checked", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
+                            sb.AppendLine(AddTabs(5) + "chk" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Checked" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
                             break;
 
                         case eSqlBaseType.Guid:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
+                            sb.AppendLine(AddTabs(5) + "lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
                             break;
 
                         case eSqlBaseType.Integer:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
+                            sb.AppendLine(AddTabs(5) + "lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
                             break;
 
                         case eSqlBaseType.Float:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
+                            sb.AppendLine(AddTabs(5) + "lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
                             break;
 
                         case eSqlBaseType.Time:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
+                            sb.AppendLine(AddTabs(5) + "lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
                             break;
 
                         default:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
+                            sb.AppendLine(AddTabs(5) + "lbl" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
                             break;
                     }
                 }
@@ -682,12 +693,14 @@ namespace AutoCodeGenLibrary
             if (sqlTable == null)
                 return null;
 
-            string list_class_name = "List" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
+            //string list_class_name = "List" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
             string edit_class_name = "Edit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
-            OutputObject output = new OutputObject();
-            output.Name = edit_class_name + ".aspx";
-            output.Type = OutputObject.eObjectType.Aspx;
+            var output = new OutputObject
+            {
+                Name = edit_class_name + ".aspx",
+                Type = OutputObject.eObjectType.Aspx
+            };
 
             var sb = new StringBuilder();
 
@@ -799,11 +812,13 @@ namespace AutoCodeGenLibrary
                 return null;
 
             string class_name = "Edit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
-            int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
+            //int longest_column = GetLongestColumnLength(sqlTable) + sqlTable.Name.Length;
 
-            OutputObject output = new OutputObject();
-            output.Name = class_name + ".aspx.cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = class_name + ".aspx.cs",
+                Type = OutputObject.eObjectType.CSharp,
+            };
 
             namespaceIncludes.Add(NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
 
@@ -921,27 +936,27 @@ namespace AutoCodeGenLibrary
                     switch (sql_column.BaseType)
                     {
                         case eSqlBaseType.Bool:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("chk" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Checked", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
+                            sb.AppendLine(AddTabs(5) + "chk" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Checked" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
                             break;
 
                         case eSqlBaseType.Guid:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
+                            sb.AppendLine(AddTabs(5) + "txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
                             break;
 
                         case eSqlBaseType.Integer:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
+                            sb.AppendLine(AddTabs(5) + "txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
                             break;
 
                         case eSqlBaseType.Float:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
+                            sb.AppendLine(AddTabs(5) + "txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
                             break;
 
                         case eSqlBaseType.Time:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
+                            sb.AppendLine(AddTabs(5) + "txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".ToString();");
                             break;
 
                         default:
-                            sb.AppendLine(AddTabs(5) + PadCSharpVariableName("txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
+                            sb.AppendLine(AddTabs(5) + "txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= dal_obj.Collection[0]." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ";");
                             break;
                     }
                 }
@@ -972,15 +987,15 @@ namespace AutoCodeGenLibrary
                     switch (sql_column.BaseType)
                     {
                         case eSqlBaseType.Bool:
-                            sb.AppendLine(AddTabs(4) + PadCSharpVariableName("chk" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Checked", longest_column, 11) + "= false;");
+                            sb.AppendLine(AddTabs(4) + "chk" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Checked" + "= false;");
                             break;
 
                         case eSqlBaseType.Time:
-                            sb.AppendLine(AddTabs(4) + PadCSharpVariableName("txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= string.Empty;");
+                            sb.AppendLine(AddTabs(4) + "txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= string.Empty;");
                             break;
 
                         default:
-                            sb.AppendLine(AddTabs(4) + PadCSharpVariableName("txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text", longest_column, 11) + "= string.Empty;");
+                            sb.AppendLine(AddTabs(4) + "txt" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + ".Text" + "= string.Empty;");
                             break;
                     }
                 }
@@ -1014,7 +1029,7 @@ namespace AutoCodeGenLibrary
                 {
                     string csharp_columnname = NameFormatter.ToCSharpPropertyName(sql_column.Name);
 
-                    sb.Append(AddTabs(5) + PadCSharpVariableName("obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name), longest_column, 4));
+                    sb.Append(AddTabs(5) + "obj." + NameFormatter.ToCSharpPropertyName(sql_column.Name));
 
                     switch (sql_column.BaseType)
                     {
@@ -1145,13 +1160,13 @@ namespace AutoCodeGenLibrary
             string list_object_name = "List" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
             string edit_object_name = "Edit" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
             string orm_class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
-            string list_class_name = NameFormatter.ToCSharpClassName(list_object_name);
+            //string list_class_name = NameFormatter.ToCSharpClassName(list_object_name);
 
-            OutputObject output = new OutputObject();
-            output.Name = list_object_name + ".aspx";
-            output.Type = OutputObject.eObjectType.Aspx;
-
-            bool first_flag = true;
+            var output = new OutputObject
+            {
+                Name = list_object_name + ".aspx",
+                Type = OutputObject.eObjectType.Aspx
+            };
 
             var sb = new StringBuilder();
 
@@ -1205,7 +1220,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + "<tr class=\"RepeaterItemStyle\">");
             sb.AppendLine();
 
-            first_flag = true;
+            bool first_flag = true;
 
             foreach (var item in sqlTable.Columns.Values)
             {
@@ -1286,7 +1301,7 @@ namespace AutoCodeGenLibrary
 
             string class_name = "List" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = class_name + ".aspx.cs";
             output.Type = OutputObject.eObjectType.CSharp;
 
@@ -1553,7 +1568,7 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(databaseName))
                 return null;
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = ConfigurationManager.AppSettings["DefaultASPPageFilename"] + ".aspx";
             output.Type = OutputObject.eObjectType.Aspx;
 
@@ -1579,7 +1594,7 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(databaseName))
                 return null;
 
-            OutputObject output = new OutputObject();
+            var output = new OutputObject();
             output.Name = ConfigurationManager.AppSettings["DefaultASPPageFilename"] + ".aspx.cs";
             output.Type = OutputObject.eObjectType.CSharp;
 

@@ -26,54 +26,196 @@ namespace AutoCodeGenLibrary
 {
     public class CodeGeneratorWebservice : CodeGeneratorBase
     {
+        public const string GENERATE_BASE_RESPONSE_OBJECT = "generate_base_response_object";
+        public const string GENERATE_BASE_CONTROLLER = "generate_base_controller";
+
+        private const string RESPONSE_BASE_CLASS_NAME = "ResponseBase";
+        private const string CONTROLLER_BASE_CLASS_NAME = "ControllerBase";
+
+        public override eLanguage Language
+        {
+            get { return eLanguage.Csharp; }
+        }
+        public override eCategory Category
+        {
+            get { return eCategory.RestApi; }
+        }
+        public override IDictionary<string, string> Methods
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                {
+                    { "Create WebService 2.0 Controller ", "GenerateWebServiceControllerClass" },
+                    { "Create C# WebService Base Controller", "GenerateWebServiceBaseControllerClass" },
+                    { "Create C# WebService Response Object", "GenerateResponseBaseClass" },
+                };
+            }
+        }
+        public override IDictionary<string, bool> Options
+        {
+            get
+            {
+                return new Dictionary<string, bool>()
+                {
+                    //{ CONVERT_NULLABLE_FIELDS, false},
+                    //{ INCLUDE_IS_DIRTY_FLAG, false},
+                };
+            }
+        }
+        public override string TabType
+        {
+            get { return "CSharpTabSize"; }
+        }
+
         public CodeGeneratorWebservice() { }
 
-        public OutputObject GenerateWebServiceControllerClass(SqlTable sqlTable, List<string> namespaceIncludes)
+        public OutputObject GenerateWebServiceControllerClass(SqlTable sqlTable, List<string> namespaceIncludes, IDictionary<string, bool> options)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
 
             string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
 
-            OutputObject output = new OutputObject();
-            output.Name = class_name + ".cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = $"{class_name}.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
             sb.AppendLine("using System;");
-            sb.AppendLine("using using System.Linq;");
-            sb.AppendLine("using System.Net.Http;");
-            sb.AppendLine("using System.Net.Http.Headers;");
-            sb.AppendLine("using System.Web.Http.Description;");
+            sb.AppendLine("using System.Collections.Generic;");
+            sb.AppendLine("using System.Reflection;");
+            sb.AppendLine("using Microsoft.AspNetCore.Mvc;");
             sb.AppendLine();
 
-            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
-            sb.AppendLine();
+            if (namespaceIncludes != null && namespaceIncludes.Count > 1)
+                sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
             sb.AppendLine("namespace WebService");
             sb.AppendLine("{");
 
-            sb.AppendLine(AddTabs(1) + $"public class {sqlTable.Name}Controller : ApiController");
+            sb.AppendLine(AddTabs(1) + "[ApiController]");
+
+            if (options[GENERATE_BASE_CONTROLLER])
+                sb.AppendLine(AddTabs(1) + $"public class {sqlTable.Name}Controller : ControllerBase");
+            else
+                sb.AppendLine(AddTabs(1) + $"public class {sqlTable.Name}Controller : ApiController");
+
             sb.AppendLine(AddTabs(1) + "{");
 
+            sb.AppendLine(AddTabs(2) + $"public {sqlTable.Name}Controller() {{ }}");
+            sb.AppendLine();
+
             sb.AppendLine(AddTabs(2) + "[HttpGet]");
-            sb.AppendLine(AddTabs(2) + "[Route(\"api/test\")]");
-            sb.AppendLine(AddTabs(2) + "public IHttpActionResult Test()");
+            sb.AppendLine(AddTabs(2) + $"[Route(\"api/v1/{sqlTable.Name.ToLower()}/{{id}}\")]");
+            
+            sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> Get{sqlTable.Name}(int id)");
             sb.AppendLine(AddTabs(2) + "{");
             sb.AppendLine(AddTabs(3) + "try");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return Ok(\"Hello World\");");
+
+            // todo: wire up to DAL
+
+            sb.AppendLine(AddTabs(4) + "return Ok(ResponseBase.DEFAULT_SUCCESS;");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine(AddTabs(3) + "catch (Exception ex)");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "return InternalServerError(ex);");
+            sb.AppendLine(AddTabs(4) + "// log exception here");
+            sb.AppendLine(AddTabs(4) + "return StatusCode(500, ResponseBase.DEFAULT_FAILURE);");
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine(AddTabs(2) + "}");
 
             sb.AppendLine(AddTabs(1) + "}");
-
             sb.AppendLine("}");
+
+            output.Body = sb.ToString();
+            return output;
+        }
+
+        public OutputObject GenerateWebServiceBaseControllerClass()
+        {
+            var output = new OutputObject
+            {
+                Name = CONTROLLER_BASE_CLASS_NAME + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("namespace WebService");
+            sb.AppendLine("{");
+
+            sb.AppendLine(AddTabs(1) + $"public class ControllerBase : ApiController");
+            sb.AppendLine(AddTabs(1) + "{");
+            sb.AppendLine(AddTabs(2) + "// Include whatever logic here that is to be shared by all controllers");
+            sb.AppendLine("{");
+
+            sb.AppendLine(AddTabs(2) + $"public ControllerBase() {{ }}");
+            sb.AppendLine(AddTabs(1) + "}");
+
+            sb.Append("}");
+
+            output.Body = sb.ToString();
+            return output;
+        }
+
+        public OutputObject GenerateResponseBaseClass()
+        {
+            var output = new OutputObject
+            {
+                Name = RESPONSE_BASE_CLASS_NAME + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("namespace WebApi");
+            sb.AppendLine("{");
+
+            // response base class
+
+            sb.AppendLine(AddTabs(1) + "public class ResponseBase");
+            sb.AppendLine(AddTabs(1) + "{");
+
+            sb.AppendLine(AddTabs(2) + "public static readonly ResponseBase MISSING_OR_INVALID_ARGUMENTS = new ResponseBase(false, \"One or more parameters were missing or invalid\");");
+            sb.AppendLine(AddTabs(2) + "public static readonly ResponseBase SERVER_ERROR = new ResponseBase(false, \"An server error occurred\");");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "public static readonly ResponseBase DEFAULT_FAILURE = new ResponseBase(false, \"A server side error occurred\");");
+            sb.AppendLine(AddTabs(2) + "public static readonly ResponseBase DEFAULT_SUCCESS = new ResponseBase(true, string.Empty);");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "public bool Success { get; set; }");
+            sb.AppendLine(AddTabs(2) + "public string Message { get; set; }");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "public ResponseBase(bool success, string message)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "Success = success;");
+            sb.AppendLine(AddTabs(3) + "public string Message { get; set; }");
+            sb.AppendLine(AddTabs(2) + "}");
+
+            sb.AppendLine(AddTabs(1) + "}");
+            sb.AppendLine();
+
+            // container response class
+
+            sb.AppendLine(AddTabs(1) + "public class ResponseObject<T> : ResponseBase");
+            sb.AppendLine(AddTabs(1) + "{");
+            sb.AppendLine(AddTabs(2) + "public T Data { get; set; }");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "public ResponseObject(bool success, string message, T data) : base(success, message)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "Data = data;");
+            sb.AppendLine(AddTabs(2) + "}");
+
+            sb.AppendLine(AddTabs(1) + "}");
+
+            sb.Append("}");
 
             output.Body = sb.ToString();
             return output;
@@ -81,168 +223,73 @@ namespace AutoCodeGenLibrary
     }
 }
 
-//namespace foo
-//{
-//    public class SnippetsController : ApiController
-//    {
-//        private IDataSource _Data;
+/*
+Need:
+GetById
+GetAll
+GetAllPaged
+Insert
+Update
 
-//        public SnippetsController()
-//        {
-//            _Data = WebApiApplication.Data;
-//        }
+    
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 
-//        public SnippetsController(IDataSource data)
-//        {
-//            _Data = data;
-//        }
+namespace WebApi
+{
+    [ApiController]
+    public class HealthController : ApiControllerBase
+    {
+        public HealthController(IDictionary<string, object> config, ILogger log, IMetrics metrics, IDataSource datasource, IDictionary<string, User> users) : base(config, log, metrics, datasource, users) { }
 
-//        [HttpGet]
-//        [Route("api/snippets")]
-//        public IHttpActionResult GetUserSnippetes()
-//        {
-//            HttpRequestHeaders headers = Request.Headers;
-//            string emailAddress = string.Empty;
+        [HttpGet]
+        [Route("api/v1/health/status")]
+        public ActionResult<ResponseBase> GetServerHealth()
+        {
+            try
+            {
+                _Metrics.IncrementCounter(MethodBase.GetCurrentMethod().Name);
+                return Ok(new ResponseBase(true, "Healthy"));
+            }
+            catch (Exception ex)
+            {
+                return ManageException(ex);
+            }
+        }
 
-//            if (headers.Contains("emailAddress"))
-//                emailAddress = headers.GetValues("emailAddress").First();
+        [HttpGet]
+        [Route("api/v1/health/time")]
+        public ActionResult<ResponseBase> ServerTime()
+        {
+            try
+            {
+                _Metrics.IncrementCounter(MethodBase.GetCurrentMethod().Name);
+                return Ok(new ResponseBase(true, DateTime.UtcNow.ToString()));
+            }
+            catch (Exception ex)
+            {
+                return ManageException(ex);
+            }
+        }
 
-//            // no validation needed here
+        [HttpGet]
+        [Route("api/v1/health/version")]
+        public ActionResult<ResponseBase> ApplicationVersion()
+        {
+            try
+            {
+                _Metrics.IncrementCounter(MethodBase.GetCurrentMethod().Name);
+                return Ok(new ResponseBase(true, GetType().Assembly.GetName().Version.ToString()));
+            }
+            catch (Exception ex)
+            {
+                return ManageException(ex);
+            }
+        }
+    }
+}
 
-//            var result = _Data.GetSharedSnippets();
-
-//            if (result == null || result.Length < 1)
-//                return BadRequest("Failed to find any shared snippets");
-//            else
-//                return Ok(result);
-//        }
-
-//        [HttpGet]
-//        [Route("api/snippets/{snippetId:int}")]
-//        public IHttpActionResult GetSnippet(int snippetId)
-//        {
-//            HttpRequestHeaders headers = Request.Headers;
-//            string emailAddress = string.Empty;
-
-//            if (headers.Contains("emailAddress"))
-//                emailAddress = headers.GetValues("emailAddress").First();
-
-//            var result = _Data.GetSnippet(emailAddress, snippetId);
-
-//            if (result == null)
-//                return BadRequest($"Failed to find snippet with id of {snippetId}");
-//            else
-//                return Ok(result);
-//        }
-
-//        [HttpPut]
-//        [Route("api/snippets/{snippetId:int}/like")]
-//        public IHttpActionResult LikeSnippet(int snippetId)
-//        {
-//            HttpRequestHeaders headers = Request.Headers;
-//            string emailAddress = string.Empty;
-
-//            if (headers.Contains("emailAddress"))
-//                emailAddress = headers.GetValues("emailAddress").First();
-//            else
-//                return Unauthorized();
-
-//            if (!_Data.IsUserValid(emailAddress))
-//            {
-//                _Log.Warn($"Invalid user {emailAddress}");
-//                return Unauthorized();
-//            }
-
-//            var result = _Data.LikeSnippet(emailAddress, snippetId);
-
-//            if (result == null)
-//                return BadRequest($"Failed to like or unlike snippet {snippetId}");
-
-//            // go notify achievement controllers of change
-//            // minor twist here, bump score of author, not person liking snippet
-//            string host_name = $"{WebApiApplication.LocalHostName}api/achievements/{(int)eActivityType.Liked}";
-//            var buffer = HttpRequestHelper.ApiPut(host_name, result.Owner);
-
-//            return Ok(result);
-//        }
-
-//        [HttpPut]
-//        [Route("api/snippets/{snippetId:int}/share")]
-//        public IHttpActionResult ShareSnippet(int snippetId)
-//        {
-//            HttpRequestHeaders headers = Request.Headers;
-//            string emailAddress = string.Empty;
-
-//            if (headers.Contains("emailAddress"))
-//                emailAddress = headers.GetValues("emailAddress").First();
-//            else
-//                return Unauthorized();
-
-//            if (!_Data.IsUserValid(emailAddress))
-//            {
-//                _Log.Warn($"Invalid user {emailAddress}");
-//                return Unauthorized();
-//            }
-
-//            var result = _Data.ToggleSnippetSharing(emailAddress, snippetId);
-
-//            if (result == null)
-//                return BadRequest($"Failed to share / unshare snippet {snippetId}");
-
-//            // go notify achievement controllers of change
-//            // only tic counter if we set it to shared.
-//            if (result.Shared)
-//            {
-//                string host_name = $"{WebApiApplication.LocalHostName}api/achievements/{(int)eActivityType.Shared}";
-//                var buffer = HttpRequestHelper.ApiPut(host_name, emailAddress);
-//            }
-
-//            return Ok(result);
-//        }
-
-//        [HttpPost]
-//        [Route("api/snippets")]
-//        [ResponseType(typeof(Snippet))]
-//        public IHttpActionResult Post([FromBody] Snippet snippet)
-//        {
-//            if (snippet == null)
-//                return BadRequest("Invalid snippet data");
-
-//            HttpRequestHeaders headers = Request.Headers;
-//            string emailAddress = string.Empty;
-
-//            if (headers.Contains("emailAddress"))
-//                emailAddress = headers.GetValues("emailAddress").First();
-//            else
-//                return Unauthorized();
-
-//            if (!_Data.IsUserValid(emailAddress))
-//            {
-//                _Log.Warn($"Invalid user {emailAddress}");
-//                return Unauthorized();
-//            }
-
-//            snippet.Owner = emailAddress;
-//            snippet.Likes = 0;
-
-//            if (snippet.Text.Length > MAX_SNIPPET_LENGTH)
-//                snippet.Text = snippet.Text.Substring(0, MAX_SNIPPET_LENGTH);
-
-//            try
-//            {
-//                var new_snippet = _Data.AddSnippet(snippet);
-
-//                // go notify achievement controllers of change
-//                string host_name = $"{WebApiApplication.LocalHostName}api/achievements/{(int)eActivityType.Created}";
-//                var buffer = HttpRequestHelper.ApiPut(host_name, emailAddress);
-
-//                return Ok(new_snippet);
-//            }
-//            catch (Exception ex)
-//            {
-//                _Log.Error(ex);
-//                return InternalServerError(ex);
-//            }
-//        }
-//    }
-//}
+ 
+*/

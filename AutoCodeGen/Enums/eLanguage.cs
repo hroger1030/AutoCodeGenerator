@@ -25,6 +25,7 @@ namespace AutoCodeGenLibrary
         Scala,
         Cplusplus,
         C,
+        Go,
         JavaScript,
         Sql,
         MsSql,

@@ -124,6 +124,15 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create C# base class object.
+        /// </summary>
+        internal static string CsharpCreateBaseClass {
+            get {
+                return ResourceManager.GetString("CsharpCreateBaseClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create C# Dal Object.
         /// </summary>
         internal static string CsharpDal {
@@ -246,15 +255,6 @@ namespace AutoCodeGen.Properties {
         internal static string OptCsharpConvertNullableFields {
             get {
                 return ResourceManager.GetString("OptCsharpConvertNullableFields", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C# - Generate a base class object.
-        /// </summary>
-        internal static string OptCsharpCreateBaseClass {
-            get {
-                return ResourceManager.GetString("OptCsharpCreateBaseClass", resourceCulture);
             }
         }
         
@@ -538,11 +538,29 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create WebService page (NYI).
+        ///   Looks up a localized string similar to Create C# WebService 2.0 Controller .
         /// </summary>
-        internal static string WebServicePage {
+        internal static string WebServiceController {
             get {
-                return ResourceManager.GetString("WebServicePage", resourceCulture);
+                return ResourceManager.GetString("WebServiceController", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create C# WebService Base Controller.
+        /// </summary>
+        internal static string WebServiceControllerBase {
+            get {
+                return ResourceManager.GetString("WebServiceControllerBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create C# WebService Response Object.
+        /// </summary>
+        internal static string WebServiceResponseObject {
+            get {
+                return ResourceManager.GetString("WebServiceResponseObject", resourceCulture);
             }
         }
         

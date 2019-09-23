@@ -27,7 +27,7 @@ namespace AutoCodeGen
         //http://msdn2.microsoft.com/en-us/library/system.data.sqlclient.SQLConn.connectionstring(VS.71).aspx
 
         protected string _Name;
-        protected Dictionary<string, string> _Parameters;
+        protected IDictionary<string, string> _Parameters;
 
         /// <summary>
         /// Creates generic local connection
