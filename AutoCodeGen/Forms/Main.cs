@@ -274,6 +274,7 @@ namespace AutoCodeGen
             clbCsharpObjects.Items.Clear();
             clbCsharpObjects.Items.AddRange(new object[]
             {
+                Properties.Resource.CsharpPoCo,
                 Properties.Resource.CsharpOrm,
                 Properties.Resource.CsharpOrmExtension,
                 Properties.Resource.CsharpDal,
@@ -1194,9 +1195,15 @@ namespace AutoCodeGen
 
                         SqlTable current_table = sql_database.Tables[table_name];
 
-                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrm))
+                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpPoCo))
                         {
                             output = code_generator_csharp.GenerateCSharpPoCoClass(current_table, _NamespaceIncludes);
+                            file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
+                            FileIo.WriteToFile(file_name, output.Body);
+                        }
+                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrm))
+                        {
+                            output = code_generator_csharp.GenerateCSharpOrmClass(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }

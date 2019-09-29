@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -42,11 +43,11 @@ namespace AutoCodeGenLibrary
         private static string _DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
         private static string _DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
 
-        private static string s_CSharpClassPrefix = ConfigurationManager.AppSettings["CSharpClassPrefix"];
-        private static string s_CSharpEnumPrefix = ConfigurationManager.AppSettings["CSharpEnumPrefix"];
-        private static string s_CSharpInterfacePrefix = ConfigurationManager.AppSettings["CSharpInterfacePrefix"];
+        private static string _CSharpClassPrefix = ConfigurationManager.AppSettings["CSharpClassPrefix"];
+        private static string _CSharpEnumPrefix = ConfigurationManager.AppSettings["CSharpEnumPrefix"];
+        private static string _CSharpInterfacePrefix = ConfigurationManager.AppSettings["CSharpInterfacePrefix"];
 
-        private static string[] s_CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "\"", "=", "{", "}", "[", "]", ":", ";", "|", "'", "\\", "<", ">", ",", ".", "?", "/", " ", "~", "`" };
+        private static string[] _CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "\"", "=", "{", "}", "[", "]", ":", ";", "|", "'", "\\", "<", ">", ",", ".", "?", "/", " ", "~", "`" };
 
         /// <summary>
         /// Returns the SQL column name formatted for UI eas of reading
@@ -55,8 +56,7 @@ namespace AutoCodeGenLibrary
         public static string ToFriendlyName(string input)
         {
             input = ToFriendlyCase(input);
-
-            System.Globalization.CultureInfo CI = new System.Globalization.CultureInfo("en-US");
+            CultureInfo CI = new CultureInfo("en-US");
             input = CI.TextInfo.ToTitleCase(input);
 
             return input;
@@ -86,7 +86,7 @@ namespace AutoCodeGenLibrary
         /// </summary>
         public static string ToCSharpClassName(SqlTable input)
         {
-            return s_CSharpClassPrefix + NormalizeForCSharp(input.Name);
+            return _CSharpClassPrefix + NormalizeForCSharp(input.Name);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace AutoCodeGenLibrary
         /// </summary>
         public static string ToCSharpClassName(string input)
         {
-            return s_CSharpClassPrefix + NormalizeForCSharp(input);
+            return _CSharpClassPrefix + NormalizeForCSharp(input);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace AutoCodeGenLibrary
         /// </summary>
         public static string ToCSharpInterfaceName(string input)
         {
-            return s_CSharpInterfacePrefix + NormalizeForCSharp(input);
+            return _CSharpInterfacePrefix + NormalizeForCSharp(input);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace AutoCodeGenLibrary
         /// </summary>
         public static string ToCSharpEnumName(string input)
         {
-            return s_CSharpEnumPrefix + NormalizeForCSharp(input);
+            return _CSharpEnumPrefix + NormalizeForCSharp(input);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace AutoCodeGenLibrary
                 case SqlDbType.Char:
                 case SqlDbType.NChar:
                 case SqlDbType.Xml:
-                    return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sqlColumn)}\", SqlDbType = {sqlColumn.SqlDataType.ToString()}, Value = {column_value}, Size = \"{sqlColumn.Length}\" }},";
+                    return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sqlColumn)}\", SqlDbType = {sqlColumn.SqlDataType.ToString()}, Value = {column_value}, Size = {sqlColumn.Length} }},";
 
                 default:
                     return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sqlColumn)}\", SqlDbType = {sqlColumn.SqlDataType.ToString()}, Value = {column_value} }},";
@@ -201,10 +201,10 @@ namespace AutoCodeGenLibrary
                             return "false";
 
                     case SqlDbType.Char: return "\"" + sqlColumn.DefaultValue + "\"";
-                    case SqlDbType.Date: return sqlColumn.DefaultValue.ToLower() == "getdate()" ? "DateTime.Now;" : "DateTime.Parse(\"" + sqlColumn.DefaultValue + "\")";
-                    case SqlDbType.DateTime: return sqlColumn.DefaultValue.ToLower() == "getdate()" ? "DateTime.Now;" : "DateTime.Parse(\"" + sqlColumn.DefaultValue + "\")";
-                    case SqlDbType.DateTime2: return sqlColumn.DefaultValue.ToLower() == "getdate()" ? "DateTime.Now;" : "DateTime.Parse(\"" + sqlColumn.DefaultValue + "\")";
-                    case SqlDbType.DateTimeOffset: return sqlColumn.DefaultValue.ToLower() == "getdate()" ? "DateTime.Now;" : "DateTime.Parse(\"" + sqlColumn.DefaultValue + "\")";
+                    case SqlDbType.Date: return (sqlColumn.DefaultValue.ToLower() == "getdate()") ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
+                    case SqlDbType.DateTime: return (sqlColumn.DefaultValue.ToLower() == "getdate()") ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
+                    case SqlDbType.DateTime2: return (sqlColumn.DefaultValue.ToLower() == "getdate()") ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
+                    case SqlDbType.DateTimeOffset: return (sqlColumn.DefaultValue.ToLower() == "getdate()") ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
                     case SqlDbType.Decimal: return sqlColumn.DefaultValue;
                     case SqlDbType.Float: return sqlColumn.DefaultValue;
                     //case SqlDbType.Image:               return "null";
@@ -617,7 +617,7 @@ namespace AutoCodeGenLibrary
                 input = input.Replace("@", "At");
                 input = input.Replace("&", "And");
 
-                foreach (string character in s_CSharpUndesireables)
+                foreach (string character in _CSharpUndesireables)
                 {
                     input = input.Replace(character, string.Empty);
                 }

@@ -84,7 +84,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Objects\AesEncryption.cs" />
     <Compile Include="Objects\FileIo.cs" />
-    <Compile Include="Objects\IAesEncryption.cs" />
     <Compile Include="Objects\IGenerator.cs" />
     <Compile Include="Objects\CodeGeneratorWebservice.cs" />
     <Compile Include="Objects\CodeGeneratorAspDotNet.cs" />

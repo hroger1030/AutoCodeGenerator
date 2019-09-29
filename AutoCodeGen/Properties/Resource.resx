@@ -158,7 +158,7 @@
     <comment>C# Options</comment>
   </data>
   <data name="CsharpOrm" xml:space="preserve">
-    <value>Create C# Orm Poco Class</value>
+    <value>Create C# Orm Class</value>
     <comment>C# Options</comment>
   </data>
   <data name="CsharpOrmExtension" xml:space="preserve">
@@ -370,5 +370,9 @@
   <data name="WebServiceResponseObject" xml:space="preserve">
     <value>Create C# WebService Response Object</value>
     <comment>WebService Options</comment>
+  </data>
+  <data name="CsharpPoCo" xml:space="preserve">
+    <value>Create C# Orm Poco Class</value>
+    <comment>C# Options</comment>
   </data>
 </root>

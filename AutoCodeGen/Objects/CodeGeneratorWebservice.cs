@@ -79,7 +79,7 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = $"{class_name}.cs",
+                Name = $"{class_name}Controller.cs",
                 Type = OutputObject.eObjectType.CSharp
             };
 

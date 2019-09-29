@@ -92,9 +92,11 @@ namespace AutoCodeGenLibrary
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectSingle, sqlTable.PkNames);
             string join_conjunction;
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
@@ -181,9 +183,11 @@ namespace AutoCodeGenLibrary
                 .Where(c => c.Name == selectFields[0])
                 .FirstOrDefault();
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             var sb = new StringBuilder();
 
@@ -298,9 +302,11 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectManyByX, selectFields);
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             var sb = new StringBuilder();
 
@@ -356,9 +362,11 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null);
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             var sb = new StringBuilder();
 
@@ -413,9 +421,11 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SearchPaged, null);
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
@@ -505,9 +515,11 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.Insert, null);
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             var sb = new StringBuilder();
 
@@ -588,9 +600,11 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.Update, null);
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
@@ -684,9 +698,11 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.UpdateInsert, null);
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
@@ -875,9 +891,11 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelSingle, null);
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
             // what would a good choice would be for a qualifier. Abort and return error msg.
@@ -956,9 +974,11 @@ namespace AutoCodeGenLibrary
                 .Where(c => c.Name == selectFields[0])
                 .FirstOrDefault();
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             var sb = new StringBuilder();
 
@@ -1032,9 +1052,11 @@ namespace AutoCodeGenLibrary
 
             string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.DelAll, null);
 
-            var output = new OutputObject();
-            output.Name = procedure_name + ".sql";
-            output.Type = OutputObject.eObjectType.Sql;
+            var output = new OutputObject
+            {
+                Name = procedure_name + ".sql",
+                Type = OutputObject.eObjectType.Sql
+            };
 
             var sb = new StringBuilder();
 
@@ -1377,6 +1399,9 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Generates an inline sql warning message
+        /// </summary>
         private string GenerateSqlWarning(string message)
         {
             if (string.IsNullOrEmpty(message))

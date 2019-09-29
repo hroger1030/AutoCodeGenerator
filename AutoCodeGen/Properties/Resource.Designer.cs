@@ -169,7 +169,7 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create C# Orm Poco Class.
+        ///   Looks up a localized string similar to Create C# Orm Class.
         /// </summary>
         internal static string CsharpOrm {
             get {
@@ -183,6 +183,15 @@ namespace AutoCodeGen.Properties {
         internal static string CsharpOrmExtension {
             get {
                 return ResourceManager.GetString("CsharpOrmExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create C# Orm Poco Class.
+        /// </summary>
+        internal static string CsharpPoCo {
+            get {
+                return ResourceManager.GetString("CsharpPoCo", resourceCulture);
             }
         }
         
