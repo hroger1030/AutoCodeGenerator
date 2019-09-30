@@ -565,6 +565,15 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create C# WebService Paging Object.
+        /// </summary>
+        internal static string WebServicePagingObject {
+            get {
+                return ResourceManager.GetString("WebServicePagingObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create C# WebService Response Object.
         /// </summary>
         internal static string WebServiceResponseObject {

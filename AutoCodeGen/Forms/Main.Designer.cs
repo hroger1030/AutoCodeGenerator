@@ -115,6 +115,7 @@ namespace AutoCodeGen
             this.lvMessaging = new System.Windows.Forms.ListView();
             this.Message = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblMessages = new System.Windows.Forms.Label();
+            this.btnOpenOutputDirectory = new System.Windows.Forms.Button();
             this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             this.tabOutput.SuspendLayout();
@@ -741,6 +742,7 @@ namespace AutoCodeGen
             resources.ApplyResources(this.lvMessaging, "lvMessaging");
             this.lvMessaging.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Message});
+            this.lvMessaging.HideSelection = false;
             this.lvMessaging.MultiSelect = false;
             this.lvMessaging.Name = "lvMessaging";
             this.lvMessaging.UseCompatibleStateImageBehavior = false;
@@ -755,12 +757,20 @@ namespace AutoCodeGen
             resources.ApplyResources(this.lblMessages, "lblMessages");
             this.lblMessages.Name = "lblMessages";
             // 
+            // btnOpenOutputDirectory
+            // 
+            resources.ApplyResources(this.btnOpenOutputDirectory, "btnOpenOutputDirectory");
+            this.btnOpenOutputDirectory.Name = "btnOpenOutputDirectory";
+            this.btnOpenOutputDirectory.UseVisualStyleBackColor = true;
+            this.btnOpenOutputDirectory.Click += new System.EventHandler(this.btnOpenOutputDirectory_Click);
+            // 
             // Main
             // 
             this.AcceptButton = this.btnGenerateCode;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.btnOpenOutputDirectory);
             this.Controls.Add(this.lblMessages);
             this.Controls.Add(this.lvMessaging);
             this.Controls.Add(this.lblConnectStatus);
@@ -889,5 +899,6 @@ namespace AutoCodeGen
         private System.Windows.Forms.CheckedListBox clbXmlOptionsTables;
         private System.Windows.Forms.Button btnToggleWebXmlObjects;
         private System.Windows.Forms.Label lblCopyright;
+        private System.Windows.Forms.Button btnOpenOutputDirectory;
     }
 }

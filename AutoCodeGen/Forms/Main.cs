@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace AutoCodeGen
         internal static string s_DirectoryOrmExt = ConfigurationManager.AppSettings["DirectoryOrmExt"];
         internal static string s_DirectoryDal = ConfigurationManager.AppSettings["DirectoryDal"];
         internal static string s_DirectoryDalExt = ConfigurationManager.AppSettings["DirectoryDalExt"];
-        internal static string s_DirectoryWebService = ConfigurationManager.AppSettings["DirectoryWebService"];
+        internal static string _DirectoryWebService = ConfigurationManager.AppSettings["DirectoryWebService"];
         internal static string s_DirectoryInterface = ConfigurationManager.AppSettings["DirectoryInterface"];
         internal static string s_DirectoryWinforms = ConfigurationManager.AppSettings["DirectoryWinforms"];
         internal static string s_DirectoryXMlData = ConfigurationManager.AppSettings["DirectoryXmlData"];
@@ -59,7 +60,7 @@ namespace AutoCodeGen
 
         // Misc
         private static readonly string[] _FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.aspx", "*.ascx", "*.master", "*.css" };
-        private static readonly string[] _DirectoriesUsed = { s_DirectoryAspPages, s_DirectoryOrm, s_DirectoryOrmExt, s_DirectoryDal, s_DirectoryDalExt, s_DirectoryWebService, s_DirectoryInterface, s_DirectoryWinforms, s_DirectoryXMlData, s_DirectoryEnums };
+        private static readonly string[] _DirectoriesUsed = { s_DirectoryAspPages, s_DirectoryOrm, s_DirectoryOrmExt, s_DirectoryDal, s_DirectoryDalExt, _DirectoryWebService, s_DirectoryInterface, s_DirectoryWinforms, s_DirectoryXMlData, s_DirectoryEnums };
         private static readonly HashSet<string> _FilteredTableNames = new HashSet<string>() { "master", "model", "msdb", "tempdb" };
 
         private const int MAX_MESSAGES = 50;
@@ -136,17 +137,12 @@ namespace AutoCodeGen
             }
         }
 
-        //private void DisplayMessage(Exception exception)
-        //{
-        //    DisplayMessage(exception.Message, true);
-        //}
-
-        private void DisplayMessage(string message, bool is_error)
+        private void DisplayMessage(string message, bool isError = false)
         {
             if (lvMessaging.InvokeRequired)
             {
                 DisplayMessageSignature display_message = new DisplayMessageSignature(DisplayMessage);
-                lvMessaging.Invoke(display_message, new object[] { message, is_error });
+                lvMessaging.Invoke(display_message, new object[] { message, isError });
             }
             else
             {
@@ -157,7 +153,7 @@ namespace AutoCodeGen
                 ListViewItem list_view_item = new ListViewItem();
                 string formatted_time = "<" + String.Format("{0:T}", DateTime.Now) + "> ";
 
-                if (is_error)
+                if (isError)
                     list_view_item.ForeColor = Color.Red;
                 else
                     list_view_item.ForeColor = Color.Black;
@@ -325,6 +321,7 @@ namespace AutoCodeGen
                 Properties.Resource.WebServiceController,
                 Properties.Resource.WebServiceControllerBase,
                 Properties.Resource.WebServiceResponseObject,
+                Properties.Resource.WebServicePagingObject,
             });
 
             clbWebServiceObjectsCheckedCount = clbWebServiceObjects.CheckedItems.Count;
@@ -410,7 +407,7 @@ namespace AutoCodeGen
         }
 
         // UI Label changes
-        protected void SetConnectStatusLabel(string message)
+        private void SetConnectStatusLabel(string message)
         {
             if (lblConnectStatus.InvokeRequired)
                 lblConnectStatus.Invoke(new DisplayUIMessageDelegate(SetConnectStatusLabel), new object[] { message });
@@ -419,6 +416,35 @@ namespace AutoCodeGen
         }
 
         // helper functions
+        private void OpenFolder(string folderPath)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(folderPath))
+                {
+                    MessageBox.Show($"Directory name cannot be null or empty");
+                    return;
+                }
+
+                if (!Directory.Exists(folderPath))
+                {
+                    MessageBox.Show($"{folderPath} Directory does not exist!");
+                    return;
+                }
+
+                var startInfo = new ProcessStartInfo()
+                {
+                    Arguments = folderPath,
+                    FileName = "explorer.exe"
+                };
+
+                Process.Start(startInfo);
+            }
+            catch
+            {
+                DisplayMessage($"Error accessing file path '{folderPath}'", true);
+            }
+        }
 
         private void BindDataTableToCheckBoxList(List<TableMetadata> tables, CheckedListBox clb)
         {
@@ -1348,7 +1374,7 @@ namespace AutoCodeGen
                         if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceController))
                         {
                             output = code_generator_rest.GenerateWebServiceControllerClass(current_table, _NamespaceIncludes, options);
-                            file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                     }
@@ -1356,13 +1382,19 @@ namespace AutoCodeGen
                     if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceControllerBase))
                     {
                         output = code_generator_rest.GenerateWebServiceBaseControllerClass();
-                        file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
+                        file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
                     }
                     if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceResponseObject))
                     {
                         output = code_generator_rest.GenerateResponseBaseClass();
-                        file_name = Combine(_OutputPath, s_DirectoryWebService, output.Name);
+                        file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
+                        FileIo.WriteToFile(file_name, output.Body);
+                    }
+                    if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServicePagingObject))
+                    {
+                        output = code_generator_rest.GeneratePagingClass();
+                        file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
                     }
 
@@ -1654,6 +1686,11 @@ namespace AutoCodeGen
             }
 
             this.cboNamespaceIncludes.Text = string.Empty;
+        }
+
+        private void btnOpenOutputDirectory_Click(object sender, EventArgs e)
+        {
+            OpenFolder(txtOutputPath.Text);
         }
 
         // select/deselect all code

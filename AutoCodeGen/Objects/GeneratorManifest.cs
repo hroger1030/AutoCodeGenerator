@@ -30,7 +30,7 @@ namespace AutoCodeGenLibrary
             NotPresent,
         }
 
-        private Dictionary<string, OptionsState> _Options;
+        private readonly Dictionary<string, OptionsState> _Options;
 
         public List<string> SortFields { get; set; }
         public List<string> SelectFields { get; set; }

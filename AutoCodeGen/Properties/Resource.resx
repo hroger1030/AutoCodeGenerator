@@ -375,4 +375,8 @@
     <value>Create C# Orm Poco Class</value>
     <comment>C# Options</comment>
   </data>
+  <data name="WebServicePagingObject" xml:space="preserve">
+    <value>Create C# WebService Paging Object</value>
+    <comment>WebService Options</comment>
+  </data>
 </root>

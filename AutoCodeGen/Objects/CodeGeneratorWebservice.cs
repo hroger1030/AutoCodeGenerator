@@ -30,7 +30,9 @@ namespace AutoCodeGenLibrary
         public const string GENERATE_BASE_CONTROLLER = "generate_base_controller";
 
         private const string RESPONSE_BASE_CLASS_NAME = "ResponseBase";
+        private const string PAGING_DATA_CLASS_NAME = "PagingData";
         private const string CONTROLLER_BASE_CLASS_NAME = "ControllerBase";
+        private const string CONTROLLER_NAMESPACE = "WebApi";
 
         public override eLanguage Language
         {
@@ -88,13 +90,14 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using System.Reflection;");
+            sb.AppendLine();
             sb.AppendLine("using Microsoft.AspNetCore.Mvc;");
             sb.AppendLine();
 
             if (namespaceIncludes != null && namespaceIncludes.Count > 1)
                 sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
-            sb.AppendLine("namespace WebService");
+            sb.AppendLine($"namespace {CONTROLLER_NAMESPACE}.{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}");
             sb.AppendLine("{");
 
             sb.AppendLine(AddTabs(1) + "[ApiController]");
@@ -109,26 +112,13 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + $"public {sqlTable.Name}Controller() {{ }}");
             sb.AppendLine();
 
-            sb.AppendLine(AddTabs(2) + "[HttpGet]");
-            sb.AppendLine(AddTabs(2) + $"[Route(\"api/v1/{sqlTable.Name.ToLower()}/{{id}}\")]");
-            
-            sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> Get{sqlTable.Name}(int id)");
-            sb.AppendLine(AddTabs(2) + "{");
-            sb.AppendLine(AddTabs(3) + "try");
-            sb.AppendLine(AddTabs(3) + "{");
+            // controllers
+            sb.AppendLine(GenerateGetById(sqlTable.Name));
+            sb.AppendLine();
 
-            // todo: wire up to DAL
+            sb.AppendLine(GenerateGetAll(sqlTable.Name));
+            sb.AppendLine();
 
-            sb.AppendLine(AddTabs(4) + "return Ok(ResponseBase.DEFAULT_SUCCESS;");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine(AddTabs(3) + "catch (Exception ex)");
-            sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "// log exception here");
-            sb.AppendLine(AddTabs(4) + "return StatusCode(500, ResponseBase.DEFAULT_FAILURE);");
-            sb.AppendLine(AddTabs(3) + "}");
-            sb.AppendLine(AddTabs(2) + "}");
-
-            sb.AppendLine(AddTabs(1) + "}");
             sb.AppendLine("}");
 
             output.Body = sb.ToString();
@@ -145,7 +135,7 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine("namespace WebService");
+            sb.AppendLine($"namespace {CONTROLLER_NAMESPACE}");
             sb.AppendLine("{");
 
             sb.AppendLine(AddTabs(1) + $"public class ControllerBase : ApiController");
@@ -172,7 +162,7 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
-            sb.AppendLine("namespace WebApi");
+            sb.AppendLine($"namespace {CONTROLLER_NAMESPACE}");
             sb.AppendLine("{");
 
             // response base class
@@ -219,6 +209,97 @@ namespace AutoCodeGenLibrary
 
             output.Body = sb.ToString();
             return output;
+        }
+
+        public OutputObject GeneratePagingClass()
+        {
+            var output = new OutputObject
+            {
+                Name = PAGING_DATA_CLASS_NAME + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("using Newtonsoft.Json;");
+            sb.AppendLine();
+
+            sb.AppendLine($"namespace {CONTROLLER_NAMESPACE}");
+            sb.AppendLine("{");
+
+            sb.AppendLine(AddTabs(1) + "public class PagingData");
+            sb.AppendLine(AddTabs(1) + "{");
+            sb.AppendLine(AddTabs(2) + $"[JsonProperty(PropertyName = \"skip\")]");
+            sb.AppendLine(AddTabs(2) + "public int Skip { get; set; }");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + $"[JsonProperty(PropertyName = \"take\")]");
+            sb.AppendLine(AddTabs(2) + "public int Take { get; set; }");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "public PagingData() { }");
+            sb.AppendLine(AddTabs(1) + "}");
+
+            sb.Append("}");
+
+            output.Body = sb.ToString();
+            return output;
+        }
+
+        private string GenerateGetById(string controllerName)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine(AddTabs(2) + "[HttpGet]");
+            sb.AppendLine(AddTabs(2) + $"[Route(\"api/v1/{controllerName.ToLower()}/{{id}}\")]");
+
+            sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> Get{controllerName}(int id)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "try");
+            sb.AppendLine(AddTabs(3) + "{");
+
+            // todo: wire up to DAL
+
+            sb.AppendLine(AddTabs(4) + "return Ok(ResponseBase.DEFAULT_SUCCESS;");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(3) + "catch (Exception ex)");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "// log exception here");
+            sb.AppendLine(AddTabs(4) + "return StatusCode(500, ResponseBase.DEFAULT_FAILURE);");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(2) + "}");
+
+            sb.AppendLine(AddTabs(1) + "}");
+
+            return sb.ToString();
+        }
+
+        private string GenerateGetAll(string controllerName)
+        {
+            // todo paging?
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine(AddTabs(2) + "[HttpGet]");
+            sb.AppendLine(AddTabs(2) + $"[Route(\"api/v1/{controllerName.ToLower()}/all\")]");
+
+            sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> GetAll{controllerName}(int id)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "try");
+            sb.AppendLine(AddTabs(3) + "{");
+
+            // todo: wire up to DAL
+
+            sb.AppendLine(AddTabs(4) + "return Ok(ResponseBase.DEFAULT_SUCCESS;");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(3) + "catch (Exception ex)");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "// log exception here");
+            sb.AppendLine(AddTabs(4) + "return StatusCode(500, ResponseBase.DEFAULT_FAILURE);");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine(AddTabs(2) + "}");
+
+            sb.AppendLine(AddTabs(1) + "}");
+
+            return sb.ToString();
         }
     }
 }
