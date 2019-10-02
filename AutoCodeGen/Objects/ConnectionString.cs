@@ -35,10 +35,11 @@ namespace AutoCodeGen
         public ConnectionString()
         {
             _Name = "SQLConnection";
-            _Parameters = new Dictionary<string, string>();
-
-            _Parameters.Add("Data Source", ".");
-            _Parameters.Add("Initial Catalog", "Master");
+            _Parameters = new Dictionary<string, string>
+            {
+                { "Data Source", "." },
+                { "Initial Catalog", "Master" }
+            };
         }
 
         public ConnectionString(string Name)

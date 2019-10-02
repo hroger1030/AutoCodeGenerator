@@ -30,24 +30,24 @@ namespace AutoCodeGenLibrary
 {
     public static class NameFormatter
     {
-        private static string _SpNamePrefix = ConfigurationManager.AppSettings["SpNamePrefix"];
-        private static string _SelectSingleByXSpSuffix = ConfigurationManager.AppSettings["SelectSingleByXSpSuffix"];
-        private static string _SelectManySpSuffix = ConfigurationManager.AppSettings["SelectManySpSuffix"];
-        private static string _SelectManyByXSpSuffix = ConfigurationManager.AppSettings["SelectManyByXSpSuffix"];
-        private static string _SelectAllSpSuffix = ConfigurationManager.AppSettings["SelectAllSpSuffix"];
-        private static string _SearchPagedSpSuffix = ConfigurationManager.AppSettings["SearchPagedSpSuffix"];
-        private static string _InsertSingleSpSuffix = ConfigurationManager.AppSettings["InsertSingleSpSuffix"];
-        private static string _UpdateSpSuffix = ConfigurationManager.AppSettings["UpdateSpSuffix"];
-        private static string _UpdateInsertSpSuffix = ConfigurationManager.AppSettings["UpdateInsertSpSuffix"];
-        private static string _DelAllSpSuffix = ConfigurationManager.AppSettings["DelAllSpSuffix"];
-        private static string _DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
-        private static string _DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
+        private static readonly string _SpNamePrefix = ConfigurationManager.AppSettings["SpNamePrefix"];
+        private static readonly string _SelectSingleByXSpSuffix = ConfigurationManager.AppSettings["SelectSingleByXSpSuffix"];
+        private static readonly string _SelectManySpSuffix = ConfigurationManager.AppSettings["SelectManySpSuffix"];
+        private static readonly string _SelectManyByXSpSuffix = ConfigurationManager.AppSettings["SelectManyByXSpSuffix"];
+        private static readonly string _SelectAllSpSuffix = ConfigurationManager.AppSettings["SelectAllSpSuffix"];
+        private static readonly string _SearchPagedSpSuffix = ConfigurationManager.AppSettings["SearchPagedSpSuffix"];
+        private static readonly string _InsertSingleSpSuffix = ConfigurationManager.AppSettings["InsertSingleSpSuffix"];
+        private static readonly string _UpdateSpSuffix = ConfigurationManager.AppSettings["UpdateSpSuffix"];
+        private static readonly string _UpdateInsertSpSuffix = ConfigurationManager.AppSettings["UpdateInsertSpSuffix"];
+        private static readonly string _DelAllSpSuffix = ConfigurationManager.AppSettings["DelAllSpSuffix"];
+        private static readonly string _DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
+        private static readonly string _DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
 
-        private static string _CSharpClassPrefix = ConfigurationManager.AppSettings["CSharpClassPrefix"];
-        private static string _CSharpEnumPrefix = ConfigurationManager.AppSettings["CSharpEnumPrefix"];
-        private static string _CSharpInterfacePrefix = ConfigurationManager.AppSettings["CSharpInterfacePrefix"];
+        private static readonly string _CSharpClassPrefix = ConfigurationManager.AppSettings["CSharpClassPrefix"];
+        private static readonly string _CSharpEnumPrefix = ConfigurationManager.AppSettings["CSharpEnumPrefix"];
+        private static readonly string _CSharpInterfacePrefix = ConfigurationManager.AppSettings["CSharpInterfacePrefix"];
 
-        private static string[] _CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "\"", "=", "{", "}", "[", "]", ":", ";", "|", "'", "\\", "<", ">", ",", ".", "?", "/", " ", "~", "`" };
+        private static readonly string[] _CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "\"", "=", "{", "}", "[", "]", ":", ";", "|", "'", "\\", "<", ">", ",", ".", "?", "/", " ", "~", "`" };
 
         /// <summary>
         /// Returns the SQL column name formatted for UI eas of reading
@@ -743,7 +743,7 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(tableName))
                 throw new ArgumentException("Cannot generate stored procedure name without a table name.");
 
-            string suffix = string.Empty;
+            string suffix;
             string selected_fields_string = (selectedFields == null) ? string.Empty : String.Join(string.Empty, selectedFields);
 
             switch (procType)
@@ -781,14 +781,14 @@ namespace AutoCodeGenLibrary
 
             if (string.IsNullOrWhiteSpace(regex))
             {
-                input = Regex.Replace(input, regex, string.Empty, RegexOptions.IgnoreCase);
+                output = Regex.Replace(output, regex, string.Empty, RegexOptions.IgnoreCase);
             }
 
-            input = input.Replace(" ", "");
-            input = input.Replace("-", "");
-            input = input.Replace("_", "");
+            output = output.Replace(" ", "");
+            output = output.Replace("-", "");
+            output = output.Replace("_", "");
 
-            return input;
+            return output;
         }
 
         /// <summary>
@@ -852,7 +852,7 @@ namespace AutoCodeGenLibrary
                 }
                 else
                 {
-                    if (Char.IsUpper(c))
+                    if (char.IsUpper(c))
                     {
                         sb.Append("_");
                         sb.Append(c);

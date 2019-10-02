@@ -97,7 +97,6 @@
     <Compile Include="Enums\eIncludedFields.cs" />
     <Compile Include="Objects\NameFormatter.cs" />
     <Compile Include="Enums\eStoredProcType.cs" />
-    <Compile Include="Objects\DatabaseMetadata.cs" />
     <Compile Include="Objects\TableMetadata.cs" />
     <Compile Include="Objects\XmlConverter.cs" />
     <Compile Include="Program.cs" />

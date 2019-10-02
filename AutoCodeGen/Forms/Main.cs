@@ -1520,18 +1520,15 @@ namespace AutoCodeGen
 
                 var db = new Database(_Conn.ToString());
 
-                List<DatabaseMetadata> processer(SqlDataReader reader)
+                List<string> processer(SqlDataReader reader)
                 {
-                    var output = new List<DatabaseMetadata>();
+                    var output = new List<string>();
 
                     while (reader.Read())
                     {
-                        var buffer = new DatabaseMetadata
-                        {
-                            TableName = (string)reader["DATABASE_NAME"]
-                        };
+                        string buffer = (string)reader["DATABASE_NAME"];
 
-                        if (!_FilteredTableNames.Contains(buffer.TableName))
+                        if (!_FilteredTableNames.Contains(buffer))
                             output.Add(buffer);
                     }
 
