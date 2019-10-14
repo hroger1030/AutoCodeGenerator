@@ -91,7 +91,7 @@ namespace AutoCodeGenLibrary
 
             //todo: wrire these up somewhere
             bool include_region_blocks = false;
-            bool include_static_field_names = false;
+            bool include_static_field_names = true;
             bool include_to_string_overload = false;
             bool include_equals_overload = false;
             bool include_get_hash_overload = false;
@@ -137,11 +137,6 @@ namespace AutoCodeGenLibrary
 
             if (include_static_field_names)
             {
-                if (include_region_blocks)
-                {
-                    sb.AppendLine(AddTabs(2) + "#region Constants");
-                    sb.AppendLine();
-                }
                 sb.AppendLine(AddTabs(2) + "public static class Db");
                 sb.AppendLine(AddTabs(2) + "{");
 
@@ -149,17 +144,11 @@ namespace AutoCodeGenLibrary
                 {
                     // format: 
                     // public static string Id = "Id";
-                    sb.AppendLine(AddTabs(3) + "public static string " + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "= \"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\";");
+                    sb.AppendLine(AddTabs(3) + $"public static string {NameFormatter.ToCSharpPropertyName(sql_column.Name)} = \"{NameFormatter.ToCSharpPropertyName(sql_column.Name)}\";");
                 }
 
                 sb.AppendLine(AddTabs(2) + "}");
                 sb.AppendLine();
-
-                if (include_region_blocks)
-                {
-                    sb.AppendLine(AddTabs(2) + "#endregion");
-                    sb.AppendLine();
-                }
             }
 
             ////////////////////////////////////////////////////////////////////////////////
@@ -501,8 +490,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("using System.Text;");
             sb.AppendLine();
 
-            // not needed here
-            //sb.AppendLine(GenerateNamespaceIncludes(namespace_includes, null));
+            sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
             #endregion
 
@@ -518,7 +506,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateCSharpDalClass(SqlTable sqlTable, List<string> namespaceIncludes, bool convertNullableFields, bool includeIsDirtyFlag)
+        public OutputObject GenerateCSharpDalClass(SqlTable sqlTable, List<string> namespaceIncludes, bool convertNullableFields)
         {
             //public class FooClass
             //{
@@ -1259,7 +1247,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespaceIncludes, bool includeIsDirtyFlag)
+        public OutputObject GenerateCSharpClassInterface(SqlTable sqlTable, List<string> namespaceIncludes)
         {
             if (sqlTable == null)
                 return null;

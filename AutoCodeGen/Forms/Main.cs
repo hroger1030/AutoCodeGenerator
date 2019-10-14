@@ -512,7 +512,7 @@ namespace AutoCodeGen
 
             string sql_query = $"[{_DatabaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
 
-            List<TableMetadata> processer(SqlDataReader reader)
+            static List<TableMetadata> processer(SqlDataReader reader)
             {
                 var output = new List<TableMetadata>();
 
@@ -1241,13 +1241,13 @@ namespace AutoCodeGen
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpInterface))
                         {
-                            output = code_generator_csharp.GenerateCSharpClassInterface(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeIsDirtyFlag));
+                            output = code_generator_csharp.GenerateCSharpClassInterface(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryInterface, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpDal))
                         {
-                            output = code_generator_csharp.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields), clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeIsDirtyFlag));
+                            output = code_generator_csharp.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields));
                             file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
@@ -1520,7 +1520,7 @@ namespace AutoCodeGen
 
                 var db = new Database(_Conn.ToString());
 
-                List<string> processer(SqlDataReader reader)
+                static List<string> processer(SqlDataReader reader)
                 {
                     var output = new List<string>();
 
