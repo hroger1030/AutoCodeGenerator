@@ -24,19 +24,19 @@ using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public class CodeGeneratorAspDotNet : CodeGeneratorBase
+    public class CodeGeneratorAspDotNet : CodeGeneratorBase, IGenerator
     {
         public static readonly string CREATE_AS_ASP_CONTROL = "Create As Asp Control";
 
-        public override eLanguage Language
+        public eLanguage Language
         {
             get { return eLanguage.Csharp; }
         }
-        public override eCategory Category
+        public eCategory Category
         {
             get { return eCategory.WebApp; }
         }
-        public override IDictionary<string, string> Methods
+        public IDictionary<string, string> Methods
         {
             get
             {
@@ -61,8 +61,12 @@ namespace AutoCodeGenLibrary
         {
             get { return "CSharpTabSize"; }
         }
+        public int GetHash
+        {
+            get { return 13; }
+        }
 
-        public override IDictionary<string, bool> Options
+        public IDictionary<string, bool> Options
         {
             get
             {

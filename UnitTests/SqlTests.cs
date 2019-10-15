@@ -90,8 +90,7 @@ namespace UnitTests
         {
             var foo = new CodeGeneratorCSharp();
 
-
-            var output = foo.GenerateCSharpClassInterface(_SqlTable, new List<string>(), false);
+            var output = foo.GenerateCSharpClassInterface(_SqlTable, new List<string>());
             Assert.IsTrue(output != null);
         }
 

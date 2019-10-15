@@ -25,26 +25,10 @@ using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public abstract class CodeGeneratorBase : IGenerator
+    public abstract class CodeGeneratorBase
     {
         protected StringBuilder _WhitespaceWriter = new StringBuilder();
 
-        public virtual eLanguage Language
-        {
-            get { throw new NotImplementedException(); }
-        }
-        public virtual eCategory Category
-        {
-            get { throw new NotImplementedException(); }
-        }
-        public virtual IDictionary<string, string> Methods
-        {
-            get { throw new NotImplementedException(); }
-        }
-        public virtual IDictionary<string, bool> Options
-        {
-            get { throw new NotImplementedException(); }
-        }
         public virtual string TabType
         {
             get { throw new NotImplementedException(); }

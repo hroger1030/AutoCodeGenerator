@@ -27,5 +27,6 @@ namespace AutoCodeGenLibrary
         IDictionary<string, string> Methods { get; }
         IDictionary<string, bool> Options { get; }
         string TabType { get; }
+        int GetHash { get; }
     }
 }

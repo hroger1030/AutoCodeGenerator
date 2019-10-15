@@ -24,7 +24,7 @@ using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public class CodeGeneratorWebservice : CodeGeneratorBase
+    public class CodeGeneratorWebservice : CodeGeneratorBase, IGenerator
     {
         public const string GENERATE_BASE_RESPONSE_OBJECT = "generate_base_response_object";
         public const string GENERATE_BASE_CONTROLLER = "generate_base_controller";
@@ -34,15 +34,15 @@ namespace AutoCodeGenLibrary
         private const string CONTROLLER_BASE_CLASS_NAME = "ControllerBase";
         private const string CONTROLLER_NAMESPACE = "WebApi";
 
-        public override eLanguage Language
+        public eLanguage Language
         {
             get { return eLanguage.Csharp; }
         }
-        public override eCategory Category
+        public eCategory Category
         {
             get { return eCategory.RestApi; }
         }
-        public override IDictionary<string, string> Methods
+        public IDictionary<string, string> Methods
         {
             get
             {
@@ -54,7 +54,7 @@ namespace AutoCodeGenLibrary
                 };
             }
         }
-        public override IDictionary<string, bool> Options
+        public IDictionary<string, bool> Options
         {
             get
             {
@@ -68,6 +68,10 @@ namespace AutoCodeGenLibrary
         public override string TabType
         {
             get { return "CSharpTabSize"; }
+        }
+        public int GetHash
+        {
+            get { return 314; }
         }
 
         public CodeGeneratorWebservice() { }

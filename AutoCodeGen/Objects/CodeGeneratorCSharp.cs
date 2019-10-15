@@ -26,7 +26,7 @@ using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public class CodeGeneratorCSharp : CodeGeneratorBase
+    public class CodeGeneratorCSharp : CodeGeneratorBase, IGenerator
     {
         /// <summary>
         /// This object is a collection of characters that could create problems if they are used in c# variable names. 
@@ -36,25 +36,28 @@ namespace AutoCodeGenLibrary
         private readonly static int[] PRIME_NUMBER_LIST = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271 };
         private readonly static string SQL_PARAMETER_TEMPLATE = "new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }},";
 
-        public readonly static string CONVERT_NULLABLE_FIELDS = "Convert Nullable Fields";
-        public readonly static string INCLUDE_IS_DIRTY_FLAG = "Include Is Dirty Flag";
+        public const string CONVERT_NULLABLE_FIELDS = "Convert nullable Db fields to non-nullable";
+        public const string INCLUDE_IS_DIRTY_FLAG = "Include 'IsDirty' flag in objects";
+        public const string INCLUDE_BASE_CLASS_REF = "Include a 'Base Class' refrence in objects";
+        public const string INCLUDE_SQL_CLASS_DECORATION = "Include SQL class decoration";
 
         private const string BASE_CLASSNAME = "BaseClass";
 
-        public override eLanguage Language
+        public eLanguage Language
         {
             get { return eLanguage.Csharp; }
         }
-        public override eCategory Category
+        public eCategory Category
         {
             get { return eCategory.MiddleTier; }
         }
-        public override IDictionary<string, string> Methods
+        public IDictionary<string, string> Methods
         {
             get
             {
                 return new Dictionary<string, string>()
                 {
+                    { "C# Orm Poco Class", "GenerateCSharpPoCoClass" },
                     { "C# Orm Class", "GenerateCSharpOrmClass" },
                     { "C# External Orm Class", "GenerateCSharpExternalOrmClass" },
                     { "C# Dal Class", "GenerateCSharpDalClass" },
@@ -66,7 +69,7 @@ namespace AutoCodeGenLibrary
                 };
             }
         }
-        public override IDictionary<string, bool> Options
+        public IDictionary<string, bool> Options
         {
             get
             {
@@ -74,12 +77,18 @@ namespace AutoCodeGenLibrary
                 {
                     { CONVERT_NULLABLE_FIELDS, false},
                     { INCLUDE_IS_DIRTY_FLAG, false},
+                    { INCLUDE_BASE_CLASS_REF, false },
+                    { INCLUDE_SQL_CLASS_DECORATION, false },
                 };
             }
         }
         public override string TabType
         {
             get { return "CSharpTabSize"; }
+        }
+        public int GetHash
+        {
+            get { return 1337; }
         }
 
         public CodeGeneratorCSharp() { }
@@ -1505,3 +1514,4 @@ namespace AutoCodeGenLibrary
         }
     }
 }
+

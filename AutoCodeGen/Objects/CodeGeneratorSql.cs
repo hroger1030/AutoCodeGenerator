@@ -26,22 +26,22 @@ using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {
-    public class CodeGeneratorSql : CodeGeneratorBase
+    public class CodeGeneratorSql : CodeGeneratorBase, IGenerator
     {
         private readonly string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
 
         public static readonly string GENERATE_STORED_PROC_PERMS = "Generate Stored Proc Perms";
         public static readonly string INCLUDE_DISABLED_CHECK = "Include Disabled Check";
 
-        public override eLanguage Language
+        public eLanguage Language
         {
             get { return eLanguage.MsSql; }
         }
-        public override eCategory Category
+        public eCategory Category
         {
             get { return eCategory.Database; }
         }
-        public override IDictionary<string, string> Methods
+        public IDictionary<string, string> Methods
         {
             get
             {
@@ -61,7 +61,7 @@ namespace AutoCodeGenLibrary
                 };
             }
         }
-        public override IDictionary<string, bool> Options
+        public IDictionary<string, bool> Options
         {
             get
             {
@@ -75,6 +75,10 @@ namespace AutoCodeGenLibrary
         public override string TabType
         {
             get { return "SqlTabSize"; }
+        }
+        public int GetHash
+        {
+            get { return 42; }
         }
 
         public CodeGeneratorSql() { }

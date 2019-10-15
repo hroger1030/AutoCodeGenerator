@@ -268,20 +268,7 @@ namespace AutoCodeGen
             clbCsharpSqlTablesCheckedCount = clbCsharpSqlTables.CheckedItems.Count;
 
             clbCsharpObjects.Items.Clear();
-            clbCsharpObjects.Items.AddRange(new object[]
-            {
-                Properties.Resource.CsharpPoCo,
-                Properties.Resource.CsharpOrm,
-                Properties.Resource.CsharpOrmExtension,
-                Properties.Resource.CsharpDal,
-                Properties.Resource.CsharpExtensionDal,
-                Properties.Resource.CsharpInterface,
-                Properties.Resource.CsharpEnum,
-                Properties.Resource.CsharpCreateBaseClass,
-
-                Properties.Resource.OptCsharpIncludeBaseClassRefrence,
-            });
-
+            clbCsharpObjects.Items.AddRange(new CodeGeneratorCSharp().Methods.Keys.ToArray<object>());
             clbCsharpObjectsCheckedCount = clbCsharpObjects.CheckedItems.Count;
         }
 
@@ -512,7 +499,7 @@ namespace AutoCodeGen
 
             string sql_query = $"[{_DatabaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
 
-            static List<TableMetadata> processer(SqlDataReader reader)
+            List<TableMetadata> processer(SqlDataReader reader)
             {
                 var output = new List<TableMetadata>();
 
@@ -1520,7 +1507,7 @@ namespace AutoCodeGen
 
                 var db = new Database(_Conn.ToString());
 
-                static List<string> processer(SqlDataReader reader)
+                List<string> processer(SqlDataReader reader)
                 {
                     var output = new List<string>();
 
