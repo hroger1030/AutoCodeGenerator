@@ -56,7 +56,7 @@ namespace AutoCodeGenLibrary
         public static string ToFriendlyName(string input)
         {
             input = ToFriendlyCase(input);
-            CultureInfo CI = new CultureInfo("en-US");
+            var CI = new CultureInfo("en-US");
             input = CI.TextInfo.ToTitleCase(input);
 
             return input;

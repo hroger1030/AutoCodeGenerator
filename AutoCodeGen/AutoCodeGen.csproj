@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Objects\AesEncryption.cs" />
+    <Compile Include="Objects\AutogenerationData.cs" />
     <Compile Include="Objects\FileIo.cs" />
     <Compile Include="Objects\IGenerator.cs" />
     <Compile Include="Objects\CodeGeneratorWebservice.cs" />

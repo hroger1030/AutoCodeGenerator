@@ -57,14 +57,14 @@ namespace AutoCodeGenLibrary
             {
                 return new Dictionary<string, string>()
                 {
-                    { "C# Orm Poco Class", "GenerateCSharpPoCoClass" },
-                    { "C# Orm Class", "GenerateCSharpOrmClass" },
-                    { "C# External Orm Class", "GenerateCSharpExternalOrmClass" },
-                    { "C# Dal Class", "GenerateCSharpDalClass" },
-                    { "C# External Dal Class", "GenerateCSharpExternalDalClass" },
-                    { "C# Class Interface", "GenerateCSharpClassInterface" },
-                    { "C# Enumeration", "GenerateCSharpEnumeration" },
-                    { "C# Base Class", "GenerateCSharpBaseClass" },
+                    { "Orm Poco Class", "GenerateCSharpPoCoClass" },
+                    { "Orm Class", "GenerateCSharpOrmClass" },
+                    { "External Orm Class", "GenerateCSharpExternalOrmClass" },
+                    { "Dal Class", "GenerateCSharpDalClass" },
+                    { "External Dal Class", "GenerateCSharpExternalDalClass" },
+                    { "Class Interface", "GenerateCSharpClassInterface" },
+                    { "Enumeration", "GenerateCSharpEnumeration" },
+                    { "Base Class", "GenerateCSharpBaseClass" },
                     { "Xml Loader", "GenerateXmlLoader" },
                 };
             }
@@ -90,10 +90,336 @@ namespace AutoCodeGenLibrary
         {
             get { return 1337; }
         }
+        public string ClassName
+        {
+            get { return "CodeGeneratorCSharp"; }
+        }
 
         public CodeGeneratorCSharp() { }
 
-        public OutputObject GenerateCSharpOrmClass(SqlTable sqlTable, List<string> namespaceIncludes)
+        public OutputObject GenerateCSharpOrmClass(AutogenerationData data)
+        {
+            if (data.SqlTable == null)
+                return null;
+
+            //todo: wrire these up somewhere
+            bool include_region_blocks = false;
+            bool include_static_field_names = true;
+            bool include_to_string_overload = false;
+            bool include_equals_overload = false;
+            bool include_get_hash_overload = false;
+            bool include_reset_class_method = false;
+            bool includeClassDecoration = false;
+
+            string class_name = NameFormatter.ToCSharpClassName(data.SqlTable.Name);
+
+            var output = new OutputObject
+            {
+                Name = $"{class_name}.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("using System;");
+            sb.AppendLine("using System.Text;");
+            sb.AppendLine();
+
+            if (data.NamespaceIncludes != null && data.NamespaceIncludes.Count > 1)
+                sb.AppendLine(GenerateNamespaceIncludes(data.NamespaceIncludes));
+
+            sb.AppendLine($"namespace {NameFormatter.ToCSharpPropertyName(data.SqlTable.Database.Name)}.Orm");
+            sb.AppendLine("{");
+
+            sb.AppendLine(AddTabs(1) + $"public partial class {class_name}");
+            sb.AppendLine(AddTabs(1) + "{");
+
+            #region Constants Bloc
+            ////////////////////////////////////////////////////////////////////////////////
+
+            #region sample output
+            //#region Constants
+            //
+            //    public static class Db
+            //    {
+            //        public static string Id = "Id";
+            //    }
+            //
+            //#endregion
+            #endregion
+
+            if (include_static_field_names)
+            {
+                sb.AppendLine(AddTabs(2) + "public static class Db");
+                sb.AppendLine(AddTabs(2) + "{");
+
+                foreach (var sql_column in data.SqlTable.Columns.Values)
+                {
+                    // format: 
+                    // public static string Id = "Id";
+                    sb.AppendLine(AddTabs(3) + $"public static string {NameFormatter.ToCSharpPropertyName(sql_column.Name)} = \"{NameFormatter.ToCSharpPropertyName(sql_column.Name)}\";");
+                }
+
+                sb.AppendLine(AddTabs(2) + "}");
+                sb.AppendLine();
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            #region Properties Block
+            ////////////////////////////////////////////////////////////////////////////////
+
+            if (include_region_blocks)
+            {
+                sb.AppendLine(AddTabs(2) + "#region Properties");
+                sb.AppendLine();
+            }
+
+            foreach (var sql_column in data.SqlTable.Columns.Values)
+            {
+                #region Sample Output
+                //[SQLColumn(ColumnName = "foo", SQLType = "int", Precision = "4", IsPrimaryKey = "false", IsNullable = "false")]
+                //public string SomeID { get; set; }
+                #endregion Sample Output
+
+                if (includeClassDecoration)
+                {
+                    sb.Append(AddTabs(2) + "[SQLColumnAttribute(");
+                    sb.Append("ColumnName=\"" + sql_column.Name + "\", ");
+                    sb.Append("SQLType=SqlDbType." + sql_column.DataType + ", ");
+                    sb.Append("Length=" + sql_column.Length.ToString() + ", ");
+                    sb.Append("IsPrimaryKey=" + sql_column.IsPk.ToString().ToLower() + ", ");
+                    sb.Append("IsNullable=" + sql_column.IsNullable.ToString().ToLower());
+                    sb.Append(")]" + Environment.NewLine);
+                }
+
+                sb.AppendLine(AddTabs(2) + $"public {NameFormatter.SQLTypeToCSharpType(sql_column)} {NameFormatter.ToCSharpPropertyName(sql_column.Name)} {{ get; set; }}");
+            }
+
+            if (include_region_blocks)
+            {
+                sb.AppendLine(AddTabs(2) + "#endregion");
+                sb.AppendLine();
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            if (include_region_blocks)
+            {
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "#region Methods");
+            }
+
+            #region Default CTOR
+            ////////////////////////////////////////////////////////////////////////////////
+
+            #region sample output
+            //public Foo() {}
+            #endregion
+
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + $"public {NameFormatter.ToCSharpClassName(data.SqlTable.Name)}() {{ }}");
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion Default CTOR
+
+            #region Reset Method
+            //////////////////////////////////////////////////////////////////////////////
+
+            if (include_reset_class_method)
+            {
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "public void Reset()");
+                sb.AppendLine(AddTabs(2) + "{");
+
+                foreach (var sql_column in data.SqlTable.Columns.Values)
+                {
+                    // format: 
+                    // _State   = string.Empty;
+                    sb.Append(AddTabs(3) + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + " = " + NameFormatter.GetCSharpDefaultValue(sql_column) + ";" + Environment.NewLine);
+                }
+
+                sb.AppendLine(AddTabs(2) + "}");
+            }
+
+            //////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            #region ToString Method
+            ////////////////////////////////////////////////////////////////////////////////
+
+            if (include_to_string_overload)
+            {
+                #region Sample Output
+                //public override string ToString()
+                //{
+                //    var sb = new StringBuilder();
+                //
+                //    sb.AppendLine("CountryID:" + _CountryID.ToString());
+                //    sb.AppendLine("OfficialName:" + _OfficialName);
+                //    sb.AppendLine("CommonName:" + _CommonName);
+                //    sb.AppendLine("CapitolName:" + _CapitolName);
+                //    sb.AppendLine("Disabled:" + _Disabled.ToString());
+                //
+                //    return sb.ToString();
+                //}
+                #endregion
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "public override string ToString()");
+                sb.AppendLine(AddTabs(2) + "{");
+                sb.AppendLine(AddTabs(3) + "var sb = new StringBuilder();");
+                sb.AppendLine();
+
+                foreach (var sql_column in data.SqlTable.Columns.Values)
+                {
+                    // format: 
+                    // sb.AppendLine("Foo:" + _Foo.ToString());
+                    if (NameFormatter.SQLTypeToCSharpType(sql_column) == "string")
+                    {
+                        sb.AppendLine(AddTabs(3) + "sb.AppendLine(\"" + sql_column.Name + ": \" + " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + " + \" \");");
+                    }
+                    else
+                    {
+                        sb.AppendLine(AddTabs(3) + "sb.AppendLine(\"" + sql_column.Name + ": \" + " + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ".ToString() + \" \");");
+                    }
+                }
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(3) + "return sb.ToString();");
+                sb.AppendLine(AddTabs(2) + "}");
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            #region Equals Method
+            ////////////////////////////////////////////////////////////////////////////////
+
+            if (include_equals_overload)
+            {
+                #region Sample Output
+                //public override bool Equals(object obj)
+                //{
+                //    if (ReferenceEquals(null, obj)) return false;
+                //    if (ReferenceEquals(this, obj)) return true;
+                //    if (GetType() != obj.GetType()) return false;
+                //
+                //    cArmor new_obj = (cArmor)obj;     
+                //
+                //    if (!Object.Equals(this._ArmorID, new_obj._ArmorID)) return false;
+                //    if (!Object.Equals(this._ArmorType, new_obj._ArmorType)) return false;
+                //    if (!Object.Equals(this._Disabled, new_obj._Disabled)) return false;
+                //
+                //    return true;
+                //}
+                #endregion
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "public override bool Equals(object obj)");
+                sb.AppendLine(AddTabs(2) + "{");
+                sb.AppendLine(AddTabs(3) + "if (ReferenceEquals(null, obj)) return false;");
+                sb.AppendLine(AddTabs(3) + "if (ReferenceEquals(this, obj)) return true;");
+                sb.AppendLine(AddTabs(4) + "if (GetType() != obj.GetType()) return false;");
+                sb.AppendLine();
+
+                sb.AppendLine(AddTabs(3) + NameFormatter.ToCSharpClassName(data.SqlTable.Name) + " new_obj = (" + NameFormatter.ToCSharpClassName(data.SqlTable.Name) + ")obj;");
+                sb.AppendLine();
+
+                foreach (var sql_column in data.SqlTable.Columns.Values)
+                {
+                    // format: 
+                    // if (!Object.Equals(this._ArmorID, new_obj._ArmorID)) return false;
+                    sb.AppendLine(AddTabs(3) + "if (!object.Equals(this." + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ", new_obj." + NameFormatter.ToCSharpPrivateVariable(sql_column.Name) + ")) return false;");
+                }
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(3) + "return true;");
+                sb.AppendLine(AddTabs(2) + "}");
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            #region GetHashCode Method
+            ////////////////////////////////////////////////////////////////////////////////
+
+            if (include_get_hash_overload)
+            {
+                #region Sample Output
+                //public override int GetHashCode()
+                //{
+                //    int output = 0;
+                //
+                //    output ^= (_ArmorID * 2);
+                //    output ^= (_ArmorType.GetHashCode() * 3);
+                //    output ^= (_Disabled.GetHashCode() * 5);
+                //
+                //    return output;
+                //}
+                #endregion
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "public override int GetHashCode()");
+                sb.AppendLine(AddTabs(2) + "{");
+                sb.AppendLine(AddTabs(3) + "unchecked");
+                sb.AppendLine(AddTabs(3) + "{");
+                sb.AppendLine(AddTabs(4) + "int output = 0;");
+                sb.AppendLine();
+
+                int prime = 0;
+
+                foreach (var sql_column in data.SqlTable.Columns.Values)
+                {
+                    // format: 
+                    // output ^= _ArmorType.GetHashCode();
+                    switch (sql_column.SqlDataType)
+                    {
+                        case SqlDbType.TinyInt:
+                        case SqlDbType.SmallInt:
+                        case SqlDbType.Int:
+                        case SqlDbType.BigInt:
+                            sb.AppendLine(AddTabs(4) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)} * {PRIME_NUMBER_LIST[prime]});");
+                            break;
+
+                        default:
+                            sb.AppendLine(AddTabs(4) + $"output ^= ({NameFormatter.ToCSharpPrivateVariable(sql_column.Name)}.GetHashCode() * {PRIME_NUMBER_LIST[prime]});");
+                            break;
+                    }
+
+                    prime++;
+
+                    // my what a wide table you have...
+                    if (prime > PRIME_NUMBER_LIST.Length)
+                        prime = 0;
+                }
+
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(4) + "return output;");
+                sb.AppendLine(AddTabs(3) + "}");
+                sb.AppendLine(AddTabs(2) + "}");
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            if (include_region_blocks)
+            {
+                sb.AppendLine();
+                sb.AppendLine(AddTabs(2) + "#endregion");
+            }
+
+            sb.AppendLine(AddTabs(1) + "}");
+            sb.AppendLine("}");
+
+            output.Body = sb.ToString();
+            return output;
+        }
+
+        /*
+        public OutputObject GenerateCSharpOrmClassOld(SqlTable sqlTable, List<string> namespaceIncludes)
         {
             if (sqlTable == null)
                 return null;
@@ -413,6 +739,7 @@ namespace AutoCodeGenLibrary
             output.Body = sb.ToString();
             return output;
         }
+        */
 
         public OutputObject GenerateCSharpPoCoClass(SqlTable sqlTable, List<string> namespaceIncludes)
         {

@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -989,11 +990,11 @@ namespace AutoCodeGen
 
                 //temp hack
 
-                var code_generator_csharp = new CodeGeneratorCSharp();
-                var code_generator_sql = new CodeGeneratorSql();
-                var code_generator_asp = new CodeGeneratorAspDotNet();
-                var code_generator_rest = new CodeGeneratorWebservice();
-                var code_generator_win = new CodeGeneratorWinform();
+                var codegeneratorCsharp = new CodeGeneratorCSharp();
+                var codegeneratorSql = new CodeGeneratorSql();
+                var codegeneratorAsp = new CodeGeneratorAspDotNet();
+                var codegeneratorRest = new CodeGeneratorWebservice();
+                var codegeneratorWin = new CodeGeneratorWinform();
 
                 //////////////////////////////////////////////////////////////////////
 
@@ -1009,7 +1010,7 @@ namespace AutoCodeGen
 
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLCreateHelperSp))
                 {
-                    string script = code_generator_sql.GenerateGetTableDetailsStoredProcedure();
+                    string script = codegeneratorSql.GenerateGetTableDetailsStoredProcedure();
                     file_name = Combine(_OutputPath, ConfigurationManager.AppSettings["DefaultTableDetailsSPName"]);
 
                     FileIo.WriteToFile(file_name, script);
@@ -1023,12 +1024,12 @@ namespace AutoCodeGen
                     foreach (string table_name in clbAspSqlTables.CheckedItems)
                         selected_tables.Add(table_name);
 
-                    output = code_generator_asp.GenerateMasterPageCodeInFront(sql_database.Name, selected_tables);
+                    output = codegeneratorAsp.GenerateMasterPageCodeInFront(sql_database.Name, selected_tables);
                     file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
 
-                    output = code_generator_asp.GenerateMasterPageCodeBehind(sql_database.Name);
+                    output = codegeneratorAsp.GenerateMasterPageCodeBehind(sql_database.Name);
                     file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
@@ -1036,7 +1037,7 @@ namespace AutoCodeGen
 
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateCSSPage))
                 {
-                    output = code_generator_asp.GenerateCSSSheet(_DatabaseName);
+                    output = codegeneratorAsp.GenerateCSSSheet(_DatabaseName);
 
                     // this file is a css file
                     output.Name += ".css";
@@ -1048,7 +1049,7 @@ namespace AutoCodeGen
 
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateWebConfig))
                 {
-                    output = code_generator_asp.GenerateWebConfig(_Conn.ToConfigString());
+                    output = codegeneratorAsp.GenerateWebConfig(_Conn.ToConfigString());
                     file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
@@ -1056,12 +1057,12 @@ namespace AutoCodeGen
 
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateDefaultPage))
                 {
-                    output = code_generator_asp.GenerateDefaultPageCodeInFront(sql_database.Name);
+                    output = codegeneratorAsp.GenerateDefaultPageCodeInFront(sql_database.Name);
                     file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
 
-                    output = code_generator_asp.GenerateDefaultPageCodeBehind(sql_database.Name);
+                    output = codegeneratorAsp.GenerateDefaultPageCodeBehind(sql_database.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
@@ -1070,7 +1071,7 @@ namespace AutoCodeGen
                 #region Sql Code Generation
                 if (clbTsqlSqlTables.CheckedItems.Count > 0 && clbTsqlSqlObjects.CheckedItems.Count > 0)
                 {
-                    sb.Append(code_generator_sql.GenerateSqlScriptHeader(_DatabaseName));
+                    sb.Append(codegeneratorSql.GenerateSqlScriptHeader(_DatabaseName));
 
                     foreach (string table_name in clbTsqlSqlTables.CheckedItems)
                     {
@@ -1137,38 +1138,38 @@ namespace AutoCodeGen
 
                             // other settings?
 
-                            sql_procedures.Add(code_generator_sql.GenerateSelectSingleProc(sql_table, manifest));
+                            sql_procedures.Add(codegeneratorSql.GenerateSelectSingleProc(sql_table, manifest));
                         }
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany))
-                            sql_procedures.Add(code_generator_sql.GenerateSelectManyProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
+                            sql_procedures.Add(codegeneratorSql.GenerateSelectManyProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelManyByX))
-                            sql_procedures.Add(code_generator_sql.GenerateSelectManyByXProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
+                            sql_procedures.Add(codegeneratorSql.GenerateSelectManyByXProc(sql_table, sort_fields, select_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelAll))
-                            sql_procedures.Add(code_generator_sql.GenerateSelectAllProc(sql_table, sort_fields, create_sql_permissions, false));
+                            sql_procedures.Add(codegeneratorSql.GenerateSelectAllProc(sql_table, sort_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSearchPaged))
-                            sql_procedures.Add(code_generator_sql.GeneratePaginatedSearchProc(sql_table, sort_fields, search_fields, create_sql_permissions, false));
+                            sql_procedures.Add(codegeneratorSql.GeneratePaginatedSearchProc(sql_table, sort_fields, search_fields, create_sql_permissions, false));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlUpd))
-                            sql_procedures.Add(code_generator_sql.GenerateUpdateProc(sql_table, create_sql_permissions));
+                            sql_procedures.Add(codegeneratorSql.GenerateUpdateProc(sql_table, create_sql_permissions));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlIns))
-                            sql_procedures.Add(code_generator_sql.GenerateInsertProc(sql_table, create_sql_permissions));
+                            sql_procedures.Add(codegeneratorSql.GenerateInsertProc(sql_table, create_sql_permissions));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlUpdIns))
-                            sql_procedures.Add(code_generator_sql.GenerateSetProc(sql_table, create_sql_permissions));
+                            sql_procedures.Add(codegeneratorSql.GenerateSetProc(sql_table, create_sql_permissions));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlDelSingle))
-                            sql_procedures.Add(code_generator_sql.GenerateDeleteSingleProc(sql_table, create_sql_permissions));
+                            sql_procedures.Add(codegeneratorSql.GenerateDeleteSingleProc(sql_table, create_sql_permissions));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlDelMany))
-                            sql_procedures.Add(code_generator_sql.GenerateDeleteManyProc(sql_table, select_fields, create_sql_permissions));
+                            sql_procedures.Add(codegeneratorSql.GenerateDeleteManyProc(sql_table, select_fields, create_sql_permissions));
 
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlDelAll))
-                            sql_procedures.Add(code_generator_sql.GenerateDeleteAllProc(sql_table, create_sql_permissions));
+                            sql_procedures.Add(codegeneratorSql.GenerateDeleteAllProc(sql_table, create_sql_permissions));
 
                         // build one script or many?
                         if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLSeperateFiles))
@@ -1208,39 +1209,64 @@ namespace AutoCodeGen
 
                         SqlTable current_table = sql_database.Tables[table_name];
 
+                        var data = new AutogenerationData()
+                        {
+                            NamespaceIncludes = _NamespaceIncludes,
+                            Options = new Dictionary<string, bool>()
+                            {
+                                { "foo", false },
+                            },
+                            SqlTable = current_table,
+                        };
+
+                        // roll through each checked item 
+                        foreach (var item in clbCsharpObjects.CheckedItems)
+                        {
+                            string methodName = codegeneratorCsharp.Methods[(string)item];
+
+                            MethodInfo mi = codegeneratorCsharp.GetType().GetMethod($"{methodName}");
+
+                            if (mi == null)
+                                DisplayMessage($"unable to map method {methodName}", true);
+
+                            output = (OutputObject)mi.Invoke(codegeneratorCsharp, new object[] { data });
+                            file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
+                            FileIo.WriteToFile(file_name, output.Body);
+                        }
+
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpPoCo))
                         {
-                            output = code_generator_csharp.GenerateCSharpPoCoClass(current_table, _NamespaceIncludes);
+                            output = codegeneratorCsharp.GenerateCSharpPoCoClass(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
-                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrm))
-                        {
-                            output = code_generator_csharp.GenerateCSharpOrmClass(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
+                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrm))
+                        //{
+                        //    output = codegeneratorCsharp.GenerateCSharpOrmClassOld(current_table, _NamespaceIncludes);
+                        //    file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrmExtension))
                         {
-                            output = code_generator_csharp.GenerateCSharpExternalOrmClass(current_table, _NamespaceIncludes);
+                            output = codegeneratorCsharp.GenerateCSharpExternalOrmClass(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryOrmExt, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpInterface))
                         {
-                            output = code_generator_csharp.GenerateCSharpClassInterface(current_table, _NamespaceIncludes);
+                            output = codegeneratorCsharp.GenerateCSharpClassInterface(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryInterface, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpDal))
                         {
-                            output = code_generator_csharp.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields));
+                            output = codegeneratorCsharp.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields));
                             file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpExtensionDal))
                         {
-                            output = code_generator_csharp.GenerateCSharpExternalDalClass(current_table, _NamespaceIncludes);
+                            output = codegeneratorCsharp.GenerateCSharpExternalDalClass(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryDalExt, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
@@ -1267,7 +1293,7 @@ namespace AutoCodeGen
                             }
                             else
                             {
-                                output = code_generator_csharp.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], _Conn.ToString());
+                                output = codegeneratorCsharp.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], _Conn.ToString());
                                 file_name = Combine(_OutputPath, s_DirectoryEnums, output.Name);
                                 FileIo.WriteToFile(file_name, output.Body);
                             }
@@ -1277,7 +1303,7 @@ namespace AutoCodeGen
                     // todo: do we want to write out the base class generation to the DAL dir?
                     if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpCreateBaseClass))
                     {
-                        output = code_generator_csharp.GenerateCSharpBaseClass(_DatabaseName);
+                        output = codegeneratorCsharp.GenerateCSharpBaseClass(_DatabaseName);
                         file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
 
                         FileIo.WriteToFile(file_name, output.Body);
@@ -1299,37 +1325,37 @@ namespace AutoCodeGen
 
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsEditPage))
                         {
-                            output = code_generator_win.GenerateWinformEditCode(current_table);
+                            output = codegeneratorWin.GenerateWinformEditCode(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsEditDesigner))
                         {
-                            output = code_generator_win.GenerateWinformEditCodeDesigner(current_table);
+                            output = codegeneratorWin.GenerateWinformEditCodeDesigner(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsViewPage))
                         {
-                            output = code_generator_win.GenerateWinformViewCode(current_table);
+                            output = codegeneratorWin.GenerateWinformViewCode(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsViewDesigner))
                         {
-                            output = code_generator_win.GenerateWinformViewCodeDesigner(current_table);
+                            output = codegeneratorWin.GenerateWinformViewCodeDesigner(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsMainPage))
                         {
-                            output = code_generator_win.GenerateWinformMainCode(current_table);
+                            output = codegeneratorWin.GenerateWinformMainCode(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsMainDesigner))
                         {
-                            output = code_generator_win.GenerateWinformMainCodeDesigner(current_table);
+                            output = codegeneratorWin.GenerateWinformMainCodeDesigner(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
@@ -1360,7 +1386,7 @@ namespace AutoCodeGen
 
                         if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceController))
                         {
-                            output = code_generator_rest.GenerateWebServiceControllerClass(current_table, _NamespaceIncludes, options);
+                            output = codegeneratorRest.GenerateWebServiceControllerClass(current_table, _NamespaceIncludes, options);
                             file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
@@ -1368,19 +1394,19 @@ namespace AutoCodeGen
 
                     if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceControllerBase))
                     {
-                        output = code_generator_rest.GenerateWebServiceBaseControllerClass();
+                        output = codegeneratorRest.GenerateWebServiceBaseControllerClass();
                         file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
                     }
                     if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceResponseObject))
                     {
-                        output = code_generator_rest.GenerateResponseBaseClass();
+                        output = codegeneratorRest.GenerateResponseBaseClass();
                         file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
                     }
                     if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServicePagingObject))
                     {
-                        output = code_generator_rest.GeneratePagingClass();
+                        output = codegeneratorRest.GeneratePagingClass();
                         file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
                         FileIo.WriteToFile(file_name, output.Body);
                     }
@@ -1399,29 +1425,29 @@ namespace AutoCodeGen
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateEditPage))
                         {
-                            output = code_generator_asp.GenerateWebEditPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
+                            output = codegeneratorAsp.GenerateWebEditPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
 
-                            output = code_generator_asp.GenerateWebEditPageCodeBehind(current_table, _NamespaceIncludes);
+                            output = codegeneratorAsp.GenerateWebEditPageCodeBehind(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateListPage))
                         {
-                            output = code_generator_asp.GenerateWebListPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
+                            output = codegeneratorAsp.GenerateWebListPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
 
-                            output = code_generator_asp.GenerateWebListPageCodeBehind(current_table, _NamespaceIncludes);
+                            output = codegeneratorAsp.GenerateWebListPageCodeBehind(current_table, _NamespaceIncludes);
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateViewPage))
                         {
-                            output = code_generator_asp.GenerateWebViewPageCodeInFront(current_table);
+                            output = codegeneratorAsp.GenerateWebViewPageCodeInFront(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
@@ -1452,7 +1478,7 @@ namespace AutoCodeGen
                         // Xml Export
                         if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlExportData))
                         {
-                            DataTable data_table = code_generator_csharp.GenerateSqlTableData(current_table, _Conn.ToString());
+                            DataTable data_table = codegeneratorCsharp.GenerateSqlTableData(current_table, _Conn.ToString());
 
                             if (generate_with_attributes)
                             {
@@ -1470,7 +1496,7 @@ namespace AutoCodeGen
                         // Xml Loader object
                         if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlImportObject))
                         {
-                            output = code_generator_csharp.GenerateXmlLoader(current_table);
+                            output = codegeneratorCsharp.GenerateXmlLoader(current_table);
                             file_name = Combine(_OutputPath, s_DirectoryXMlData, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
