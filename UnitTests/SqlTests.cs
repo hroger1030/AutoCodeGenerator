@@ -14,69 +14,96 @@ namespace UnitTests
         [SetUp]
         public void InitTest()
         {
-            _SqlTable = new SqlTable();
+            var tableName = "testDb";
+
+            _SqlTable = new SqlTable()
+            {
+                Name = tableName,
+            };
+
             SqlColumn column;
 
             // int PK + ID
-            column = new SqlColumn();
-            column.ColumnOrdinal = 1;
-            column.DataType = "Int";
-            column.DefaultValue = string.Empty;
-            column.IsIdentity = true;
-            column.IsNullable = false;
-            column.IsPk = true;
-            column.Length = 4;
-            column.Name = "Id";
-            column.Precision = 10;
-            column.Scale = 0;
-            column.Schema = "dbo";
-            column.Table = _SqlTable;
+            column = new SqlColumn
+            {
+                ColumnOrdinal = 1,
+                DataType = "Int",
+                DefaultValue = string.Empty,
+                IsIdentity = true,
+                IsNullable = false,
+                IsPk = true,
+                Length = 4,
+                Name = "Id",
+                Precision = 10,
+                Scale = 0,
+                Schema = "dbo",
+                Table = _SqlTable
+            };
             _SqlTable.Columns.Add(column.Name, column);
 
-            column = new SqlColumn();
-            column.ColumnOrdinal = 1;
-            column.DataType = "Varchar";
-            column.DefaultValue = string.Empty;
-            column.IsIdentity = false;
-            column.IsNullable = true;
-            column.IsPk = false;
-            column.Length = 50;
-            column.Name = "Name";
-            column.Precision = 0;
-            column.Scale = 0;
-            column.Schema = "dbo";
-            column.Table = _SqlTable;
+            column = new SqlColumn
+            {
+                ColumnOrdinal = 1,
+                DataType = "Varchar",
+                DefaultValue = string.Empty,
+                IsIdentity = false,
+                IsNullable = true,
+                IsPk = false,
+                Length = 50,
+                Name = "Name",
+                Precision = 0,
+                Scale = 0,
+                Schema = "dbo",
+                Table = _SqlTable
+            };
             _SqlTable.Columns.Add(column.Name, column);
 
-            column = new SqlColumn();
-            column.ColumnOrdinal = 1;
-            column.DataType = "Varchar";
-            column.DefaultValue = string.Empty;
-            column.IsIdentity = false;
-            column.IsNullable = true;
-            column.IsPk = false;
-            column.Length = 50;
-            column.Name = "Address";
-            column.Precision = 0;
-            column.Scale = 0;
-            column.Schema = "dbo";
-            column.Table = _SqlTable;
+            column = new SqlColumn
+            {
+                ColumnOrdinal = 1,
+                DataType = "Varchar",
+                DefaultValue = string.Empty,
+                IsIdentity = false,
+                IsNullable = true,
+                IsPk = false,
+                Length = 50,
+                Name = "Address",
+                Precision = 0,
+                Scale = 0,
+                Schema = "dbo",
+                Table = _SqlTable
+            };
             _SqlTable.Columns.Add(column.Name, column);
 
-            column = new SqlColumn();
-            column.ColumnOrdinal = 1;
-            column.DataType = "Int";
-            column.DefaultValue = "21";
-            column.IsIdentity = false;
-            column.IsNullable = false;
-            column.IsPk = false;
-            column.Length = 4;
-            column.Name = "Age";
-            column.Precision = 10;
-            column.Scale = 0;
-            column.Schema = "dbo";
-            column.Table = _SqlTable;
+            column = new SqlColumn
+            {
+                ColumnOrdinal = 1,
+                DataType = "Int",
+                DefaultValue = "21",
+                IsIdentity = false,
+                IsNullable = false,
+                IsPk = false,
+                Length = 4,
+                Name = "Age",
+                Precision = 10,
+                Scale = 0,
+                Schema = "dbo",
+                Table = _SqlTable
+            };
             _SqlTable.Columns.Add(column.Name, column);
+
+            _SqlTable.Database = new SqlDatabase()
+            {
+                ConnectionString = "Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;",
+                Tables = new Dictionary<string, SqlTable>()
+                {
+                    { tableName, _SqlTable }
+                },
+                Name = tableName,
+                StoredProcedures = null,
+                Constraints = null,
+                Functions = null,
+            };
         }
 
         [TearDown]
@@ -88,9 +115,17 @@ namespace UnitTests
         [Test]
         public void t1()
         {
-            var foo = new CodeGeneratorCSharp();
+            // todo: create fake sqldb object to test with
 
-            var output = foo.GenerateCSharpClassInterface(_SqlTable, new List<string>());
+            var foo = new CodeGeneratorCSharp();
+            var data = new AutogenerationData()
+            {
+                NamespaceIncludes = new List<string>(),
+                Options = new Dictionary<string, bool>(),
+                SqlTable = _SqlTable,
+            };
+
+            var output = foo.GenerateCSharpClassInterface(data);
             Assert.IsTrue(output != null);
         }
 

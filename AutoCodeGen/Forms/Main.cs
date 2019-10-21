@@ -1125,7 +1125,7 @@ namespace AutoCodeGen
                         {
                             // temp hack - trying out new subscription model
 
-                            GeneratorManifest manifest = new GeneratorManifest
+                            var manifest = new GeneratorManifest
                             {
                                 SearchFields = search_fields,
                                 SelectFields = select_fields,
@@ -1234,42 +1234,42 @@ namespace AutoCodeGen
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
-                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpPoCo))
-                        {
-                            output = codegeneratorCsharp.GenerateCSharpPoCoClass(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
+                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpPoCo))
+                        //{
+                        //    output = codegeneratorCsharp.GenerateCSharpPoCoClass(current_table, _NamespaceIncludes);
+                        //    file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
                         //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrm))
                         //{
                         //    output = codegeneratorCsharp.GenerateCSharpOrmClassOld(current_table, _NamespaceIncludes);
                         //    file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
                         //    FileIo.WriteToFile(file_name, output.Body);
                         //}
-                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrmExtension))
-                        {
-                            output = codegeneratorCsharp.GenerateCSharpExternalOrmClass(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, s_DirectoryOrmExt, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpInterface))
-                        {
-                            output = codegeneratorCsharp.GenerateCSharpClassInterface(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, s_DirectoryInterface, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpDal))
-                        {
-                            output = codegeneratorCsharp.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields));
-                            file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpExtensionDal))
-                        {
-                            output = codegeneratorCsharp.GenerateCSharpExternalDalClass(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, s_DirectoryDalExt, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
+                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrmExtension))
+                        //{
+                        //    output = codegeneratorCsharp.GenerateCSharpExternalOrmClass(current_table, _NamespaceIncludes);
+                        //    file_name = Combine(_OutputPath, s_DirectoryOrmExt, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
+                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpInterface))
+                        //{
+                        //    output = codegeneratorCsharp.GenerateCSharpClassInterface(current_table, _NamespaceIncludes);
+                        //    file_name = Combine(_OutputPath, s_DirectoryInterface, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
+                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpDal))
+                        //{
+                        //    output = codegeneratorCsharp.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields));
+                        //    file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
+                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpExtensionDal))
+                        //{
+                        //    output = codegeneratorCsharp.GenerateCSharpExternalDalClass(current_table, _NamespaceIncludes);
+                        //    file_name = Combine(_OutputPath, s_DirectoryDalExt, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
 
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpEnum))
                         {
