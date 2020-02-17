@@ -1214,7 +1214,8 @@ namespace AutoCodeGen
                             NamespaceIncludes = _NamespaceIncludes,
                             Options = new Dictionary<string, bool>()
                             {
-                                { "foo", false },
+                                // todo: convert to const?
+                                { CodeGeneratorCSharp.CONVERT_NULLABLE_FIELDS, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeBaseClassRefrence) ? true : false },
                             },
                             SqlTable = current_table,
                         };
