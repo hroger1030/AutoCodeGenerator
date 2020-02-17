@@ -121,8 +121,9 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET NOCOUNT ON");
-            sb.AppendLine();
+
+            //sb.AppendLine("SET NOCOUNT ON");
+            //sb.AppendLine();
 
             sb.AppendLine(GenerateSelectedColumns(sqlTable));
 
@@ -325,8 +326,9 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(")");
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET NOCOUNT ON");
-            sb.AppendLine();
+
+            //sb.AppendLine("SET NOCOUNT ON");
+            //sb.AppendLine();
 
             sb.AppendLine(GenerateSelectedColumns(sqlTable));
 
@@ -382,8 +384,9 @@ namespace AutoCodeGenLibrary
             sb.AppendLine($"CREATE PROCEDURE [{sqlTable.Schema}].[{procedure_name}]");
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET NOCOUNT ON");
-            sb.AppendLine();
+
+            //sb.AppendLine("SET NOCOUNT ON");
+            //sb.AppendLine();
 
             sb.AppendLine(GenerateSelectedColumns(sqlTable));
 
@@ -470,8 +473,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("AS");
             sb.AppendLine();
 
-            sb.AppendLine("SET NOCOUNT ON");
-            sb.AppendLine();
+            //sb.AppendLine("SET NOCOUNT ON");
+            //sb.AppendLine();
 
             // 1) get total count
             sb.AppendLine("SELECT   @Count = COUNT(1)");
@@ -537,8 +540,9 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET NOCOUNT ON");
-            sb.AppendLine();
+
+            //sb.AppendLine("SET NOCOUNT ON");
+            //sb.AppendLine();
 
             sb.AppendLine($"INSERT [{sqlTable.Schema}].[{sqlTable.Name}]");
             sb.Append("(");
@@ -728,8 +732,9 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET NOCOUNT ON");
-            sb.AppendLine();
+
+            //sb.AppendLine("SET NOCOUNT ON");
+            //sb.AppendLine();
 
             #region Existance Check
             sb.Append($"IF EXISTS (SELECT 1 FROM [{sqlTable.Schema}].[{sqlTable.Name}]");
@@ -921,8 +926,10 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("AS");
             sb.AppendLine();
-            sb.AppendLine("SET NOCOUNT ON");
-            sb.AppendLine();
+
+            //sb.AppendLine("SET NOCOUNT ON");
+            //sb.AppendLine();
+
             sb.AppendLine($"DELETE{AddTabs(1)}[{sqlTable.Schema}].[{sqlTable.Name}]");
 
             #region Where Clause
@@ -1125,8 +1132,8 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("AS");
             sb.AppendLine();
 
-            sb.AppendLine("SET NOCOUNT ON");
-            sb.AppendLine();
+            //sb.AppendLine("SET NOCOUNT ON");
+            //sb.AppendLine();
 
             sb.AppendLine(GenerateGetTableDetailsLogic());
 
