@@ -101,6 +101,7 @@ namespace AutoCodeGenLibrary
         public static string CreateXmlNode(string node_name, string node_data)
         {
             // Fix characters in node_name
+            // TODO - remove if clause?
             if (node_name.Contains(" ")) node_name = node_name.Replace(" ", string.Empty);  // remove whitespace
             if (node_name.Contains("\\")) node_name = node_name.Replace("\\", string.Empty); // remove \
             if (node_name.Contains("/")) node_name = node_name.Replace("/", string.Empty);  // remove /

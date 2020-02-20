@@ -25,7 +25,6 @@ namespace AutoCodeGenLibrary
     public class AutogenerationData
     {
         public SqlTable SqlTable { get; set; }
-        //public string ConnectionString { get; set; }
         public Dictionary<string, bool> Options { get; set; }
         public List<string> NamespaceIncludes { get; set; }
 
