@@ -47,7 +47,11 @@ namespace AutoCodeGenLibrary
         private static readonly string _CSharpEnumPrefix = ConfigurationManager.AppSettings["CSharpEnumPrefix"];
         private static readonly string _CSharpInterfacePrefix = ConfigurationManager.AppSettings["CSharpInterfacePrefix"];
 
-        private static readonly string[] _CSharpUndesireables = new string[] { "!", "$", "%", "^", "*", "(", ")", "-", "+", "\"", "=", "{", "}", "[", "]", ":", ";", "|", "'", "\\", "<", ">", ",", ".", "?", "/", " ", "~", "`" };
+        private static readonly string[] _CSharpUndesireables = new string[] 
+        { 
+            "!", "$", "%", "^", "*", "(", ")", "-", "+", "\"", "=", "{", "}", "[",
+            "]", ":", ";", "|", "'", "\\", "<", ">", ",", ".", "?", "/", " ", "~", "`" 
+        };
 
         /// <summary>
         /// Returns the SQL column name formatted for UI eas of reading
@@ -68,7 +72,7 @@ namespace AutoCodeGenLibrary
         /// </summary>
         public static string ToCSharpLocalVariable(string input)
         {
-            return ToLocalCase(NormalizeForCSharp(input));
+            return ToCamelCase(NormalizeForCSharp(input));
         }
 
         /// <summary>
@@ -623,7 +627,7 @@ namespace AutoCodeGenLibrary
                 }
 
                 // no leading numbers, foo!
-                if (Char.IsNumber(input[0]))
+                if (char.IsNumber(input[0]))
                 {
                     input = "N" + input;
                 }
@@ -652,7 +656,7 @@ namespace AutoCodeGenLibrary
                         else
                             sb.Append(", ");
 
-                        sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToLocalCase(sql_column.Name));
+                        sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToCamelCase(sql_column.Name));
                         break;
 
                     case eIncludedFields.NoIdentities:
@@ -664,7 +668,7 @@ namespace AutoCodeGenLibrary
                             else
                                 sb.Append(", ");
 
-                            sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToLocalCase(sql_column.Name));
+                            sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToCamelCase(sql_column.Name));
                         }
                         break;
 
@@ -677,7 +681,7 @@ namespace AutoCodeGenLibrary
                             else
                                 sb.Append(", ");
 
-                            sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToLocalCase(sql_column.Name));
+                            sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToCamelCase(sql_column.Name));
                         }
                         break;
 
@@ -710,20 +714,20 @@ namespace AutoCodeGenLibrary
                 {
                     case eIncludedFields.All:
 
-                        sb.Append(ToLocalCase(sql_column.Name));
+                        sb.Append(ToCamelCase(sql_column.Name));
                         break;
 
                     case eIncludedFields.NoIdentities:
 
                         if (!sql_column.IsIdentity)
-                            sb.Append(ToLocalCase(sql_column.Name));
+                            sb.Append(ToCamelCase(sql_column.Name));
 
                         break;
 
                     case eIncludedFields.PKOnly:
 
                         if (sql_column.IsPk)
-                            sb.Append(ToLocalCase(sql_column.Name));
+                            sb.Append(ToCamelCase(sql_column.Name));
 
                         break;
 
@@ -735,22 +739,23 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Sample:
+        /// [dbo].[Events_SelectSingle]
+        /// </summary>
         public static string GenerateSqlStoredProcName(string tableName, eStoredProcType procType, IEnumerable<string> selectedFields)
         {
-            // Sample:
-            // [dbo].[Events_SelectSingle]
-
             if (string.IsNullOrEmpty(tableName))
                 throw new ArgumentException("Cannot generate stored procedure name without a table name.");
 
             string suffix;
-            string selected_fields_string = (selectedFields == null) ? string.Empty : String.Join(string.Empty, selectedFields);
+            string selectedFieldsString = (selectedFields == null) ? string.Empty : string.Join(string.Empty, selectedFields);
 
             switch (procType)
             {
-                case eStoredProcType.SelectSingle: suffix = string.Format(_SelectSingleByXSpSuffix, selected_fields_string); break;
+                case eStoredProcType.SelectSingle: suffix = string.Format(_SelectSingleByXSpSuffix, selectedFieldsString); break;
                 case eStoredProcType.SelectMany: suffix = _SelectManySpSuffix; break;
-                case eStoredProcType.SelectManyByX: suffix = string.Format(_SelectManyByXSpSuffix, selected_fields_string); break;
+                case eStoredProcType.SelectManyByX: suffix = string.Format(_SelectManyByXSpSuffix, selectedFieldsString); break;
                 case eStoredProcType.SelectAll: suffix = _SelectAllSpSuffix; break;
                 case eStoredProcType.SearchPaged: suffix = _SearchPagedSpSuffix; break;
                 case eStoredProcType.Insert: suffix = _InsertSingleSpSuffix; break;
@@ -773,7 +778,7 @@ namespace AutoCodeGenLibrary
         }
 
         /// <summary>
-        /// generates a legal table name
+        /// generates a legal SQL table name
         /// </summary>
         public static string FormatTableName(string input, string regex)
         {
@@ -836,26 +841,58 @@ namespace AutoCodeGenLibrary
             }
         }
 
-        private static string ToTitleCase(string input)
+        /// <summary>
+        /// Converts a sql column name to a case that will work as a c# local variable.
+        /// ex: FooBar -> foo_bar
+        /// </summary>
+        public static string ToSnakeCase(string input)
         {
-            // foo_bar -> FooBar
-            // TODO: this function might need more testing..
-
             var sb = new StringBuilder();
-            bool first_flag = true;
+            bool firstFlag = true;
 
-            foreach (Char c in input)
+            foreach (char c in input)
             {
-                if (first_flag)
+                if (char.IsUpper(c) && !firstFlag)
+                    sb.Append('_');
+
+                sb.Append(c);
+
+                if (firstFlag)
+                    firstFlag = false;
+            }
+
+            return sb.ToString().ToLower();
+        }
+
+        /// <summary>
+        /// Converts a sql column name to a case that will work as a c# local variable.
+        /// ex: FooBar -> fooBar
+        /// </summary>
+        public static string ToCamelCase(string input)
+        {
+            var sb = new StringBuilder();
+            bool firstFlag = true;
+            bool nextCharUpper = false;
+
+            foreach (char c in input)
+            {
+                if (firstFlag)
                 {
-                    sb.Append(c);
+                    firstFlag = false;
+                    sb.Append(char.ToLower(c));
                 }
                 else
                 {
-                    if (char.IsUpper(c))
+                    if (c == ' ' || c == '_')
                     {
-                        sb.Append("_");
-                        sb.Append(c);
+                        nextCharUpper = true;
+                        continue;
+                    }
+
+                    if (nextCharUpper)
+                    {
+                        sb.Append(char.ToUpper(c));
+                        nextCharUpper = false;
                     }
                     else
                     {
@@ -864,50 +901,23 @@ namespace AutoCodeGenLibrary
                 }
             }
 
-            input = sb.ToString();
-
-            input = input.Replace('_', ' ');
-
-            //System.Globalization.CultureInfo CI = new System.Globalization.CultureInfo("en-US");
-            //input = CI.TextInfo.ToTitleCase(input);
-
-            input = input.Replace(" ", "");
-
-            return input;
+            return sb.ToString();
         }
 
-        private static string ToLocalCase(string input)
-        {
-            // FooBar -> foo_bar
-
-            var sb = new StringBuilder();
-            bool first_flag = true;
-
-            foreach (Char c in input)
-            {
-                if (Char.IsUpper(c) && !first_flag)
-                    sb.Append('_');
-
-                sb.Append(c);
-
-                if (first_flag)
-                    first_flag = false;
-
-            }
-
-            return sb.ToString().ToLower();
-        }
-
-        private static string ToFriendlyCase(string input)
+        /// <summary>
+        /// Converts a sql column name to a readable case that will work in a comment.
+        /// ex: FooBar -> Foo Bar
+        /// </summary>
+        public static string ToFriendlyCase(string input)
         {
             // FooBar -> Foo Bar
 
             var sb = new StringBuilder();
             bool first_flag = true;
 
-            foreach (Char c in input)
+            foreach (char c in input)
             {
-                if (Char.IsUpper(c) && !first_flag)
+                if (char.IsUpper(c) && !first_flag)
                     sb.Append(' ');
 
                 sb.Append(c);

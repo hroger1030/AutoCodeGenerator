@@ -443,7 +443,7 @@ namespace AutoCodeGenLibrary
             }
 
             #region Find the first pk
-            string table_pk = string.Empty;
+            string table_pk;
 
             foreach (var sql_column in sqlTable.Columns.Values)
             {

@@ -48,6 +48,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Database\DAL.Standard\DAL.Standard.csproj">
+      <Project>{f9d9a7ad-d7ef-43b4-ac9a-8ba2d30a67ff}</Project>
+      <Name>DAL.Standard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AutoCodeGen\AutoCodeGen.csproj">
       <Project>{e6695000-6598-4362-b232-2f9776e2cf4b}</Project>
       <Name>AutoCodeGen</Name>

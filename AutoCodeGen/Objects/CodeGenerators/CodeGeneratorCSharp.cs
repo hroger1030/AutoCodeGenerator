@@ -57,7 +57,7 @@ namespace AutoCodeGenLibrary
             {
                 return new Dictionary<string, string>()
                 {
-                    { "Orm Poco Class", "GenerateCSharpPoCoClass" },
+                    { "Poco Class", "GenerateCSharpPoCoClass" },
                     { "Orm Class", "GenerateCSharpOrmClass" },
                     { "External Orm Class", "GenerateCSharpExternalOrmClass" },
                     { "Dal Class", "GenerateCSharpDalClass" },

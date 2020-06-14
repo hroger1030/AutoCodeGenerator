@@ -349,9 +349,11 @@ namespace AutoCodeGenLibrary
             if (connectionString == null)
                 return null;
 
-            var output = new OutputObject();
-            output.Name = ConfigurationManager.AppSettings["DefaultWebConfigFilename"];
-            output.Type = OutputObject.eObjectType.WebConfig;
+            var output = new OutputObject
+            {
+                Name = ConfigurationManager.AppSettings["DefaultWebConfigFilename"],
+                Type = OutputObject.eObjectType.WebConfig
+            };
 
             var sb = new StringBuilder();
 
@@ -450,9 +452,11 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(databaseName))
                 return null;
 
-            var output = new OutputObject();
-            output.Name = ConfigurationManager.AppSettings["DefaultMasterPageFilename"] + ".cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = ConfigurationManager.AppSettings["DefaultMasterPageFilename"] + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -1305,9 +1309,11 @@ namespace AutoCodeGenLibrary
 
             string class_name = "List" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
-            var output = new OutputObject();
-            output.Name = class_name + ".aspx.cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = class_name + ".aspx.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             namespaceIncludes.Add(NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
 
@@ -1572,9 +1578,11 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(databaseName))
                 return null;
 
-            var output = new OutputObject();
-            output.Name = ConfigurationManager.AppSettings["DefaultASPPageFilename"] + ".aspx";
-            output.Type = OutputObject.eObjectType.Aspx;
+            var output = new OutputObject
+            {
+                Name = ConfigurationManager.AppSettings["DefaultASPPageFilename"] + ".aspx",
+                Type = OutputObject.eObjectType.Aspx
+            };
 
             var sb = new StringBuilder();
 
@@ -1598,9 +1606,11 @@ namespace AutoCodeGenLibrary
             if (string.IsNullOrEmpty(databaseName))
                 return null;
 
-            var output = new OutputObject();
-            output.Name = ConfigurationManager.AppSettings["DefaultASPPageFilename"] + ".aspx.cs";
-            output.Type = OutputObject.eObjectType.CSharp;
+            var output = new OutputObject
+            {
+                Name = ConfigurationManager.AppSettings["DefaultASPPageFilename"] + ".aspx.cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
 
             var sb = new StringBuilder();
 
@@ -1681,9 +1691,11 @@ namespace AutoCodeGenLibrary
             string view_class_name = "View" + NameFormatter.ToCSharpPropertyName(sqlTable.Name);
             string table_name = NameFormatter.ToCSharpPropertyName(sqlTable.Name);
 
-            var output = new OutputObject();
-            output.Name = view_class_name + ".aspx";
-            output.Type = OutputObject.eObjectType.Aspx;
+            var output = new OutputObject
+            {
+                Name = view_class_name + ".aspx",
+                Type = OutputObject.eObjectType.Aspx
+            };
 
             var sb = new StringBuilder();
 

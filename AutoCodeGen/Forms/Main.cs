@@ -446,7 +446,7 @@ namespace AutoCodeGen
             {
                 // Doesnt work - why?
                 //this.cblTables.Items.Add(new object[] { row["TABLE_NAME"] });
-                clb.Items.AddRange(new object[] { table.TableName });
+                clb.Items.AddRange(new object[] { $"{table.Schema}.{table.TableName}" });
             }
         }
 
@@ -517,7 +517,7 @@ namespace AutoCodeGen
                     output.Add(buffer);
                 }
 
-                return output;
+                return output.OrderBy(t => t.Schema).ThenBy(t =>t.TableName).ToList();
             }
 
             _DbTables = db.ExecuteQuery(sql_query, null, processer)
@@ -1001,8 +1001,8 @@ namespace AutoCodeGen
                 sql_database.LoadDatabaseMetadata(_DatabaseName, _Conn.ToString());
 
                 // check for loading errors
-                foreach (var item in sql_database.ErrorList)
-                    DisplayMessage(item.Message, true);
+                //foreach (var item in sql_database.ErrorList)
+                //    DisplayMessage(item.Message, true);
 
                 #region Basic options
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptMiscRemoveExistingScripts))
@@ -1235,43 +1235,6 @@ namespace AutoCodeGen
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
-                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpPoCo))
-                        //{
-                        //    output = codegeneratorCsharp.GenerateCSharpPoCoClass(current_table, _NamespaceIncludes);
-                        //    file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
-                        //    FileIo.WriteToFile(file_name, output.Body);
-                        //}
-                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrm))
-                        //{
-                        //    output = codegeneratorCsharp.GenerateCSharpOrmClassOld(current_table, _NamespaceIncludes);
-                        //    file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
-                        //    FileIo.WriteToFile(file_name, output.Body);
-                        //}
-                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpOrmExtension))
-                        //{
-                        //    output = codegeneratorCsharp.GenerateCSharpExternalOrmClass(current_table, _NamespaceIncludes);
-                        //    file_name = Combine(_OutputPath, s_DirectoryOrmExt, output.Name);
-                        //    FileIo.WriteToFile(file_name, output.Body);
-                        //}
-                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpInterface))
-                        //{
-                        //    output = codegeneratorCsharp.GenerateCSharpClassInterface(current_table, _NamespaceIncludes);
-                        //    file_name = Combine(_OutputPath, s_DirectoryInterface, output.Name);
-                        //    FileIo.WriteToFile(file_name, output.Body);
-                        //}
-                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpDal))
-                        //{
-                        //    output = codegeneratorCsharp.GenerateCSharpDalClass(current_table, _NamespaceIncludes, clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields));
-                        //    file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
-                        //    FileIo.WriteToFile(file_name, output.Body);
-                        //}
-                        //if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpExtensionDal))
-                        //{
-                        //    output = codegeneratorCsharp.GenerateCSharpExternalDalClass(current_table, _NamespaceIncludes);
-                        //    file_name = Combine(_OutputPath, s_DirectoryDalExt, output.Name);
-                        //    FileIo.WriteToFile(file_name, output.Body);
-                        //}
-
                         if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpEnum))
                         {
                             var key_fields = new List<string>();
@@ -1372,11 +1335,9 @@ namespace AutoCodeGen
                     bool generate_base_controller = clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceControllerBase);
                     bool generate_response_base = clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceResponseObject);
 
-                    var options = new Dictionary<string, bool>()
-                    {
-                        { CodeGeneratorWebservice.GENERATE_BASE_CONTROLLER, generate_base_controller },
-                        { CodeGeneratorWebservice.GENERATE_BASE_RESPONSE_OBJECT, generate_response_base },
-                    };
+                    codegeneratorRest.Options[CodeGeneratorWebservice.GENERATE_BASE_CONTROLLER] = generate_base_controller;
+                    codegeneratorRest.Options[CodeGeneratorWebservice.GENERATE_BASE_CONTROLLER] = generate_response_base;
+                    codegeneratorRest.Options[CodeGeneratorWebservice.INCLUDE_SESSION_TOKEN] = true; // todo, wire up?
 
                     foreach (string table_name in clbWebServiceSqlTables.CheckedItems)
                     {
@@ -1387,7 +1348,7 @@ namespace AutoCodeGen
 
                         if (clbWebServiceObjects.CheckedItems.Contains(Properties.Resource.WebServiceController))
                         {
-                            output = codegeneratorRest.GenerateWebServiceControllerClass(current_table, _NamespaceIncludes, options);
+                            output = codegeneratorRest.GenerateWebServiceControllerClass(current_table, _NamespaceIncludes, codegeneratorRest.Options);
                             file_name = Combine(_OutputPath, _DirectoryWebService, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }

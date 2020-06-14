@@ -28,6 +28,7 @@ namespace AutoCodeGenLibrary
     {
         public const string GENERATE_BASE_RESPONSE_OBJECT = "generate_base_response_object";
         public const string GENERATE_BASE_CONTROLLER = "generate_base_controller";
+        public const string INCLUDE_SESSION_TOKEN = "include_session_token";
 
         private const string RESPONSE_BASE_CLASS_NAME = "ResponseBase";
         private const string PAGING_DATA_CLASS_NAME = "PagingData";
@@ -51,6 +52,7 @@ namespace AutoCodeGenLibrary
                     { "Create WebService 2.0 Controller ", "GenerateWebServiceControllerClass" },
                     { "Create C# WebService Base Controller", "GenerateWebServiceBaseControllerClass" },
                     { "Create C# WebService Response Object", "GenerateResponseBaseClass" },
+                    { "Create C# Paging container object", "GeneratePagingClass" },
                 };
             }
         }
@@ -60,8 +62,8 @@ namespace AutoCodeGenLibrary
             {
                 return new Dictionary<string, bool>()
                 {
-                    //{ CONVERT_NULLABLE_FIELDS, false},
-                    //{ INCLUDE_IS_DIRTY_FLAG, false},
+                    { GENERATE_BASE_CONTROLLER, true},
+                    { INCLUDE_SESSION_TOKEN, true},
                 };
             }
         }
@@ -81,47 +83,59 @@ namespace AutoCodeGenLibrary
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
 
-            string class_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
+            string controllerName = NameFormatter.ToCSharpClassName(sqlTable.Name);
 
             var output = new OutputObject
             {
-                Name = $"{class_name}Controller.cs",
+                Name = $"{controllerName}Controller.cs",
                 Type = OutputObject.eObjectType.CSharp
             };
 
             var sb = new StringBuilder();
 
-            sb.AppendLine("using System;");
-            sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine("using System.Reflection;");
             sb.AppendLine();
             sb.AppendLine("using Microsoft.AspNetCore.Mvc;");
+            sb.AppendLine("using System;");
+            sb.AppendLine("using TelemetryManager;");
             sb.AppendLine();
 
             if (namespaceIncludes != null && namespaceIncludes.Count > 1)
                 sb.AppendLine(GenerateNamespaceIncludes(namespaceIncludes));
 
-            sb.AppendLine($"namespace {CONTROLLER_NAMESPACE}.{NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}");
+            sb.AppendLine($"namespace {CONTROLLER_NAMESPACE}");
             sb.AppendLine("{");
 
             sb.AppendLine(AddTabs(1) + "[ApiController]");
 
             if (options[GENERATE_BASE_CONTROLLER])
-                sb.AppendLine(AddTabs(1) + $"public class {sqlTable.Name}Controller : ControllerBase");
+                sb.AppendLine(AddTabs(1) + $"public class {controllerName}Controller : ApiControllerBase");
             else
-                sb.AppendLine(AddTabs(1) + $"public class {sqlTable.Name}Controller : ApiController");
+                sb.AppendLine(AddTabs(1) + $"public class {controllerName}Controller : ControllerBase");
 
             sb.AppendLine(AddTabs(1) + "{");
 
-            sb.AppendLine(AddTabs(2) + $"public {sqlTable.Name}Controller() {{ }}");
+            sb.AppendLine(AddTabs(2) + $"public {controllerName}Controller(IConfigProvider config, ILogger log, IMetrics metrics, IDataProvider datasource, ISecurityProvider security)");
+            sb.AppendLine(AddTabs(3) + $": base(config, log, metrics, datasource, security) {{ }}");
             sb.AppendLine();
 
             // controllers
-            sb.AppendLine(GenerateGetById(sqlTable.Name));
+            sb.AppendLine(GenerateGetById(controllerName, options));
             sb.AppendLine();
 
-            sb.AppendLine(GenerateGetAll(sqlTable.Name));
+            sb.AppendLine(GenerateGetAll(controllerName, options));
             sb.AppendLine();
+
+            //sb.AppendLine(GenerateGetAllPaged(sqlTable.Name));
+            //sb.AppendLine();
+
+            //sb.AppendLine(GenerateInsert(sqlTable.Name));
+            //sb.AppendLine();
+
+            //sb.AppendLine(GenerateUpdate(sqlTable.Name));
+            //sb.AppendLine();
+
+            //sb.AppendLine(GenerateDelete(sqlTable.Name));
+            //sb.AppendLine();
 
             sb.AppendLine("}");
 
@@ -139,15 +153,48 @@ namespace AutoCodeGenLibrary
 
             var sb = new StringBuilder();
 
+            sb.AppendLine("using Microsoft.AspNetCore.Mvc;");
+            sb.AppendLine("using System;");
+            sb.AppendLine("using TelemetryManager;");
+            sb.AppendLine();
+
             sb.AppendLine($"namespace {CONTROLLER_NAMESPACE}");
             sb.AppendLine("{");
 
-            sb.AppendLine(AddTabs(1) + $"public class ControllerBase : ApiController");
-            sb.AppendLine(AddTabs(1) + "{");
-            sb.AppendLine(AddTabs(2) + "// Include whatever logic here that is to be shared by all controllers");
-            sb.AppendLine("{");
+            sb.AppendLine(AddTabs(1) + $"public class ApiControllerBase : ControllerBase");
 
-            sb.AppendLine(AddTabs(2) + $"public ControllerBase() {{ }}");
+            sb.AppendLine(AddTabs(1) + "{");
+            sb.AppendLine(AddTabs(2) + "protected readonly ILogger _Log;");
+            sb.AppendLine(AddTabs(2) + "protected readonly IMetrics _Metric;");
+            sb.AppendLine(AddTabs(2) + "protected readonly IConfigProvider _ConfigProvider;");
+            sb.AppendLine(AddTabs(2) + "protected readonly IDataProvider _Datasource;");
+            sb.AppendLine(AddTabs(2) + "protected readonly ISecurityProvider _SecurityProvider;");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "public ApiControllerBase(IConfigProvider config, ILogger log, IMetrics metrics, IDataProvider datasource, ISecurityProvider securityProvider)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "_ConfigProvider = config;");
+            sb.AppendLine(AddTabs(3) + "_Log = log;");
+            sb.AppendLine(AddTabs(3) + "_Metric = metrics;");
+            sb.AppendLine(AddTabs(3) + "_Datasource = datasource;");
+            sb.AppendLine(AddTabs(3) + "_SecurityProvider = securityProvider;");
+            sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "/// <summary>");
+            sb.AppendLine(AddTabs(2) + "/// Default exception handling for API calls");
+            sb.AppendLine(AddTabs(2) + "/// </summary>");
+            sb.AppendLine(AddTabs(2) + "protected ActionResult<ResponseBase> HandleException(Exception ex)");
+            sb.AppendLine(AddTabs(2) + "{");
+            sb.AppendLine(AddTabs(3) + "_Log.Error(ex);");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "    if (_ConfigProvider.GetboolKey(\"config.exceptions.returned\"))");
+            sb.AppendLine(AddTabs(2) + "        return StatusCode(500, new ResponseBase(false, ex.Message));");
+            sb.AppendLine(AddTabs(2) + "    else");
+            sb.AppendLine(AddTabs(2) + "        return StatusCode(500, ResponseBase.SERVER_ERROR);");
+            sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
+
             sb.AppendLine(AddTabs(1) + "}");
 
             sb.Append("}");
@@ -189,7 +236,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine(AddTabs(2) + "public ResponseBase(bool success, string message)");
             sb.AppendLine(AddTabs(2) + "{");
             sb.AppendLine(AddTabs(3) + "Success = success;");
-            sb.AppendLine(AddTabs(3) + "public string Message { get; set; }");
+            sb.AppendLine(AddTabs(3) + "Message = message");
             sb.AppendLine(AddTabs(2) + "}");
 
             sb.AppendLine(AddTabs(1) + "}");
@@ -248,56 +295,98 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        private string GenerateGetById(string controllerName)
+        private string GenerateGetById(string controllerName, IDictionary<string, bool> options)
         {
             var sb = new StringBuilder();
 
+            sb.AppendLine(AddTabs(2) + "/// <summary>");
+            sb.AppendLine(AddTabs(2) + $"/// Loads a single {controllerName} by id");
+            sb.AppendLine(AddTabs(2) + "/// </summary>");
             sb.AppendLine(AddTabs(2) + "[HttpGet]");
             sb.AppendLine(AddTabs(2) + $"[Route(\"api/v1/{controllerName.ToLower()}/{{id}}\")]");
 
-            sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> Get{controllerName}(int id)");
+            if (options[INCLUDE_SESSION_TOKEN])
+                sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> Get{controllerName}([FromHeader] string token, int id)");
+            else
+                sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> Get{controllerName}(int id)");
+
             sb.AppendLine(AddTabs(2) + "{");
             sb.AppendLine(AddTabs(3) + "try");
             sb.AppendLine(AddTabs(3) + "{");
 
-            // todo: wire up to DAL
+            sb.AppendLine(AddTabs(4) + "if (!_SecurityProvider.IsTokenValid(token))");
+            sb.AppendLine(AddTabs(5) + "return ResponseBase.ACCESS_DENIED;");
+            sb.AppendLine();
 
-            sb.AppendLine(AddTabs(4) + "return Ok(ResponseBase.DEFAULT_SUCCESS;");
+            sb.AppendLine(AddTabs(4) + "if (id < 1)");
+            sb.AppendLine(AddTabs(5) + "return ResponseBase.MISSING_OR_INVALID_ARGUMENTS;");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(4) + $"var results = _Datasource.Load{controllerName}ById(id);");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(4) + "if (results == null)");
+            sb.AppendLine(AddTabs(5) + $"return Ok(new ResponseBase(false, $\"Unable to load {controllerName} '{{id}}'\"));");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(4) + $"return Ok(new ResponseObject<{controllerName}>(true, string.Empty, results));");
+
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine(AddTabs(3) + "catch (Exception ex)");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "// log exception here");
-            sb.AppendLine(AddTabs(4) + "return StatusCode(500, ResponseBase.DEFAULT_FAILURE);");
+
+            if (options[GENERATE_BASE_CONTROLLER])
+                sb.AppendLine(AddTabs(4) + "return HandleException(ex);");
+            else
+                sb.AppendLine(AddTabs(4) + "return StatusCode(500, ResponseBase.DEFAULT_FAILURE);");
+
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine(AddTabs(2) + "}");
-
-            sb.AppendLine(AddTabs(1) + "}");
 
             return sb.ToString();
         }
 
-        private string GenerateGetAll(string controllerName)
+        private string GenerateGetAll(string controllerName, IDictionary<string, bool> options)
         {
-            // todo paging?
-
             var sb = new StringBuilder();
 
+            sb.AppendLine(AddTabs(2) + "/// <summary>");
+            sb.AppendLine(AddTabs(2) + $"/// Loads all {controllerName}");
+            sb.AppendLine(AddTabs(2) + "/// </summary>");
             sb.AppendLine(AddTabs(2) + "[HttpGet]");
-            sb.AppendLine(AddTabs(2) + $"[Route(\"api/v1/{controllerName.ToLower()}/all\")]");
+            sb.AppendLine(AddTabs(2) + $"[Route(\"api/v1/{controllerName.ToLower()}\")]");
 
-            sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> GetAll{controllerName}(int id)");
+            if (options[INCLUDE_SESSION_TOKEN])
+                sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> Get{controllerName}List([FromHeader] string token)");
+            else
+                sb.AppendLine(AddTabs(2) + $"public ActionResult<ResponseBase> Get{controllerName}List()");
+
             sb.AppendLine(AddTabs(2) + "{");
             sb.AppendLine(AddTabs(3) + "try");
             sb.AppendLine(AddTabs(3) + "{");
 
-            // todo: wire up to DAL
+            sb.AppendLine(AddTabs(4) + "if (!_SecurityProvider.IsTokenValid(token))");
+            sb.AppendLine(AddTabs(5) + "return ResponseBase.ACCESS_DENIED;");
+            sb.AppendLine();
 
-            sb.AppendLine(AddTabs(4) + "return Ok(ResponseBase.DEFAULT_SUCCESS;");
+            sb.AppendLine(AddTabs(4) + $"var results = _Datasource.Load{controllerName}();");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(4) + "if (results == null)");
+            sb.AppendLine(AddTabs(5) + $"return Ok(new ResponseBase(false, $\"Unable to load {controllerName} '{{id}}'\"));");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(4) + $"return Ok(new ResponseObject<{controllerName}>(true, string.Empty, results));");
+
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine(AddTabs(3) + "catch (Exception ex)");
             sb.AppendLine(AddTabs(3) + "{");
-            sb.AppendLine(AddTabs(4) + "// log exception here");
-            sb.AppendLine(AddTabs(4) + "return StatusCode(500, ResponseBase.DEFAULT_FAILURE);");
+
+            if (options[GENERATE_BASE_CONTROLLER])
+                sb.AppendLine(AddTabs(4) + "return HandleException(ex);");
+            else
+                sb.AppendLine(AddTabs(4) + "return StatusCode(500, ResponseBase.DEFAULT_FAILURE);");
+
             sb.AppendLine(AddTabs(3) + "}");
             sb.AppendLine(AddTabs(2) + "}");
 
@@ -307,74 +396,3 @@ namespace AutoCodeGenLibrary
         }
     }
 }
-
-/*
-Need:
-GetById
-GetAll
-GetAllPaged
-Insert
-Update
-
-    
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
-
-namespace WebApi
-{
-    [ApiController]
-    public class HealthController : ApiControllerBase
-    {
-        public HealthController(IDictionary<string, object> config, ILogger log, IMetrics metrics, IDataSource datasource, IDictionary<string, User> users) : base(config, log, metrics, datasource, users) { }
-
-        [HttpGet]
-        [Route("api/v1/health/status")]
-        public ActionResult<ResponseBase> GetServerHealth()
-        {
-            try
-            {
-                _Metrics.IncrementCounter(MethodBase.GetCurrentMethod().Name);
-                return Ok(new ResponseBase(true, "Healthy"));
-            }
-            catch (Exception ex)
-            {
-                return ManageException(ex);
-            }
-        }
-
-        [HttpGet]
-        [Route("api/v1/health/time")]
-        public ActionResult<ResponseBase> ServerTime()
-        {
-            try
-            {
-                _Metrics.IncrementCounter(MethodBase.GetCurrentMethod().Name);
-                return Ok(new ResponseBase(true, DateTime.UtcNow.ToString()));
-            }
-            catch (Exception ex)
-            {
-                return ManageException(ex);
-            }
-        }
-
-        [HttpGet]
-        [Route("api/v1/health/version")]
-        public ActionResult<ResponseBase> ApplicationVersion()
-        {
-            try
-            {
-                _Metrics.IncrementCounter(MethodBase.GetCurrentMethod().Name);
-                return Ok(new ResponseBase(true, GetType().Assembly.GetName().Version.ToString()));
-            }
-            catch (Exception ex)
-            {
-                return ManageException(ex);
-            }
-        }
-    }
-}
-
- 
-*/

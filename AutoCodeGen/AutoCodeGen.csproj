@@ -169,15 +169,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DAL.Standard">
-      <Version>1.0.1</Version>
-    </PackageReference>
     <PackageReference Include="log4net">
       <Version>2.0.8</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
+      <Version>12.0.3</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Database\DAL.Standard\DAL.Standard.csproj">
+      <Project>{f9d9a7ad-d7ef-43b4-ac9a-8ba2d30a67ff}</Project>
+      <Name>DAL.Standard</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
