@@ -1540,7 +1540,7 @@ namespace AutoCodeGen
             }
             catch (Exception ex)
             {
-                // 1) disable any tabs that are innapprproate
+                // 1) disable any tabs that are inappropriate
                 // 2) display error message
                 // 3) set connected flag to false
 
