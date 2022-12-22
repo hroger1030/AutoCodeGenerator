@@ -23,30 +23,18 @@ using System.Text;
 
 namespace Encryption
 {
-    public interface IAesEncryption
-    {
-        string Decrypt(string cipherText, string password, string salt);
-        byte[] Decrypt(byte[] cipherText, string password, string salt);
-        string Decrypt(string cipherText, string password, string salt, string initialVector, int passwordIterations, int keySize);
-        byte[] Decrypt(byte[] cipherText, string password, string salt, string initialVector, int passwordIterations, int keySize);
-
-        string Encrypt(string plainText, string password, string salt);
-        byte[] Encrypt(byte[] plainText, string password, string salt);
-        string Encrypt(string plainText, string password, string salt, string initialVector, int passwordIterations, int keySize);
-        byte[] Encrypt(byte[] plainText, string password, string salt, string initialVector, int passwordIterations, int keySize);
-
-        string GenerateSalt();
-        string GenerateSalt(int length);
-    }
-
     /// <summary>
     /// This class uses a symmetric key algorithm (Rijndael/AES) to encrypt and decrypt data.
     /// </summary>
-    public class AesEncryption : IAesEncryption
+    public sealed class AesEncryption
     {
+        private const int DEFAULT_KEY_SIZE = 256;
+        private const int BLOCK_SIZE = 128;
         private const int DEFAULT_SALT_LENGTH = 64;
+        private const string DEFAULT_IV = "01234567890abcdef";
+        private const int DEFAULT_ITERATIONS = 1;
 
-        private RNGCryptoServiceProvider _Random = new RNGCryptoServiceProvider();
+        private readonly RandomNumberGenerator _Random;
 
         /// <summary>
         /// Number of hash iterations used to generate password. 
@@ -64,10 +52,11 @@ namespace Encryption
         /// </summary>
         private readonly int _KeySize;
 
-        public AesEncryption() { }
+        public AesEncryption() : this(DEFAULT_IV, DEFAULT_ITERATIONS, DEFAULT_KEY_SIZE) { }
 
         public AesEncryption(string initialVector, int passwordIterations, int keySize)
         {
+            _Random = RandomNumberGenerator.Create();
             _InitialVector = initialVector;
             _Iterations = passwordIterations;
             _KeySize = keySize;
@@ -84,18 +73,18 @@ namespace Encryption
             return Encrypt(plainText, password, salt, _InitialVector, _Iterations, _KeySize);
         }
 
-        public string Encrypt(string plainText, string password, string salt, string initialVector, int passwordIterations, int keySize)
+        public static string Encrypt(string plainText, string password, string salt, string initialVector, int passwordIterations, int keySize)
         {
             byte[] initVectorBytes = Encoding.UTF8.GetBytes(initialVector);
             byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
             byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-            byte[] plainText_bytes = Encoding.UTF8.GetBytes(plainText);
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
-            byte[] buffer = Encrypt(plainText_bytes, passwordBytes, saltBytes, initVectorBytes, passwordIterations, keySize);
+            byte[] buffer = Encrypt(plainTextBytes, passwordBytes, saltBytes, initVectorBytes, passwordIterations, keySize);
             return Convert.ToBase64String(buffer);
         }
 
-        public byte[] Encrypt(byte[] plainText, string password, string salt, string initialVector, int passwordIterations, int keySize)
+        public static byte[] Encrypt(byte[] plainText, string password, string salt, string initialVector, int passwordIterations, int keySize)
         {
             byte[] initVectorBytes = Encoding.UTF8.GetBytes(initialVector);
             byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
@@ -115,7 +104,7 @@ namespace Encryption
             return Decrypt(cipherText, password, salt, _InitialVector, _Iterations, _KeySize);
         }
 
-        public string Decrypt(string cipherText, string password, string salt, string initialVector, int passwordIterations, int keySize)
+        public static string Decrypt(string cipherText, string password, string salt, string initialVector, int passwordIterations, int keySize)
         {
             byte[] initVectorBytes = Encoding.UTF8.GetBytes(initialVector);
             byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
@@ -126,7 +115,7 @@ namespace Encryption
             return Encoding.UTF8.GetString(buffer);
         }
 
-        public byte[] Decrypt(byte[] cipherText, string password, string salt, string initialVector, int passwordIterations, int keySize)
+        public static byte[] Decrypt(byte[] cipherText, string password, string salt, string initialVector, int passwordIterations, int keySize)
         {
             byte[] initVectorBytes = Encoding.UTF8.GetBytes(initialVector);
             byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
@@ -136,7 +125,7 @@ namespace Encryption
         }
 
 
-        private byte[] Encrypt(byte[] plainText, byte[] password, byte[] salt, byte[] initialVector, int passwordIterations, int keySize)
+        private static byte[] Encrypt(byte[] plainText, byte[] password, byte[] salt, byte[] initialVector, int passwordIterations, int keySize)
         {
             if (plainText == null || plainText.Length < 1)
                 throw new ArgumentException("plain text is null or empty");
@@ -158,33 +147,29 @@ namespace Encryption
 
             byte[] encryptedBytes = null;
 
-            using (var ms = new MemoryStream())
+            using (var AES = Aes.Create())
             {
-                using (var AES = new RijndaelManaged())
+                using var key = new Rfc2898DeriveBytes(password, salt, passwordIterations);
+                AES.KeySize = keySize;
+                AES.BlockSize = BLOCK_SIZE;
+                AES.Key = key.GetBytes(keySize / 8);
+                AES.IV = initialVector;
+                AES.Mode = CipherMode.CBC;
+
+                using var ms = new MemoryStream();
+                using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write))
                 {
-                    AES.KeySize = keySize;
-                    AES.BlockSize = 128;
-
-                    var key = new Rfc2898DeriveBytes(password, salt, passwordIterations);
-                    AES.Key = key.GetBytes(AES.KeySize / 8);
-                    AES.IV = initialVector;
-
-                    AES.Mode = CipherMode.CBC;
-
-                    using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(plainText, 0, plainText.Length);
-                        cs.Close();
-                    }
-
-                    encryptedBytes = ms.ToArray();
+                    cs.Write(plainText, 0, plainText.Length);
+                    cs.Close();
                 }
+
+                encryptedBytes = ms.ToArray();
             }
 
             return encryptedBytes;
         }
 
-        private byte[] Decrypt(byte[] encryptedText, byte[] password, byte[] salt, byte[] initialVector, int passwordIterations, int keySize)
+        private static byte[] Decrypt(byte[] encryptedText, byte[] password, byte[] salt, byte[] initialVector, int passwordIterations, int keySize)
         {
             if (encryptedText == null || encryptedText.Length < 1)
                 throw new ArgumentException("cipher text is null or empty");
@@ -206,27 +191,23 @@ namespace Encryption
 
             byte[] decryptedBytes = null;
 
-            using (var ms = new MemoryStream())
+            using (var AES = Aes.Create())
             {
-                using (var AES = new RijndaelManaged())
+                using var key = new Rfc2898DeriveBytes(password, salt, passwordIterations);
+                AES.KeySize = keySize;
+                AES.BlockSize = BLOCK_SIZE;
+                AES.Key = key.GetBytes(keySize / 8);
+                AES.IV = initialVector;
+                AES.Mode = CipherMode.CBC;
+
+                using var ms = new MemoryStream();
+                using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write))
                 {
-                    AES.KeySize = keySize;
-                    AES.BlockSize = 128;
-
-                    var key = new Rfc2898DeriveBytes(password, salt, passwordIterations);
-                    AES.Key = key.GetBytes(AES.KeySize / 8);
-                    AES.IV = initialVector;
-
-                    AES.Mode = CipherMode.CBC;
-
-                    using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(encryptedText, 0, encryptedText.Length);
-                        cs.Close();
-                    }
-
-                    decryptedBytes = ms.ToArray();
+                    cs.Write(encryptedText, 0, encryptedText.Length);
+                    cs.Close();
                 }
+
+                decryptedBytes = ms.ToArray();
             }
 
             return decryptedBytes;
@@ -243,23 +224,35 @@ namespace Encryption
             if (length < 1)
                 throw new ArgumentException("Salt length cannot be less than 1 byte long");
 
-            byte[] random_number = new byte[length];
-            _Random.GetBytes(random_number);
+            byte[] output = new byte[length];
+            _Random.GetBytes(output);
 
-            return Convert.ToBase64String(random_number);
+            return Convert.ToBase64String(output);
         }
 
-        private bool IsKeySizeValid(int keySize)
+        public static bool IsKeySizeValid(int keySize)
         {
             return (keySize == 128 || keySize == 192 || keySize == 256);
         }
 
-        private bool IsSaltValid(byte[] salt)
+        public static bool IsSaltValid(string salt)
+        {
+            byte[] saltBytes = Encoding.ASCII.GetBytes(salt);
+            return IsSaltValid(saltBytes);
+        }
+
+        public static bool IsSaltValid(byte[] salt)
         {
             return salt.Length > 7;
         }
 
-        private bool IsInitialVectorValid(byte[] initialVector)
+        public static bool IsInitialVectorValid(string initialVector)
+        {
+            byte[] ivBytes = Encoding.ASCII.GetBytes(initialVector);
+            return IsInitialVectorValid(ivBytes);
+        }
+
+        public static bool IsInitialVectorValid(byte[] initialVector)
         {
             return initialVector.Length == 16;
         }

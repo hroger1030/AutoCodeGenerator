@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-using AutoCodeGenLibrary;
-using DAL.Standard.SqlMetadata;
+﻿using DAL.Standard.SqlMetadata;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -117,16 +115,16 @@ namespace UnitTests
         {
             // todo: create fake sqldb object to test with
 
-            var foo = new CodeGeneratorCSharp();
-            var data = new AutogenerationData()
-            {
-                NamespaceIncludes = new List<string>(),
-                Options = new Dictionary<string, bool>(),
-                SqlTable = _SqlTable,
-            };
+            //var foo = new CodeGeneratorCSharp();
+            //var data = new AutogenerationData()
+            //{
+            //    NamespaceIncludes = new List<string>(),
+            //    Options = new Dictionary<string, bool>(),
+            //    SqlTable = _SqlTable,
+            //};
 
-            var output = foo.GenerateCSharpClassInterface(data);
-            Assert.IsTrue(output != null);
+            //var output = foo.GenerateCSharpClassInterface(data);
+            //Assert.IsTrue(output != null);
         }
 
         [Test]

@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29306.81
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCodeGen", "AutoCodeGen\AutoCodeGen.csproj", "{E6695000-6598-4362-B232-2F9776E2CF4B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6ED337E6-64EC-460B-8D85-DCDB5EF90810}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Standard", "..\Database\DAL.Standard\DAL.Standard.csproj", "{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoCodeGen", "AutoCodeGen\AutoCodeGen.csproj", "{E6695000-6598-4362-B232-2F9776E2CF4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,30 +25,6 @@ Global
 		{E6695000-6598-4362-B232-2F9776E2CF4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6695000-6598-4362-B232-2F9776E2CF4B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E6695000-6598-4362-B232-2F9776E2CF4B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Debug|.NET.Build.0 = Debug|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Release|.NET.ActiveCfg = Release|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Release|.NET.Build.0 = Release|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6ED337E6-64EC-460B-8D85-DCDB5EF90810}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Debug|.NET.Build.0 = Debug|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Release|.NET.ActiveCfg = Release|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Release|.NET.Build.0 = Release|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F9D9A7AD-D7EF-43B4-AC9A-8BA2D30A67FF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
