@@ -32,7 +32,7 @@
   </ItemGroup>
 
    <ItemGroup>
-    <PackageReference Include="DAL.Standard" Version="1.0.4" />
+    <PackageReference Include="DAL.Standard" Version="2.0.0.2" />
     <PackageReference Include="log4net" Version="2.0.15" />
   </ItemGroup>
    
