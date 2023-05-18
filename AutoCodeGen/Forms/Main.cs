@@ -16,6 +16,11 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+using AutoCodeGenLibrary;
+using DAL.Standard;
+using DAL.Standard.SqlMetadata;
+using Encryption;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -26,15 +31,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
-using AutoCodeGenLibrary;
-using DAL.Standard;
-using DAL.Standard.SqlMetadata;
-using Encryption;
-using log4net;
 
 namespace AutoCodeGen
 {
@@ -43,16 +43,16 @@ namespace AutoCodeGen
         private static readonly ILog _Log = LogManager.GetLogger(typeof(Main));
 
         // output directories
-        internal static string s_DirectoryAspPages = ConfigurationManager.AppSettings["DirectoryAspPages"];
-        internal static string s_DirectoryOrm = ConfigurationManager.AppSettings["DirectoryOrm"];
-        internal static string s_DirectoryOrmExt = ConfigurationManager.AppSettings["DirectoryOrmExt"];
-        internal static string s_DirectoryDal = ConfigurationManager.AppSettings["DirectoryDal"];
-        internal static string s_DirectoryDalExt = ConfigurationManager.AppSettings["DirectoryDalExt"];
+        internal static string _DirectoryAspPages = ConfigurationManager.AppSettings["DirectoryAspPages"];
+        internal static string _DirectoryOrm = ConfigurationManager.AppSettings["DirectoryOrm"];
+        internal static string _DirectoryOrmExt = ConfigurationManager.AppSettings["DirectoryOrmExt"];
+        internal static string _DirectoryDal = ConfigurationManager.AppSettings["DirectoryDal"];
+        internal static string _DirectoryDalExt = ConfigurationManager.AppSettings["DirectoryDalExt"];
         internal static string _DirectoryWebService = ConfigurationManager.AppSettings["DirectoryWebService"];
-        internal static string s_DirectoryInterface = ConfigurationManager.AppSettings["DirectoryInterface"];
-        internal static string s_DirectoryWinforms = ConfigurationManager.AppSettings["DirectoryWinforms"];
-        internal static string s_DirectoryXMlData = ConfigurationManager.AppSettings["DirectoryXmlData"];
-        internal static string s_DirectoryEnums = ConfigurationManager.AppSettings["DirectoryEnums"];
+        internal static string _DirectoryInterface = ConfigurationManager.AppSettings["DirectoryInterface"];
+        internal static string _DirectoryWinforms = ConfigurationManager.AppSettings["DirectoryWinforms"];
+        internal static string _DirectoryXMlData = ConfigurationManager.AppSettings["DirectoryXmlData"];
+        internal static string _DirectoryEnums = ConfigurationManager.AppSettings["DirectoryEnums"];
 
         // Encryption
         private static readonly string _PassPhrase = "CodeWriter37";
@@ -61,18 +61,18 @@ namespace AutoCodeGen
 
         // Misc
         private static readonly string[] _FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.aspx", "*.ascx", "*.master", "*.css" };
-        private static readonly string[] _DirectoriesUsed = { s_DirectoryAspPages, s_DirectoryOrm, s_DirectoryOrmExt, s_DirectoryDal, s_DirectoryDalExt, _DirectoryWebService, s_DirectoryInterface, s_DirectoryWinforms, s_DirectoryXMlData, s_DirectoryEnums };
-        private static readonly HashSet<string> _FilteredTableNames = new HashSet<string>() { "master", "model", "msdb", "tempdb" };
+        private static readonly string[] _DirectoriesUsed = { _DirectoryAspPages, _DirectoryOrm, _DirectoryOrmExt, _DirectoryDal, _DirectoryDalExt, _DirectoryWebService, _DirectoryInterface, _DirectoryWinforms, _DirectoryXMlData, _DirectoryEnums };
+        private static readonly HashSet<string> _FilteredTableNames = new() { "master", "model", "msdb", "tempdb" };
 
         private const int MAX_MESSAGES = 50;
 
         private readonly AesEncryption _AesEncryption;
-        private ConnectionString _Conn;
+        private string _Conn;
         private List<TableMetadata> _DbTables;
         private string _DatabaseName;
         private string _OutputPath;
         private readonly List<string> _NamespaceIncludes;
-        private readonly HashSet<IGenerator> _RegisteredGenerators;
+        //private readonly HashSet<IGenerator> _RegisteredGenerators;
 
         // Counts to help manage onChecked events for checkboxlists.
         // When event is fired, change has not been applied to object 
@@ -108,22 +108,21 @@ namespace AutoCodeGen
 
                 Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
 
-                _Conn = new ConnectionString();
                 _DatabaseName = string.Empty;
                 _OutputPath = string.Empty;
                 _NamespaceIncludes = new List<string>();
-                _RegisteredGenerators = new HashSet<IGenerator>
-                {
-                    new CodeGeneratorCSharp(),
-                    new CodeGeneratorSql(),
-                    new CodeGeneratorAspDotNet(),
-                    new CodeGeneratorWebservice(),
-                    new CodeGeneratorWinform(),
-                };
+                //_RegisteredGenerators = new HashSet<IGenerator>
+                //{
+                //    new CodeGeneratorCSharp(),
+                //    new CodeGeneratorSql(),
+                //    new CodeGeneratorAspDotNet(),
+                //    new CodeGeneratorWebservice(),
+                //    new CodeGeneratorWinform(),
+                //};
 
                 // display version info
-                lblVersion.Text = "Version " + Application.ProductVersion;
-                DisplayMessage(Properties.Resource.ApplicationName + ", Version " + Application.ProductVersion, false);
+                lblVersion.Text = $"Version {Application.ProductVersion}";
+                DisplayMessage($"{Properties.Resource.ApplicationName}, Version {Application.ProductVersion}", false);
 
                 ResetApp();
                 ValidateDbConnectionString();
@@ -142,7 +141,7 @@ namespace AutoCodeGen
         {
             if (lvMessaging.InvokeRequired)
             {
-                DisplayMessageSignature display_message = new DisplayMessageSignature(DisplayMessage);
+                var display_message = new DisplayMessageSignature(DisplayMessage);
                 lvMessaging.Invoke(display_message, new object[] { message, isError });
             }
             else
@@ -151,8 +150,8 @@ namespace AutoCodeGen
                 while (lvMessaging.Items.Count > MAX_MESSAGES)
                     lvMessaging.Items.RemoveAt(0);
 
-                ListViewItem list_view_item = new ListViewItem();
-                string formatted_time = "<" + String.Format("{0:T}", DateTime.Now) + "> ";
+                var list_view_item = new ListViewItem();
+                string formatted_time = "<" + string.Format("{0:T}", DateTime.Now) + "> ";
 
                 if (isError)
                     list_view_item.ForeColor = Color.Red;
@@ -187,22 +186,23 @@ namespace AutoCodeGen
             try
             {
                 if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.ServerName))
-                    this.txtServerName.Text = _AesEncryption.Decrypt(Properties.Settings.Default.ServerName, _PassPhrase, _Salt);
+                    txtServerName.Text = _AesEncryption.Decrypt(Properties.Settings.Default.ServerName, _PassPhrase, _Salt);
 
                 if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.UserName))
-                    this.txtLogon.Text = _AesEncryption.Decrypt(Properties.Settings.Default.UserName, _PassPhrase, _Salt);
+                    txtLogon.Text = _AesEncryption.Decrypt(Properties.Settings.Default.UserName, _PassPhrase, _Salt);
 
                 if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.Password))
-                    this.txtPassword.Text = _AesEncryption.Decrypt(Properties.Settings.Default.Password, _PassPhrase, _Salt);
+                    txtPassword.Text = _AesEncryption.Decrypt(Properties.Settings.Default.Password, _PassPhrase, _Salt);
             }
-            catch (System.Security.Cryptography.CryptographicException)
+            catch (CryptographicException)
             {
-                this.txtServerName.Text = string.Empty;
-                this.txtLogon.Text = string.Empty;
-                this.txtPassword.Text = string.Empty;
+                txtServerName.Text = string.Empty;
+                txtLogon.Text = string.Empty;
+                txtPassword.Text = string.Empty;
             }
 
             ckbLocalDb.Checked = Properties.Settings.Default.LocalDb;
+            _Conn = ConfigurationManager.ConnectionStrings["SQLConnection"].ToString();
 
             // clear all related objects
             cmbDatabaseList.DataSource = null;
@@ -496,7 +496,7 @@ namespace AutoCodeGen
             if (string.IsNullOrEmpty(_DatabaseName))
                 throw new ArgumentException("Database name is null or empty");
 
-            var db = new Database(_Conn.ToString());
+            var db = new Database(_Conn);
 
             string sql_query = $"[{_DatabaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
 
@@ -517,7 +517,7 @@ namespace AutoCodeGen
                     output.Add(buffer);
                 }
 
-                return output.OrderBy(t => t.Schema).ThenBy(t =>t.TableName).ToList();
+                return output.OrderBy(t => t.Schema).ThenBy(t => t.TableName).ToList();
             }
 
             _DbTables = db.ExecuteQuery(sql_query, null, processer)
@@ -590,18 +590,15 @@ namespace AutoCodeGen
             // we checked or unchecked the use local database option,
             // update UI to reflect new options.
 
-            _Conn = new ConnectionString();
-
             if (ckbLocalDb.Checked == true)
             {
                 txtLogon.Enabled = false;
                 txtPassword.Enabled = false;
                 txtServerName.Enabled = false;
-
-                _Conn.AddParameter("Integrated Security", "SSPI");
-                _Conn.AddParameter("Connection Timeout", "2");
-
                 btnConnect.Enabled = true;
+
+                _Conn = ConfigurationManager.ConnectionStrings["SQLConnection"].ToString();
+
                 return;
             }
             else
@@ -610,10 +607,7 @@ namespace AutoCodeGen
                 txtPassword.Enabled = true;
                 txtServerName.Enabled = true;
 
-                _Conn.AddParameter("UID", txtLogon.Text);
-                _Conn.AddParameter("PWD", txtPassword.Text);
-                _Conn.AddParameter("Data Source", txtServerName.Text);
-                _Conn.AddParameter("Connection Timeout", "3");
+                _Conn = $"Server={txtServerName.Text};Database={cmbDatabaseList.SelectedValue};User Id={txtLogon.Text};Password={txtPassword.Text};Connection Timeout=2;";
 
                 if (!string.IsNullOrWhiteSpace(txtPassword.Text) && !string.IsNullOrWhiteSpace(txtLogon.Text) && !string.IsNullOrWhiteSpace(txtServerName.Text))
                 {
@@ -998,7 +992,7 @@ namespace AutoCodeGen
 
                 //////////////////////////////////////////////////////////////////////
 
-                sql_database.LoadDatabaseMetadata(_DatabaseName, _Conn.ToString());
+                sql_database.LoadDatabaseMetadata(_DatabaseName, _Conn);
 
                 // check for loading errors
                 //foreach (var item in sql_database.ErrorList)
@@ -1019,18 +1013,18 @@ namespace AutoCodeGen
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateMasterPage))
                 {
                     // grab a list of all the selected tables
-                    List<string> selected_tables = new List<string>();
+                    var selected_tables = new List<string>();
 
                     foreach (string table_name in clbAspSqlTables.CheckedItems)
                         selected_tables.Add(table_name);
 
                     output = codegeneratorAsp.GenerateMasterPageCodeInFront(sql_database.Name, selected_tables);
-                    file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
 
                     output = codegeneratorAsp.GenerateMasterPageCodeBehind(sql_database.Name);
-                    file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
@@ -1042,15 +1036,15 @@ namespace AutoCodeGen
                     // this file is a css file
                     output.Name += ".css";
 
-                    file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
 
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateWebConfig))
                 {
-                    output = codegeneratorAsp.GenerateWebConfig(_Conn.ToConfigString());
-                    file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                    output = codegeneratorAsp.GenerateWebConfig(_Conn);
+                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
                 }
@@ -1058,7 +1052,7 @@ namespace AutoCodeGen
                 if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateDefaultPage))
                 {
                     output = codegeneratorAsp.GenerateDefaultPageCodeInFront(sql_database.Name);
-                    file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
 
                     FileIo.WriteToFile(file_name, output.Body);
 
@@ -1077,9 +1071,9 @@ namespace AutoCodeGen
                     {
                         SqlTable sql_table = sql_database.Tables[table_name];
 
-                        List<string> sort_fields = new List<string>();
-                        List<string> search_fields = new List<string>();
-                        List<string> select_fields = new List<string>();
+                        var sort_fields = new List<string>();
+                        var search_fields = new List<string>();
+                        var select_fields = new List<string>();
 
                         // get sort fields
                         if (clbTsqlSqlObjects.CheckedItems.Contains(Properties.Resource.SqlSelMany) ||
@@ -1113,7 +1107,7 @@ namespace AutoCodeGen
                         // We are placeing all the SQl scripts in a temp dictionary
                         // object so we dont have to write them to a file untill they
                         // are all completely built.
-                        List<OutputObject> sql_procedures = new List<OutputObject>();
+                        var sql_procedures = new List<OutputObject>();
 
                         // should we be generating permissisons with the sp?
                         bool create_sql_permissions = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLCreateSqlSpPerms);
@@ -1130,7 +1124,7 @@ namespace AutoCodeGen
                                 SearchFields = search_fields,
                                 SelectFields = select_fields,
                                 SortFields = sort_fields,
-                                ConnectionString = _Conn.ToString()
+                                ConnectionString = _Conn,
                             };
 
                             manifest.SetOptionState(CodeGeneratorSql.INCLUDE_DISABLED_CHECK, GeneratorManifest.OptionsState.False);
@@ -1214,8 +1208,7 @@ namespace AutoCodeGen
                             NamespaceIncludes = _NamespaceIncludes,
                             Options = new Dictionary<string, bool>()
                             {
-                                // todo: convert to const?
-                                { CodeGeneratorCSharp.CONVERT_NULLABLE_FIELDS, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeBaseClassRefrence) ? true : false },
+                                { CodeGeneratorCSharp.CONVERT_NULLABLE_FIELDS, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeBaseClassRefrence) },
                             },
                             SqlTable = current_table,
                         };
@@ -1231,7 +1224,7 @@ namespace AutoCodeGen
                                 DisplayMessage($"unable to map method {methodName}", true);
 
                             output = (OutputObject)mi.Invoke(codegeneratorCsharp, new object[] { data });
-                            file_name = Combine(_OutputPath, s_DirectoryOrm, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryOrm, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
@@ -1257,8 +1250,8 @@ namespace AutoCodeGen
                             }
                             else
                             {
-                                output = codegeneratorCsharp.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], _Conn.ToString());
-                                file_name = Combine(_OutputPath, s_DirectoryEnums, output.Name);
+                                output = codegeneratorCsharp.GenerateCSharpEnumeration(current_table, key_fields[0], value_fields[0], _Conn);
+                                file_name = Combine(_OutputPath, _DirectoryEnums, output.Name);
                                 FileIo.WriteToFile(file_name, output.Body);
                             }
                         }
@@ -1268,7 +1261,7 @@ namespace AutoCodeGen
                     if (clbCsharpObjects.CheckedItems.Contains(Properties.Resource.CsharpCreateBaseClass))
                     {
                         output = codegeneratorCsharp.GenerateCSharpBaseClass(_DatabaseName);
-                        file_name = Combine(_OutputPath, s_DirectoryDal, output.Name);
+                        file_name = Combine(_OutputPath, _DirectoryDal, output.Name);
 
                         FileIo.WriteToFile(file_name, output.Body);
                     }
@@ -1290,37 +1283,37 @@ namespace AutoCodeGen
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsEditPage))
                         {
                             output = codegeneratorWin.GenerateWinformEditCode(current_table);
-                            file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsEditDesigner))
                         {
                             output = codegeneratorWin.GenerateWinformEditCodeDesigner(current_table);
-                            file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsViewPage))
                         {
                             output = codegeneratorWin.GenerateWinformViewCode(current_table);
-                            file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsViewDesigner))
                         {
                             output = codegeneratorWin.GenerateWinformViewCodeDesigner(current_table);
-                            file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsMainPage))
                         {
                             output = codegeneratorWin.GenerateWinformMainCode(current_table);
-                            file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                         if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsMainDesigner))
                         {
                             output = codegeneratorWin.GenerateWinformMainCodeDesigner(current_table);
-                            file_name = Combine(_OutputPath, s_DirectoryWinforms, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                     }
@@ -1388,29 +1381,29 @@ namespace AutoCodeGen
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateEditPage))
                         {
                             output = codegeneratorAsp.GenerateWebEditPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
-                            file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
 
                             output = codegeneratorAsp.GenerateWebEditPageCodeBehind(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateListPage))
                         {
                             output = codegeneratorAsp.GenerateWebListPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
-                            file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
 
                             output = codegeneratorAsp.GenerateWebListPageCodeBehind(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
 
                         if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateViewPage))
                         {
                             output = codegeneratorAsp.GenerateWebViewPageCodeInFront(current_table);
-                            file_name = Combine(_OutputPath, s_DirectoryAspPages, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                     }
@@ -1440,7 +1433,7 @@ namespace AutoCodeGen
                         // Xml Export
                         if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlExportData))
                         {
-                            DataTable data_table = codegeneratorCsharp.GenerateSqlTableData(current_table, _Conn.ToString());
+                            DataTable data_table = codegeneratorCsharp.GenerateSqlTableData(current_table, _Conn);
 
                             if (generate_with_attributes)
                             {
@@ -1450,7 +1443,7 @@ namespace AutoCodeGen
 
                             data_table.TableName = table_name;
                             string xml_output = XmlConverter.DataTableToXmlString(data_table, name_space);
-                            file_name = Combine(_OutputPath, s_DirectoryXMlData, table_name + ConfigurationManager.AppSettings["XMLExportSuffix"]);
+                            file_name = Combine(_OutputPath, _DirectoryXMlData, table_name + ConfigurationManager.AppSettings["XMLExportSuffix"]);
 
                             FileIo.WriteToFile(file_name, xml_output);
                         }
@@ -1459,7 +1452,7 @@ namespace AutoCodeGen
                         if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlImportObject))
                         {
                             output = codegeneratorCsharp.GenerateXmlLoader(current_table);
-                            file_name = Combine(_OutputPath, s_DirectoryXMlData, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryXMlData, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                     }
@@ -1493,7 +1486,7 @@ namespace AutoCodeGen
                 // 2) enable tabs that are now valid
                 // 3) clear out db list and populate with new data
 
-                var db = new Database(_Conn.ToString());
+                var db = new Database(_Conn);
 
                 List<string> processer(SqlDataReader reader)
                 {
@@ -1657,7 +1650,7 @@ namespace AutoCodeGen
                 UpdateComboBoxList(this.cboNamespaceIncludes, _NamespaceIncludes);
             }
 
-            this.cboNamespaceIncludes.Text = string.Empty;
+            cboNamespaceIncludes.Text = string.Empty;
         }
 
         private void btnOpenOutputDirectory_Click(object sender, EventArgs e)
@@ -1941,31 +1934,31 @@ namespace AutoCodeGen
 
             sb.Append(path1);
 
-            if (path1.LastIndexOf("\\") != (path1.Length - 1) && path2.IndexOf("\\") != 0)
-                sb.Append("\\");
+            if (path1.LastIndexOf('\\') != (path1.Length - 1) && path2.IndexOf('\\') != 0)
+                sb.Append('\\');
 
             sb.Append(path2);
 
             if (path3 != null)
             {
-                if (path2.LastIndexOf("\\") != (path2.Length - 1) && path3.IndexOf("\\") != 0)
-                    sb.Append("\\");
+                if (path2.LastIndexOf('\\') != (path2.Length - 1) && path3.IndexOf('\\') != 0)
+                    sb.Append('\\');
 
                 sb.Append(path3);
             }
 
             if (path4 != null)
             {
-                if (path3.LastIndexOf("\\") != (path3.Length - 1) && path4.IndexOf("\\") != 0)
-                    sb.Append("\\");
+                if (path3.LastIndexOf('\\') != (path3.Length - 1) && path4.IndexOf('\\') != 0)
+                    sb.Append('\\');
 
                 sb.Append(path4);
             }
 
             if (path5 != null)
             {
-                if (path4.LastIndexOf("\\") != (path4.Length - 1) && path5.IndexOf("\\") != 0)
-                    sb.Append("\\");
+                if (path4.LastIndexOf('\\') != (path4.Length - 1) && path5.IndexOf('\\') != 0)
+                    sb.Append('\\');
 
                 sb.Append(path5);
             }

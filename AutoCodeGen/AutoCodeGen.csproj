@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>True</UseWindowsForms>
     <StartupObject>AutoCodeGen.Program</StartupObject>
@@ -10,6 +10,10 @@
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>
+    <Title>Autocode Generator</Title>
+    <Copyright>Copyright Roger Hill, 2009</Copyright>
+    <PackageProjectUrl>https://github.com/hroger1030/AutoCodeGenerator</PackageProjectUrl>
+    <PackageTags>c#,codegenerator</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,7 +36,7 @@
   </ItemGroup>
 
    <ItemGroup>
-    <PackageReference Include="DAL.Standard" Version="2.0.0.2" />
+    <PackageReference Include="DAL.Standard" Version="2.0.0.5" />
     <PackageReference Include="log4net" Version="2.0.15" />
   </ItemGroup>
    
