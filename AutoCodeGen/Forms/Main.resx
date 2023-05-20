@@ -1,64 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -117,7 +57,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnGenerateCode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
@@ -127,10 +67,14 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnGenerateCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>471, 389</value>
+    <value>550, 449</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnGenerateCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnGenerateCode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 24</value>
+    <value>128, 28</value>
   </data>
   <data name="btnGenerateCode.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -142,7 +86,7 @@
     <value>btnGenerateCode</value>
   </data>
   <data name="&gt;&gt;btnGenerateCode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnGenerateCode.Parent" xml:space="preserve">
     <value>$this</value>
@@ -154,10 +98,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="btnResetCurrentTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>355, 389</value>
+    <value>414, 449</value>
+  </data>
+  <data name="btnResetCurrentTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnResetCurrentTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 24</value>
+    <value>128, 28</value>
   </data>
   <data name="btnResetCurrentTab.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -169,7 +116,7 @@
     <value>btnResetCurrentTab</value>
   </data>
   <data name="&gt;&gt;btnResetCurrentTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnResetCurrentTab.Parent" xml:space="preserve">
     <value>$this</value>
@@ -184,10 +131,13 @@
     <value>True</value>
   </data>
   <data name="lblConnectStatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 395</value>
+    <value>10, 456</value>
+  </data>
+  <data name="lblConnectStatus.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblConnectStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 13</value>
+    <value>101, 15</value>
   </data>
   <data name="lblConnectStatus.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -199,7 +149,7 @@
     <value>lblConnectStatus</value>
   </data>
   <data name="&gt;&gt;lblConnectStatus.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblConnectStatus.Parent" xml:space="preserve">
     <value>$this</value>
@@ -214,10 +164,13 @@
     <value>NoControl</value>
   </data>
   <data name="lblCopyright.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 36</value>
+    <value>15, 42</value>
+  </data>
+  <data name="lblCopyright.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblCopyright.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 13</value>
+    <value>216, 15</value>
   </data>
   <data name="lblCopyright.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -229,7 +182,7 @@
     <value>lblCopyright</value>
   </data>
   <data name="&gt;&gt;lblCopyright.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblCopyright.Parent" xml:space="preserve">
     <value>tabAbout</value>
@@ -241,10 +194,13 @@
     <value>True</value>
   </data>
   <data name="lnkEmail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 58</value>
+    <value>145, 67</value>
+  </data>
+  <data name="lnkEmail.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lnkEmail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+    <value>44, 15</value>
   </data>
   <data name="lnkEmail.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -256,7 +212,7 @@
     <value>lnkEmail</value>
   </data>
   <data name="&gt;&gt;lnkEmail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lnkEmail.Parent" xml:space="preserve">
     <value>tabAbout</value>
@@ -268,10 +224,13 @@
     <value>True</value>
   </data>
   <data name="lnkWebLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 81</value>
+    <value>15, 93</value>
+  </data>
+  <data name="lnkWebLink.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lnkWebLink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 13</value>
+    <value>137, 15</value>
   </data>
   <data name="lnkWebLink.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -283,7 +242,7 @@
     <value>lnkWebLink</value>
   </data>
   <data name="&gt;&gt;lnkWebLink.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lnkWebLink.Parent" xml:space="preserve">
     <value>tabAbout</value>
@@ -444,10 +403,13 @@
     <value />
   </data>
   <data name="pbxLogo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>339, 13</value>
+    <value>396, 15</value>
+  </data>
+  <data name="pbxLogo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="pbxLogo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 167</value>
+    <value>244, 192</value>
   </data>
   <data name="pbxLogo.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>CenterImage</value>
@@ -459,7 +421,7 @@
     <value>pbxLogo</value>
   </data>
   <data name="&gt;&gt;pbxLogo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pbxLogo.Parent" xml:space="preserve">
     <value>tabAbout</value>
@@ -471,10 +433,13 @@
     <value>True</value>
   </data>
   <data name="lblAuthor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 58</value>
+    <value>15, 67</value>
+  </data>
+  <data name="lblAuthor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblAuthor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 13</value>
+    <value>117, 15</value>
   </data>
   <data name="lblAuthor.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -486,7 +451,7 @@
     <value>lblAuthor</value>
   </data>
   <data name="&gt;&gt;lblAuthor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAuthor.Parent" xml:space="preserve">
     <value>tabAbout</value>
@@ -498,10 +463,13 @@
     <value>True</value>
   </data>
   <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 13</value>
+    <value>212, 15</value>
+  </data>
+  <data name="lblVersion.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 13</value>
+    <value>55, 15</value>
   </data>
   <data name="lblVersion.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -513,7 +481,7 @@
     <value>lblVersion</value>
   </data>
   <data name="&gt;&gt;lblVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblVersion.Parent" xml:space="preserve">
     <value>tabAbout</value>
@@ -525,10 +493,13 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="lblAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 106</value>
+    <value>15, 122</value>
+  </data>
+  <data name="lblAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 45</value>
+    <value>362, 52</value>
   </data>
   <data name="lblAbout.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -540,7 +511,7 @@
     <value>lblAbout</value>
   </data>
   <data name="&gt;&gt;lblAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAbout.Parent" xml:space="preserve">
     <value>tabAbout</value>
@@ -552,10 +523,13 @@
     <value>True</value>
   </data>
   <data name="lblApplicationTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 15</value>
+  </data>
+  <data name="lblApplicationTitle.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblApplicationTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 13</value>
+    <value>181, 15</value>
   </data>
   <data name="lblApplicationTitle.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -567,7 +541,7 @@
     <value>lblApplicationTitle</value>
   </data>
   <data name="&gt;&gt;lblApplicationTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblApplicationTitle.Parent" xml:space="preserve">
     <value>tabAbout</value>
@@ -576,10 +550,13 @@
     <value>7</value>
   </data>
   <data name="tabAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabAbout.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -591,7 +568,7 @@
     <value>tabAbout</value>
   </data>
   <data name="&gt;&gt;tabAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabAbout.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -600,10 +577,13 @@
     <value>8</value>
   </data>
   <data name="btnCheckRegex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 68</value>
+    <value>20, 78</value>
+  </data>
+  <data name="btnCheckRegex.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnCheckRegex.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnCheckRegex.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -615,7 +595,7 @@
     <value>btnCheckRegex</value>
   </data>
   <data name="&gt;&gt;btnCheckRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnCheckRegex.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -624,10 +604,13 @@
     <value>0</value>
   </data>
   <data name="lblRegexResult.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 94</value>
+    <value>16, 108</value>
+  </data>
+  <data name="lblRegexResult.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblRegexResult.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 42</value>
+    <value>298, 48</value>
   </data>
   <data name="lblRegexResult.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -639,7 +622,7 @@
     <value>lblRegexResult</value>
   </data>
   <data name="&gt;&gt;lblRegexResult.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblRegexResult.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -648,10 +631,13 @@
     <value>1</value>
   </data>
   <data name="txtTableNameRegex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 42</value>
+    <value>20, 48</value>
+  </data>
+  <data name="txtTableNameRegex.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="txtTableNameRegex.Size" type="System.Drawing.Size, System.Drawing">
-    <value>252, 20</value>
+    <value>293, 23</value>
   </data>
   <data name="txtTableNameRegex.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -660,7 +646,7 @@
     <value>txtTableNameRegex</value>
   </data>
   <data name="&gt;&gt;txtTableNameRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtTableNameRegex.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -672,10 +658,13 @@
     <value>True</value>
   </data>
   <data name="lblTableNameRegex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 26</value>
+    <value>16, 30</value>
+  </data>
+  <data name="lblTableNameRegex.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblTableNameRegex.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 13</value>
+    <value>107, 15</value>
   </data>
   <data name="lblTableNameRegex.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -687,7 +676,7 @@
     <value>lblTableNameRegex</value>
   </data>
   <data name="&gt;&gt;lblTableNameRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblTableNameRegex.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -696,10 +685,13 @@
     <value>3</value>
   </data>
   <data name="btnSetDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 188</value>
+    <value>20, 217</value>
+  </data>
+  <data name="btnSetDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnSetDirectory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 23</value>
+    <value>158, 27</value>
   </data>
   <data name="btnSetDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -711,7 +703,7 @@
     <value>btnSetDirectory</value>
   </data>
   <data name="&gt;&gt;btnSetDirectory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnSetDirectory.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -723,10 +715,13 @@
     <value>Top, Right</value>
   </data>
   <data name="btnToggleOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 16</value>
+    <value>552, 18</value>
+  </data>
+  <data name="btnToggleOutput.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleOutput.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -738,7 +733,7 @@
     <value>btnToggleOutput</value>
   </data>
   <data name="&gt;&gt;btnToggleOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleOutput.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -750,10 +745,13 @@
     <value>True</value>
   </data>
   <data name="lblOutputPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 146</value>
+    <value>16, 168</value>
+  </data>
+  <data name="lblOutputPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblOutputPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 13</value>
+    <value>96, 15</value>
   </data>
   <data name="lblOutputPath.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -765,7 +763,7 @@
     <value>lblOutputPath</value>
   </data>
   <data name="&gt;&gt;lblOutputPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblOutputPath.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -774,10 +772,13 @@
     <value>6</value>
   </data>
   <data name="txtOutputPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 162</value>
+    <value>20, 187</value>
+  </data>
+  <data name="txtOutputPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="txtOutputPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>252, 20</value>
+    <value>293, 23</value>
   </data>
   <data name="txtOutputPath.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -786,7 +787,7 @@
     <value>txtOutputPath</value>
   </data>
   <data name="&gt;&gt;txtOutputPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtOutputPath.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -798,10 +799,13 @@
     <value>True</value>
   </data>
   <data name="lblOutputOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 26</value>
+    <value>332, 30</value>
+  </data>
+  <data name="lblOutputOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblOutputOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 13</value>
+    <value>90, 15</value>
   </data>
   <data name="lblOutputOptions.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -813,7 +817,7 @@
     <value>lblOutputOptions</value>
   </data>
   <data name="&gt;&gt;lblOutputOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblOutputOptions.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -825,10 +829,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="clbOutputOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 42</value>
+    <value>336, 48</value>
+  </data>
+  <data name="clbOutputOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbOutputOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbOutputOptions.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -837,7 +844,7 @@
     <value>clbOutputOptions</value>
   </data>
   <data name="&gt;&gt;clbOutputOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbOutputOptions.Parent" xml:space="preserve">
     <value>tabOutput</value>
@@ -846,10 +853,13 @@
     <value>9</value>
   </data>
   <data name="tabOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabOutput.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabOutput.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -861,7 +871,7 @@
     <value>tabOutput</value>
   </data>
   <data name="&gt;&gt;tabOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabOutput.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -876,10 +886,13 @@
     <value>NoControl</value>
   </data>
   <data name="btnToggleWebXmlObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 16</value>
+    <value>552, 18</value>
+  </data>
+  <data name="btnToggleWebXmlObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleWebXmlObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleWebXmlObjects.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -891,7 +904,7 @@
     <value>btnToggleWebXmlObjects</value>
   </data>
   <data name="&gt;&gt;btnToggleWebXmlObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleWebXmlObjects.Parent" xml:space="preserve">
     <value>tabXml</value>
@@ -906,10 +919,13 @@
     <value>NoControl</value>
   </data>
   <data name="lblXml.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 26</value>
+    <value>332, 30</value>
+  </data>
+  <data name="lblXml.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblXml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+    <value>49, 15</value>
   </data>
   <data name="lblXml.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -921,7 +937,7 @@
     <value>lblXml</value>
   </data>
   <data name="&gt;&gt;lblXml.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblXml.Parent" xml:space="preserve">
     <value>tabXml</value>
@@ -933,10 +949,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="clbXmlOptionsTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 42</value>
+    <value>336, 48</value>
+  </data>
+  <data name="clbXmlOptionsTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbXmlOptionsTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbXmlOptionsTables.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -945,7 +964,7 @@
     <value>clbXmlOptionsTables</value>
   </data>
   <data name="&gt;&gt;clbXmlOptionsTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbXmlOptionsTables.Parent" xml:space="preserve">
     <value>tabXml</value>
@@ -954,10 +973,13 @@
     <value>2</value>
   </data>
   <data name="btnToggleWebXmlSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 16</value>
+    <value>226, 18</value>
+  </data>
+  <data name="btnToggleWebXmlSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleWebXmlSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleWebXmlSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -969,7 +991,7 @@
     <value>btnToggleWebXmlSqlTables</value>
   </data>
   <data name="&gt;&gt;btnToggleWebXmlSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleWebXmlSqlTables.Parent" xml:space="preserve">
     <value>tabXml</value>
@@ -981,10 +1003,13 @@
     <value>True</value>
   </data>
   <data name="lblXMLExportTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 26</value>
+    <value>7, 30</value>
+  </data>
+  <data name="lblXMLExportTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblXMLExportTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 13</value>
+    <value>82, 15</value>
   </data>
   <data name="lblXMLExportTables.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -996,7 +1021,7 @@
     <value>lblXMLExportTables</value>
   </data>
   <data name="&gt;&gt;lblXMLExportTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblXMLExportTables.Parent" xml:space="preserve">
     <value>tabXml</value>
@@ -1008,10 +1033,13 @@
     <value>Top, Bottom, Left</value>
   </data>
   <data name="clbXmlSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 42</value>
+    <value>10, 48</value>
+  </data>
+  <data name="clbXmlSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbXmlSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbXmlSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1020,7 +1048,7 @@
     <value>clbXmlSqlTables</value>
   </data>
   <data name="&gt;&gt;clbXmlSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbXmlSqlTables.Parent" xml:space="preserve">
     <value>tabXml</value>
@@ -1029,10 +1057,13 @@
     <value>5</value>
   </data>
   <data name="tabXml.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabXml.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabXml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabXml.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1044,7 +1075,7 @@
     <value>tabXml</value>
   </data>
   <data name="&gt;&gt;tabXml.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabXml.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -1059,10 +1090,13 @@
     <value>Top, Right</value>
   </data>
   <data name="btnAddNamespace.Location" type="System.Drawing.Point, System.Drawing">
-    <value>207, 4</value>
+    <value>241, 5</value>
+  </data>
+  <data name="btnAddNamespace.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnAddNamespace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 24</value>
+    <value>58, 28</value>
   </data>
   <data name="btnAddNamespace.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1074,7 +1108,7 @@
     <value>btnAddNamespace</value>
   </data>
   <data name="&gt;&gt;btnAddNamespace.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnAddNamespace.Parent" xml:space="preserve">
     <value>panCSharpOptions</value>
@@ -1086,10 +1120,13 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="cboNamespaceIncludes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>116, 7</value>
+    <value>135, 8</value>
+  </data>
+  <data name="cboNamespaceIncludes.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="cboNamespaceIncludes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 21</value>
+    <value>98, 23</value>
   </data>
   <data name="cboNamespaceIncludes.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1098,7 +1135,7 @@
     <value>cboNamespaceIncludes</value>
   </data>
   <data name="&gt;&gt;cboNamespaceIncludes.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;cboNamespaceIncludes.Parent" xml:space="preserve">
     <value>panCSharpOptions</value>
@@ -1110,10 +1147,13 @@
     <value>True</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 10</value>
+    <value>4, 12</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 13</value>
+    <value>116, 15</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1125,7 +1165,7 @@
     <value>label1</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>panCSharpOptions</value>
@@ -1134,10 +1174,13 @@
     <value>2</value>
   </data>
   <data name="panCSharpOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 175</value>
+    <value>336, 202</value>
+  </data>
+  <data name="panCSharpOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="panCSharpOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 36</value>
+    <value>303, 42</value>
   </data>
   <data name="panCSharpOptions.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1146,7 +1189,7 @@
     <value>panCSharpOptions</value>
   </data>
   <data name="&gt;&gt;panCSharpOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;panCSharpOptions.Parent" xml:space="preserve">
     <value>tabCsharp</value>
@@ -1155,10 +1198,13 @@
     <value>0</value>
   </data>
   <data name="btnToggleCsharpSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 16</value>
+    <value>226, 18</value>
+  </data>
+  <data name="btnToggleCsharpSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleCsharpSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleCsharpSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1170,7 +1216,7 @@
     <value>btnToggleCsharpSqlTables</value>
   </data>
   <data name="&gt;&gt;btnToggleCsharpSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleCsharpSqlTables.Parent" xml:space="preserve">
     <value>tabCsharp</value>
@@ -1182,10 +1228,13 @@
     <value>Top, Right</value>
   </data>
   <data name="btnToggleCSharpObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 16</value>
+    <value>552, 18</value>
+  </data>
+  <data name="btnToggleCSharpObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleCSharpObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleCSharpObjects.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -1197,7 +1246,7 @@
     <value>btnToggleCSharpObjects</value>
   </data>
   <data name="&gt;&gt;btnToggleCSharpObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleCSharpObjects.Parent" xml:space="preserve">
     <value>tabCsharp</value>
@@ -1209,10 +1258,13 @@
     <value>True</value>
   </data>
   <data name="lblCSharpObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 26</value>
+    <value>332, 30</value>
+  </data>
+  <data name="lblCSharpObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblCSharpObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 13</value>
+    <value>65, 15</value>
   </data>
   <data name="lblCSharpObjects.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1224,7 +1276,7 @@
     <value>lblCSharpObjects</value>
   </data>
   <data name="&gt;&gt;lblCSharpObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblCSharpObjects.Parent" xml:space="preserve">
     <value>tabCsharp</value>
@@ -1236,10 +1288,13 @@
     <value>True</value>
   </data>
   <data name="lblCSharpTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 26</value>
+    <value>7, 30</value>
+  </data>
+  <data name="lblCSharpTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblCSharpTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 13</value>
+    <value>39, 15</value>
   </data>
   <data name="lblCSharpTables.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1251,7 +1306,7 @@
     <value>lblCSharpTables</value>
   </data>
   <data name="&gt;&gt;lblCSharpTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblCSharpTables.Parent" xml:space="preserve">
     <value>tabCsharp</value>
@@ -1263,10 +1318,13 @@
     <value>Top, Bottom, Left</value>
   </data>
   <data name="clbCsharpSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 42</value>
+    <value>10, 48</value>
+  </data>
+  <data name="clbCsharpSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbCsharpSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbCsharpSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1275,7 +1333,7 @@
     <value>clbCsharpSqlTables</value>
   </data>
   <data name="&gt;&gt;clbCsharpSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbCsharpSqlTables.Parent" xml:space="preserve">
     <value>tabCsharp</value>
@@ -1287,10 +1345,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="clbCsharpObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 42</value>
+    <value>336, 48</value>
+  </data>
+  <data name="clbCsharpObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbCsharpObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 124</value>
+    <value>303, 130</value>
   </data>
   <data name="clbCsharpObjects.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1299,7 +1360,7 @@
     <value>clbCsharpObjects</value>
   </data>
   <data name="&gt;&gt;clbCsharpObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbCsharpObjects.Parent" xml:space="preserve">
     <value>tabCsharp</value>
@@ -1308,13 +1369,16 @@
     <value>6</value>
   </data>
   <data name="tabCsharp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabCsharp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabCsharp.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabCsharp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabCsharp.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1326,7 +1390,7 @@
     <value>tabCsharp</value>
   </data>
   <data name="&gt;&gt;tabCsharp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabCsharp.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -1335,10 +1399,13 @@
     <value>2</value>
   </data>
   <data name="btnToggleAspSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 16</value>
+    <value>226, 18</value>
+  </data>
+  <data name="btnToggleAspSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleAspSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleAspSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1350,7 +1417,7 @@
     <value>btnToggleAspSqlTables</value>
   </data>
   <data name="&gt;&gt;btnToggleAspSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleAspSqlTables.Parent" xml:space="preserve">
     <value>tabAsp</value>
@@ -1365,10 +1432,13 @@
     <value>True</value>
   </data>
   <data name="lblSQLVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 193</value>
+    <value>332, 223</value>
+  </data>
+  <data name="lblSQLVersion.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblSQLVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 13</value>
+    <value>113, 15</value>
   </data>
   <data name="lblSQLVersion.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1380,7 +1450,7 @@
     <value>lblSQLVersion</value>
   </data>
   <data name="&gt;&gt;lblSQLVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSQLVersion.Parent" xml:space="preserve">
     <value>tabSql</value>
@@ -1395,10 +1465,13 @@
     <value>False</value>
   </data>
   <data name="cmbSQLVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 190</value>
+    <value>461, 219</value>
+  </data>
+  <data name="cmbSQLVersion.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="cmbSQLVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 21</value>
+    <value>178, 23</value>
   </data>
   <data name="cmbSQLVersion.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1407,7 +1480,7 @@
     <value>cmbSQLVersion</value>
   </data>
   <data name="&gt;&gt;cmbSQLVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;cmbSQLVersion.Parent" xml:space="preserve">
     <value>tabSql</value>
@@ -1419,10 +1492,13 @@
     <value>Top, Right</value>
   </data>
   <data name="btnToggleTsqlSqlObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 16</value>
+    <value>552, 18</value>
+  </data>
+  <data name="btnToggleTsqlSqlObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleTsqlSqlObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleTsqlSqlObjects.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1434,7 +1510,7 @@
     <value>btnToggleTsqlSqlObjects</value>
   </data>
   <data name="&gt;&gt;btnToggleTsqlSqlObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleTsqlSqlObjects.Parent" xml:space="preserve">
     <value>tabSql</value>
@@ -1443,10 +1519,13 @@
     <value>2</value>
   </data>
   <data name="btnToggleTsqlSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 16</value>
+    <value>226, 18</value>
+  </data>
+  <data name="btnToggleTsqlSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleTsqlSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleTsqlSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1458,7 +1537,7 @@
     <value>btnToggleTsqlSqlTables</value>
   </data>
   <data name="&gt;&gt;btnToggleTsqlSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleTsqlSqlTables.Parent" xml:space="preserve">
     <value>tabSql</value>
@@ -1470,10 +1549,13 @@
     <value>True</value>
   </data>
   <data name="lblSQLObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 26</value>
+    <value>332, 30</value>
+  </data>
+  <data name="lblSQLObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblSQLObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 13</value>
+    <value>71, 15</value>
   </data>
   <data name="lblSQLObjects.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1485,7 +1567,7 @@
     <value>lblSQLObjects</value>
   </data>
   <data name="&gt;&gt;lblSQLObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSQLObjects.Parent" xml:space="preserve">
     <value>tabSql</value>
@@ -1497,10 +1579,13 @@
     <value>True</value>
   </data>
   <data name="lblSQLTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 26</value>
+    <value>7, 30</value>
+  </data>
+  <data name="lblSQLTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblSQLTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 13</value>
+    <value>39, 15</value>
   </data>
   <data name="lblSQLTables.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1512,7 +1597,7 @@
     <value>lblSQLTables</value>
   </data>
   <data name="&gt;&gt;lblSQLTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSQLTables.Parent" xml:space="preserve">
     <value>tabSql</value>
@@ -1524,10 +1609,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="clbTsqlSqlObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 42</value>
+    <value>336, 48</value>
+  </data>
+  <data name="clbTsqlSqlObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbTsqlSqlObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 139</value>
+    <value>303, 148</value>
   </data>
   <data name="clbTsqlSqlObjects.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1536,7 +1624,7 @@
     <value>clbTsqlSqlObjects</value>
   </data>
   <data name="&gt;&gt;clbTsqlSqlObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbTsqlSqlObjects.Parent" xml:space="preserve">
     <value>tabSql</value>
@@ -1548,10 +1636,13 @@
     <value>Top, Bottom, Left</value>
   </data>
   <data name="clbTsqlSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 42</value>
+    <value>10, 48</value>
+  </data>
+  <data name="clbTsqlSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbTsqlSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbTsqlSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1560,7 +1651,7 @@
     <value>clbTsqlSqlTables</value>
   </data>
   <data name="&gt;&gt;clbTsqlSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbTsqlSqlTables.Parent" xml:space="preserve">
     <value>tabSql</value>
@@ -1569,13 +1660,16 @@
     <value>7</value>
   </data>
   <data name="tabSql.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabSql.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabSql.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabSql.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabSql.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1587,7 +1681,7 @@
     <value>tabSql</value>
   </data>
   <data name="&gt;&gt;tabSql.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabSql.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -1599,10 +1693,13 @@
     <value>True</value>
   </data>
   <data name="ckbLocalDb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>188, 137</value>
+    <value>219, 113</value>
+  </data>
+  <data name="ckbLocalDb.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="ckbLocalDb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 17</value>
+    <value>127, 19</value>
   </data>
   <data name="ckbLocalDb.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1614,7 +1711,7 @@
     <value>ckbLocalDb</value>
   </data>
   <data name="&gt;&gt;ckbLocalDb.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ckbLocalDb.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1626,10 +1723,13 @@
     <value>True</value>
   </data>
   <data name="lblPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 61</value>
+    <value>271, 70</value>
+  </data>
+  <data name="lblPassword.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 13</value>
+    <value>60, 15</value>
   </data>
   <data name="lblPassword.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -1641,7 +1741,7 @@
     <value>lblPassword</value>
   </data>
   <data name="&gt;&gt;lblPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblPassword.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1653,13 +1753,16 @@
     <value>False</value>
   </data>
   <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>294, 58</value>
+    <value>343, 67</value>
+  </data>
+  <data name="txtPassword.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="txtPassword.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
     <value>*</value>
   </data>
   <data name="txtPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 20</value>
+    <value>154, 23</value>
   </data>
   <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1668,7 +1771,7 @@
     <value>txtPassword</value>
   </data>
   <data name="&gt;&gt;txtPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1680,10 +1783,13 @@
     <value>False</value>
   </data>
   <data name="txtLogon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>77, 58</value>
+    <value>90, 67</value>
+  </data>
+  <data name="txtLogon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="txtLogon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 20</value>
+    <value>154, 23</value>
   </data>
   <data name="txtLogon.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1692,7 +1798,7 @@
     <value>txtLogon</value>
   </data>
   <data name="&gt;&gt;txtLogon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtLogon.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1704,10 +1810,13 @@
     <value>False</value>
   </data>
   <data name="txtServerName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>77, 23</value>
+    <value>90, 27</value>
+  </data>
+  <data name="txtServerName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="txtServerName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 20</value>
+    <value>408, 23</value>
   </data>
   <data name="txtServerName.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1719,7 +1828,7 @@
     <value>txtServerName</value>
   </data>
   <data name="&gt;&gt;txtServerName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtServerName.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1731,10 +1840,13 @@
     <value>True</value>
   </data>
   <data name="lblLogon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 61</value>
+    <value>21, 70</value>
+  </data>
+  <data name="lblLogon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblLogon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 13</value>
+    <value>44, 15</value>
   </data>
   <data name="lblLogon.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1746,7 +1858,7 @@
     <value>lblLogon</value>
   </data>
   <data name="&gt;&gt;lblLogon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblLogon.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1755,10 +1867,13 @@
     <value>5</value>
   </data>
   <data name="cmbDatabaseList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>77, 95</value>
+    <value>133, 180</value>
+  </data>
+  <data name="cmbDatabaseList.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="cmbDatabaseList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 21</value>
+    <value>364, 23</value>
   </data>
   <data name="cmbDatabaseList.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1767,7 +1882,7 @@
     <value>cmbDatabaseList</value>
   </data>
   <data name="&gt;&gt;cmbDatabaseList.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;cmbDatabaseList.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1779,22 +1894,25 @@
     <value>True</value>
   </data>
   <data name="lblDatabase.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 98</value>
+    <value>20, 183</value>
+  </data>
+  <data name="lblDatabase.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblDatabase.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 13</value>
+    <value>105, 15</value>
   </data>
   <data name="lblDatabase.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="lblDatabase.Text" xml:space="preserve">
-    <value>Database:</value>
+    <value>Selected Database:</value>
   </data>
   <data name="&gt;&gt;lblDatabase.Name" xml:space="preserve">
     <value>lblDatabase</value>
   </data>
   <data name="&gt;&gt;lblDatabase.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblDatabase.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1803,10 +1921,13 @@
     <value>7</value>
   </data>
   <data name="btnConnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>317, 132</value>
+    <value>370, 107</value>
+  </data>
+  <data name="btnConnect.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 24</value>
+    <value>128, 28</value>
   </data>
   <data name="btnConnect.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1818,7 +1939,7 @@
     <value>btnConnect</value>
   </data>
   <data name="&gt;&gt;btnConnect.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnConnect.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1833,7 +1954,10 @@
     <value>Microsoft Sans Serif, 8.25pt</value>
   </data>
   <data name="lblServerName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 26</value>
+    <value>21, 30</value>
+  </data>
+  <data name="lblServerName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblServerName.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 13</value>
@@ -1848,7 +1972,7 @@
     <value>lblServerName</value>
   </data>
   <data name="&gt;&gt;lblServerName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblServerName.Parent" xml:space="preserve">
     <value>tabServer</value>
@@ -1857,13 +1981,16 @@
     <value>9</value>
   </data>
   <data name="tabServer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabServer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabServer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabServer.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1875,7 +2002,7 @@
     <value>tabServer</value>
   </data>
   <data name="&gt;&gt;tabServer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabServer.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -1890,10 +2017,13 @@
     <value>Top, Right</value>
   </data>
   <data name="btnToggleWinformObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 16</value>
+    <value>552, 18</value>
+  </data>
+  <data name="btnToggleWinformObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleWinformObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleWinformObjects.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -1905,7 +2035,7 @@
     <value>btnToggleWinformObjects</value>
   </data>
   <data name="&gt;&gt;btnToggleWinformObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleWinformObjects.Parent" xml:space="preserve">
     <value>tabWinform</value>
@@ -1920,10 +2050,13 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 26</value>
+    <value>332, 30</value>
+  </data>
+  <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 13</value>
+    <value>114, 15</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -1935,7 +2068,7 @@
     <value>label2</value>
   </data>
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>tabWinform</value>
@@ -1947,10 +2080,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="clbWinformObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 42</value>
+    <value>336, 48</value>
+  </data>
+  <data name="clbWinformObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbWinformObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbWinformObjects.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -1959,7 +2095,7 @@
     <value>clbWinformObjects</value>
   </data>
   <data name="&gt;&gt;clbWinformObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbWinformObjects.Parent" xml:space="preserve">
     <value>tabWinform</value>
@@ -1971,10 +2107,13 @@
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 26</value>
+    <value>7, 30</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 13</value>
+    <value>39, 15</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -1986,7 +2125,7 @@
     <value>label3</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>tabWinform</value>
@@ -1995,10 +2134,13 @@
     <value>3</value>
   </data>
   <data name="btnToggleWinformSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 16</value>
+    <value>226, 18</value>
+  </data>
+  <data name="btnToggleWinformSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleWinformSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleWinformSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -2010,7 +2152,7 @@
     <value>btnToggleWinformSqlTables</value>
   </data>
   <data name="&gt;&gt;btnToggleWinformSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleWinformSqlTables.Parent" xml:space="preserve">
     <value>tabWinform</value>
@@ -2022,10 +2164,13 @@
     <value>Top, Bottom, Left</value>
   </data>
   <data name="clbWinformSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 42</value>
+    <value>10, 48</value>
+  </data>
+  <data name="clbWinformSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbWinformSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbWinformSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -2034,7 +2179,7 @@
     <value>clbWinformSqlTables</value>
   </data>
   <data name="&gt;&gt;clbWinformSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbWinformSqlTables.Parent" xml:space="preserve">
     <value>tabWinform</value>
@@ -2043,13 +2188,16 @@
     <value>5</value>
   </data>
   <data name="tabWinform.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabWinform.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabWinform.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabWinform.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabWinform.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -2061,7 +2209,7 @@
     <value>tabWinform</value>
   </data>
   <data name="&gt;&gt;tabWinform.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabWinform.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -2070,10 +2218,13 @@
     <value>3</value>
   </data>
   <data name="btnToggleWebServicesSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 16</value>
+    <value>226, 18</value>
+  </data>
+  <data name="btnToggleWebServicesSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleWebServicesSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleWebServicesSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -2085,7 +2236,7 @@
     <value>btnToggleWebServicesSqlTables</value>
   </data>
   <data name="&gt;&gt;btnToggleWebServicesSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleWebServicesSqlTables.Parent" xml:space="preserve">
     <value>tabWebService</value>
@@ -2097,10 +2248,13 @@
     <value>Top, Right</value>
   </data>
   <data name="btnToggleWebServiceObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 16</value>
+    <value>552, 18</value>
+  </data>
+  <data name="btnToggleWebServiceObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleWebServiceObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleWebServiceObjects.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -2112,7 +2266,7 @@
     <value>btnToggleWebServiceObjects</value>
   </data>
   <data name="&gt;&gt;btnToggleWebServiceObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleWebServiceObjects.Parent" xml:space="preserve">
     <value>tabWebService</value>
@@ -2124,10 +2278,13 @@
     <value>True</value>
   </data>
   <data name="lblWebServiceObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 26</value>
+    <value>332, 30</value>
+  </data>
+  <data name="lblWebServiceObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblWebServiceObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 13</value>
+    <value>114, 15</value>
   </data>
   <data name="lblWebServiceObjects.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -2139,7 +2296,7 @@
     <value>lblWebServiceObjects</value>
   </data>
   <data name="&gt;&gt;lblWebServiceObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblWebServiceObjects.Parent" xml:space="preserve">
     <value>tabWebService</value>
@@ -2151,10 +2308,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="clbWebServiceObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 42</value>
+    <value>336, 48</value>
+  </data>
+  <data name="clbWebServiceObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbWebServiceObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbWebServiceObjects.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -2163,7 +2323,7 @@
     <value>clbWebServiceObjects</value>
   </data>
   <data name="&gt;&gt;clbWebServiceObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbWebServiceObjects.Parent" xml:space="preserve">
     <value>tabWebService</value>
@@ -2175,10 +2335,13 @@
     <value>True</value>
   </data>
   <data name="lblWebServiceTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 26</value>
+    <value>7, 30</value>
+  </data>
+  <data name="lblWebServiceTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblWebServiceTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 13</value>
+    <value>39, 15</value>
   </data>
   <data name="lblWebServiceTables.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -2190,7 +2353,7 @@
     <value>lblWebServiceTables</value>
   </data>
   <data name="&gt;&gt;lblWebServiceTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblWebServiceTables.Parent" xml:space="preserve">
     <value>tabWebService</value>
@@ -2202,10 +2365,13 @@
     <value>Top, Bottom, Left</value>
   </data>
   <data name="clbWebServiceSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 42</value>
+    <value>10, 48</value>
+  </data>
+  <data name="clbWebServiceSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbWebServiceSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbWebServiceSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -2214,7 +2380,7 @@
     <value>clbWebServiceSqlTables</value>
   </data>
   <data name="&gt;&gt;clbWebServiceSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbWebServiceSqlTables.Parent" xml:space="preserve">
     <value>tabWebService</value>
@@ -2223,13 +2389,16 @@
     <value>5</value>
   </data>
   <data name="tabWebService.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabWebService.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabWebService.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabWebService.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabWebService.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2241,7 +2410,7 @@
     <value>tabWebService</value>
   </data>
   <data name="&gt;&gt;tabWebService.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabWebService.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -2253,10 +2422,13 @@
     <value>True</value>
   </data>
   <data name="lblASPTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 26</value>
+    <value>7, 30</value>
+  </data>
+  <data name="lblASPTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblASPTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 13</value>
+    <value>39, 15</value>
   </data>
   <data name="lblASPTables.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -2268,7 +2440,7 @@
     <value>lblASPTables</value>
   </data>
   <data name="&gt;&gt;lblASPTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblASPTables.Parent" xml:space="preserve">
     <value>tabAsp</value>
@@ -2280,10 +2452,13 @@
     <value>Top, Bottom, Left</value>
   </data>
   <data name="clbAspSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 42</value>
+    <value>10, 48</value>
+  </data>
+  <data name="clbAspSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbAspSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbAspSqlTables.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2292,7 +2467,7 @@
     <value>clbAspSqlTables</value>
   </data>
   <data name="&gt;&gt;clbAspSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbAspSqlTables.Parent" xml:space="preserve">
     <value>tabAsp</value>
@@ -2304,10 +2479,13 @@
     <value>True</value>
   </data>
   <data name="lblASPObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 26</value>
+    <value>332, 30</value>
+  </data>
+  <data name="lblASPObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblASPObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+    <value>49, 15</value>
   </data>
   <data name="lblASPObjects.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -2319,7 +2497,7 @@
     <value>lblASPObjects</value>
   </data>
   <data name="&gt;&gt;lblASPObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblASPObjects.Parent" xml:space="preserve">
     <value>tabAsp</value>
@@ -2331,10 +2509,13 @@
     <value>Top, Right</value>
   </data>
   <data name="btnToggleASPObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 16</value>
+    <value>552, 18</value>
+  </data>
+  <data name="btnToggleASPObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnToggleASPObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 27</value>
   </data>
   <data name="btnToggleASPObjects.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2346,7 +2527,7 @@
     <value>btnToggleASPObjects</value>
   </data>
   <data name="&gt;&gt;btnToggleASPObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnToggleASPObjects.Parent" xml:space="preserve">
     <value>tabAsp</value>
@@ -2358,10 +2539,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="clbAspObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 42</value>
+    <value>336, 48</value>
+  </data>
+  <data name="clbAspObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="clbAspObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 169</value>
+    <value>303, 184</value>
   </data>
   <data name="clbAspObjects.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2370,7 +2554,7 @@
     <value>clbAspObjects</value>
   </data>
   <data name="&gt;&gt;clbAspObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clbAspObjects.Parent" xml:space="preserve">
     <value>tabAsp</value>
@@ -2379,10 +2563,13 @@
     <value>5</value>
   </data>
   <data name="tabAsp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+    <value>4, 28</value>
+  </data>
+  <data name="tabAsp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabAsp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 220</value>
+    <value>656, 256</value>
   </data>
   <data name="tabAsp.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -2394,7 +2581,7 @@
     <value>tabAsp</value>
   </data>
   <data name="&gt;&gt;tabAsp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabAsp.Parent" xml:space="preserve">
     <value>tabcontrolAutoCodeGen</value>
@@ -2403,13 +2590,16 @@
     <value>5</value>
   </data>
   <data name="tabcontrolAutoCodeGen.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+    <value>14, 14</value>
+  </data>
+  <data name="tabcontrolAutoCodeGen.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="tabcontrolAutoCodeGen.Padding" type="System.Drawing.Point, System.Drawing">
     <value>5, 5</value>
   </data>
   <data name="tabcontrolAutoCodeGen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>569, 250</value>
+    <value>664, 288</value>
   </data>
   <data name="tabcontrolAutoCodeGen.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2418,7 +2608,7 @@
     <value>tabcontrolAutoCodeGen</value>
   </data>
   <data name="&gt;&gt;tabcontrolAutoCodeGen.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabcontrolAutoCodeGen.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2436,10 +2626,13 @@
     <value>569</value>
   </data>
   <data name="lvMessaging.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 283</value>
+    <value>14, 327</value>
+  </data>
+  <data name="lvMessaging.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="lvMessaging.Size" type="System.Drawing.Size, System.Drawing">
-    <value>569, 100</value>
+    <value>663, 115</value>
   </data>
   <data name="lvMessaging.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2448,7 +2641,7 @@
     <value>lvMessaging</value>
   </data>
   <data name="&gt;&gt;lvMessaging.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lvMessaging.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2463,10 +2656,13 @@
     <value>True</value>
   </data>
   <data name="lblMessages.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 265</value>
+    <value>10, 306</value>
+  </data>
+  <data name="lblMessages.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="lblMessages.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>58, 15</value>
   </data>
   <data name="lblMessages.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2478,7 +2674,7 @@
     <value>lblMessages</value>
   </data>
   <data name="&gt;&gt;lblMessages.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblMessages.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2490,10 +2686,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="btnOpenOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>239, 390</value>
+    <value>279, 450</value>
+  </data>
+  <data name="btnOpenOutputDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="btnOpenOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 23</value>
+    <value>128, 27</value>
   </data>
   <data name="btnOpenOutputDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -2505,7 +2704,7 @@
     <value>btnOpenOutputDirectory</value>
   </data>
   <data name="&gt;&gt;btnOpenOutputDirectory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnOpenOutputDirectory.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2517,10 +2716,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>592, 423</value>
+    <value>691, 488</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2576,8 +2775,11 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </value>
   </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>600, 450</value>
+    <value>697, 513</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
@@ -2589,12 +2791,12 @@
     <value>Message</value>
   </data>
   <data name="&gt;&gt;Message.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

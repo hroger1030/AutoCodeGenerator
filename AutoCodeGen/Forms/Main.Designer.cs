@@ -29,781 +29,778 @@ namespace AutoCodeGen
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.btnGenerateCode = new System.Windows.Forms.Button();
-            this.btnResetCurrentTab = new System.Windows.Forms.Button();
-            this.lblConnectStatus = new System.Windows.Forms.Label();
-            this.tabAbout = new System.Windows.Forms.TabPage();
-            this.lblCopyright = new System.Windows.Forms.Label();
-            this.lnkEmail = new System.Windows.Forms.LinkLabel();
-            this.lnkWebLink = new System.Windows.Forms.LinkLabel();
-            this.pbxLogo = new System.Windows.Forms.PictureBox();
-            this.lblAuthor = new System.Windows.Forms.Label();
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.lblAbout = new System.Windows.Forms.Label();
-            this.lblApplicationTitle = new System.Windows.Forms.Label();
-            this.tabOutput = new System.Windows.Forms.TabPage();
-            this.btnCheckRegex = new System.Windows.Forms.Button();
-            this.lblRegexResult = new System.Windows.Forms.Label();
-            this.txtTableNameRegex = new System.Windows.Forms.TextBox();
-            this.lblTableNameRegex = new System.Windows.Forms.Label();
-            this.btnSetDirectory = new System.Windows.Forms.Button();
-            this.btnToggleOutput = new System.Windows.Forms.Button();
-            this.lblOutputPath = new System.Windows.Forms.Label();
-            this.txtOutputPath = new System.Windows.Forms.TextBox();
-            this.lblOutputOptions = new System.Windows.Forms.Label();
-            this.clbOutputOptions = new System.Windows.Forms.CheckedListBox();
-            this.tabXml = new System.Windows.Forms.TabPage();
-            this.btnToggleWebXmlObjects = new System.Windows.Forms.Button();
-            this.lblXml = new System.Windows.Forms.Label();
-            this.clbXmlOptionsTables = new System.Windows.Forms.CheckedListBox();
-            this.btnToggleWebXmlSqlTables = new System.Windows.Forms.Button();
-            this.lblXMLExportTables = new System.Windows.Forms.Label();
-            this.clbXmlSqlTables = new System.Windows.Forms.CheckedListBox();
-            this.tabCsharp = new System.Windows.Forms.TabPage();
-            this.panCSharpOptions = new System.Windows.Forms.Panel();
-            this.btnAddNamespace = new System.Windows.Forms.Button();
-            this.cboNamespaceIncludes = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnToggleCsharpSqlTables = new System.Windows.Forms.Button();
-            this.btnToggleCSharpObjects = new System.Windows.Forms.Button();
-            this.lblCSharpObjects = new System.Windows.Forms.Label();
-            this.lblCSharpTables = new System.Windows.Forms.Label();
-            this.clbCsharpSqlTables = new System.Windows.Forms.CheckedListBox();
-            this.clbCsharpObjects = new System.Windows.Forms.CheckedListBox();
-            this.btnToggleAspSqlTables = new System.Windows.Forms.Button();
-            this.tabSql = new System.Windows.Forms.TabPage();
-            this.lblSQLVersion = new System.Windows.Forms.Label();
-            this.cmbSQLVersion = new System.Windows.Forms.ComboBox();
-            this.btnToggleTsqlSqlObjects = new System.Windows.Forms.Button();
-            this.btnToggleTsqlSqlTables = new System.Windows.Forms.Button();
-            this.lblSQLObjects = new System.Windows.Forms.Label();
-            this.lblSQLTables = new System.Windows.Forms.Label();
-            this.clbTsqlSqlObjects = new System.Windows.Forms.CheckedListBox();
-            this.clbTsqlSqlTables = new System.Windows.Forms.CheckedListBox();
-            this.tabServer = new System.Windows.Forms.TabPage();
-            this.ckbLocalDb = new System.Windows.Forms.CheckBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.txtLogon = new System.Windows.Forms.TextBox();
-            this.txtServerName = new System.Windows.Forms.TextBox();
-            this.lblLogon = new System.Windows.Forms.Label();
-            this.cmbDatabaseList = new System.Windows.Forms.ComboBox();
-            this.lblDatabase = new System.Windows.Forms.Label();
-            this.btnConnect = new System.Windows.Forms.Button();
-            this.lblServerName = new System.Windows.Forms.Label();
-            this.tabcontrolAutoCodeGen = new System.Windows.Forms.TabControl();
-            this.tabWinform = new System.Windows.Forms.TabPage();
-            this.btnToggleWinformObjects = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.clbWinformObjects = new System.Windows.Forms.CheckedListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnToggleWinformSqlTables = new System.Windows.Forms.Button();
-            this.clbWinformSqlTables = new System.Windows.Forms.CheckedListBox();
-            this.tabWebService = new System.Windows.Forms.TabPage();
-            this.btnToggleWebServicesSqlTables = new System.Windows.Forms.Button();
-            this.btnToggleWebServiceObjects = new System.Windows.Forms.Button();
-            this.lblWebServiceObjects = new System.Windows.Forms.Label();
-            this.clbWebServiceObjects = new System.Windows.Forms.CheckedListBox();
-            this.lblWebServiceTables = new System.Windows.Forms.Label();
-            this.clbWebServiceSqlTables = new System.Windows.Forms.CheckedListBox();
-            this.tabAsp = new System.Windows.Forms.TabPage();
-            this.lblASPTables = new System.Windows.Forms.Label();
-            this.clbAspSqlTables = new System.Windows.Forms.CheckedListBox();
-            this.lblASPObjects = new System.Windows.Forms.Label();
-            this.btnToggleASPObjects = new System.Windows.Forms.Button();
-            this.clbAspObjects = new System.Windows.Forms.CheckedListBox();
-            this.lvMessaging = new System.Windows.Forms.ListView();
-            this.Message = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblMessages = new System.Windows.Forms.Label();
-            this.btnOpenOutputDirectory = new System.Windows.Forms.Button();
-            this.tabAbout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
-            this.tabOutput.SuspendLayout();
-            this.tabXml.SuspendLayout();
-            this.tabCsharp.SuspendLayout();
-            this.panCSharpOptions.SuspendLayout();
-            this.tabSql.SuspendLayout();
-            this.tabServer.SuspendLayout();
-            this.tabcontrolAutoCodeGen.SuspendLayout();
-            this.tabWinform.SuspendLayout();
-            this.tabWebService.SuspendLayout();
-            this.tabAsp.SuspendLayout();
-            this.SuspendLayout();
+            btnGenerateCode = new System.Windows.Forms.Button();
+            btnResetCurrentTab = new System.Windows.Forms.Button();
+            lblConnectStatus = new System.Windows.Forms.Label();
+            tabAbout = new System.Windows.Forms.TabPage();
+            lblCopyright = new System.Windows.Forms.Label();
+            lnkEmail = new System.Windows.Forms.LinkLabel();
+            lnkWebLink = new System.Windows.Forms.LinkLabel();
+            pbxLogo = new System.Windows.Forms.PictureBox();
+            lblAuthor = new System.Windows.Forms.Label();
+            lblVersion = new System.Windows.Forms.Label();
+            lblAbout = new System.Windows.Forms.Label();
+            lblApplicationTitle = new System.Windows.Forms.Label();
+            tabOutput = new System.Windows.Forms.TabPage();
+            btnCheckRegex = new System.Windows.Forms.Button();
+            lblRegexResult = new System.Windows.Forms.Label();
+            txtTableNameRegex = new System.Windows.Forms.TextBox();
+            lblTableNameRegex = new System.Windows.Forms.Label();
+            btnSetDirectory = new System.Windows.Forms.Button();
+            btnToggleOutput = new System.Windows.Forms.Button();
+            lblOutputPath = new System.Windows.Forms.Label();
+            txtOutputPath = new System.Windows.Forms.TextBox();
+            lblOutputOptions = new System.Windows.Forms.Label();
+            clbOutputOptions = new System.Windows.Forms.CheckedListBox();
+            tabXml = new System.Windows.Forms.TabPage();
+            btnToggleWebXmlObjects = new System.Windows.Forms.Button();
+            lblXml = new System.Windows.Forms.Label();
+            clbXmlOptionsTables = new System.Windows.Forms.CheckedListBox();
+            btnToggleWebXmlSqlTables = new System.Windows.Forms.Button();
+            lblXMLExportTables = new System.Windows.Forms.Label();
+            clbXmlSqlTables = new System.Windows.Forms.CheckedListBox();
+            tabCsharp = new System.Windows.Forms.TabPage();
+            panCSharpOptions = new System.Windows.Forms.Panel();
+            btnAddNamespace = new System.Windows.Forms.Button();
+            cboNamespaceIncludes = new System.Windows.Forms.ComboBox();
+            label1 = new System.Windows.Forms.Label();
+            btnToggleCsharpSqlTables = new System.Windows.Forms.Button();
+            btnToggleCSharpObjects = new System.Windows.Forms.Button();
+            lblCSharpObjects = new System.Windows.Forms.Label();
+            lblCSharpTables = new System.Windows.Forms.Label();
+            clbCsharpSqlTables = new System.Windows.Forms.CheckedListBox();
+            clbCsharpObjects = new System.Windows.Forms.CheckedListBox();
+            btnToggleAspSqlTables = new System.Windows.Forms.Button();
+            tabSql = new System.Windows.Forms.TabPage();
+            lblSQLVersion = new System.Windows.Forms.Label();
+            cmbSQLVersion = new System.Windows.Forms.ComboBox();
+            btnToggleTsqlSqlObjects = new System.Windows.Forms.Button();
+            btnToggleTsqlSqlTables = new System.Windows.Forms.Button();
+            lblSQLObjects = new System.Windows.Forms.Label();
+            lblSQLTables = new System.Windows.Forms.Label();
+            clbTsqlSqlObjects = new System.Windows.Forms.CheckedListBox();
+            clbTsqlSqlTables = new System.Windows.Forms.CheckedListBox();
+            tabServer = new System.Windows.Forms.TabPage();
+            ckbLocalDb = new System.Windows.Forms.CheckBox();
+            lblPassword = new System.Windows.Forms.Label();
+            txtPassword = new System.Windows.Forms.TextBox();
+            txtLogon = new System.Windows.Forms.TextBox();
+            txtServerName = new System.Windows.Forms.TextBox();
+            lblLogon = new System.Windows.Forms.Label();
+            cmbDatabaseList = new System.Windows.Forms.ComboBox();
+            lblDatabase = new System.Windows.Forms.Label();
+            btnConnect = new System.Windows.Forms.Button();
+            lblServerName = new System.Windows.Forms.Label();
+            tabcontrolAutoCodeGen = new System.Windows.Forms.TabControl();
+            tabWinform = new System.Windows.Forms.TabPage();
+            btnToggleWinformObjects = new System.Windows.Forms.Button();
+            label2 = new System.Windows.Forms.Label();
+            clbWinformObjects = new System.Windows.Forms.CheckedListBox();
+            label3 = new System.Windows.Forms.Label();
+            btnToggleWinformSqlTables = new System.Windows.Forms.Button();
+            clbWinformSqlTables = new System.Windows.Forms.CheckedListBox();
+            tabWebService = new System.Windows.Forms.TabPage();
+            btnToggleWebServicesSqlTables = new System.Windows.Forms.Button();
+            btnToggleWebServiceObjects = new System.Windows.Forms.Button();
+            lblWebServiceObjects = new System.Windows.Forms.Label();
+            clbWebServiceObjects = new System.Windows.Forms.CheckedListBox();
+            lblWebServiceTables = new System.Windows.Forms.Label();
+            clbWebServiceSqlTables = new System.Windows.Forms.CheckedListBox();
+            tabAsp = new System.Windows.Forms.TabPage();
+            lblASPTables = new System.Windows.Forms.Label();
+            clbAspSqlTables = new System.Windows.Forms.CheckedListBox();
+            lblASPObjects = new System.Windows.Forms.Label();
+            btnToggleASPObjects = new System.Windows.Forms.Button();
+            clbAspObjects = new System.Windows.Forms.CheckedListBox();
+            lvMessaging = new System.Windows.Forms.ListView();
+            Message = new System.Windows.Forms.ColumnHeader();
+            lblMessages = new System.Windows.Forms.Label();
+            btnOpenOutputDirectory = new System.Windows.Forms.Button();
+            tabAbout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbxLogo).BeginInit();
+            tabOutput.SuspendLayout();
+            tabXml.SuspendLayout();
+            tabCsharp.SuspendLayout();
+            panCSharpOptions.SuspendLayout();
+            tabSql.SuspendLayout();
+            tabServer.SuspendLayout();
+            tabcontrolAutoCodeGen.SuspendLayout();
+            tabWinform.SuspendLayout();
+            tabWebService.SuspendLayout();
+            tabAsp.SuspendLayout();
+            SuspendLayout();
             // 
             // btnGenerateCode
             // 
-            resources.ApplyResources(this.btnGenerateCode, "btnGenerateCode");
-            this.btnGenerateCode.Name = "btnGenerateCode";
-            this.btnGenerateCode.UseVisualStyleBackColor = true;
-            this.btnGenerateCode.Click += new System.EventHandler(this.btnGenerateCode_Click);
+            resources.ApplyResources(btnGenerateCode, "btnGenerateCode");
+            btnGenerateCode.Name = "btnGenerateCode";
+            btnGenerateCode.UseVisualStyleBackColor = true;
+            btnGenerateCode.Click += btnGenerateCode_Click;
             // 
             // btnResetCurrentTab
             // 
-            resources.ApplyResources(this.btnResetCurrentTab, "btnResetCurrentTab");
-            this.btnResetCurrentTab.Name = "btnResetCurrentTab";
-            this.btnResetCurrentTab.UseVisualStyleBackColor = true;
-            this.btnResetCurrentTab.Click += new System.EventHandler(this.btnResetCurrentTab_Click);
+            resources.ApplyResources(btnResetCurrentTab, "btnResetCurrentTab");
+            btnResetCurrentTab.Name = "btnResetCurrentTab";
+            btnResetCurrentTab.UseVisualStyleBackColor = true;
+            btnResetCurrentTab.Click += btnResetCurrentTab_Click;
             // 
             // lblConnectStatus
             // 
-            resources.ApplyResources(this.lblConnectStatus, "lblConnectStatus");
-            this.lblConnectStatus.Name = "lblConnectStatus";
+            resources.ApplyResources(lblConnectStatus, "lblConnectStatus");
+            lblConnectStatus.Name = "lblConnectStatus";
             // 
             // tabAbout
             // 
-            this.tabAbout.Controls.Add(this.lblCopyright);
-            this.tabAbout.Controls.Add(this.lnkEmail);
-            this.tabAbout.Controls.Add(this.lnkWebLink);
-            this.tabAbout.Controls.Add(this.pbxLogo);
-            this.tabAbout.Controls.Add(this.lblAuthor);
-            this.tabAbout.Controls.Add(this.lblVersion);
-            this.tabAbout.Controls.Add(this.lblAbout);
-            this.tabAbout.Controls.Add(this.lblApplicationTitle);
-            resources.ApplyResources(this.tabAbout, "tabAbout");
-            this.tabAbout.Name = "tabAbout";
-            this.tabAbout.UseVisualStyleBackColor = true;
+            tabAbout.Controls.Add(lblCopyright);
+            tabAbout.Controls.Add(lnkEmail);
+            tabAbout.Controls.Add(lnkWebLink);
+            tabAbout.Controls.Add(pbxLogo);
+            tabAbout.Controls.Add(lblAuthor);
+            tabAbout.Controls.Add(lblVersion);
+            tabAbout.Controls.Add(lblAbout);
+            tabAbout.Controls.Add(lblApplicationTitle);
+            resources.ApplyResources(tabAbout, "tabAbout");
+            tabAbout.Name = "tabAbout";
+            tabAbout.UseVisualStyleBackColor = true;
             // 
             // lblCopyright
             // 
-            resources.ApplyResources(this.lblCopyright, "lblCopyright");
-            this.lblCopyright.Name = "lblCopyright";
+            resources.ApplyResources(lblCopyright, "lblCopyright");
+            lblCopyright.Name = "lblCopyright";
             // 
             // lnkEmail
             // 
-            resources.ApplyResources(this.lnkEmail, "lnkEmail");
-            this.lnkEmail.Name = "lnkEmail";
-            this.lnkEmail.TabStop = true;
-            this.lnkEmail.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkEmail_LinkClicked);
+            resources.ApplyResources(lnkEmail, "lnkEmail");
+            lnkEmail.Name = "lnkEmail";
+            lnkEmail.TabStop = true;
+            lnkEmail.LinkClicked += lnkEmail_LinkClicked;
             // 
             // lnkWebLink
             // 
-            resources.ApplyResources(this.lnkWebLink, "lnkWebLink");
-            this.lnkWebLink.Name = "lnkWebLink";
-            this.lnkWebLink.TabStop = true;
-            this.lnkWebLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWebLink_LinkClicked);
+            resources.ApplyResources(lnkWebLink, "lnkWebLink");
+            lnkWebLink.Name = "lnkWebLink";
+            lnkWebLink.TabStop = true;
+            lnkWebLink.LinkClicked += lnkWebLink_LinkClicked;
             // 
             // pbxLogo
             // 
-            resources.ApplyResources(this.pbxLogo, "pbxLogo");
-            this.pbxLogo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbxLogo.Name = "pbxLogo";
-            this.pbxLogo.TabStop = false;
-            this.pbxLogo.Tag = "";
+            resources.ApplyResources(pbxLogo, "pbxLogo");
+            pbxLogo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            pbxLogo.Name = "pbxLogo";
+            pbxLogo.TabStop = false;
+            pbxLogo.Tag = "";
             // 
             // lblAuthor
             // 
-            resources.ApplyResources(this.lblAuthor, "lblAuthor");
-            this.lblAuthor.Name = "lblAuthor";
+            resources.ApplyResources(lblAuthor, "lblAuthor");
+            lblAuthor.Name = "lblAuthor";
             // 
             // lblVersion
             // 
-            resources.ApplyResources(this.lblVersion, "lblVersion");
-            this.lblVersion.Name = "lblVersion";
+            resources.ApplyResources(lblVersion, "lblVersion");
+            lblVersion.Name = "lblVersion";
             // 
             // lblAbout
             // 
-            resources.ApplyResources(this.lblAbout, "lblAbout");
-            this.lblAbout.Name = "lblAbout";
+            resources.ApplyResources(lblAbout, "lblAbout");
+            lblAbout.Name = "lblAbout";
             // 
             // lblApplicationTitle
             // 
-            resources.ApplyResources(this.lblApplicationTitle, "lblApplicationTitle");
-            this.lblApplicationTitle.Name = "lblApplicationTitle";
+            resources.ApplyResources(lblApplicationTitle, "lblApplicationTitle");
+            lblApplicationTitle.Name = "lblApplicationTitle";
             // 
             // tabOutput
             // 
-            this.tabOutput.Controls.Add(this.btnCheckRegex);
-            this.tabOutput.Controls.Add(this.lblRegexResult);
-            this.tabOutput.Controls.Add(this.txtTableNameRegex);
-            this.tabOutput.Controls.Add(this.lblTableNameRegex);
-            this.tabOutput.Controls.Add(this.btnSetDirectory);
-            this.tabOutput.Controls.Add(this.btnToggleOutput);
-            this.tabOutput.Controls.Add(this.lblOutputPath);
-            this.tabOutput.Controls.Add(this.txtOutputPath);
-            this.tabOutput.Controls.Add(this.lblOutputOptions);
-            this.tabOutput.Controls.Add(this.clbOutputOptions);
-            resources.ApplyResources(this.tabOutput, "tabOutput");
-            this.tabOutput.Name = "tabOutput";
-            this.tabOutput.UseVisualStyleBackColor = true;
+            tabOutput.Controls.Add(btnCheckRegex);
+            tabOutput.Controls.Add(lblRegexResult);
+            tabOutput.Controls.Add(txtTableNameRegex);
+            tabOutput.Controls.Add(lblTableNameRegex);
+            tabOutput.Controls.Add(btnSetDirectory);
+            tabOutput.Controls.Add(btnToggleOutput);
+            tabOutput.Controls.Add(lblOutputPath);
+            tabOutput.Controls.Add(txtOutputPath);
+            tabOutput.Controls.Add(lblOutputOptions);
+            tabOutput.Controls.Add(clbOutputOptions);
+            resources.ApplyResources(tabOutput, "tabOutput");
+            tabOutput.Name = "tabOutput";
+            tabOutput.UseVisualStyleBackColor = true;
             // 
             // btnCheckRegex
             // 
-            resources.ApplyResources(this.btnCheckRegex, "btnCheckRegex");
-            this.btnCheckRegex.Name = "btnCheckRegex";
-            this.btnCheckRegex.UseVisualStyleBackColor = true;
-            this.btnCheckRegex.Click += new System.EventHandler(this.btnCheckRegex_Click);
+            resources.ApplyResources(btnCheckRegex, "btnCheckRegex");
+            btnCheckRegex.Name = "btnCheckRegex";
+            btnCheckRegex.UseVisualStyleBackColor = true;
+            btnCheckRegex.Click += btnCheckRegex_Click;
             // 
             // lblRegexResult
             // 
-            resources.ApplyResources(this.lblRegexResult, "lblRegexResult");
-            this.lblRegexResult.Name = "lblRegexResult";
+            resources.ApplyResources(lblRegexResult, "lblRegexResult");
+            lblRegexResult.Name = "lblRegexResult";
             // 
             // txtTableNameRegex
             // 
-            resources.ApplyResources(this.txtTableNameRegex, "txtTableNameRegex");
-            this.txtTableNameRegex.Name = "txtTableNameRegex";
+            resources.ApplyResources(txtTableNameRegex, "txtTableNameRegex");
+            txtTableNameRegex.Name = "txtTableNameRegex";
             // 
             // lblTableNameRegex
             // 
-            resources.ApplyResources(this.lblTableNameRegex, "lblTableNameRegex");
-            this.lblTableNameRegex.Name = "lblTableNameRegex";
+            resources.ApplyResources(lblTableNameRegex, "lblTableNameRegex");
+            lblTableNameRegex.Name = "lblTableNameRegex";
             // 
             // btnSetDirectory
             // 
-            resources.ApplyResources(this.btnSetDirectory, "btnSetDirectory");
-            this.btnSetDirectory.Name = "btnSetDirectory";
-            this.btnSetDirectory.UseVisualStyleBackColor = true;
-            this.btnSetDirectory.Click += new System.EventHandler(this.btnSetDirectory_Click);
+            resources.ApplyResources(btnSetDirectory, "btnSetDirectory");
+            btnSetDirectory.Name = "btnSetDirectory";
+            btnSetDirectory.UseVisualStyleBackColor = true;
+            btnSetDirectory.Click += btnSetDirectory_Click;
             // 
             // btnToggleOutput
             // 
-            resources.ApplyResources(this.btnToggleOutput, "btnToggleOutput");
-            this.btnToggleOutput.Name = "btnToggleOutput";
-            this.btnToggleOutput.UseVisualStyleBackColor = true;
-            this.btnToggleOutput.Click += new System.EventHandler(this.btnToggleOutput_Click);
+            resources.ApplyResources(btnToggleOutput, "btnToggleOutput");
+            btnToggleOutput.Name = "btnToggleOutput";
+            btnToggleOutput.UseVisualStyleBackColor = true;
+            btnToggleOutput.Click += btnToggleOutput_Click;
             // 
             // lblOutputPath
             // 
-            resources.ApplyResources(this.lblOutputPath, "lblOutputPath");
-            this.lblOutputPath.Name = "lblOutputPath";
+            resources.ApplyResources(lblOutputPath, "lblOutputPath");
+            lblOutputPath.Name = "lblOutputPath";
             // 
             // txtOutputPath
             // 
-            resources.ApplyResources(this.txtOutputPath, "txtOutputPath");
-            this.txtOutputPath.Name = "txtOutputPath";
-            this.txtOutputPath.TextChanged += new System.EventHandler(this.txtOutputPath_TextChanged);
+            resources.ApplyResources(txtOutputPath, "txtOutputPath");
+            txtOutputPath.Name = "txtOutputPath";
+            txtOutputPath.TextChanged += txtOutputPath_TextChanged;
             // 
             // lblOutputOptions
             // 
-            resources.ApplyResources(this.lblOutputOptions, "lblOutputOptions");
-            this.lblOutputOptions.Name = "lblOutputOptions";
+            resources.ApplyResources(lblOutputOptions, "lblOutputOptions");
+            lblOutputOptions.Name = "lblOutputOptions";
             // 
             // clbOutputOptions
             // 
-            resources.ApplyResources(this.clbOutputOptions, "clbOutputOptions");
-            this.clbOutputOptions.CheckOnClick = true;
-            this.clbOutputOptions.FormattingEnabled = true;
-            this.clbOutputOptions.Name = "clbOutputOptions";
-            this.clbOutputOptions.Sorted = true;
-            this.clbOutputOptions.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbOutputOptions_ItemCheck);
+            resources.ApplyResources(clbOutputOptions, "clbOutputOptions");
+            clbOutputOptions.CheckOnClick = true;
+            clbOutputOptions.FormattingEnabled = true;
+            clbOutputOptions.Name = "clbOutputOptions";
+            clbOutputOptions.Sorted = true;
+            clbOutputOptions.ItemCheck += clbOutputOptions_ItemCheck;
             // 
             // tabXml
             // 
-            this.tabXml.Controls.Add(this.btnToggleWebXmlObjects);
-            this.tabXml.Controls.Add(this.lblXml);
-            this.tabXml.Controls.Add(this.clbXmlOptionsTables);
-            this.tabXml.Controls.Add(this.btnToggleWebXmlSqlTables);
-            this.tabXml.Controls.Add(this.lblXMLExportTables);
-            this.tabXml.Controls.Add(this.clbXmlSqlTables);
-            resources.ApplyResources(this.tabXml, "tabXml");
-            this.tabXml.Name = "tabXml";
-            this.tabXml.UseVisualStyleBackColor = true;
+            tabXml.Controls.Add(btnToggleWebXmlObjects);
+            tabXml.Controls.Add(lblXml);
+            tabXml.Controls.Add(clbXmlOptionsTables);
+            tabXml.Controls.Add(btnToggleWebXmlSqlTables);
+            tabXml.Controls.Add(lblXMLExportTables);
+            tabXml.Controls.Add(clbXmlSqlTables);
+            resources.ApplyResources(tabXml, "tabXml");
+            tabXml.Name = "tabXml";
+            tabXml.UseVisualStyleBackColor = true;
             // 
             // btnToggleWebXmlObjects
             // 
-            resources.ApplyResources(this.btnToggleWebXmlObjects, "btnToggleWebXmlObjects");
-            this.btnToggleWebXmlObjects.Name = "btnToggleWebXmlObjects";
-            this.btnToggleWebXmlObjects.UseVisualStyleBackColor = true;
-            this.btnToggleWebXmlObjects.Click += new System.EventHandler(this.btnToggleWebXmlObjects_Click);
+            resources.ApplyResources(btnToggleWebXmlObjects, "btnToggleWebXmlObjects");
+            btnToggleWebXmlObjects.Name = "btnToggleWebXmlObjects";
+            btnToggleWebXmlObjects.UseVisualStyleBackColor = true;
+            btnToggleWebXmlObjects.Click += btnToggleWebXmlObjects_Click;
             // 
             // lblXml
             // 
-            resources.ApplyResources(this.lblXml, "lblXml");
-            this.lblXml.Name = "lblXml";
+            resources.ApplyResources(lblXml, "lblXml");
+            lblXml.Name = "lblXml";
             // 
             // clbXmlOptionsTables
             // 
-            resources.ApplyResources(this.clbXmlOptionsTables, "clbXmlOptionsTables");
-            this.clbXmlOptionsTables.CheckOnClick = true;
-            this.clbXmlOptionsTables.FormattingEnabled = true;
-            this.clbXmlOptionsTables.Name = "clbXmlOptionsTables";
-            this.clbXmlOptionsTables.Sorted = true;
-            this.clbXmlOptionsTables.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbXmlOptionTables_ItemCheck);
+            resources.ApplyResources(clbXmlOptionsTables, "clbXmlOptionsTables");
+            clbXmlOptionsTables.CheckOnClick = true;
+            clbXmlOptionsTables.FormattingEnabled = true;
+            clbXmlOptionsTables.Name = "clbXmlOptionsTables";
+            clbXmlOptionsTables.Sorted = true;
+            clbXmlOptionsTables.ItemCheck += clbXmlOptionTables_ItemCheck;
             // 
             // btnToggleWebXmlSqlTables
             // 
-            resources.ApplyResources(this.btnToggleWebXmlSqlTables, "btnToggleWebXmlSqlTables");
-            this.btnToggleWebXmlSqlTables.Name = "btnToggleWebXmlSqlTables";
-            this.btnToggleWebXmlSqlTables.UseVisualStyleBackColor = true;
-            this.btnToggleWebXmlSqlTables.Click += new System.EventHandler(this.btnToggleWebXmlSqlTables_Click);
+            resources.ApplyResources(btnToggleWebXmlSqlTables, "btnToggleWebXmlSqlTables");
+            btnToggleWebXmlSqlTables.Name = "btnToggleWebXmlSqlTables";
+            btnToggleWebXmlSqlTables.UseVisualStyleBackColor = true;
+            btnToggleWebXmlSqlTables.Click += btnToggleWebXmlSqlTables_Click;
             // 
             // lblXMLExportTables
             // 
-            resources.ApplyResources(this.lblXMLExportTables, "lblXMLExportTables");
-            this.lblXMLExportTables.Name = "lblXMLExportTables";
+            resources.ApplyResources(lblXMLExportTables, "lblXMLExportTables");
+            lblXMLExportTables.Name = "lblXMLExportTables";
             // 
             // clbXmlSqlTables
             // 
-            resources.ApplyResources(this.clbXmlSqlTables, "clbXmlSqlTables");
-            this.clbXmlSqlTables.CheckOnClick = true;
-            this.clbXmlSqlTables.FormattingEnabled = true;
-            this.clbXmlSqlTables.Name = "clbXmlSqlTables";
-            this.clbXmlSqlTables.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbXmlSqlTables_ItemCheck);
+            resources.ApplyResources(clbXmlSqlTables, "clbXmlSqlTables");
+            clbXmlSqlTables.CheckOnClick = true;
+            clbXmlSqlTables.FormattingEnabled = true;
+            clbXmlSqlTables.Name = "clbXmlSqlTables";
+            clbXmlSqlTables.ItemCheck += clbXmlSqlTables_ItemCheck;
             // 
             // tabCsharp
             // 
-            this.tabCsharp.Controls.Add(this.panCSharpOptions);
-            this.tabCsharp.Controls.Add(this.btnToggleCsharpSqlTables);
-            this.tabCsharp.Controls.Add(this.btnToggleCSharpObjects);
-            this.tabCsharp.Controls.Add(this.lblCSharpObjects);
-            this.tabCsharp.Controls.Add(this.lblCSharpTables);
-            this.tabCsharp.Controls.Add(this.clbCsharpSqlTables);
-            this.tabCsharp.Controls.Add(this.clbCsharpObjects);
-            resources.ApplyResources(this.tabCsharp, "tabCsharp");
-            this.tabCsharp.Name = "tabCsharp";
-            this.tabCsharp.UseVisualStyleBackColor = true;
+            tabCsharp.Controls.Add(panCSharpOptions);
+            tabCsharp.Controls.Add(btnToggleCsharpSqlTables);
+            tabCsharp.Controls.Add(btnToggleCSharpObjects);
+            tabCsharp.Controls.Add(lblCSharpObjects);
+            tabCsharp.Controls.Add(lblCSharpTables);
+            tabCsharp.Controls.Add(clbCsharpSqlTables);
+            tabCsharp.Controls.Add(clbCsharpObjects);
+            resources.ApplyResources(tabCsharp, "tabCsharp");
+            tabCsharp.Name = "tabCsharp";
+            tabCsharp.UseVisualStyleBackColor = true;
             // 
             // panCSharpOptions
             // 
-            resources.ApplyResources(this.panCSharpOptions, "panCSharpOptions");
-            this.panCSharpOptions.Controls.Add(this.btnAddNamespace);
-            this.panCSharpOptions.Controls.Add(this.cboNamespaceIncludes);
-            this.panCSharpOptions.Controls.Add(this.label1);
-            this.panCSharpOptions.Name = "panCSharpOptions";
+            resources.ApplyResources(panCSharpOptions, "panCSharpOptions");
+            panCSharpOptions.Controls.Add(btnAddNamespace);
+            panCSharpOptions.Controls.Add(cboNamespaceIncludes);
+            panCSharpOptions.Controls.Add(label1);
+            panCSharpOptions.Name = "panCSharpOptions";
             // 
             // btnAddNamespace
             // 
-            resources.ApplyResources(this.btnAddNamespace, "btnAddNamespace");
-            this.btnAddNamespace.Name = "btnAddNamespace";
-            this.btnAddNamespace.UseVisualStyleBackColor = true;
-            this.btnAddNamespace.Click += new System.EventHandler(this.btnAddNamespace_Click);
+            resources.ApplyResources(btnAddNamespace, "btnAddNamespace");
+            btnAddNamespace.Name = "btnAddNamespace";
+            btnAddNamespace.UseVisualStyleBackColor = true;
+            btnAddNamespace.Click += btnAddNamespace_Click;
             // 
             // cboNamespaceIncludes
             // 
-            resources.ApplyResources(this.cboNamespaceIncludes, "cboNamespaceIncludes");
-            this.cboNamespaceIncludes.FormattingEnabled = true;
-            this.cboNamespaceIncludes.Name = "cboNamespaceIncludes";
-            this.cboNamespaceIncludes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cboNamespaceIncludes_KeyDown);
+            resources.ApplyResources(cboNamespaceIncludes, "cboNamespaceIncludes");
+            cboNamespaceIncludes.FormattingEnabled = true;
+            cboNamespaceIncludes.Name = "cboNamespaceIncludes";
+            cboNamespaceIncludes.KeyDown += cboNamespaceIncludes_KeyDown;
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
             // btnToggleCsharpSqlTables
             // 
-            resources.ApplyResources(this.btnToggleCsharpSqlTables, "btnToggleCsharpSqlTables");
-            this.btnToggleCsharpSqlTables.Name = "btnToggleCsharpSqlTables";
-            this.btnToggleCsharpSqlTables.UseVisualStyleBackColor = true;
-            this.btnToggleCsharpSqlTables.Click += new System.EventHandler(this.btnToggleCsharpSqlTables_Click);
+            resources.ApplyResources(btnToggleCsharpSqlTables, "btnToggleCsharpSqlTables");
+            btnToggleCsharpSqlTables.Name = "btnToggleCsharpSqlTables";
+            btnToggleCsharpSqlTables.UseVisualStyleBackColor = true;
+            btnToggleCsharpSqlTables.Click += btnToggleCsharpSqlTables_Click;
             // 
             // btnToggleCSharpObjects
             // 
-            resources.ApplyResources(this.btnToggleCSharpObjects, "btnToggleCSharpObjects");
-            this.btnToggleCSharpObjects.Name = "btnToggleCSharpObjects";
-            this.btnToggleCSharpObjects.UseVisualStyleBackColor = true;
-            this.btnToggleCSharpObjects.Click += new System.EventHandler(this.btnToggleCSharpObjects_Click);
+            resources.ApplyResources(btnToggleCSharpObjects, "btnToggleCSharpObjects");
+            btnToggleCSharpObjects.Name = "btnToggleCSharpObjects";
+            btnToggleCSharpObjects.UseVisualStyleBackColor = true;
+            btnToggleCSharpObjects.Click += btnToggleCSharpObjects_Click;
             // 
             // lblCSharpObjects
             // 
-            resources.ApplyResources(this.lblCSharpObjects, "lblCSharpObjects");
-            this.lblCSharpObjects.Name = "lblCSharpObjects";
+            resources.ApplyResources(lblCSharpObjects, "lblCSharpObjects");
+            lblCSharpObjects.Name = "lblCSharpObjects";
             // 
             // lblCSharpTables
             // 
-            resources.ApplyResources(this.lblCSharpTables, "lblCSharpTables");
-            this.lblCSharpTables.Name = "lblCSharpTables";
+            resources.ApplyResources(lblCSharpTables, "lblCSharpTables");
+            lblCSharpTables.Name = "lblCSharpTables";
             // 
             // clbCsharpSqlTables
             // 
-            resources.ApplyResources(this.clbCsharpSqlTables, "clbCsharpSqlTables");
-            this.clbCsharpSqlTables.CheckOnClick = true;
-            this.clbCsharpSqlTables.FormattingEnabled = true;
-            this.clbCsharpSqlTables.Name = "clbCsharpSqlTables";
-            this.clbCsharpSqlTables.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbCsharpSqlTables_ItemCheck);
+            resources.ApplyResources(clbCsharpSqlTables, "clbCsharpSqlTables");
+            clbCsharpSqlTables.CheckOnClick = true;
+            clbCsharpSqlTables.FormattingEnabled = true;
+            clbCsharpSqlTables.Name = "clbCsharpSqlTables";
+            clbCsharpSqlTables.ItemCheck += clbCsharpSqlTables_ItemCheck;
             // 
             // clbCsharpObjects
             // 
-            resources.ApplyResources(this.clbCsharpObjects, "clbCsharpObjects");
-            this.clbCsharpObjects.CheckOnClick = true;
-            this.clbCsharpObjects.FormattingEnabled = true;
-            this.clbCsharpObjects.Name = "clbCsharpObjects";
-            this.clbCsharpObjects.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbCSharpObjects_ItemCheck);
+            resources.ApplyResources(clbCsharpObjects, "clbCsharpObjects");
+            clbCsharpObjects.CheckOnClick = true;
+            clbCsharpObjects.FormattingEnabled = true;
+            clbCsharpObjects.Name = "clbCsharpObjects";
+            clbCsharpObjects.ItemCheck += clbCSharpObjects_ItemCheck;
             // 
             // btnToggleAspSqlTables
             // 
-            resources.ApplyResources(this.btnToggleAspSqlTables, "btnToggleAspSqlTables");
-            this.btnToggleAspSqlTables.Name = "btnToggleAspSqlTables";
-            this.btnToggleAspSqlTables.UseVisualStyleBackColor = true;
-            this.btnToggleAspSqlTables.Click += new System.EventHandler(this.btnToggleAspSqlTables_Click);
+            resources.ApplyResources(btnToggleAspSqlTables, "btnToggleAspSqlTables");
+            btnToggleAspSqlTables.Name = "btnToggleAspSqlTables";
+            btnToggleAspSqlTables.UseVisualStyleBackColor = true;
+            btnToggleAspSqlTables.Click += btnToggleAspSqlTables_Click;
             // 
             // tabSql
             // 
-            this.tabSql.Controls.Add(this.lblSQLVersion);
-            this.tabSql.Controls.Add(this.cmbSQLVersion);
-            this.tabSql.Controls.Add(this.btnToggleTsqlSqlObjects);
-            this.tabSql.Controls.Add(this.btnToggleTsqlSqlTables);
-            this.tabSql.Controls.Add(this.lblSQLObjects);
-            this.tabSql.Controls.Add(this.lblSQLTables);
-            this.tabSql.Controls.Add(this.clbTsqlSqlObjects);
-            this.tabSql.Controls.Add(this.clbTsqlSqlTables);
-            resources.ApplyResources(this.tabSql, "tabSql");
-            this.tabSql.Name = "tabSql";
-            this.tabSql.UseVisualStyleBackColor = true;
+            tabSql.Controls.Add(lblSQLVersion);
+            tabSql.Controls.Add(cmbSQLVersion);
+            tabSql.Controls.Add(btnToggleTsqlSqlObjects);
+            tabSql.Controls.Add(btnToggleTsqlSqlTables);
+            tabSql.Controls.Add(lblSQLObjects);
+            tabSql.Controls.Add(lblSQLTables);
+            tabSql.Controls.Add(clbTsqlSqlObjects);
+            tabSql.Controls.Add(clbTsqlSqlTables);
+            resources.ApplyResources(tabSql, "tabSql");
+            tabSql.Name = "tabSql";
+            tabSql.UseVisualStyleBackColor = true;
             // 
             // lblSQLVersion
             // 
-            resources.ApplyResources(this.lblSQLVersion, "lblSQLVersion");
-            this.lblSQLVersion.Name = "lblSQLVersion";
+            resources.ApplyResources(lblSQLVersion, "lblSQLVersion");
+            lblSQLVersion.Name = "lblSQLVersion";
             // 
             // cmbSQLVersion
             // 
-            this.cmbSQLVersion.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            resources.ApplyResources(this.cmbSQLVersion, "cmbSQLVersion");
-            this.cmbSQLVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSQLVersion.FormattingEnabled = true;
-            this.cmbSQLVersion.Name = "cmbSQLVersion";
+            cmbSQLVersion.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            resources.ApplyResources(cmbSQLVersion, "cmbSQLVersion");
+            cmbSQLVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbSQLVersion.FormattingEnabled = true;
+            cmbSQLVersion.Name = "cmbSQLVersion";
             // 
             // btnToggleTsqlSqlObjects
             // 
-            resources.ApplyResources(this.btnToggleTsqlSqlObjects, "btnToggleTsqlSqlObjects");
-            this.btnToggleTsqlSqlObjects.Name = "btnToggleTsqlSqlObjects";
-            this.btnToggleTsqlSqlObjects.UseVisualStyleBackColor = true;
-            this.btnToggleTsqlSqlObjects.Click += new System.EventHandler(this.btnToggleTsqlSqlObjects_Click);
+            resources.ApplyResources(btnToggleTsqlSqlObjects, "btnToggleTsqlSqlObjects");
+            btnToggleTsqlSqlObjects.Name = "btnToggleTsqlSqlObjects";
+            btnToggleTsqlSqlObjects.UseVisualStyleBackColor = true;
+            btnToggleTsqlSqlObjects.Click += btnToggleTsqlSqlObjects_Click;
             // 
             // btnToggleTsqlSqlTables
             // 
-            resources.ApplyResources(this.btnToggleTsqlSqlTables, "btnToggleTsqlSqlTables");
-            this.btnToggleTsqlSqlTables.Name = "btnToggleTsqlSqlTables";
-            this.btnToggleTsqlSqlTables.UseVisualStyleBackColor = true;
-            this.btnToggleTsqlSqlTables.Click += new System.EventHandler(this.btnToggleTsqlSqlTables_Click);
+            resources.ApplyResources(btnToggleTsqlSqlTables, "btnToggleTsqlSqlTables");
+            btnToggleTsqlSqlTables.Name = "btnToggleTsqlSqlTables";
+            btnToggleTsqlSqlTables.UseVisualStyleBackColor = true;
+            btnToggleTsqlSqlTables.Click += btnToggleTsqlSqlTables_Click;
             // 
             // lblSQLObjects
             // 
-            resources.ApplyResources(this.lblSQLObjects, "lblSQLObjects");
-            this.lblSQLObjects.Name = "lblSQLObjects";
+            resources.ApplyResources(lblSQLObjects, "lblSQLObjects");
+            lblSQLObjects.Name = "lblSQLObjects";
             // 
             // lblSQLTables
             // 
-            resources.ApplyResources(this.lblSQLTables, "lblSQLTables");
-            this.lblSQLTables.Name = "lblSQLTables";
+            resources.ApplyResources(lblSQLTables, "lblSQLTables");
+            lblSQLTables.Name = "lblSQLTables";
             // 
             // clbTsqlSqlObjects
             // 
-            resources.ApplyResources(this.clbTsqlSqlObjects, "clbTsqlSqlObjects");
-            this.clbTsqlSqlObjects.CheckOnClick = true;
-            this.clbTsqlSqlObjects.FormattingEnabled = true;
-            this.clbTsqlSqlObjects.Name = "clbTsqlSqlObjects";
-            this.clbTsqlSqlObjects.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbTsqlSqlObjects_ItemCheck);
+            resources.ApplyResources(clbTsqlSqlObjects, "clbTsqlSqlObjects");
+            clbTsqlSqlObjects.CheckOnClick = true;
+            clbTsqlSqlObjects.FormattingEnabled = true;
+            clbTsqlSqlObjects.Name = "clbTsqlSqlObjects";
+            clbTsqlSqlObjects.ItemCheck += clbTsqlSqlObjects_ItemCheck;
             // 
             // clbTsqlSqlTables
             // 
-            resources.ApplyResources(this.clbTsqlSqlTables, "clbTsqlSqlTables");
-            this.clbTsqlSqlTables.CheckOnClick = true;
-            this.clbTsqlSqlTables.FormattingEnabled = true;
-            this.clbTsqlSqlTables.Name = "clbTsqlSqlTables";
-            this.clbTsqlSqlTables.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbTsqlSqlTables_ItemCheck);
+            resources.ApplyResources(clbTsqlSqlTables, "clbTsqlSqlTables");
+            clbTsqlSqlTables.CheckOnClick = true;
+            clbTsqlSqlTables.FormattingEnabled = true;
+            clbTsqlSqlTables.Name = "clbTsqlSqlTables";
+            clbTsqlSqlTables.ItemCheck += clbTsqlSqlTables_ItemCheck;
             // 
             // tabServer
             // 
-            this.tabServer.Controls.Add(this.ckbLocalDb);
-            this.tabServer.Controls.Add(this.lblPassword);
-            this.tabServer.Controls.Add(this.txtPassword);
-            this.tabServer.Controls.Add(this.txtLogon);
-            this.tabServer.Controls.Add(this.txtServerName);
-            this.tabServer.Controls.Add(this.lblLogon);
-            this.tabServer.Controls.Add(this.cmbDatabaseList);
-            this.tabServer.Controls.Add(this.lblDatabase);
-            this.tabServer.Controls.Add(this.btnConnect);
-            this.tabServer.Controls.Add(this.lblServerName);
-            resources.ApplyResources(this.tabServer, "tabServer");
-            this.tabServer.Name = "tabServer";
-            this.tabServer.UseVisualStyleBackColor = true;
+            tabServer.Controls.Add(ckbLocalDb);
+            tabServer.Controls.Add(lblPassword);
+            tabServer.Controls.Add(txtPassword);
+            tabServer.Controls.Add(txtLogon);
+            tabServer.Controls.Add(txtServerName);
+            tabServer.Controls.Add(lblLogon);
+            tabServer.Controls.Add(cmbDatabaseList);
+            tabServer.Controls.Add(lblDatabase);
+            tabServer.Controls.Add(btnConnect);
+            tabServer.Controls.Add(lblServerName);
+            resources.ApplyResources(tabServer, "tabServer");
+            tabServer.Name = "tabServer";
+            tabServer.UseVisualStyleBackColor = true;
             // 
             // ckbLocalDb
             // 
-            resources.ApplyResources(this.ckbLocalDb, "ckbLocalDb");
-            this.ckbLocalDb.Checked = true;
-            this.ckbLocalDb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckbLocalDb.Name = "ckbLocalDb";
-            this.ckbLocalDb.UseVisualStyleBackColor = true;
-            this.ckbLocalDb.CheckedChanged += new System.EventHandler(this.ckbLocalDb_CheckedChanged);
+            resources.ApplyResources(ckbLocalDb, "ckbLocalDb");
+            ckbLocalDb.Checked = true;
+            ckbLocalDb.CheckState = System.Windows.Forms.CheckState.Checked;
+            ckbLocalDb.Name = "ckbLocalDb";
+            ckbLocalDb.UseVisualStyleBackColor = true;
+            ckbLocalDb.CheckedChanged += ckbLocalDb_CheckedChanged;
             // 
             // lblPassword
             // 
-            resources.ApplyResources(this.lblPassword, "lblPassword");
-            this.lblPassword.Name = "lblPassword";
+            resources.ApplyResources(lblPassword, "lblPassword");
+            lblPassword.Name = "lblPassword";
             // 
             // txtPassword
             // 
-            resources.ApplyResources(this.txtPassword, "txtPassword");
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
+            resources.ApplyResources(txtPassword, "txtPassword");
+            txtPassword.Name = "txtPassword";
+            txtPassword.TextChanged += txtPassword_TextChanged;
             // 
             // txtLogon
             // 
-            resources.ApplyResources(this.txtLogon, "txtLogon");
-            this.txtLogon.Name = "txtLogon";
-            this.txtLogon.TextChanged += new System.EventHandler(this.txtLogon_TextChanged);
+            resources.ApplyResources(txtLogon, "txtLogon");
+            txtLogon.Name = "txtLogon";
+            txtLogon.TextChanged += txtLogon_TextChanged;
             // 
             // txtServerName
             // 
-            resources.ApplyResources(this.txtServerName, "txtServerName");
-            this.txtServerName.Name = "txtServerName";
-            this.txtServerName.TextChanged += new System.EventHandler(this.txtServerName_TextChanged);
+            resources.ApplyResources(txtServerName, "txtServerName");
+            txtServerName.Name = "txtServerName";
+            txtServerName.TextChanged += txtServerName_TextChanged;
             // 
             // lblLogon
             // 
-            resources.ApplyResources(this.lblLogon, "lblLogon");
-            this.lblLogon.Name = "lblLogon";
+            resources.ApplyResources(lblLogon, "lblLogon");
+            lblLogon.Name = "lblLogon";
             // 
             // cmbDatabaseList
             // 
-            this.cmbDatabaseList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDatabaseList.FormattingEnabled = true;
-            resources.ApplyResources(this.cmbDatabaseList, "cmbDatabaseList");
-            this.cmbDatabaseList.Name = "cmbDatabaseList";
-            this.cmbDatabaseList.SelectedIndexChanged += new System.EventHandler(this.cmbDatabaseList_SelectedIndexChanged);
+            cmbDatabaseList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbDatabaseList.FormattingEnabled = true;
+            resources.ApplyResources(cmbDatabaseList, "cmbDatabaseList");
+            cmbDatabaseList.Name = "cmbDatabaseList";
+            cmbDatabaseList.SelectedIndexChanged += cmbDatabaseList_SelectedIndexChanged;
             // 
             // lblDatabase
             // 
-            resources.ApplyResources(this.lblDatabase, "lblDatabase");
-            this.lblDatabase.Name = "lblDatabase";
+            resources.ApplyResources(lblDatabase, "lblDatabase");
+            lblDatabase.Name = "lblDatabase";
             // 
             // btnConnect
             // 
-            resources.ApplyResources(this.btnConnect, "btnConnect");
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            resources.ApplyResources(btnConnect, "btnConnect");
+            btnConnect.Name = "btnConnect";
+            btnConnect.UseVisualStyleBackColor = true;
+            btnConnect.Click += btnConnect_Click;
             // 
             // lblServerName
             // 
-            resources.ApplyResources(this.lblServerName, "lblServerName");
-            this.lblServerName.Name = "lblServerName";
+            resources.ApplyResources(lblServerName, "lblServerName");
+            lblServerName.Name = "lblServerName";
             // 
             // tabcontrolAutoCodeGen
             // 
-            resources.ApplyResources(this.tabcontrolAutoCodeGen, "tabcontrolAutoCodeGen");
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabServer);
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabSql);
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabCsharp);
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabWinform);
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabWebService);
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabAsp);
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabXml);
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabOutput);
-            this.tabcontrolAutoCodeGen.Controls.Add(this.tabAbout);
-            this.tabcontrolAutoCodeGen.Name = "tabcontrolAutoCodeGen";
-            this.tabcontrolAutoCodeGen.SelectedIndex = 0;
+            resources.ApplyResources(tabcontrolAutoCodeGen, "tabcontrolAutoCodeGen");
+            tabcontrolAutoCodeGen.Controls.Add(tabServer);
+            tabcontrolAutoCodeGen.Controls.Add(tabSql);
+            tabcontrolAutoCodeGen.Controls.Add(tabCsharp);
+            tabcontrolAutoCodeGen.Controls.Add(tabWinform);
+            tabcontrolAutoCodeGen.Controls.Add(tabWebService);
+            tabcontrolAutoCodeGen.Controls.Add(tabAsp);
+            tabcontrolAutoCodeGen.Controls.Add(tabXml);
+            tabcontrolAutoCodeGen.Controls.Add(tabOutput);
+            tabcontrolAutoCodeGen.Controls.Add(tabAbout);
+            tabcontrolAutoCodeGen.Name = "tabcontrolAutoCodeGen";
+            tabcontrolAutoCodeGen.SelectedIndex = 0;
             // 
             // tabWinform
             // 
-            this.tabWinform.Controls.Add(this.btnToggleWinformObjects);
-            this.tabWinform.Controls.Add(this.label2);
-            this.tabWinform.Controls.Add(this.clbWinformObjects);
-            this.tabWinform.Controls.Add(this.label3);
-            this.tabWinform.Controls.Add(this.btnToggleWinformSqlTables);
-            this.tabWinform.Controls.Add(this.clbWinformSqlTables);
-            resources.ApplyResources(this.tabWinform, "tabWinform");
-            this.tabWinform.Name = "tabWinform";
-            this.tabWinform.UseVisualStyleBackColor = true;
+            tabWinform.Controls.Add(btnToggleWinformObjects);
+            tabWinform.Controls.Add(label2);
+            tabWinform.Controls.Add(clbWinformObjects);
+            tabWinform.Controls.Add(label3);
+            tabWinform.Controls.Add(btnToggleWinformSqlTables);
+            tabWinform.Controls.Add(clbWinformSqlTables);
+            resources.ApplyResources(tabWinform, "tabWinform");
+            tabWinform.Name = "tabWinform";
+            tabWinform.UseVisualStyleBackColor = true;
             // 
             // btnToggleWinformObjects
             // 
-            resources.ApplyResources(this.btnToggleWinformObjects, "btnToggleWinformObjects");
-            this.btnToggleWinformObjects.Name = "btnToggleWinformObjects";
-            this.btnToggleWinformObjects.UseVisualStyleBackColor = true;
-            this.btnToggleWinformObjects.Click += new System.EventHandler(this.btnToggleWinformObjects_Click);
+            resources.ApplyResources(btnToggleWinformObjects, "btnToggleWinformObjects");
+            btnToggleWinformObjects.Name = "btnToggleWinformObjects";
+            btnToggleWinformObjects.UseVisualStyleBackColor = true;
+            btnToggleWinformObjects.Click += btnToggleWinformObjects_Click;
             // 
             // label2
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // clbWinformObjects
             // 
-            resources.ApplyResources(this.clbWinformObjects, "clbWinformObjects");
-            this.clbWinformObjects.CheckOnClick = true;
-            this.clbWinformObjects.FormattingEnabled = true;
-            this.clbWinformObjects.Name = "clbWinformObjects";
-            this.clbWinformObjects.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbWinformObjects_ItemCheck);
+            resources.ApplyResources(clbWinformObjects, "clbWinformObjects");
+            clbWinformObjects.CheckOnClick = true;
+            clbWinformObjects.FormattingEnabled = true;
+            clbWinformObjects.Name = "clbWinformObjects";
+            clbWinformObjects.ItemCheck += clbWinformObjects_ItemCheck;
             // 
             // label3
             // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
             // 
             // btnToggleWinformSqlTables
             // 
-            resources.ApplyResources(this.btnToggleWinformSqlTables, "btnToggleWinformSqlTables");
-            this.btnToggleWinformSqlTables.Name = "btnToggleWinformSqlTables";
-            this.btnToggleWinformSqlTables.UseVisualStyleBackColor = true;
-            this.btnToggleWinformSqlTables.Click += new System.EventHandler(this.btnToggleWinformSqlTables_Click);
+            resources.ApplyResources(btnToggleWinformSqlTables, "btnToggleWinformSqlTables");
+            btnToggleWinformSqlTables.Name = "btnToggleWinformSqlTables";
+            btnToggleWinformSqlTables.UseVisualStyleBackColor = true;
+            btnToggleWinformSqlTables.Click += btnToggleWinformSqlTables_Click;
             // 
             // clbWinformSqlTables
             // 
-            resources.ApplyResources(this.clbWinformSqlTables, "clbWinformSqlTables");
-            this.clbWinformSqlTables.CheckOnClick = true;
-            this.clbWinformSqlTables.FormattingEnabled = true;
-            this.clbWinformSqlTables.Name = "clbWinformSqlTables";
-            this.clbWinformSqlTables.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbWinformSqlTables_ItemCheck);
+            resources.ApplyResources(clbWinformSqlTables, "clbWinformSqlTables");
+            clbWinformSqlTables.CheckOnClick = true;
+            clbWinformSqlTables.FormattingEnabled = true;
+            clbWinformSqlTables.Name = "clbWinformSqlTables";
+            clbWinformSqlTables.ItemCheck += clbWinformSqlTables_ItemCheck;
             // 
             // tabWebService
             // 
-            this.tabWebService.Controls.Add(this.btnToggleWebServicesSqlTables);
-            this.tabWebService.Controls.Add(this.btnToggleWebServiceObjects);
-            this.tabWebService.Controls.Add(this.lblWebServiceObjects);
-            this.tabWebService.Controls.Add(this.clbWebServiceObjects);
-            this.tabWebService.Controls.Add(this.lblWebServiceTables);
-            this.tabWebService.Controls.Add(this.clbWebServiceSqlTables);
-            resources.ApplyResources(this.tabWebService, "tabWebService");
-            this.tabWebService.Name = "tabWebService";
-            this.tabWebService.UseVisualStyleBackColor = true;
+            tabWebService.Controls.Add(btnToggleWebServicesSqlTables);
+            tabWebService.Controls.Add(btnToggleWebServiceObjects);
+            tabWebService.Controls.Add(lblWebServiceObjects);
+            tabWebService.Controls.Add(clbWebServiceObjects);
+            tabWebService.Controls.Add(lblWebServiceTables);
+            tabWebService.Controls.Add(clbWebServiceSqlTables);
+            resources.ApplyResources(tabWebService, "tabWebService");
+            tabWebService.Name = "tabWebService";
+            tabWebService.UseVisualStyleBackColor = true;
             // 
             // btnToggleWebServicesSqlTables
             // 
-            resources.ApplyResources(this.btnToggleWebServicesSqlTables, "btnToggleWebServicesSqlTables");
-            this.btnToggleWebServicesSqlTables.Name = "btnToggleWebServicesSqlTables";
-            this.btnToggleWebServicesSqlTables.UseVisualStyleBackColor = true;
-            this.btnToggleWebServicesSqlTables.Click += new System.EventHandler(this.btnToggleWebServicesSqlTables_Click);
+            resources.ApplyResources(btnToggleWebServicesSqlTables, "btnToggleWebServicesSqlTables");
+            btnToggleWebServicesSqlTables.Name = "btnToggleWebServicesSqlTables";
+            btnToggleWebServicesSqlTables.UseVisualStyleBackColor = true;
+            btnToggleWebServicesSqlTables.Click += btnToggleWebServicesSqlTables_Click;
             // 
             // btnToggleWebServiceObjects
             // 
-            resources.ApplyResources(this.btnToggleWebServiceObjects, "btnToggleWebServiceObjects");
-            this.btnToggleWebServiceObjects.Name = "btnToggleWebServiceObjects";
-            this.btnToggleWebServiceObjects.UseVisualStyleBackColor = true;
-            this.btnToggleWebServiceObjects.Click += new System.EventHandler(this.btnToggleWebServiceObjects_Click);
+            resources.ApplyResources(btnToggleWebServiceObjects, "btnToggleWebServiceObjects");
+            btnToggleWebServiceObjects.Name = "btnToggleWebServiceObjects";
+            btnToggleWebServiceObjects.UseVisualStyleBackColor = true;
+            btnToggleWebServiceObjects.Click += btnToggleWebServiceObjects_Click;
             // 
             // lblWebServiceObjects
             // 
-            resources.ApplyResources(this.lblWebServiceObjects, "lblWebServiceObjects");
-            this.lblWebServiceObjects.Name = "lblWebServiceObjects";
+            resources.ApplyResources(lblWebServiceObjects, "lblWebServiceObjects");
+            lblWebServiceObjects.Name = "lblWebServiceObjects";
             // 
             // clbWebServiceObjects
             // 
-            resources.ApplyResources(this.clbWebServiceObjects, "clbWebServiceObjects");
-            this.clbWebServiceObjects.CheckOnClick = true;
-            this.clbWebServiceObjects.FormattingEnabled = true;
-            this.clbWebServiceObjects.Name = "clbWebServiceObjects";
-            this.clbWebServiceObjects.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbWebServiceObjects_ItemCheck);
+            resources.ApplyResources(clbWebServiceObjects, "clbWebServiceObjects");
+            clbWebServiceObjects.CheckOnClick = true;
+            clbWebServiceObjects.FormattingEnabled = true;
+            clbWebServiceObjects.Name = "clbWebServiceObjects";
+            clbWebServiceObjects.ItemCheck += clbWebServiceObjects_ItemCheck;
             // 
             // lblWebServiceTables
             // 
-            resources.ApplyResources(this.lblWebServiceTables, "lblWebServiceTables");
-            this.lblWebServiceTables.Name = "lblWebServiceTables";
+            resources.ApplyResources(lblWebServiceTables, "lblWebServiceTables");
+            lblWebServiceTables.Name = "lblWebServiceTables";
             // 
             // clbWebServiceSqlTables
             // 
-            resources.ApplyResources(this.clbWebServiceSqlTables, "clbWebServiceSqlTables");
-            this.clbWebServiceSqlTables.CheckOnClick = true;
-            this.clbWebServiceSqlTables.FormattingEnabled = true;
-            this.clbWebServiceSqlTables.Name = "clbWebServiceSqlTables";
-            this.clbWebServiceSqlTables.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbWebServiceSqlTables_ItemCheck);
+            resources.ApplyResources(clbWebServiceSqlTables, "clbWebServiceSqlTables");
+            clbWebServiceSqlTables.CheckOnClick = true;
+            clbWebServiceSqlTables.FormattingEnabled = true;
+            clbWebServiceSqlTables.Name = "clbWebServiceSqlTables";
+            clbWebServiceSqlTables.ItemCheck += clbWebServiceSqlTables_ItemCheck;
             // 
             // tabAsp
             // 
-            this.tabAsp.Controls.Add(this.btnToggleAspSqlTables);
-            this.tabAsp.Controls.Add(this.lblASPTables);
-            this.tabAsp.Controls.Add(this.clbAspSqlTables);
-            this.tabAsp.Controls.Add(this.lblASPObjects);
-            this.tabAsp.Controls.Add(this.btnToggleASPObjects);
-            this.tabAsp.Controls.Add(this.clbAspObjects);
-            resources.ApplyResources(this.tabAsp, "tabAsp");
-            this.tabAsp.Name = "tabAsp";
-            this.tabAsp.UseVisualStyleBackColor = true;
+            tabAsp.Controls.Add(btnToggleAspSqlTables);
+            tabAsp.Controls.Add(lblASPTables);
+            tabAsp.Controls.Add(clbAspSqlTables);
+            tabAsp.Controls.Add(lblASPObjects);
+            tabAsp.Controls.Add(btnToggleASPObjects);
+            tabAsp.Controls.Add(clbAspObjects);
+            resources.ApplyResources(tabAsp, "tabAsp");
+            tabAsp.Name = "tabAsp";
+            tabAsp.UseVisualStyleBackColor = true;
             // 
             // lblASPTables
             // 
-            resources.ApplyResources(this.lblASPTables, "lblASPTables");
-            this.lblASPTables.Name = "lblASPTables";
+            resources.ApplyResources(lblASPTables, "lblASPTables");
+            lblASPTables.Name = "lblASPTables";
             // 
             // clbAspSqlTables
             // 
-            resources.ApplyResources(this.clbAspSqlTables, "clbAspSqlTables");
-            this.clbAspSqlTables.CheckOnClick = true;
-            this.clbAspSqlTables.FormattingEnabled = true;
-            this.clbAspSqlTables.Name = "clbAspSqlTables";
-            this.clbAspSqlTables.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbAspSqlTables_ItemCheck);
+            resources.ApplyResources(clbAspSqlTables, "clbAspSqlTables");
+            clbAspSqlTables.CheckOnClick = true;
+            clbAspSqlTables.FormattingEnabled = true;
+            clbAspSqlTables.Name = "clbAspSqlTables";
+            clbAspSqlTables.ItemCheck += clbAspSqlTables_ItemCheck;
             // 
             // lblASPObjects
             // 
-            resources.ApplyResources(this.lblASPObjects, "lblASPObjects");
-            this.lblASPObjects.Name = "lblASPObjects";
+            resources.ApplyResources(lblASPObjects, "lblASPObjects");
+            lblASPObjects.Name = "lblASPObjects";
             // 
             // btnToggleASPObjects
             // 
-            resources.ApplyResources(this.btnToggleASPObjects, "btnToggleASPObjects");
-            this.btnToggleASPObjects.Name = "btnToggleASPObjects";
-            this.btnToggleASPObjects.UseVisualStyleBackColor = true;
-            this.btnToggleASPObjects.Click += new System.EventHandler(this.btnToggleASPObjects_Click);
+            resources.ApplyResources(btnToggleASPObjects, "btnToggleASPObjects");
+            btnToggleASPObjects.Name = "btnToggleASPObjects";
+            btnToggleASPObjects.UseVisualStyleBackColor = true;
+            btnToggleASPObjects.Click += btnToggleASPObjects_Click;
             // 
             // clbAspObjects
             // 
-            resources.ApplyResources(this.clbAspObjects, "clbAspObjects");
-            this.clbAspObjects.CheckOnClick = true;
-            this.clbAspObjects.FormattingEnabled = true;
-            this.clbAspObjects.Name = "clbAspObjects";
-            this.clbAspObjects.Sorted = true;
-            this.clbAspObjects.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbAspObjects_ItemCheck);
+            resources.ApplyResources(clbAspObjects, "clbAspObjects");
+            clbAspObjects.CheckOnClick = true;
+            clbAspObjects.FormattingEnabled = true;
+            clbAspObjects.Name = "clbAspObjects";
+            clbAspObjects.Sorted = true;
+            clbAspObjects.ItemCheck += clbAspObjects_ItemCheck;
             // 
             // lvMessaging
             // 
-            resources.ApplyResources(this.lvMessaging, "lvMessaging");
-            this.lvMessaging.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Message});
-            this.lvMessaging.HideSelection = false;
-            this.lvMessaging.MultiSelect = false;
-            this.lvMessaging.Name = "lvMessaging";
-            this.lvMessaging.UseCompatibleStateImageBehavior = false;
-            this.lvMessaging.View = System.Windows.Forms.View.Details;
+            resources.ApplyResources(lvMessaging, "lvMessaging");
+            lvMessaging.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { Message });
+            lvMessaging.MultiSelect = false;
+            lvMessaging.Name = "lvMessaging";
+            lvMessaging.UseCompatibleStateImageBehavior = false;
+            lvMessaging.View = System.Windows.Forms.View.Details;
             // 
             // Message
             // 
-            resources.ApplyResources(this.Message, "Message");
+            resources.ApplyResources(Message, "Message");
             // 
             // lblMessages
             // 
-            resources.ApplyResources(this.lblMessages, "lblMessages");
-            this.lblMessages.Name = "lblMessages";
+            resources.ApplyResources(lblMessages, "lblMessages");
+            lblMessages.Name = "lblMessages";
             // 
             // btnOpenOutputDirectory
             // 
-            resources.ApplyResources(this.btnOpenOutputDirectory, "btnOpenOutputDirectory");
-            this.btnOpenOutputDirectory.Name = "btnOpenOutputDirectory";
-            this.btnOpenOutputDirectory.UseVisualStyleBackColor = true;
-            this.btnOpenOutputDirectory.Click += new System.EventHandler(this.btnOpenOutputDirectory_Click);
+            resources.ApplyResources(btnOpenOutputDirectory, "btnOpenOutputDirectory");
+            btnOpenOutputDirectory.Name = "btnOpenOutputDirectory";
+            btnOpenOutputDirectory.UseVisualStyleBackColor = true;
+            btnOpenOutputDirectory.Click += btnOpenOutputDirectory_Click;
             // 
             // Main
             // 
-            this.AcceptButton = this.btnGenerateCode;
+            AcceptButton = btnGenerateCode;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.Controls.Add(this.btnOpenOutputDirectory);
-            this.Controls.Add(this.lblMessages);
-            this.Controls.Add(this.lvMessaging);
-            this.Controls.Add(this.lblConnectStatus);
-            this.Controls.Add(this.btnResetCurrentTab);
-            this.Controls.Add(this.btnGenerateCode);
-            this.Controls.Add(this.tabcontrolAutoCodeGen);
-            this.Name = "Main";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
-            this.tabAbout.ResumeLayout(false);
-            this.tabAbout.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
-            this.tabOutput.ResumeLayout(false);
-            this.tabOutput.PerformLayout();
-            this.tabXml.ResumeLayout(false);
-            this.tabXml.PerformLayout();
-            this.tabCsharp.ResumeLayout(false);
-            this.tabCsharp.PerformLayout();
-            this.panCSharpOptions.ResumeLayout(false);
-            this.panCSharpOptions.PerformLayout();
-            this.tabSql.ResumeLayout(false);
-            this.tabSql.PerformLayout();
-            this.tabServer.ResumeLayout(false);
-            this.tabServer.PerformLayout();
-            this.tabcontrolAutoCodeGen.ResumeLayout(false);
-            this.tabWinform.ResumeLayout(false);
-            this.tabWinform.PerformLayout();
-            this.tabWebService.ResumeLayout(false);
-            this.tabWebService.PerformLayout();
-            this.tabAsp.ResumeLayout(false);
-            this.tabAsp.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.SystemColors.Control;
+            Controls.Add(btnOpenOutputDirectory);
+            Controls.Add(lblMessages);
+            Controls.Add(lvMessaging);
+            Controls.Add(lblConnectStatus);
+            Controls.Add(btnResetCurrentTab);
+            Controls.Add(btnGenerateCode);
+            Controls.Add(tabcontrolAutoCodeGen);
+            Name = "Main";
+            FormClosing += Main_FormClosing;
+            tabAbout.ResumeLayout(false);
+            tabAbout.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbxLogo).EndInit();
+            tabOutput.ResumeLayout(false);
+            tabOutput.PerformLayout();
+            tabXml.ResumeLayout(false);
+            tabXml.PerformLayout();
+            tabCsharp.ResumeLayout(false);
+            tabCsharp.PerformLayout();
+            panCSharpOptions.ResumeLayout(false);
+            panCSharpOptions.PerformLayout();
+            tabSql.ResumeLayout(false);
+            tabSql.PerformLayout();
+            tabServer.ResumeLayout(false);
+            tabServer.PerformLayout();
+            tabcontrolAutoCodeGen.ResumeLayout(false);
+            tabWinform.ResumeLayout(false);
+            tabWinform.PerformLayout();
+            tabWebService.ResumeLayout(false);
+            tabWebService.PerformLayout();
+            tabAsp.ResumeLayout(false);
+            tabAsp.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
