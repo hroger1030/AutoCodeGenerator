@@ -273,7 +273,7 @@
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlDelSingle" xml:space="preserve">
-    <value>Delete Single Row (By List)</value>
+    <value>Delete Single Row (By Id)</value>
     <comment>Tsql Options</comment>
   </data>
   <data name="SqlSelAll" xml:space="preserve">
