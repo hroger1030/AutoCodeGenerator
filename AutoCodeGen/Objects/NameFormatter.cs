@@ -60,8 +60,8 @@ namespace AutoCodeGenLibrary
         public static string ToFriendlyName(string input)
         {
             input = ToFriendlyCase(input);
-            var CI = new CultureInfo("en-US");
-            input = CI.TextInfo.ToTitleCase(input);
+            var cultureInfo = new CultureInfo("en-US");
+            input = cultureInfo.TextInfo.ToTitleCase(input);
 
             return input;
         }
@@ -197,7 +197,7 @@ namespace AutoCodeGenLibrary
                 switch (sqlColumn.SqlDataType)
                 {
                     case SqlDbType.BigInt: return sqlColumn.DefaultValue;
-                    //case SqlDbType.Binary:		    	return "null";
+                    //case SqlDbType.Binary: return "null";
                     case SqlDbType.Bit:
                         if (sqlColumn.DefaultValue == "1")
                             return "true";
@@ -621,9 +621,9 @@ namespace AutoCodeGenLibrary
                 input = input.Replace("@", "At");
                 input = input.Replace("&", "And");
 
-                foreach (string character in _CSharpUndesireables)
+                foreach (string forbiddenChar in _CSharpUndesireables)
                 {
-                    input = input.Replace(character, string.Empty);
+                    input = input.Replace(forbiddenChar, string.Empty);
                 }
 
                 // no leading numbers, foo!
@@ -640,12 +640,12 @@ namespace AutoCodeGenLibrary
         /// Converts table column data to function argument string.
         /// Sample: string titles, string authors, int bookcount. 
         /// </summary>
-        public static string GenerateCSharpFunctionArgs(SqlTable sql_table, eIncludedFields includeTypes)
+        public static string GenerateCSharpFunctionArgs(SqlTable sqlTable, eIncludedFields includeTypes)
         {
             var sb = new StringBuilder();
             bool first_flag = true;
 
-            foreach (SqlColumn sql_column in sql_table.Columns.Values)
+            foreach (SqlColumn sqlColumn in sqlTable.Columns.Values)
             {
                 switch (includeTypes)
                 {
@@ -656,32 +656,32 @@ namespace AutoCodeGenLibrary
                         else
                             sb.Append(", ");
 
-                        sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToCamelCase(sql_column.Name));
+                        sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name));
                         break;
 
                     case eIncludedFields.NoIdentities:
 
-                        if (!sql_column.IsIdentity)
+                        if (!sqlColumn.IsIdentity)
                         {
                             if (first_flag)
                                 first_flag = false;
                             else
                                 sb.Append(", ");
 
-                            sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToCamelCase(sql_column.Name));
+                            sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name));
                         }
                         break;
 
                     case eIncludedFields.PKOnly:
 
-                        if (sql_column.IsPk)
+                        if (sqlColumn.IsPk)
                         {
                             if (first_flag)
                                 first_flag = false;
                             else
                                 sb.Append(", ");
 
-                            sb.Append(NameFormatter.SQLTypeToCSharpType(sql_column) + " " + ToCamelCase(sql_column.Name));
+                            sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name));
                         }
                         break;
 
@@ -698,12 +698,12 @@ namespace AutoCodeGenLibrary
         /// Does not incude function types.
         /// Sample: titles, authors, bookcount. 
         /// </summary>
-        public static string GenerateCSharpFunctionList(SqlTable sql_table, eIncludedFields includeTypes)
+        public static string GenerateCSharpFunctionList(SqlTable sqlTable, eIncludedFields includeTypes)
         {
             var sb = new StringBuilder();
             bool first_flag = true;
 
-            foreach (SqlColumn sql_column in sql_table.Columns.Values)
+            foreach (SqlColumn sql_column in sqlTable.Columns.Values)
             {
                 if (first_flag)
                     first_flag = false;
@@ -714,20 +714,20 @@ namespace AutoCodeGenLibrary
                 {
                     case eIncludedFields.All:
 
-                        sb.Append(ToCamelCase(sql_column.Name));
+                        sb.Append(ToCamelCase(sqlTable.Name));
                         break;
 
                     case eIncludedFields.NoIdentities:
 
                         if (!sql_column.IsIdentity)
-                            sb.Append(ToCamelCase(sql_column.Name));
+                            sb.Append(ToCamelCase(sqlTable.Name));
 
                         break;
 
                     case eIncludedFields.PKOnly:
 
                         if (sql_column.IsPk)
-                            sb.Append(ToCamelCase(sql_column.Name));
+                            sb.Append(ToCamelCase(sqlTable.Name));
 
                         break;
 

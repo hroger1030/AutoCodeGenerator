@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2007 Roger Hill
@@ -16,26 +16,15 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+using Newtonsoft.Json;
+
 namespace AutoCodeGenLibrary
 {
-    public class OutputObject
+    public static class JsonConverter
     {
-        public enum eObjectType
+        public static string DataSetToJsonString(object data)
         {
-            CSharp,
-            Sql,
-            Css,
-
-            ReactComponent,
-            ReactInterface,
-            ReactPage,
-            ReactIndex,
+            return JsonConvert.SerializeObject(data, Formatting.Indented);
         }
-
-        public string Name { get; set; }
-        public string Body { get; set; }
-        public eObjectType Type { get; set; }
-
-        public OutputObject() { }
     }
 }

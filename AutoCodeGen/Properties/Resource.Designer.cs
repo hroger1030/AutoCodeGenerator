@@ -81,27 +81,27 @@ namespace AutoCodeGen.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Create Asp.net Edit Page.
         /// </summary>
-        internal static string AspCreateEditPage {
+        internal static string ReactCreateEditPage {
             get {
-                return ResourceManager.GetString("AspCreateEditPage", resourceCulture);
+                return ResourceManager.GetString("ReactCreateEditPage", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Create Asp.net List Page.
         /// </summary>
-        internal static string AspCreateListPage {
+        internal static string ReactCreateListPage {
             get {
-                return ResourceManager.GetString("AspCreateListPage", resourceCulture);
+                return ResourceManager.GetString("ReactCreateListPage", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Create Asp.net View Page.
         /// </summary>
-        internal static string AspCreateViewPage {
+        internal static string ReactCreateViewPage {
             get {
-                return ResourceManager.GetString("AspCreateViewPage", resourceCulture);
+                return ResourceManager.GetString("ReactCreateViewPage", resourceCulture);
             }
         }
         
@@ -194,16 +194,7 @@ namespace AutoCodeGen.Properties {
                 return ResourceManager.GetString("CsharpPoCo", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to establish a connection to database. Please check your connection information..
-        /// </summary>
-        internal static string DbConnectionFailed {
-            get {
-                return ResourceManager.GetString("DbConnectionFailed", resourceCulture);
-            }
-        }
-        
+             
         /// <summary>
         ///   Looks up a localized string similar to Deselect All.
         /// </summary>
@@ -628,38 +619,42 @@ namespace AutoCodeGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create Winform view designer (NYI).
-        /// </summary>
-        internal static string WinformsViewDesigner {
-            get {
-                return ResourceManager.GetString("WinformsViewDesigner", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Winform view page (NYI).
-        /// </summary>
-        internal static string WinformsViewPage {
-            get {
-                return ResourceManager.GetString("WinformsViewPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Export Table Data to Xml File.
         /// </summary>
-        internal static string XmlExportData {
+        internal static string ExportXmlData {
             get {
-                return ResourceManager.GetString("XmlExportData", resourceCulture);
+                return ResourceManager.GetString("ExportXmlData", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Create C# Xml import class .
         /// </summary>
-        internal static string XmlImportObject {
+        internal static string ImportXmlObject {
             get {
-                return ResourceManager.GetString("XmlImportObject", resourceCulture);
+                return ResourceManager.GetString("ImportXmlObject", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Export Table Data to Xml File.
+        /// </summary>
+        internal static string ExportJsonData
+        {
+            get
+            {
+                return ResourceManager.GetString("ExportJsonData", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Create C# Xml import class .
+        /// </summary>
+        internal static string ImportJsonObject
+        {
+            get
+            {
+                return ResourceManager.GetString("ImportJsonObject", resourceCulture);
             }
         }
     }

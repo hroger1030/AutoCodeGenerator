@@ -1404,13 +1404,131 @@ namespace AutoCodeGenLibrary
             return data_table;
         }
 
+        public OutputObject GenerateJsonLoader(SqlTable sqlTable)
+        {
+            // TODO - finish converting this, WIP
+
+            if (sqlTable == null)
+                return null;
+
+            string object_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
+            string class_name = object_name + "JsonDataLoader";
+            string collection_type = $"List<{object_name}>";
+
+            var output = new OutputObject
+            {
+                Name = class_name + ".cs",
+                Type = OutputObject.eObjectType.CSharp
+            };
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("using System;");
+            sb.AppendLine("using System.Collections.Generic;");
+            sb.AppendLine("using Newtonsoft.Json;");
+            sb.AppendLine();
+            sb.AppendLine("using DAL;");
+            sb.AppendLine();
+
+            sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
+            sb.AppendLine("{");
+            sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
+            sb.AppendLine(AddTabs(1) + "{");
+
+            sb.AppendLine(AddTabs(2) + "#region Fields");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(3) + "protected bool _ParseErrors;");
+            sb.AppendLine(AddTabs(3) + "protected " + collection_type + " _CollectionData;");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "#endregion");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "#region Properties");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(3) + "public " + collection_type + " CollectionData");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "get { return _CollectionData; }");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "#endregion");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(2) + "#region Methods");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(3) + "//CTOR");
+            sb.AppendLine(AddTabs(3) + "public " + class_name + "()");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(3) + "}");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(3) + "public bool ParseData(string file_name)");
+            sb.AppendLine(AddTabs(3) + "{");
+            sb.AppendLine(AddTabs(4) + "string xml;");
+            sb.AppendLine(AddTabs(4) + "string error_message;");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + "_ParseErrors = !FileIo.ReadFromFile(file_name, out xml, out error_message);");
+            sb.AppendLine(AddTabs(4) + "_CollectionData = new " + collection_type + "();");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + "XmlDocument document;");
+            sb.AppendLine(AddTabs(4) + "XmlNodeList selected_nodes;");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + object_name + " item_data;");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(4) + "try");
+            sb.AppendLine(AddTabs(4) + "{");
+            sb.AppendLine(AddTabs(5) + "document = new XmlDocument();");
+            sb.AppendLine(AddTabs(5) + "document.InnerXml = xml;");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(5) + "selected_nodes = document.SelectNodes(\"//" + NameFormatter.ToCSharpPropertyName(sqlTable.Name) + "\");");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(5) + "foreach (XmlNode item in selected_nodes)");
+            sb.AppendLine(AddTabs(5) + "{");
+            sb.AppendLine(AddTabs(6) + "item_data = new " + object_name + "();");
+            sb.AppendLine();
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                // format: 
+                // critter_data.Name = item.Attributes["Name"].Value;
+                sb.AppendLine(AddTabs(6) + "item_data." + NameFormatter.ToCSharpPropertyName(sql_column.Name) + " = " + NameFormatter.GetCSharpCastString(sql_column) + "(item.Attributes[\"" + NameFormatter.ToCSharpPropertyName(sql_column.Name) + "\"].Value);");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(6) + "_CollectionData.Add(item_data);");
+            sb.AppendLine(AddTabs(5) + "}");
+            sb.AppendLine(AddTabs(4) + "}");
+            sb.AppendLine(AddTabs(4) + "catch");
+            sb.AppendLine(AddTabs(4) + "{");
+            sb.AppendLine(AddTabs(5) + "_ParseErrors = true;");
+            sb.AppendLine(AddTabs(4) + "}");
+            sb.AppendLine(AddTabs(4) + "finally");
+            sb.AppendLine(AddTabs(4) + "{");
+            sb.AppendLine(AddTabs(5) + "document = null;");
+            sb.AppendLine(AddTabs(5) + "selected_nodes = null;");
+            sb.AppendLine(AddTabs(4) + "}");
+            sb.AppendLine();
+
+            sb.AppendLine(AddTabs(3) + "return !_ParseErrors;");
+            sb.AppendLine(AddTabs(2) + "}");
+            sb.AppendLine();
+            sb.AppendLine(AddTabs(2) + "#endregion");
+            sb.AppendLine(AddTabs(1) + "}");
+
+            sb.AppendLine("}");
+
+            output.Body = sb.ToString();
+            return output;
+        }
+
+
         public OutputObject GenerateXmlLoader(SqlTable sqlTable)
         {
             if (sqlTable == null)
                 return null;
 
             string object_name = NameFormatter.ToCSharpClassName(sqlTable.Name);
-            string class_name = object_name + "DataLoader";
+            string class_name = object_name + "XmlDataLoader";
             string collection_type = $"List<{object_name}>";
 
             var output = new OutputObject
@@ -1430,7 +1548,6 @@ namespace AutoCodeGenLibrary
 
             sb.AppendLine("namespace " + NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name));
             sb.AppendLine("{");
-            sb.AppendLine(AddTabs(1) + "[Serializable]");
             sb.AppendLine(AddTabs(1) + "public partial class " + class_name);
             sb.AppendLine(AddTabs(1) + "{");
 

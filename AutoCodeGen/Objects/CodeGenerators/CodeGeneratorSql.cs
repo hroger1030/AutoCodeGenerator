@@ -1440,7 +1440,6 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("/*");
             sb.AppendLine($"{AddTabs(1)}{procedureName}");
             sb.AppendLine($"{AddTabs(1)}EXEC [{schema}].[{procedureName}] -- todo set good test values");
-            sb.AppendLine(AddTabs(1) + GenerateAuthorNotice());
             sb.Append("*/");
 
             return sb.ToString();
@@ -1626,43 +1625,5 @@ namespace AutoCodeGenLibrary
 
             return sb.ToString();
         }
-
-        //private static string GenerateSqlListCode()
-        //{
-        //    // This is the code that takes a single sql text field and 
-        //    // breaks it up to use as a list of int varables.
-
-        //    var sb = new StringBuilder();
-
-        //    sb.AppendLine("DECLARE @IDListPosition INT");
-        //    sb.AppendLine("DECLARE @ArrValue VARCHAR(MAX)");
-        //    sb.AppendLine();
-        //    sb.AppendLine("DECLARE @TableVar TABLE");
-        //    sb.AppendLine("(");
-        //    sb.AppendLine(AddTabs(1) + "IdValue VARCHAR(50) NOT NULL");
-        //    sb.AppendLine(")");
-        //    sb.AppendLine();
-        //    sb.AppendLine("SET @IDList = COALESCE(@IDList ,'')");
-        //    sb.AppendLine();
-        //    sb.AppendLine("IF @IDList <> ''");
-        //    sb.AppendLine("BEGIN");
-        //    sb.AppendLine();
-        //    sb.AppendLine(AddTabs(1) + "SET @IDList = @IDList + ','");
-        //    sb.AppendLine(AddTabs(1) + "WHILE PATINDEX('%,%', @IDList) <> 0");
-        //    sb.AppendLine();
-        //    sb.AppendLine(AddTabs(1) + "BEGIN");
-        //    sb.AppendLine();
-        //    sb.AppendLine(AddTabs(2) + "SELECT @IDListPosition = PATINDEX('%,%', @IDList)");
-        //    sb.AppendLine(AddTabs(2) + "SELECT @ArrValue = left(@IDList, @IDListPosition - 1)");
-        //    sb.AppendLine();
-        //    sb.AppendLine(AddTabs(2) + "INSERT INTO @TableVar (IdValue) VALUES (@ArrValue)");
-        //    sb.AppendLine();
-        //    sb.AppendLine(AddTabs(2) + "SELECT @IDList = stuff(@IDList, 1, @IDListPosition, '')");
-        //    sb.AppendLine();
-        //    sb.AppendLine(AddTabs(1) + "END");
-        //    sb.AppendLine("END");
-
-        //    return sb.ToString();
-        //}
     }
 }

@@ -39,7 +39,6 @@ namespace AutoCodeGen
             pbxLogo = new System.Windows.Forms.PictureBox();
             lblAuthor = new System.Windows.Forms.Label();
             lblVersion = new System.Windows.Forms.Label();
-            lblAbout = new System.Windows.Forms.Label();
             lblApplicationTitle = new System.Windows.Forms.Label();
             tabOutput = new System.Windows.Forms.TabPage();
             btnCheckRegex = new System.Windows.Forms.Button();
@@ -52,13 +51,13 @@ namespace AutoCodeGen
             txtOutputPath = new System.Windows.Forms.TextBox();
             lblOutputOptions = new System.Windows.Forms.Label();
             clbOutputOptions = new System.Windows.Forms.CheckedListBox();
-            tabXml = new System.Windows.Forms.TabPage();
-            btnToggleWebXmlObjects = new System.Windows.Forms.Button();
+            tabExport = new System.Windows.Forms.TabPage();
+            btnToggleExportObjects = new System.Windows.Forms.Button();
             lblXml = new System.Windows.Forms.Label();
-            clbXmlOptionsTables = new System.Windows.Forms.CheckedListBox();
-            btnToggleWebXmlSqlTables = new System.Windows.Forms.Button();
+            clbExportOptionsTables = new System.Windows.Forms.CheckedListBox();
+            btnToggleExportSqlTables = new System.Windows.Forms.Button();
             lblXMLExportTables = new System.Windows.Forms.Label();
-            clbXmlSqlTables = new System.Windows.Forms.CheckedListBox();
+            clbExportSqlTables = new System.Windows.Forms.CheckedListBox();
             tabCsharp = new System.Windows.Forms.TabPage();
             panCSharpOptions = new System.Windows.Forms.Panel();
             btnAddNamespace = new System.Windows.Forms.Button();
@@ -70,10 +69,8 @@ namespace AutoCodeGen
             lblCSharpTables = new System.Windows.Forms.Label();
             clbCsharpSqlTables = new System.Windows.Forms.CheckedListBox();
             clbCsharpObjects = new System.Windows.Forms.CheckedListBox();
-            btnToggleAspSqlTables = new System.Windows.Forms.Button();
+            btnToggleReactSqlTables = new System.Windows.Forms.Button();
             tabSql = new System.Windows.Forms.TabPage();
-            lblSQLVersion = new System.Windows.Forms.Label();
-            cmbSQLVersion = new System.Windows.Forms.ComboBox();
             btnToggleTsqlSqlObjects = new System.Windows.Forms.Button();
             btnToggleTsqlSqlTables = new System.Windows.Forms.Button();
             lblSQLObjects = new System.Windows.Forms.Label();
@@ -92,13 +89,6 @@ namespace AutoCodeGen
             btnConnect = new System.Windows.Forms.Button();
             lblServerName = new System.Windows.Forms.Label();
             tabcontrolAutoCodeGen = new System.Windows.Forms.TabControl();
-            tabWinform = new System.Windows.Forms.TabPage();
-            btnToggleWinformObjects = new System.Windows.Forms.Button();
-            label2 = new System.Windows.Forms.Label();
-            clbWinformObjects = new System.Windows.Forms.CheckedListBox();
-            label3 = new System.Windows.Forms.Label();
-            btnToggleWinformSqlTables = new System.Windows.Forms.Button();
-            clbWinformSqlTables = new System.Windows.Forms.CheckedListBox();
             tabWebService = new System.Windows.Forms.TabPage();
             btnToggleWebServicesSqlTables = new System.Windows.Forms.Button();
             btnToggleWebServiceObjects = new System.Windows.Forms.Button();
@@ -106,12 +96,12 @@ namespace AutoCodeGen
             clbWebServiceObjects = new System.Windows.Forms.CheckedListBox();
             lblWebServiceTables = new System.Windows.Forms.Label();
             clbWebServiceSqlTables = new System.Windows.Forms.CheckedListBox();
-            tabAsp = new System.Windows.Forms.TabPage();
+            tabReact = new System.Windows.Forms.TabPage();
             lblASPTables = new System.Windows.Forms.Label();
-            clbAspSqlTables = new System.Windows.Forms.CheckedListBox();
+            clbReactSqlTables = new System.Windows.Forms.CheckedListBox();
             lblASPObjects = new System.Windows.Forms.Label();
             btnToggleASPObjects = new System.Windows.Forms.Button();
-            clbAspObjects = new System.Windows.Forms.CheckedListBox();
+            clbReactObjects = new System.Windows.Forms.CheckedListBox();
             lvMessaging = new System.Windows.Forms.ListView();
             Message = new System.Windows.Forms.ColumnHeader();
             lblMessages = new System.Windows.Forms.Label();
@@ -119,15 +109,14 @@ namespace AutoCodeGen
             tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbxLogo).BeginInit();
             tabOutput.SuspendLayout();
-            tabXml.SuspendLayout();
+            tabExport.SuspendLayout();
             tabCsharp.SuspendLayout();
             panCSharpOptions.SuspendLayout();
             tabSql.SuspendLayout();
             tabServer.SuspendLayout();
             tabcontrolAutoCodeGen.SuspendLayout();
-            tabWinform.SuspendLayout();
             tabWebService.SuspendLayout();
-            tabAsp.SuspendLayout();
+            tabReact.SuspendLayout();
             SuspendLayout();
             // 
             // btnGenerateCode
@@ -157,7 +146,6 @@ namespace AutoCodeGen
             tabAbout.Controls.Add(pbxLogo);
             tabAbout.Controls.Add(lblAuthor);
             tabAbout.Controls.Add(lblVersion);
-            tabAbout.Controls.Add(lblAbout);
             tabAbout.Controls.Add(lblApplicationTitle);
             resources.ApplyResources(tabAbout, "tabAbout");
             tabAbout.Name = "tabAbout";
@@ -199,11 +187,6 @@ namespace AutoCodeGen
             // 
             resources.ApplyResources(lblVersion, "lblVersion");
             lblVersion.Name = "lblVersion";
-            // 
-            // lblAbout
-            // 
-            resources.ApplyResources(lblAbout, "lblAbout");
-            lblAbout.Name = "lblAbout";
             // 
             // lblApplicationTitle
             // 
@@ -287,58 +270,58 @@ namespace AutoCodeGen
             clbOutputOptions.Sorted = true;
             clbOutputOptions.ItemCheck += clbOutputOptions_ItemCheck;
             // 
-            // tabXml
+            // tabExport
             // 
-            tabXml.Controls.Add(btnToggleWebXmlObjects);
-            tabXml.Controls.Add(lblXml);
-            tabXml.Controls.Add(clbXmlOptionsTables);
-            tabXml.Controls.Add(btnToggleWebXmlSqlTables);
-            tabXml.Controls.Add(lblXMLExportTables);
-            tabXml.Controls.Add(clbXmlSqlTables);
-            resources.ApplyResources(tabXml, "tabXml");
-            tabXml.Name = "tabXml";
-            tabXml.UseVisualStyleBackColor = true;
+            tabExport.Controls.Add(btnToggleExportObjects);
+            tabExport.Controls.Add(lblXml);
+            tabExport.Controls.Add(clbExportOptionsTables);
+            tabExport.Controls.Add(btnToggleExportSqlTables);
+            tabExport.Controls.Add(lblXMLExportTables);
+            tabExport.Controls.Add(clbExportSqlTables);
+            resources.ApplyResources(tabExport, "tabExport");
+            tabExport.Name = "tabExport";
+            tabExport.UseVisualStyleBackColor = true;
             // 
-            // btnToggleWebXmlObjects
+            // btnToggleExportObjects
             // 
-            resources.ApplyResources(btnToggleWebXmlObjects, "btnToggleWebXmlObjects");
-            btnToggleWebXmlObjects.Name = "btnToggleWebXmlObjects";
-            btnToggleWebXmlObjects.UseVisualStyleBackColor = true;
-            btnToggleWebXmlObjects.Click += btnToggleWebXmlObjects_Click;
+            resources.ApplyResources(btnToggleExportObjects, "btnToggleExportObjects");
+            btnToggleExportObjects.Name = "btnToggleExportObjects";
+            btnToggleExportObjects.UseVisualStyleBackColor = true;
+            btnToggleExportObjects.Click += btnToggleWebXmlObjects_Click;
             // 
             // lblXml
             // 
             resources.ApplyResources(lblXml, "lblXml");
             lblXml.Name = "lblXml";
             // 
-            // clbXmlOptionsTables
+            // clbExportOptionsTables
             // 
-            resources.ApplyResources(clbXmlOptionsTables, "clbXmlOptionsTables");
-            clbXmlOptionsTables.CheckOnClick = true;
-            clbXmlOptionsTables.FormattingEnabled = true;
-            clbXmlOptionsTables.Name = "clbXmlOptionsTables";
-            clbXmlOptionsTables.Sorted = true;
-            clbXmlOptionsTables.ItemCheck += clbXmlOptionTables_ItemCheck;
+            resources.ApplyResources(clbExportOptionsTables, "clbExportOptionsTables");
+            clbExportOptionsTables.CheckOnClick = true;
+            clbExportOptionsTables.FormattingEnabled = true;
+            clbExportOptionsTables.Name = "clbExportOptionsTables";
+            clbExportOptionsTables.Sorted = true;
+            clbExportOptionsTables.ItemCheck += clbExportOptionTables_ItemCheck;
             // 
-            // btnToggleWebXmlSqlTables
+            // btnToggleExportSqlTables
             // 
-            resources.ApplyResources(btnToggleWebXmlSqlTables, "btnToggleWebXmlSqlTables");
-            btnToggleWebXmlSqlTables.Name = "btnToggleWebXmlSqlTables";
-            btnToggleWebXmlSqlTables.UseVisualStyleBackColor = true;
-            btnToggleWebXmlSqlTables.Click += btnToggleWebXmlSqlTables_Click;
+            resources.ApplyResources(btnToggleExportSqlTables, "btnToggleExportSqlTables");
+            btnToggleExportSqlTables.Name = "btnToggleExportSqlTables";
+            btnToggleExportSqlTables.UseVisualStyleBackColor = true;
+            btnToggleExportSqlTables.Click += btnToggleWebXmlSqlTables_Click;
             // 
             // lblXMLExportTables
             // 
             resources.ApplyResources(lblXMLExportTables, "lblXMLExportTables");
             lblXMLExportTables.Name = "lblXMLExportTables";
             // 
-            // clbXmlSqlTables
+            // clbExportSqlTables
             // 
-            resources.ApplyResources(clbXmlSqlTables, "clbXmlSqlTables");
-            clbXmlSqlTables.CheckOnClick = true;
-            clbXmlSqlTables.FormattingEnabled = true;
-            clbXmlSqlTables.Name = "clbXmlSqlTables";
-            clbXmlSqlTables.ItemCheck += clbXmlSqlTables_ItemCheck;
+            resources.ApplyResources(clbExportSqlTables, "clbExportSqlTables");
+            clbExportSqlTables.CheckOnClick = true;
+            clbExportSqlTables.FormattingEnabled = true;
+            clbExportSqlTables.Name = "clbExportSqlTables";
+            clbExportSqlTables.ItemCheck += clbExportSqlTables_ItemCheck;
             // 
             // tabCsharp
             // 
@@ -420,17 +403,15 @@ namespace AutoCodeGen
             clbCsharpObjects.Name = "clbCsharpObjects";
             clbCsharpObjects.ItemCheck += clbCSharpObjects_ItemCheck;
             // 
-            // btnToggleAspSqlTables
+            // btnToggleReactSqlTables
             // 
-            resources.ApplyResources(btnToggleAspSqlTables, "btnToggleAspSqlTables");
-            btnToggleAspSqlTables.Name = "btnToggleAspSqlTables";
-            btnToggleAspSqlTables.UseVisualStyleBackColor = true;
-            btnToggleAspSqlTables.Click += btnToggleAspSqlTables_Click;
+            resources.ApplyResources(btnToggleReactSqlTables, "btnToggleReactSqlTables");
+            btnToggleReactSqlTables.Name = "btnToggleReactSqlTables";
+            btnToggleReactSqlTables.UseVisualStyleBackColor = true;
+            btnToggleReactSqlTables.Click += btnToggleAspSqlTables_Click;
             // 
             // tabSql
             // 
-            tabSql.Controls.Add(lblSQLVersion);
-            tabSql.Controls.Add(cmbSQLVersion);
             tabSql.Controls.Add(btnToggleTsqlSqlObjects);
             tabSql.Controls.Add(btnToggleTsqlSqlTables);
             tabSql.Controls.Add(lblSQLObjects);
@@ -440,19 +421,6 @@ namespace AutoCodeGen
             resources.ApplyResources(tabSql, "tabSql");
             tabSql.Name = "tabSql";
             tabSql.UseVisualStyleBackColor = true;
-            // 
-            // lblSQLVersion
-            // 
-            resources.ApplyResources(lblSQLVersion, "lblSQLVersion");
-            lblSQLVersion.Name = "lblSQLVersion";
-            // 
-            // cmbSQLVersion
-            // 
-            cmbSQLVersion.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            resources.ApplyResources(cmbSQLVersion, "cmbSQLVersion");
-            cmbSQLVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            cmbSQLVersion.FormattingEnabled = true;
-            cmbSQLVersion.Name = "cmbSQLVersion";
             // 
             // btnToggleTsqlSqlObjects
             // 
@@ -578,66 +546,13 @@ namespace AutoCodeGen
             tabcontrolAutoCodeGen.Controls.Add(tabServer);
             tabcontrolAutoCodeGen.Controls.Add(tabSql);
             tabcontrolAutoCodeGen.Controls.Add(tabCsharp);
-            tabcontrolAutoCodeGen.Controls.Add(tabWinform);
             tabcontrolAutoCodeGen.Controls.Add(tabWebService);
-            tabcontrolAutoCodeGen.Controls.Add(tabAsp);
-            tabcontrolAutoCodeGen.Controls.Add(tabXml);
+            tabcontrolAutoCodeGen.Controls.Add(tabReact);
+            tabcontrolAutoCodeGen.Controls.Add(tabExport);
             tabcontrolAutoCodeGen.Controls.Add(tabOutput);
             tabcontrolAutoCodeGen.Controls.Add(tabAbout);
             tabcontrolAutoCodeGen.Name = "tabcontrolAutoCodeGen";
             tabcontrolAutoCodeGen.SelectedIndex = 0;
-            // 
-            // tabWinform
-            // 
-            tabWinform.Controls.Add(btnToggleWinformObjects);
-            tabWinform.Controls.Add(label2);
-            tabWinform.Controls.Add(clbWinformObjects);
-            tabWinform.Controls.Add(label3);
-            tabWinform.Controls.Add(btnToggleWinformSqlTables);
-            tabWinform.Controls.Add(clbWinformSqlTables);
-            resources.ApplyResources(tabWinform, "tabWinform");
-            tabWinform.Name = "tabWinform";
-            tabWinform.UseVisualStyleBackColor = true;
-            // 
-            // btnToggleWinformObjects
-            // 
-            resources.ApplyResources(btnToggleWinformObjects, "btnToggleWinformObjects");
-            btnToggleWinformObjects.Name = "btnToggleWinformObjects";
-            btnToggleWinformObjects.UseVisualStyleBackColor = true;
-            btnToggleWinformObjects.Click += btnToggleWinformObjects_Click;
-            // 
-            // label2
-            // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
-            // 
-            // clbWinformObjects
-            // 
-            resources.ApplyResources(clbWinformObjects, "clbWinformObjects");
-            clbWinformObjects.CheckOnClick = true;
-            clbWinformObjects.FormattingEnabled = true;
-            clbWinformObjects.Name = "clbWinformObjects";
-            clbWinformObjects.ItemCheck += clbWinformObjects_ItemCheck;
-            // 
-            // label3
-            // 
-            resources.ApplyResources(label3, "label3");
-            label3.Name = "label3";
-            // 
-            // btnToggleWinformSqlTables
-            // 
-            resources.ApplyResources(btnToggleWinformSqlTables, "btnToggleWinformSqlTables");
-            btnToggleWinformSqlTables.Name = "btnToggleWinformSqlTables";
-            btnToggleWinformSqlTables.UseVisualStyleBackColor = true;
-            btnToggleWinformSqlTables.Click += btnToggleWinformSqlTables_Click;
-            // 
-            // clbWinformSqlTables
-            // 
-            resources.ApplyResources(clbWinformSqlTables, "clbWinformSqlTables");
-            clbWinformSqlTables.CheckOnClick = true;
-            clbWinformSqlTables.FormattingEnabled = true;
-            clbWinformSqlTables.Name = "clbWinformSqlTables";
-            clbWinformSqlTables.ItemCheck += clbWinformSqlTables_ItemCheck;
             // 
             // tabWebService
             // 
@@ -691,30 +606,30 @@ namespace AutoCodeGen
             clbWebServiceSqlTables.Name = "clbWebServiceSqlTables";
             clbWebServiceSqlTables.ItemCheck += clbWebServiceSqlTables_ItemCheck;
             // 
-            // tabAsp
+            // tabReact
             // 
-            tabAsp.Controls.Add(btnToggleAspSqlTables);
-            tabAsp.Controls.Add(lblASPTables);
-            tabAsp.Controls.Add(clbAspSqlTables);
-            tabAsp.Controls.Add(lblASPObjects);
-            tabAsp.Controls.Add(btnToggleASPObjects);
-            tabAsp.Controls.Add(clbAspObjects);
-            resources.ApplyResources(tabAsp, "tabAsp");
-            tabAsp.Name = "tabAsp";
-            tabAsp.UseVisualStyleBackColor = true;
+            tabReact.Controls.Add(btnToggleReactSqlTables);
+            tabReact.Controls.Add(lblASPTables);
+            tabReact.Controls.Add(clbReactSqlTables);
+            tabReact.Controls.Add(lblASPObjects);
+            tabReact.Controls.Add(btnToggleASPObjects);
+            tabReact.Controls.Add(clbReactObjects);
+            resources.ApplyResources(tabReact, "tabReact");
+            tabReact.Name = "tabReact";
+            tabReact.UseVisualStyleBackColor = true;
             // 
             // lblASPTables
             // 
             resources.ApplyResources(lblASPTables, "lblASPTables");
             lblASPTables.Name = "lblASPTables";
             // 
-            // clbAspSqlTables
+            // clbReactSqlTables
             // 
-            resources.ApplyResources(clbAspSqlTables, "clbAspSqlTables");
-            clbAspSqlTables.CheckOnClick = true;
-            clbAspSqlTables.FormattingEnabled = true;
-            clbAspSqlTables.Name = "clbAspSqlTables";
-            clbAspSqlTables.ItemCheck += clbAspSqlTables_ItemCheck;
+            resources.ApplyResources(clbReactSqlTables, "clbReactSqlTables");
+            clbReactSqlTables.CheckOnClick = true;
+            clbReactSqlTables.FormattingEnabled = true;
+            clbReactSqlTables.Name = "clbReactSqlTables";
+            clbReactSqlTables.ItemCheck += clbReactSqlTables_ItemCheck;
             // 
             // lblASPObjects
             // 
@@ -728,14 +643,14 @@ namespace AutoCodeGen
             btnToggleASPObjects.UseVisualStyleBackColor = true;
             btnToggleASPObjects.Click += btnToggleASPObjects_Click;
             // 
-            // clbAspObjects
+            // clbReactObjects
             // 
-            resources.ApplyResources(clbAspObjects, "clbAspObjects");
-            clbAspObjects.CheckOnClick = true;
-            clbAspObjects.FormattingEnabled = true;
-            clbAspObjects.Name = "clbAspObjects";
-            clbAspObjects.Sorted = true;
-            clbAspObjects.ItemCheck += clbAspObjects_ItemCheck;
+            resources.ApplyResources(clbReactObjects, "clbReactObjects");
+            clbReactObjects.CheckOnClick = true;
+            clbReactObjects.FormattingEnabled = true;
+            clbReactObjects.Name = "clbReactObjects";
+            clbReactObjects.Sorted = true;
+            clbReactObjects.ItemCheck += clbReactObjects_ItemCheck;
             // 
             // lvMessaging
             // 
@@ -782,8 +697,8 @@ namespace AutoCodeGen
             ((System.ComponentModel.ISupportInitialize)pbxLogo).EndInit();
             tabOutput.ResumeLayout(false);
             tabOutput.PerformLayout();
-            tabXml.ResumeLayout(false);
-            tabXml.PerformLayout();
+            tabExport.ResumeLayout(false);
+            tabExport.PerformLayout();
             tabCsharp.ResumeLayout(false);
             tabCsharp.PerformLayout();
             panCSharpOptions.ResumeLayout(false);
@@ -793,12 +708,10 @@ namespace AutoCodeGen
             tabServer.ResumeLayout(false);
             tabServer.PerformLayout();
             tabcontrolAutoCodeGen.ResumeLayout(false);
-            tabWinform.ResumeLayout(false);
-            tabWinform.PerformLayout();
             tabWebService.ResumeLayout(false);
             tabWebService.PerformLayout();
-            tabAsp.ResumeLayout(false);
-            tabAsp.PerformLayout();
+            tabReact.ResumeLayout(false);
+            tabReact.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -812,7 +725,6 @@ namespace AutoCodeGen
         private System.Windows.Forms.TextBox txtTableNameRegex;
 
         private System.Windows.Forms.Label lblConnectStatus;
-        private System.Windows.Forms.Label lblAbout;
         private System.Windows.Forms.Label lblApplicationTitle;
         private System.Windows.Forms.Label lblOutputPath;
         private System.Windows.Forms.Label lblOutputOptions;
@@ -846,28 +758,28 @@ namespace AutoCodeGen
         private System.Windows.Forms.Button btnResetCurrentTab;
         private System.Windows.Forms.Button btnToggleTsqlSqlObjects;
         private System.Windows.Forms.Button btnToggleTsqlSqlTables;
-        private System.Windows.Forms.Button btnToggleWebXmlSqlTables;
+        private System.Windows.Forms.Button btnToggleExportSqlTables;
         private System.Windows.Forms.Button btnToggleCSharpObjects;
         private System.Windows.Forms.Button btnToggleCsharpSqlTables;
         private System.Windows.Forms.Button btnToggleASPObjects;
-        private System.Windows.Forms.Button btnToggleAspSqlTables;
+        private System.Windows.Forms.Button btnToggleReactSqlTables;
         private System.Windows.Forms.Button btnToggleOutput;
 
         private System.Windows.Forms.TabControl tabcontrolAutoCodeGen;
         private System.Windows.Forms.TabPage tabAbout;
         private System.Windows.Forms.TabPage tabWebService;
-        private System.Windows.Forms.TabPage tabAsp;
-        private System.Windows.Forms.TabPage tabXml;
+        private System.Windows.Forms.TabPage tabReact;
+        private System.Windows.Forms.TabPage tabExport;
         private System.Windows.Forms.TabPage tabCsharp;
         private System.Windows.Forms.TabPage tabSql;
         private System.Windows.Forms.TabPage tabOutput;
         private System.Windows.Forms.TabPage tabServer;
 
         private System.Windows.Forms.CheckedListBox clbWebServiceObjects;
-        private System.Windows.Forms.CheckedListBox clbAspSqlTables;
+        private System.Windows.Forms.CheckedListBox clbReactSqlTables;
         private System.Windows.Forms.CheckedListBox clbWebServiceSqlTables;
-        private System.Windows.Forms.CheckedListBox clbAspObjects;
-        private System.Windows.Forms.CheckedListBox clbXmlSqlTables;
+        private System.Windows.Forms.CheckedListBox clbReactObjects;
+        private System.Windows.Forms.CheckedListBox clbExportSqlTables;
         private System.Windows.Forms.CheckedListBox clbCsharpSqlTables;
         private System.Windows.Forms.CheckedListBox clbCsharpObjects;
         private System.Windows.Forms.CheckedListBox clbOutputOptions;
@@ -877,24 +789,15 @@ namespace AutoCodeGen
         private System.Windows.Forms.ListView lvMessaging;
         private System.Windows.Forms.ColumnHeader Message;
         private System.Windows.Forms.Label lblMessages;
-        private System.Windows.Forms.Label lblSQLVersion;
-        private System.Windows.Forms.ComboBox cmbSQLVersion;
         private System.Windows.Forms.Panel panCSharpOptions;
         private System.Windows.Forms.ComboBox cboNamespaceIncludes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAddNamespace;
-        private System.Windows.Forms.TabPage tabWinform;
-        private System.Windows.Forms.Button btnToggleWinformObjects;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckedListBox clbWinformObjects;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnToggleWinformSqlTables;
-        private System.Windows.Forms.CheckedListBox clbWinformSqlTables;
         private System.Windows.Forms.Button btnToggleWebServiceObjects;
         private System.Windows.Forms.Button btnToggleWebServicesSqlTables;
         private System.Windows.Forms.Label lblXml;
-        private System.Windows.Forms.CheckedListBox clbXmlOptionsTables;
-        private System.Windows.Forms.Button btnToggleWebXmlObjects;
+        private System.Windows.Forms.CheckedListBox clbExportOptionsTables;
+        private System.Windows.Forms.Button btnToggleExportObjects;
         private System.Windows.Forms.Label lblCopyright;
         private System.Windows.Forms.Button btnOpenOutputDirectory;
     }

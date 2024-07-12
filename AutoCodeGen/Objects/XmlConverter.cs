@@ -22,22 +22,22 @@ using System.IO;
 
 namespace AutoCodeGenLibrary
 {
-    public static partial class XmlConverter
+    public static class XmlConverter
     {
         /// <summary>
         /// Creates a DataSet from a Xml string
         /// </summary>
         /// <param name="Xml_doc">string containing Xml source data</param>
         /// <returns>DataSet containing data</returns>
-        public static DataSet XmlStringToDataSet(string Xml_doc)
+        public static DataSet XmlStringToDataSet(string XmlDoc)
         {
-            if (string.IsNullOrEmpty(Xml_doc))
+            if (string.IsNullOrEmpty(XmlDoc))
                 throw new ArgumentException("Cannot serialize a null object");
 
-            DataSet ds = new DataSet();
+            var ds = new DataSet();
 
-            StringReader string_reader = new StringReader(Xml_doc);
-            ds.ReadXml(string_reader);
+            var reader = new StringReader(XmlDoc);
+            ds.ReadXml(reader);
 
             return ds;
         }
@@ -47,9 +47,9 @@ namespace AutoCodeGenLibrary
         /// </summary>
         /// <param name="dt">DataSet containing source data</param>
         /// <returns>string containing Xml doc</returns>
-        public static string DataSetToXmlString(DataSet data_set)
+        public static string DataSetToXmlString(DataSet dataset)
         {
-            return DataSetToXmlString(data_set, string.Empty);
+            return DataSetToXmlString(dataset, string.Empty);
         }
 
         /// <summary>
@@ -58,11 +58,11 @@ namespace AutoCodeGenLibrary
         /// <param name="dt">DataSet containing source data</param>
         /// <param name="xml_namespace">string Xml namespace for Xml doc</param>
         /// <returns>string containing Xml doc</returns>
-        public static string DataSetToXmlString(DataSet data_set, string xml_namespace)
+        public static string DataSetToXmlString(DataSet dataset, string xmlNamespace)
         {
-            data_set.Namespace = xml_namespace;
+            dataset.Namespace = xmlNamespace;
 
-            return data_set.GetXml();
+            return dataset.GetXml();
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace AutoCodeGenLibrary
         /// </summary>
         /// <param name="dt">DataTable containing source data</param>
         /// <returns>string containing Xml doc</returns>
-        public static string DataTableToXmlString(DataTable data_table)
+        public static string DataTableToXmlString(DataTable datatable)
         {
-            return DataTableToXmlString(data_table, string.Empty);
+            return DataTableToXmlString(datatable, string.Empty);
         }
 
         /// <summary>
@@ -81,15 +81,15 @@ namespace AutoCodeGenLibrary
         /// <param name="dt">DataTable containing source data</param>
         /// <param name="xml_namespace">string Xml namespace for Xml doc</param>
         /// <returns>string containing Xml doc</returns>
-        public static string DataTableToXmlString(DataTable data_table, string xml_namespace)
+        public static string DataTableToXmlString(DataTable datatable, string xmlNamespace)
         {
-            DataSet data_set = new DataSet();
-            data_set.Tables.Add(data_table);
+            var dataset = new DataSet();
+            dataset.Tables.Add(datatable);
 
             // parent node for table is created with name of DataSet
-            data_set.DataSetName = "TableData";
+            dataset.DataSetName = "TableData";
 
-            return DataSetToXmlString(data_set, xml_namespace);
+            return DataSetToXmlString(dataset, xmlNamespace);
         }
 
         /// <summary>
@@ -98,20 +98,20 @@ namespace AutoCodeGenLibrary
         /// <param name="node_name">string name of node</param>
         /// <param name="node_data">string data contained by node</param>
         /// <returns></returns>
-        public static string CreateXmlNode(string node_name, string node_data)
+        public static string CreateXmlNode(string nodeName, string nodeData)
         {
             // Fix characters in node_name
             // TODO - remove if clause?
-            if (node_name.Contains(" ")) node_name = node_name.Replace(" ", string.Empty);  // remove whitespace
-            if (node_name.Contains("\\")) node_name = node_name.Replace("\\", string.Empty); // remove \
-            if (node_name.Contains("/")) node_name = node_name.Replace("/", string.Empty);  // remove /
-            if (node_name.Contains("'")) node_name = node_name.Replace("'", string.Empty);  // remove '
-            if (node_name.Contains("\"")) node_name = node_name.Replace("\"", string.Empty); // remove "
-            if (node_name.Contains("[")) node_name = node_name.Replace("[", string.Empty);  // remove [
-            if (node_name.Contains("]")) node_name = node_name.Replace("]", string.Empty);  // remove ]
-            if (node_name.Contains("&")) node_name = node_name.Replace("&", string.Empty);  // remove &
-            if (node_name.Contains("<")) node_name = node_name.Replace("<", string.Empty);  // remove <
-            if (node_name.Contains(">")) node_name = node_name.Replace(">", string.Empty);  // remove >
+            if (nodeName.Contains(" ")) nodeName = nodeName.Replace(" ", string.Empty);  // remove whitespace
+            if (nodeName.Contains("\\")) nodeName = nodeName.Replace("\\", string.Empty); // remove \
+            if (nodeName.Contains("/")) nodeName = nodeName.Replace("/", string.Empty);  // remove /
+            if (nodeName.Contains("'")) nodeName = nodeName.Replace("'", string.Empty);  // remove '
+            if (nodeName.Contains("\"")) nodeName = nodeName.Replace("\"", string.Empty); // remove "
+            if (nodeName.Contains("[")) nodeName = nodeName.Replace("[", string.Empty);  // remove [
+            if (nodeName.Contains("]")) nodeName = nodeName.Replace("]", string.Empty);  // remove ]
+            if (nodeName.Contains("&")) nodeName = nodeName.Replace("&", string.Empty);  // remove &
+            if (nodeName.Contains("<")) nodeName = nodeName.Replace("<", string.Empty);  // remove <
+            if (nodeName.Contains(">")) nodeName = nodeName.Replace(">", string.Empty);  // remove >
 
             //if (node_data.Contains("&"))    node_data = node_data.Replace(">","&amp;");     // replace &
             //if (node_data.Contains("<"))    node_data = node_data.Replace("<","&lt;");      // replace <
@@ -119,7 +119,7 @@ namespace AutoCodeGenLibrary
             //if (node_data.Contains("\""))   node_data = node_data.Replace("\"","&quot;");   // replace "
             //if (node_data.Contains("'"))    node_data = node_data.Replace("'","&apos;");    // replace '
 
-            return $"<{node_name}>{node_data}</{node_name}>";
+            return $"<{nodeName}>{nodeData}</{nodeName}>";
         }
     }
 }

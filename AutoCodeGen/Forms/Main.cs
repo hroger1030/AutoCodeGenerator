@@ -40,18 +40,20 @@ namespace AutoCodeGen
 {
     public partial class Main : Form
     {
+        private static string PRODUCT_VERSION = "2.0";
+
         private static readonly ILog _Log = LogManager.GetLogger(typeof(Main));
 
         // output directories
-        internal static string _DirectoryAspPages = ConfigurationManager.AppSettings["DirectoryAspPages"];
+        internal static string _DirectorySql = ConfigurationManager.AppSettings["DirectorySql"];
+        internal static string _DirectoryReactPages = ConfigurationManager.AppSettings["DirectoryReactPages"];
         internal static string _DirectoryOrm = ConfigurationManager.AppSettings["DirectoryOrm"];
         internal static string _DirectoryOrmExt = ConfigurationManager.AppSettings["DirectoryOrmExt"];
         internal static string _DirectoryDal = ConfigurationManager.AppSettings["DirectoryDal"];
         internal static string _DirectoryDalExt = ConfigurationManager.AppSettings["DirectoryDalExt"];
         internal static string _DirectoryWebService = ConfigurationManager.AppSettings["DirectoryWebService"];
         internal static string _DirectoryInterface = ConfigurationManager.AppSettings["DirectoryInterface"];
-        internal static string _DirectoryWinforms = ConfigurationManager.AppSettings["DirectoryWinforms"];
-        internal static string _DirectoryXMlData = ConfigurationManager.AppSettings["DirectoryXmlData"];
+        internal static string _DirectoryExportData = ConfigurationManager.AppSettings["DirectoryExportData"];
         internal static string _DirectoryEnums = ConfigurationManager.AppSettings["DirectoryEnums"];
 
         // Encryption
@@ -60,8 +62,8 @@ namespace AutoCodeGen
         private static readonly string _Salt = "AutoCodeGenSalt";
 
         // Misc
-        private static readonly string[] _FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.aspx", "*.ascx", "*.master", "*.css" };
-        private static readonly string[] _DirectoriesUsed = { _DirectoryAspPages, _DirectoryOrm, _DirectoryOrmExt, _DirectoryDal, _DirectoryDalExt, _DirectoryWebService, _DirectoryInterface, _DirectoryWinforms, _DirectoryXMlData, _DirectoryEnums };
+        private static readonly string[] _FileExtensionsUsed = { "*.sql", "*.cs", "*.xml", "*.ts", "*.tsx", "*.json", "*.css" };
+        private static readonly string[] _DirectoriesUsed = { _DirectoryReactPages, _DirectoryOrm, _DirectoryOrmExt, _DirectoryDal, _DirectoryDalExt, _DirectoryWebService, _DirectoryInterface, _DirectoryExportData, _DirectoryEnums };
         private static readonly HashSet<string> _FilteredTableNames = new() { "master", "model", "msdb", "tempdb" };
 
         private const int MAX_MESSAGES = 50;
@@ -80,18 +82,16 @@ namespace AutoCodeGen
 
         private int clbTsqlObjectsCheckedCount;
         private int clbCsharpObjectsCheckedCount;
-        private int clbWinformObjectsCheckedCount;
         private int clbWebServiceObjectsCheckedCount;
-        private int clbAspObjectsCheckedCount;
+        private int clbReactbjectsCheckedCount;
         private int clbOutputOptionsCheckedCount;
 
         private int clbTsqlSqlTablesCheckedCount;
         private int clbCsharpSqlTablesCheckedCount;
-        private int clbWinformSqlTablesCheckedCount;
         private int clbWebServiceSqlTablesCheckedCount;
-        private int clbAspSqlTablesCheckedCount;
-        private int clbXmlSqlTablesCheckedCount;
-        private int clbXmlOptionsTablesCheckedCount;
+        private int clbReactSqlTablesCheckedCount;
+        private int clbExportSqlTablesCheckedCount;
+        private int clbJsonOptionsTablesCheckedCount;
 
         // Delegates
         private delegate void DisplayMessageSignature(string message, bool is_error);
@@ -121,8 +121,8 @@ namespace AutoCodeGen
                 //};
 
                 // display version info
-                lblVersion.Text = $"Version {Application.ProductVersion}";
-                DisplayMessage($"{Properties.Resource.ApplicationName}, Version {Application.ProductVersion}", false);
+                lblVersion.Text = $"Version {PRODUCT_VERSION}";
+                DisplayMessage($"{Properties.Resource.ApplicationName}, Version {PRODUCT_VERSION}", false);
 
                 ResetApp();
                 ValidateDbConnectionString();
@@ -174,10 +174,9 @@ namespace AutoCodeGen
             ResetServerTab();
             ResetSqlTab();
             ResetCsharpTab();
-            ResetWinformTab();
             ResetWebServiceTab();
-            ResetAspTab();
-            ResetXmlTab();
+            ResetReactTab();
+            ResetExportTab();
             ResetOutputTab();
         }
 
@@ -212,10 +211,9 @@ namespace AutoCodeGen
 
             clbTsqlSqlTables.Items.Clear();
             clbCsharpSqlTables.Items.Clear();
-            clbWinformObjects.Items.Clear();
             clbWebServiceSqlTables.Items.Clear();
-            clbAspSqlTables.Items.Clear();
-            clbXmlSqlTables.Items.Clear();
+            clbReactSqlTables.Items.Clear();
+            clbExportSqlTables.Items.Clear();
         }
 
         private void ResetSqlTab()
@@ -242,21 +240,6 @@ namespace AutoCodeGen
                 Properties.Resource.SqlDelAll,
             });
 
-            cmbSQLVersion.Items.Clear();
-            cmbSQLVersion.Items.AddRange(new object[]
-            {
-                Properties.Resource.Sql97,
-                Properties.Resource.Sql2K,
-                Properties.Resource.Sql2K5,
-                Properties.Resource.Sql2K8,
-                Properties.Resource.Sql2K12
-            });
-
-            if (string.IsNullOrEmpty(Properties.Settings.Default.SqlTargetVersion))
-                cmbSQLVersion.Text = "Sql 2008";
-            else
-                cmbSQLVersion.Text = Properties.Settings.Default.SqlTargetVersion;
-
             clbTsqlObjectsCheckedCount = clbTsqlSqlObjects.CheckedItems.Count;
         }
 
@@ -271,28 +254,6 @@ namespace AutoCodeGen
             clbCsharpObjects.Items.Clear();
             clbCsharpObjects.Items.AddRange(new CodeGeneratorCSharp().Methods.Keys.ToArray<object>());
             clbCsharpObjectsCheckedCount = clbCsharpObjects.CheckedItems.Count;
-        }
-
-        private void ResetWinformTab()
-        {
-            btnToggleWinformObjects.Text = Properties.Resource.SelectAll;
-            btnToggleWinformSqlTables.Text = Properties.Resource.SelectAll;
-
-            BindDataTableToCheckBoxList(_DbTables, clbWinformSqlTables);
-            clbWinformSqlTablesCheckedCount = clbWinformObjects.CheckedItems.Count;
-
-            clbWinformObjects.Items.Clear();
-            clbWinformObjects.Items.AddRange(new object[]
-            {
-                    Properties.Resource.WinformsEditPage,
-                    Properties.Resource.WinformsEditDesigner,
-                    Properties.Resource.WinformsViewPage,
-                    Properties.Resource.WinformsViewDesigner,
-                    Properties.Resource.WinformsMainPage,
-                    Properties.Resource.WinformsMainDesigner
-            });
-
-            clbWinformObjectsCheckedCount = clbWebServiceObjects.CheckedItems.Count;
         }
 
         private void ResetWebServiceTab()
@@ -315,41 +276,43 @@ namespace AutoCodeGen
             clbWebServiceObjectsCheckedCount = clbWebServiceObjects.CheckedItems.Count;
         }
 
-        private void ResetAspTab()
+        private void ResetReactTab()
         {
-            btnToggleAspSqlTables.Text = Properties.Resource.SelectAll;
+            btnToggleReactSqlTables.Text = Properties.Resource.SelectAll;
             btnToggleASPObjects.Text = Properties.Resource.SelectAll;
 
-            BindDataTableToCheckBoxList(_DbTables, clbAspSqlTables);
-            clbAspSqlTablesCheckedCount = clbAspSqlTables.CheckedItems.Count;
+            BindDataTableToCheckBoxList(_DbTables, clbReactSqlTables);
+            clbReactSqlTablesCheckedCount = clbReactSqlTables.CheckedItems.Count;
 
-            clbAspObjects.Items.Clear();
-            clbAspObjects.Items.AddRange(new object[]
+            clbReactObjects.Items.Clear();
+            clbReactObjects.Items.AddRange(new object[]
             {
-                    Properties.Resource.AspCreateEditPage,
-                    Properties.Resource.AspCreateListPage,
-                    Properties.Resource.AspCreateViewPage
+                Properties.Resource.ReactCreateEditPage,
+                Properties.Resource.ReactCreateListPage,
+                Properties.Resource.ReactCreateViewPage
             });
 
             clbCsharpObjectsCheckedCount = clbCsharpObjects.CheckedItems.Count;
         }
 
-        private void ResetXmlTab()
+        private void ResetExportTab()
         {
-            btnToggleWebXmlSqlTables.Text = Properties.Resource.SelectAll;
-            btnToggleWebXmlObjects.Text = Properties.Resource.SelectAll;
+            btnToggleExportSqlTables.Text = Properties.Resource.SelectAll;
+            btnToggleExportObjects.Text = Properties.Resource.SelectAll;
 
-            BindDataTableToCheckBoxList(_DbTables, clbXmlSqlTables);
-            clbXmlSqlTablesCheckedCount = clbXmlSqlTables.CheckedItems.Count;
+            BindDataTableToCheckBoxList(_DbTables, clbExportSqlTables);
+            clbExportSqlTablesCheckedCount = clbExportSqlTables.CheckedItems.Count;
 
-            clbXmlOptionsTables.Items.Clear();
-            clbXmlOptionsTables.Items.AddRange(new object[]
+            clbExportOptionsTables.Items.Clear();
+            clbExportOptionsTables.Items.AddRange(new object[]
             {
-                    Properties.Resource.XmlExportData,
-                    Properties.Resource.XmlImportObject
+                Properties.Resource.ExportXmlData,
+                Properties.Resource.ImportXmlObject,
+                Properties.Resource.ExportJsonData,
+                Properties.Resource.ImportJsonObject
             });
 
-            clbXmlOptionsTablesCheckedCount = this.clbXmlOptionsTables.CheckedItems.Count;
+            clbJsonOptionsTablesCheckedCount = this.clbExportOptionsTables.CheckedItems.Count;
         }
 
         private void ResetOutputTab()
@@ -378,12 +341,6 @@ namespace AutoCodeGen
                 Properties.Resource.OptCsharpConvertNullableFields,
                 Properties.Resource.OptCsharpIncludeSqlClassDecoration,
                 Properties.Resource.OptCsharpIncludeIsDirtyFlag,
-
-                Properties.Resource.OptAspCreateDefaultPage,
-                Properties.Resource.OptAspCreatePageAsConrol,
-                Properties.Resource.OptAspCreateCSSPage,
-                Properties.Resource.OptAspCreateMasterPage,
-                Properties.Resource.OptAspCreateWebConfig,
 
                 Properties.Resource.OptXmlFormat,
                 Properties.Resource.OptXmlIncludeNs,
@@ -444,19 +401,12 @@ namespace AutoCodeGen
 
             foreach (var table in tables)
             {
-                // Doesnt work - why?
-                //this.cblTables.Items.Add(new object[] { row["TABLE_NAME"] });
                 clb.Items.AddRange(new object[] { $"{table.Schema}.{table.TableName}" });
             }
         }
 
         private bool DeleteOldScriptFiles()
         {
-            DialogResult dr = MessageBox.Show("You are about to delete script files from the output directory. Do you wish to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (dr == DialogResult.No)
-                return false;
-
             string application_path = Path.GetDirectoryName(Application.ExecutablePath);
 
             try
@@ -477,11 +427,11 @@ namespace AutoCodeGen
             }
             catch
             {
-                DisplayMessage("Error encountered in removing script files from " + _OutputPath + ". Please make sure they aren't open in other programs.", true);
+                DisplayMessage($"Error encountered in removing script files from {_OutputPath}. Please make sure they aren't open in other programs.", true);
                 return false;
             }
 
-            DisplayMessage("Script files removed from " + _OutputPath, false);
+            DisplayMessage($"Script files removed from {_OutputPath}", false);
             return true;
         }
 
@@ -541,12 +491,6 @@ namespace AutoCodeGen
             if (Properties.Settings.Default.CsIncludeBaseClassRefrence) CheckCheckboxListItem(Properties.Resource.OptCsharpIncludeBaseClassRefrence);
             if (Properties.Settings.Default.CsConvertNullableFields) CheckCheckboxListItem(Properties.Resource.OptCsharpConvertNullableFields);
 
-            if (Properties.Settings.Default.AspCreatePageAsConrol) CheckCheckboxListItem(Properties.Resource.OptAspCreatePageAsConrol);
-            if (Properties.Settings.Default.AspCreateMasterPage) CheckCheckboxListItem(Properties.Resource.OptAspCreateMasterPage);
-            if (Properties.Settings.Default.AspCreateCssPage) CheckCheckboxListItem(Properties.Resource.OptAspCreateCSSPage);
-            if (Properties.Settings.Default.AspCreateWebConfig) CheckCheckboxListItem(Properties.Resource.OptAspCreateWebConfig);
-            if (Properties.Settings.Default.AspCreateDefaultPage) CheckCheckboxListItem(Properties.Resource.OptAspCreateDefaultPage);
-
             if (Properties.Settings.Default.XmlFormat) CheckCheckboxListItem(Properties.Resource.OptXmlFormat);
             if (Properties.Settings.Default.XmlIncludeNs) CheckCheckboxListItem(Properties.Resource.OptXmlIncludeNs);
         }
@@ -565,12 +509,6 @@ namespace AutoCodeGen
             Properties.Settings.Default.CsIncludeSqlClassDecoration = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeSqlClassDecoration);
             Properties.Settings.Default.CsIncludeBaseClassRefrence = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpIncludeBaseClassRefrence);
             Properties.Settings.Default.CsConvertNullableFields = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptCsharpConvertNullableFields);
-
-            Properties.Settings.Default.AspCreatePageAsConrol = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol);
-            Properties.Settings.Default.AspCreateMasterPage = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateMasterPage);
-            Properties.Settings.Default.AspCreateCssPage = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateCSSPage);
-            Properties.Settings.Default.AspCreateWebConfig = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateWebConfig);
-            Properties.Settings.Default.AspCreateDefaultPage = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateDefaultPage);
 
             Properties.Settings.Default.XmlFormat = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptXmlFormat);
             Properties.Settings.Default.XmlIncludeNs = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptXmlIncludeNs);
@@ -638,13 +576,6 @@ namespace AutoCodeGen
                 return;
             }
 
-            // Winforms Tab
-            if (clbWinformObjectsCheckedCount > 0 && clbWinformSqlTablesCheckedCount > 0)
-            {
-                btnGenerateCode.Enabled = true;
-                return;
-            }
-
             // WebService Tab
             if (clbWebServiceSqlTablesCheckedCount > 0 && clbWebServiceObjectsCheckedCount > 0)
             {
@@ -652,15 +583,15 @@ namespace AutoCodeGen
                 return;
             }
 
-            // ASP Tab
-            if (clbAspObjectsCheckedCount > 0 && clbAspSqlTablesCheckedCount > 0)
+            // React Tab
+            if (clbReactbjectsCheckedCount > 0 && clbReactSqlTablesCheckedCount > 0)
             {
                 btnGenerateCode.Enabled = true;
                 return;
             }
 
             // XML tab
-            if (clbXmlSqlTablesCheckedCount > 0 && clbXmlOptionsTablesCheckedCount > 0)
+            if (clbExportSqlTablesCheckedCount > 0 && clbJsonOptionsTablesCheckedCount > 0)
             {
                 btnGenerateCode.Enabled = true;
                 return;
@@ -714,7 +645,6 @@ namespace AutoCodeGen
             Properties.Settings.Default.MainFormHeight = this.Size.Height;
             Properties.Settings.Default.MainFormWidth = this.Size.Width;
             Properties.Settings.Default.TableNameRegex = txtTableNameRegex.Text;
-            Properties.Settings.Default.SqlTargetVersion = (string)cmbSQLVersion.SelectedItem;
 
             Properties.Settings.Default.Save();
 
@@ -818,36 +748,6 @@ namespace AutoCodeGen
             ValidateTab();
         }
 
-        private void clbWinformSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-                clbWinformSqlTablesCheckedCount = clbWinformSqlTables.CheckedItems.Count + 1;
-            else if (e.NewValue == CheckState.Unchecked)
-                clbWinformSqlTablesCheckedCount = clbWinformSqlTables.CheckedItems.Count - 1;
-
-            if (clbWinformSqlTablesCheckedCount == 0)
-                btnToggleWebServicesSqlTables.Text = Properties.Resource.SelectAll;
-            else
-                btnToggleWebServicesSqlTables.Text = Properties.Resource.DeselectAll;
-
-            ValidateTab();
-        }
-
-        private void clbWinformObjects_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-                clbWinformObjectsCheckedCount = clbWinformObjects.CheckedItems.Count + 1;
-            else if (e.NewValue == CheckState.Unchecked)
-                clbWinformObjectsCheckedCount = clbWinformObjects.CheckedItems.Count - 1;
-
-            if (clbWinformObjectsCheckedCount == 0)
-                btnToggleWinformObjects.Text = Properties.Resource.SelectAll;
-            else
-                btnToggleWinformObjects.Text = Properties.Resource.DeselectAll;
-
-            ValidateTab();
-        }
-
         private void clbWebServiceSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
@@ -878,44 +778,44 @@ namespace AutoCodeGen
             ValidateTab();
         }
 
-        private void clbXmlSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbExportSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
-                clbXmlSqlTablesCheckedCount = clbXmlSqlTables.CheckedItems.Count + 1;
+                clbExportSqlTablesCheckedCount = clbExportSqlTables.CheckedItems.Count + 1;
             else if (e.NewValue == CheckState.Unchecked)
-                clbXmlSqlTablesCheckedCount = clbXmlSqlTables.CheckedItems.Count - 1;
+                clbExportSqlTablesCheckedCount = clbExportSqlTables.CheckedItems.Count - 1;
 
-            if (clbXmlSqlTablesCheckedCount == 0)
-                btnToggleWebXmlSqlTables.Text = Properties.Resource.SelectAll;
+            if (clbExportSqlTablesCheckedCount == 0)
+                btnToggleExportSqlTables.Text = Properties.Resource.SelectAll;
             else
-                btnToggleWebXmlSqlTables.Text = Properties.Resource.DeselectAll;
+                btnToggleExportSqlTables.Text = Properties.Resource.DeselectAll;
 
             ValidateTab();
         }
 
-        private void clbXmlOptionTables_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbExportOptionTables_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
-                clbXmlOptionsTablesCheckedCount = clbXmlOptionsTables.CheckedItems.Count + 1;
+                clbJsonOptionsTablesCheckedCount = clbExportOptionsTables.CheckedItems.Count + 1;
             else if (e.NewValue == CheckState.Unchecked)
-                clbXmlOptionsTablesCheckedCount = clbXmlOptionsTables.CheckedItems.Count - 1;
+                clbJsonOptionsTablesCheckedCount = clbExportOptionsTables.CheckedItems.Count - 1;
 
-            if (clbXmlOptionsTablesCheckedCount == 0)
-                btnToggleWebXmlObjects.Text = Properties.Resource.SelectAll;
+            if (clbJsonOptionsTablesCheckedCount == 0)
+                btnToggleExportObjects.Text = Properties.Resource.SelectAll;
             else
-                btnToggleWebXmlObjects.Text = Properties.Resource.DeselectAll;
+                btnToggleExportObjects.Text = Properties.Resource.DeselectAll;
 
             ValidateTab();
         }
 
-        private void clbAspObjects_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbReactObjects_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
-                clbAspObjectsCheckedCount = clbAspObjects.CheckedItems.Count + 1;
+                clbReactbjectsCheckedCount = clbReactObjects.CheckedItems.Count + 1;
             else if (e.NewValue == CheckState.Unchecked)
-                clbAspSqlTablesCheckedCount = clbAspObjects.CheckedItems.Count - 1;
+                clbReactSqlTablesCheckedCount = clbReactObjects.CheckedItems.Count - 1;
 
-            if (clbAspObjectsCheckedCount == 0)
+            if (clbReactbjectsCheckedCount == 0)
                 btnToggleASPObjects.Text = Properties.Resource.SelectAll;
             else
                 btnToggleASPObjects.Text = Properties.Resource.DeselectAll;
@@ -923,17 +823,17 @@ namespace AutoCodeGen
             ValidateTab();
         }
 
-        private void clbAspSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbReactSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
-                clbAspSqlTablesCheckedCount = clbAspSqlTables.CheckedItems.Count + 1;
+                clbReactSqlTablesCheckedCount = clbReactSqlTables.CheckedItems.Count + 1;
             else if (e.NewValue == CheckState.Unchecked)
-                clbAspSqlTablesCheckedCount = clbAspSqlTables.CheckedItems.Count - 1;
+                clbReactSqlTablesCheckedCount = clbReactSqlTables.CheckedItems.Count - 1;
 
-            if (clbAspSqlTablesCheckedCount == 0)
-                btnToggleAspSqlTables.Text = Properties.Resource.SelectAll;
+            if (clbReactSqlTablesCheckedCount == 0)
+                btnToggleReactSqlTables.Text = Properties.Resource.SelectAll;
             else
-                btnToggleAspSqlTables.Text = Properties.Resource.DeselectAll;
+                btnToggleReactSqlTables.Text = Properties.Resource.DeselectAll;
 
             ValidateTab();
         }
@@ -956,7 +856,7 @@ namespace AutoCodeGen
         // Button clicks
         private void btnGenerateCode_Click(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor;
+            this.Cursor = Cursors.WaitCursor;
 
             try
             {
@@ -986,9 +886,7 @@ namespace AutoCodeGen
 
                 var codegeneratorCsharp = new CodeGeneratorCSharp();
                 var codegeneratorSql = new CodeGeneratorSql();
-                var codegeneratorAsp = new CodeGeneratorAspDotNet();
                 var codegeneratorRest = new CodeGeneratorWebservice();
-                var codegeneratorWin = new CodeGeneratorWinform();
 
                 //////////////////////////////////////////////////////////////////////
 
@@ -1010,56 +908,56 @@ namespace AutoCodeGen
                     FileIo.WriteToFile(file_name, script);
                 }
 
-                if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateMasterPage))
-                {
-                    // grab a list of all the selected tables
-                    var selected_tables = new List<string>();
+                //if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateMasterPage))
+                //{
+                //    // grab a list of all the selected tables
+                //    var selected_tables = new List<string>();
 
-                    foreach (string table_name in clbAspSqlTables.CheckedItems)
-                        selected_tables.Add(table_name);
+                //    foreach (string table_name in clbReactSqlTables.CheckedItems)
+                //        selected_tables.Add(table_name);
 
-                    output = codegeneratorAsp.GenerateMasterPageCodeInFront(sql_database.Name, selected_tables);
-                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
+                //    output = codegeneratorAsp.GenerateMasterPageCodeInFront(sql_database.Name, selected_tables);
+                //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
 
-                    FileIo.WriteToFile(file_name, output.Body);
+                //    FileIo.WriteToFile(file_name, output.Body);
 
-                    output = codegeneratorAsp.GenerateMasterPageCodeBehind(sql_database.Name);
-                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
+                //    output = codegeneratorAsp.GenerateMasterPageCodeBehind(sql_database.Name);
+                //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
 
-                    FileIo.WriteToFile(file_name, output.Body);
-                }
+                //    FileIo.WriteToFile(file_name, output.Body);
+                //}
 
-                if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateCSSPage))
-                {
-                    output = codegeneratorAsp.GenerateCSSSheet(_DatabaseName);
+                //if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateCSSPage))
+                //{
+                //    output = codegeneratorAsp.GenerateCSSSheet(_DatabaseName);
 
-                    // this file is a css file
-                    output.Name += ".css";
+                //    // this file is a css file
+                //    output.Name += ".css";
 
-                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
+                //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
 
-                    FileIo.WriteToFile(file_name, output.Body);
-                }
+                //    FileIo.WriteToFile(file_name, output.Body);
+                //}
 
-                if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateWebConfig))
-                {
-                    output = codegeneratorAsp.GenerateWebConfig(_Conn);
-                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
+                //if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateWebConfig))
+                //{
+                //    output = codegeneratorAsp.GenerateWebConfig(_Conn);
+                //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
 
-                    FileIo.WriteToFile(file_name, output.Body);
-                }
+                //    FileIo.WriteToFile(file_name, output.Body);
+                //}
 
-                if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateDefaultPage))
-                {
-                    output = codegeneratorAsp.GenerateDefaultPageCodeInFront(sql_database.Name);
-                    file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
+                //if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptAspCreateDefaultPage))
+                //{
+                //    output = codegeneratorAsp.GenerateDefaultPageCodeInFront(sql_database.Name);
+                //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
 
-                    FileIo.WriteToFile(file_name, output.Body);
+                //    FileIo.WriteToFile(file_name, output.Body);
 
-                    output = codegeneratorAsp.GenerateDefaultPageCodeBehind(sql_database.Name);
+                //    output = codegeneratorAsp.GenerateDefaultPageCodeBehind(sql_database.Name);
 
-                    FileIo.WriteToFile(file_name, output.Body);
-                }
+                //    FileIo.WriteToFile(file_name, output.Body);
+                //}
                 #endregion
 
                 #region Sql Code Generation
@@ -1172,7 +1070,7 @@ namespace AutoCodeGen
 
                             foreach (var item in sql_procedures)
                             {
-                                file_name = Combine(_OutputPath, item.Name + ".sql");
+                                file_name = Combine(_OutputPath, _DirectorySql, item.Name + ConfigurationManager.AppSettings["DefaultSQLScriptFilename"]);
                                 FileIo.WriteToFile(file_name, sql_header + item.Body);
                             }
                         }
@@ -1181,7 +1079,7 @@ namespace AutoCodeGen
                             foreach (var item in sql_procedures)
                                 sb.Append(item.Body);
 
-                            file_name = Combine(_OutputPath, _DatabaseName + ConfigurationManager.AppSettings["DefaultSQLScriptFilename"]);
+                            file_name = Combine(_OutputPath, _DirectorySql, _DatabaseName + ConfigurationManager.AppSettings["DefaultSQLScriptFilename"]);
                             FileIo.WriteToFile(file_name, sb.ToString());
                         }
                     }
@@ -1270,58 +1168,6 @@ namespace AutoCodeGen
                 }
                 #endregion
 
-                #region Winform Code Generation
-                if (clbWinformSqlTables.CheckedItems.Count > 0 && clbWinformObjects.CheckedItems.Count > 0)
-                {
-                    foreach (string table_name in clbWinformSqlTables.CheckedItems)
-                    {
-                        if (!sql_database.Tables.ContainsKey(table_name))
-                            continue;
-
-                        SqlTable current_table = sql_database.Tables[table_name];
-
-                        if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsEditPage))
-                        {
-                            output = codegeneratorWin.GenerateWinformEditCode(current_table);
-                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsEditDesigner))
-                        {
-                            output = codegeneratorWin.GenerateWinformEditCodeDesigner(current_table);
-                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsViewPage))
-                        {
-                            output = codegeneratorWin.GenerateWinformViewCode(current_table);
-                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsViewDesigner))
-                        {
-                            output = codegeneratorWin.GenerateWinformViewCodeDesigner(current_table);
-                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsMainPage))
-                        {
-                            output = codegeneratorWin.GenerateWinformMainCode(current_table);
-                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                        if (clbWinformObjects.CheckedItems.Contains(Properties.Resource.WinformsMainDesigner))
-                        {
-                            output = codegeneratorWin.GenerateWinformMainCodeDesigner(current_table);
-                            file_name = Combine(_OutputPath, _DirectoryWinforms, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
-                    }
-
-                    DisplayMessage("Winform objects created", false);
-                }
-                #endregion
-
                 #region WebService Code Generation
                 if (clbWebServiceSqlTables.CheckedItems.Count > 0 && clbWebServiceObjects.CheckedItems.Count > 0)
                 {
@@ -1371,50 +1217,49 @@ namespace AutoCodeGen
 
                 #endregion
 
-                #region Aspx Code Generation
-                if (clbAspSqlTables.CheckedItems.Count > 0 && clbAspObjects.CheckedItems.Count > 0)
+                #region React Code Generation
+                if (clbReactSqlTables.CheckedItems.Count > 0 && clbReactObjects.CheckedItems.Count > 0)
                 {
-                    foreach (string table_name in clbAspSqlTables.CheckedItems)
+                    foreach (string table_name in clbReactSqlTables.CheckedItems)
                     {
                         SqlTable current_table = sql_database.Tables[table_name];
 
-                        if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateEditPage))
-                        {
-                            output = codegeneratorAsp.GenerateWebEditPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
-                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
+                        //if (clbReactObjects.CheckedItems.Contains(Properties.Resource.ReactCreateEditPage))
+                        //{
+                        //    output = codegeneratorAsp.GenerateWebEditPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
+                        //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
 
-                            output = codegeneratorAsp.GenerateWebEditPageCodeBehind(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
+                        //    output = codegeneratorAsp.GenerateWebEditPageCodeBehind(current_table, _NamespaceIncludes);
+                        //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
 
-                        if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateListPage))
-                        {
-                            output = codegeneratorAsp.GenerateWebListPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
-                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
+                        //if (clbReactObjects.CheckedItems.Contains(Properties.Resource.ReactCreateListPage))
+                        //{
+                        //    output = codegeneratorAsp.GenerateWebListPageCodeInFront(current_table, clbCsharpObjects.CheckedItems.Contains(Properties.Resource.OptAspCreatePageAsConrol));
+                        //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
 
-                            output = codegeneratorAsp.GenerateWebListPageCodeBehind(current_table, _NamespaceIncludes);
-                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
+                        //    output = codegeneratorAsp.GenerateWebListPageCodeBehind(current_table, _NamespaceIncludes);
+                        //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
 
-                        if (clbAspObjects.CheckedItems.Contains(Properties.Resource.AspCreateViewPage))
-                        {
-                            output = codegeneratorAsp.GenerateWebViewPageCodeInFront(current_table);
-                            file_name = Combine(_OutputPath, _DirectoryAspPages, output.Name);
-                            FileIo.WriteToFile(file_name, output.Body);
-                        }
+                        //if (clbReactObjects.CheckedItems.Contains(Properties.Resource.ReactCreateViewPage))
+                        //{
+                        //    output = codegeneratorAsp.GenerateWebViewPageCodeInFront(current_table);
+                        //    file_name = Combine(_OutputPath, _DirectoryReactPages, output.Name);
+                        //    FileIo.WriteToFile(file_name, output.Body);
+                        //}
                     }
 
-                    DisplayMessage("ASP objects created.", false);
+                    DisplayMessage("React objects created.", false);
                 }
                 #endregion
 
-                #region XML Generation
-                // XML Output
-                if (clbXmlSqlTables.CheckedItems.Count > 0 && this.clbXmlOptionsTables.CheckedItems.Count > 0)
+                #region Data Export Generation
+                if (clbExportSqlTables.CheckedItems.Count > 0 && clbExportOptionsTables.CheckedItems.Count > 0)
                 {
                     bool generate_with_attributes = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptXmlFormat);
 
@@ -1423,15 +1268,32 @@ namespace AutoCodeGen
                     if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptXmlIncludeNs))
                         name_space = _DatabaseName;
 
-                    foreach (string table_name in clbXmlSqlTables.CheckedItems)
+                    foreach (string table_name in clbExportSqlTables.CheckedItems)
                     {
                         if (!sql_database.Tables.ContainsKey(table_name))
                             continue;
 
                         SqlTable current_table = sql_database.Tables[table_name];
 
-                        // Xml Export
-                        if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlExportData))
+                        // Json Export
+                        if (clbExportOptionsTables.CheckedItems.Contains(Properties.Resource.ExportJsonData))
+                        {
+                            DataTable data_table = codegeneratorCsharp.GenerateSqlTableData(current_table, _Conn);
+
+                            if (generate_with_attributes)
+                            {
+                                foreach (DataColumn column in data_table.Columns)
+                                    column.ColumnMapping = MappingType.Attribute;
+                            }
+
+                            data_table.TableName = table_name;
+                            string json_output = JsonConverter.DataSetToJsonString(data_table);
+                            file_name = Combine(_OutputPath, _DirectoryExportData, table_name + ConfigurationManager.AppSettings["ExportJsonSuffix"]);
+
+                            FileIo.WriteToFile(file_name, json_output);
+                        }
+
+                        if (clbExportOptionsTables.CheckedItems.Contains(Properties.Resource.ExportXmlData))
                         {
                             DataTable data_table = codegeneratorCsharp.GenerateSqlTableData(current_table, _Conn);
 
@@ -1443,16 +1305,16 @@ namespace AutoCodeGen
 
                             data_table.TableName = table_name;
                             string xml_output = XmlConverter.DataTableToXmlString(data_table, name_space);
-                            file_name = Combine(_OutputPath, _DirectoryXMlData, table_name + ConfigurationManager.AppSettings["XMLExportSuffix"]);
+                            file_name = Combine(_OutputPath, _DirectoryExportData, table_name + ConfigurationManager.AppSettings["ExportXmlSuffix"]);
 
                             FileIo.WriteToFile(file_name, xml_output);
                         }
 
                         // Xml Loader object
-                        if (clbXmlOptionsTables.CheckedItems.Contains(Properties.Resource.XmlImportObject))
+                        if (clbExportOptionsTables.CheckedItems.Contains(Properties.Resource.ImportJsonObject))
                         {
                             output = codegeneratorCsharp.GenerateXmlLoader(current_table);
-                            file_name = Combine(_OutputPath, _DirectoryXMlData, output.Name);
+                            file_name = Combine(_OutputPath, _DirectoryExportData, output.Name);
                             FileIo.WriteToFile(file_name, output.Body);
                         }
                     }
@@ -1508,7 +1370,7 @@ namespace AutoCodeGen
                 if (results == null)
                 {
                     // connection failed, bail
-                    DisplayMessage(Properties.Resource.DbConnectionFailed, true);
+                    DisplayMessage("Failed to establish a connection to database. Please check your connection information.", true);
                     return;
                 }
 
@@ -1565,20 +1427,16 @@ namespace AutoCodeGen
                     ResetCsharpTab();
                     break;
 
-                case "tabWinform":
-                    this.ResetWinformTab();
-                    break;
-
                 case "tabAsp":
-                    ResetAspTab();
+                    ResetReactTab();
                     break;
 
                 case "tabWebService":
                     ResetWebServiceTab();
                     break;
 
-                case "tabXml":
-                    ResetXmlTab();
+                case "tabExport":
+                    ResetExportTab();
                     break;
 
                 case "tabOutput":
@@ -1587,6 +1445,9 @@ namespace AutoCodeGen
 
                 case "tabAbout":
                     break;
+
+                default:
+                    throw new Exception($"Unknown tab name '{tabcontrolAutoCodeGen.SelectedTab.Name}'");
             }
 
             ValidateTab();
@@ -1718,36 +1579,6 @@ namespace AutoCodeGen
             }
         }
 
-        private void btnToggleWinformSqlTables_Click(object sender, EventArgs e)
-        {
-            // SQL table
-            if (btnToggleWinformSqlTables.Text == Properties.Resource.SelectAll)
-            {
-                btnToggleWinformSqlTables.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbWinformSqlTables, true);
-            }
-            else
-            {
-                btnToggleWinformSqlTables.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbWinformSqlTables, false);
-            }
-        }
-
-        private void btnToggleWinformObjects_Click(object sender, EventArgs e)
-        {
-            // SQL objects
-            if (btnToggleWinformObjects.Text == Properties.Resource.SelectAll)
-            {
-                btnToggleWinformObjects.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbWinformObjects, true);
-            }
-            else
-            {
-                btnToggleWinformObjects.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbWinformObjects, false);
-            }
-        }
-
         private void btnToggleWebServicesSqlTables_Click(object sender, EventArgs e)
         {
             if (btnToggleWebServicesSqlTables.Text == Properties.Resource.SelectAll)
@@ -1779,15 +1610,15 @@ namespace AutoCodeGen
         private void btnToggleAspSqlTables_Click(object sender, EventArgs e)
         {
             // ASP table
-            if (btnToggleAspSqlTables.Text == Properties.Resource.SelectAll)
+            if (btnToggleReactSqlTables.Text == Properties.Resource.SelectAll)
             {
-                btnToggleAspSqlTables.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbAspSqlTables, true);
+                btnToggleReactSqlTables.Text = Properties.Resource.DeselectAll;
+                ToggleCheckBoxes(clbReactSqlTables, true);
             }
             else
             {
-                btnToggleAspSqlTables.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbAspSqlTables, false);
+                btnToggleReactSqlTables.Text = Properties.Resource.SelectAll;
+                ToggleCheckBoxes(clbReactSqlTables, false);
             }
         }
 
@@ -1796,41 +1627,41 @@ namespace AutoCodeGen
             if (btnToggleASPObjects.Text == Properties.Resource.SelectAll)
             {
                 btnToggleASPObjects.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbAspObjects, true);
+                ToggleCheckBoxes(clbReactObjects, true);
             }
             else
             {
                 btnToggleASPObjects.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbAspObjects, false);
+                ToggleCheckBoxes(clbReactObjects, false);
             }
         }
 
         private void btnToggleWebXmlSqlTables_Click(object sender, EventArgs e)
         {
             // XML table
-            if (btnToggleWebXmlSqlTables.Text == Properties.Resource.SelectAll)
+            if (btnToggleExportSqlTables.Text == Properties.Resource.SelectAll)
             {
-                btnToggleWebXmlSqlTables.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbXmlSqlTables, true);
+                btnToggleExportSqlTables.Text = Properties.Resource.DeselectAll;
+                ToggleCheckBoxes(clbExportSqlTables, true);
             }
             else
             {
-                btnToggleWebXmlSqlTables.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbXmlSqlTables, false);
+                btnToggleExportSqlTables.Text = Properties.Resource.SelectAll;
+                ToggleCheckBoxes(clbExportSqlTables, false);
             }
         }
 
         private void btnToggleWebXmlObjects_Click(object sender, EventArgs e)
         {
-            if (btnToggleWebXmlObjects.Text == Properties.Resource.SelectAll)
+            if (btnToggleExportObjects.Text == Properties.Resource.SelectAll)
             {
-                btnToggleWebXmlObjects.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbXmlOptionsTables, true);
+                btnToggleExportObjects.Text = Properties.Resource.DeselectAll;
+                ToggleCheckBoxes(clbExportOptionsTables, true);
             }
             else
             {
-                btnToggleWebXmlObjects.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbXmlOptionsTables, false);
+                btnToggleExportObjects.Text = Properties.Resource.SelectAll;
+                ToggleCheckBoxes(clbExportOptionsTables, false);
             }
         }
 
@@ -1860,10 +1691,9 @@ namespace AutoCodeGen
                 // reset all tabs that have table specific data
                 ResetSqlTab();
                 ResetCsharpTab();
-                ResetWinformTab();
                 ResetWebServiceTab();
-                ResetAspTab();
-                ResetXmlTab();
+                ResetReactTab();
+                ResetExportTab();
 
                 ValidateTab();
             }

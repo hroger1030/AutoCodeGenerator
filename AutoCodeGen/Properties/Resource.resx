@@ -119,27 +119,31 @@
   </resheader>
   <data name="ApplicationExpired" xml:space="preserve">
     <value>The application has expired. Please Contact the software distributer for a new build.</value>
+    <comment>App Setting</comment>
   </data>
   <data name="ApplicationName" xml:space="preserve">
     <value>Jolly Roger's Autocode Generator</value>
+    <comment>App Setting</comment>
   </data>
-  <data name="AspCreateEditPage" xml:space="preserve">
-    <value>Create Asp.net Edit Page</value>
-    <comment>Asp Options</comment>
+  <data name="ReactCreateEditPage" xml:space="preserve">
+    <value>Create Edit Page</value>
+    <comment>React Options</comment>
   </data>
-  <data name="AspCreateListPage" xml:space="preserve">
-    <value>Create Asp.net List Page</value>
-    <comment>Asp Options</comment>
+  <data name="ReactCreateListPage" xml:space="preserve">
+    <value>Create List Page</value>
+    <comment>React Options</comment>
   </data>
-  <data name="AspCreateViewPage" xml:space="preserve">
-    <value>Create Asp.net View Page</value>
-    <comment>Asp Options</comment>
+  <data name="ReactCreateViewPage" xml:space="preserve">
+    <value>Create View Page</value>
+    <comment>React Options</comment>
   </data>
   <data name="AuthorEmailAddress" xml:space="preserve">
     <value>GlobalConquestGames@gmail.com</value>
+    <comment>App Setting</comment>
   </data>
   <data name="ConnectionMessage" xml:space="preserve">
     <value>Connected To:</value>
+    <comment>App Setting</comment>
   </data>
   <data name="CsharpDal" xml:space="preserve">
     <value>Create C# Dal Object</value>
@@ -165,32 +169,9 @@
     <value>Create C# Orm Extension Class</value>
     <comment>C# Options</comment>
   </data>
-  <data name="DbConnectionFailed" xml:space="preserve">
-    <value>Failed to establish a connection to database. Please check your connection information.</value>
-  </data>
   <data name="DeselectAll" xml:space="preserve">
     <value>Deselect All</value>
     <comment>Button</comment>
-  </data>
-  <data name="OptAspCreateCSSPage" xml:space="preserve">
-    <value>Asp - Generate Css Page</value>
-    <comment>Build Options</comment>
-  </data>
-  <data name="OptAspCreateDefaultPage" xml:space="preserve">
-    <value>Asp - Generate Default Page</value>
-    <comment>Build Options</comment>
-  </data>
-  <data name="OptAspCreateMasterPage" xml:space="preserve">
-    <value>Asp - Generate Master Page</value>
-    <comment>Build Options</comment>
-  </data>
-  <data name="OptAspCreatePageAsConrol" xml:space="preserve">
-    <value>Asp - Create Asp page(s) as user control (NYI)</value>
-    <comment>Build Options</comment>
-  </data>
-  <data name="OptAspCreateWebConfig" xml:space="preserve">
-    <value>Asp - Generate Web.Config</value>
-    <comment>Build Options</comment>
   </data>
   <data name="OptCsharpConvertNullableFields" xml:space="preserve">
     <value>C# - Convert nullable Db fields to non-nullable</value>
@@ -244,26 +225,6 @@
     <value>Please choose one or more fields you wish to sort {0} table queries by.</value>
     <comment>Sql Field Selector Form</comment>
   </data>
-  <data name="Sql2K" xml:space="preserve">
-    <value>Sql 2000</value>
-    <comment>Sql Target Version</comment>
-  </data>
-  <data name="Sql2K12" xml:space="preserve">
-    <value>Sql 2012</value>
-    <comment>Sql Target Version</comment>
-  </data>
-  <data name="Sql2K5" xml:space="preserve">
-    <value>Sql 2005</value>
-    <comment>Sql Target Version</comment>
-  </data>
-  <data name="Sql2K8" xml:space="preserve">
-    <value>Sql 2008</value>
-    <comment>Sql Target Version</comment>
-  </data>
-  <data name="Sql97" xml:space="preserve">
-    <value>Sql 1997</value>
-    <comment>Sql Target Version</comment>
-  </data>
   <data name="SqlDelAll" xml:space="preserve">
     <value>Delete All Rows</value>
     <comment>Tsql Options</comment>
@@ -305,32 +266,8 @@
     <comment>WebService Options</comment>
   </data>
   <data name="WebsiteUrl" xml:space="preserve">
-    <value>http://www.GlobalConquest.net</value>
+    <value>http://www.globalconquest.net</value>
     <comment>GC website url</comment>
-  </data>
-  <data name="WinformsEditDesigner" xml:space="preserve">
-    <value>Create Winform edit designer</value>
-    <comment>Winforms Options</comment>
-  </data>
-  <data name="WinformsEditPage" xml:space="preserve">
-    <value>Create Winform edit page</value>
-    <comment>Winforms Options</comment>
-  </data>
-  <data name="WinformsMainDesigner" xml:space="preserve">
-    <value>Create Winform main designer (NYI)</value>
-    <comment>Winforms Options</comment>
-  </data>
-  <data name="WinformsMainPage" xml:space="preserve">
-    <value>Create Winform main page (NYI)</value>
-    <comment>Winforms Options</comment>
-  </data>
-  <data name="WinformsViewDesigner" xml:space="preserve">
-    <value>Create Winform view designer (NYI)</value>
-    <comment>Winforms Options</comment>
-  </data>
-  <data name="WinformsViewPage" xml:space="preserve">
-    <value>Create Winform view page (NYI)</value>
-    <comment>Winforms Options</comment>
   </data>
   <data name="OptXmlFormat" xml:space="preserve">
     <value>Xml - Generate xml with attributes instead of elements</value>
@@ -338,6 +275,7 @@
   </data>
   <data name="OptXmlIncludeNs" xml:space="preserve">
     <value>Xml - Include Db name as Xml namespace</value>
+    <comment>Build Options</comment>
   </data>
   <data name="SelectEnumNameField" xml:space="preserve">
     <value>Please choose the field that will represent the enum key field. This field should probably be a string.</value>
@@ -347,13 +285,13 @@
     <value>Please choose the field that will represent the enum value field. This field must be an integer.</value>
     <comment>Enum Field Selector</comment>
   </data>
-  <data name="XmlExportData" xml:space="preserve">
+  <data name="ExportXmlData" xml:space="preserve">
     <value>Export Table Data to Xml File</value>
-    <comment>Xml Options</comment>
+    <comment>Import Options</comment>
   </data>
-  <data name="XmlImportObject" xml:space="preserve">
+  <data name="ImportXmlObject" xml:space="preserve">
     <value>Create C# Xml import class </value>
-    <comment>Xml Options</comment>
+    <comment>Import Options</comment>
   </data>
   <data name="SqlIns" xml:space="preserve">
     <value>Insert Single Row</value>
@@ -378,5 +316,13 @@
   <data name="WebServicePagingObject" xml:space="preserve">
     <value>Create C# WebService Paging Object</value>
     <comment>WebService Options</comment>
+  </data>
+  <data name="ExportJsonData" xml:space="preserve">
+    <value>Export Table Data to Json File</value>
+    <comment>Import Options</comment>
+  </data>
+  <data name="ImportJsonObject" xml:space="preserve">
+    <value>Create C# Json import class </value>
+    <comment>Import Options</comment>
   </data>
 </root>

@@ -37,7 +37,23 @@
 
    <ItemGroup>
     <PackageReference Include="DAL.Standard" Version="2.0.0.5" />
-    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+   <ItemGroup>
+     <Compile Update="Properties\Settings.Designer.cs">
+       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+       <AutoGen>True</AutoGen>
+       <DependentUpon>Settings.settings</DependentUpon>
+     </Compile>
+   </ItemGroup>
+
+   <ItemGroup>
+     <None Update="Properties\Settings.settings">
+       <Generator>SettingsSingleFileGenerator</Generator>
+       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+     </None>
+   </ItemGroup>
    
 </Project>
