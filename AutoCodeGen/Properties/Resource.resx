@@ -141,10 +141,6 @@
     <value>GlobalConquestGames@gmail.com</value>
     <comment>App Setting</comment>
   </data>
-  <data name="ConnectionMessage" xml:space="preserve">
-    <value>Connected To:</value>
-    <comment>App Setting</comment>
-  </data>
   <data name="CsharpDal" xml:space="preserve">
     <value>Create C# Dal Object</value>
     <comment>C# Options</comment>

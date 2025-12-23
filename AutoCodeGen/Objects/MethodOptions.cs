@@ -1,4 +1,4 @@
-/*
+﻿/*
 The MIT License (MIT)
 
 Copyright (c) 2007 Roger Hill
@@ -16,19 +16,14 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using System.Collections.Generic;
-
-using DAL.Standard.SqlMetadata;
-
 namespace AutoCodeGenLibrary
 {
-    public class AutogenerationData
+    public class MethodOptions
     {
-        public SqlTable SqlTable { get; set; }
-        public Dictionary<string, bool> Options { get; set; }
-        public List<string> NamespaceIncludes { get; set; }
+        public string[] SearchBy { get; set; }
+        public string[] SortBy { get; set; }
+        public string[] OrderBy { get; set; }
 
-        public AutogenerationData() { }
+        public MethodOptions() { }
     }
 }
-

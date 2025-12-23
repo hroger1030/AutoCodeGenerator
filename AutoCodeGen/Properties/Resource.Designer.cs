@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AutoCodeGen.Properties {
+namespace AutoCodeGen.Properties
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,616 +23,741 @@ namespace AutoCodeGen.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource {
-        
+    internal class Resource
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resource() {
+        internal Resource()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AutoCodeGen.Properties.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
-            get {
+        internal static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The application has expired. Please Contact the software distributer for a new build..
         /// </summary>
-        internal static string ApplicationExpired {
-            get {
+        internal static string ApplicationExpired
+        {
+            get
+            {
                 return ResourceManager.GetString("ApplicationExpired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Jolly Roger&apos;s Autocode Generator.
         /// </summary>
-        internal static string ApplicationName {
-            get {
+        internal static string ApplicationName
+        {
+            get
+            {
                 return ResourceManager.GetString("ApplicationName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Asp.net Edit Page.
         /// </summary>
-        internal static string ReactCreateEditPage {
-            get {
+        internal static string ReactCreateEditPage
+        {
+            get
+            {
                 return ResourceManager.GetString("ReactCreateEditPage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Asp.net List Page.
         /// </summary>
-        internal static string ReactCreateListPage {
-            get {
+        internal static string ReactCreateListPage
+        {
+            get
+            {
                 return ResourceManager.GetString("ReactCreateListPage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Asp.net View Page.
         /// </summary>
-        internal static string ReactCreateViewPage {
-            get {
+        internal static string ReactCreateViewPage
+        {
+            get
+            {
                 return ResourceManager.GetString("ReactCreateViewPage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to GlobalConquestGames@gmail.com.
         /// </summary>
-        internal static string AuthorEmailAddress {
-            get {
+        internal static string AuthorEmailAddress
+        {
+            get
+            {
                 return ResourceManager.GetString("AuthorEmailAddress", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Connected To:.
-        /// </summary>
-        internal static string ConnectionMessage {
-            get {
-                return ResourceManager.GetString("ConnectionMessage", resourceCulture);
-            }
-        }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# base class object.
         /// </summary>
-        internal static string CsharpCreateBaseClass {
-            get {
+        internal static string CsharpCreateBaseClass
+        {
+            get
+            {
                 return ResourceManager.GetString("CsharpCreateBaseClass", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# Dal Object.
         /// </summary>
-        internal static string CsharpDal {
-            get {
+        internal static string CsharpDal
+        {
+            get
+            {
                 return ResourceManager.GetString("CsharpDal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# Enumeration.
         /// </summary>
-        internal static string CsharpEnum {
-            get {
+        internal static string CsharpEnum
+        {
+            get
+            {
                 return ResourceManager.GetString("CsharpEnum", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# Dal Extension Object.
         /// </summary>
-        internal static string CsharpExtensionDal {
-            get {
+        internal static string CsharpExtensionDal
+        {
+            get
+            {
                 return ResourceManager.GetString("CsharpExtensionDal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# Object Interface.
         /// </summary>
-        internal static string CsharpInterface {
-            get {
+        internal static string CsharpInterface
+        {
+            get
+            {
                 return ResourceManager.GetString("CsharpInterface", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# Orm Class.
         /// </summary>
-        internal static string CsharpOrm {
-            get {
+        internal static string CsharpOrm
+        {
+            get
+            {
                 return ResourceManager.GetString("CsharpOrm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# Orm Extension Class.
         /// </summary>
-        internal static string CsharpOrmExtension {
-            get {
+        internal static string CsharpOrmExtension
+        {
+            get
+            {
                 return ResourceManager.GetString("CsharpOrmExtension", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# Orm Poco Class.
         /// </summary>
-        internal static string CsharpPoCo {
-            get {
+        internal static string CsharpPoCo
+        {
+            get
+            {
                 return ResourceManager.GetString("CsharpPoCo", resourceCulture);
             }
         }
-             
+
         /// <summary>
         ///   Looks up a localized string similar to Deselect All.
         /// </summary>
-        internal static string DeselectAll {
-            get {
+        internal static string DeselectAll
+        {
+            get
+            {
                 return ResourceManager.GetString("DeselectAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Asp - Generate Css Page.
         /// </summary>
-        internal static string OptAspCreateCSSPage {
-            get {
+        internal static string OptAspCreateCSSPage
+        {
+            get
+            {
                 return ResourceManager.GetString("OptAspCreateCSSPage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Asp - Generate Default Page.
         /// </summary>
-        internal static string OptAspCreateDefaultPage {
-            get {
+        internal static string OptAspCreateDefaultPage
+        {
+            get
+            {
                 return ResourceManager.GetString("OptAspCreateDefaultPage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Asp - Generate Master Page.
         /// </summary>
-        internal static string OptAspCreateMasterPage {
-            get {
+        internal static string OptAspCreateMasterPage
+        {
+            get
+            {
                 return ResourceManager.GetString("OptAspCreateMasterPage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Asp - Create Asp page(s) as user control (NYI).
         /// </summary>
-        internal static string OptAspCreatePageAsConrol {
-            get {
+        internal static string OptAspCreatePageAsConrol
+        {
+            get
+            {
                 return ResourceManager.GetString("OptAspCreatePageAsConrol", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Asp - Generate Web.Config.
         /// </summary>
-        internal static string OptAspCreateWebConfig {
-            get {
+        internal static string OptAspCreateWebConfig
+        {
+            get
+            {
                 return ResourceManager.GetString("OptAspCreateWebConfig", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to C# - Convert nullable Db fields to non-nullable.
         /// </summary>
-        internal static string OptCsharpConvertNullableFields {
-            get {
+        internal static string OptCsharpConvertNullableFields
+        {
+            get
+            {
                 return ResourceManager.GetString("OptCsharpConvertNullableFields", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to C# - Include a &apos;Base Class&apos; refrence in objects.
         /// </summary>
-        internal static string OptCsharpIncludeBaseClassRefrence {
-            get {
+        internal static string OptCsharpIncludeBaseClassRefrence
+        {
+            get
+            {
                 return ResourceManager.GetString("OptCsharpIncludeBaseClassRefrence", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to C# - Include &apos;IsDirty&apos; flag in objects.
         /// </summary>
-        internal static string OptCsharpIncludeIsDirtyFlag {
-            get {
+        internal static string OptCsharpIncludeIsDirtyFlag
+        {
+            get
+            {
                 return ResourceManager.GetString("OptCsharpIncludeIsDirtyFlag", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to C# - Include SQL class decoration.
         /// </summary>
-        internal static string OptCsharpIncludeSqlClassDecoration {
-            get {
+        internal static string OptCsharpIncludeSqlClassDecoration
+        {
+            get
+            {
                 return ResourceManager.GetString("OptCsharpIncludeSqlClassDecoration", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Misc - Remove any existing scripts in folder.
         /// </summary>
-        internal static string OptMiscRemoveExistingScripts {
-            get {
+        internal static string OptMiscRemoveExistingScripts
+        {
+            get
+            {
                 return ResourceManager.GetString("OptMiscRemoveExistingScripts", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sql - Generate sp_TableDetails procedure.
         /// </summary>
-        internal static string OptSQLCreateHelperSp {
-            get {
+        internal static string OptSQLCreateHelperSp
+        {
+            get
+            {
                 return ResourceManager.GetString("OptSQLCreateHelperSp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sql - Generate permissions for db stored procedures.
         /// </summary>
-        internal static string OptSQLCreateSqlSpPerms {
-            get {
+        internal static string OptSQLCreateSqlSpPerms
+        {
+            get
+            {
                 return ResourceManager.GetString("OptSQLCreateSqlSpPerms", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sql - Script each Sql object in seperate file.
         /// </summary>
-        internal static string OptSQLSeperateFiles {
-            get {
+        internal static string OptSQLSeperateFiles
+        {
+            get
+            {
                 return ResourceManager.GetString("OptSQLSeperateFiles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Xml - Generate xml with attributes instead of elements.
         /// </summary>
-        internal static string OptXmlFormat {
-            get {
+        internal static string OptXmlFormat
+        {
+            get
+            {
                 return ResourceManager.GetString("OptXmlFormat", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Xml - Include Db name as Xml namespace.
         /// </summary>
-        internal static string OptXmlIncludeNs {
-            get {
+        internal static string OptXmlIncludeNs
+        {
+            get
+            {
                 return ResourceManager.GetString("OptXmlIncludeNs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
-        internal static string SelectAll {
-            get {
+        internal static string SelectAll
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please choose the field that will represent the enum key field. This field should probably be a string..
         /// </summary>
-        internal static string SelectEnumNameField {
-            get {
+        internal static string SelectEnumNameField
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectEnumNameField", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please choose the field that will represent the enum value field. This field must be an integer..
         /// </summary>
-        internal static string SelectEnumValueField {
-            get {
+        internal static string SelectEnumValueField
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectEnumValueField", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please choose one or more fields you wish to include in searches of the {0} table..
         /// </summary>
-        internal static string SelectSearchField {
-            get {
+        internal static string SelectSearchField
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectSearchField", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please choose one or more fields you wish to use to select values from the {0} table..
         /// </summary>
-        internal static string SelectSelectField {
-            get {
+        internal static string SelectSelectField
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectSelectField", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please choose one or more fields you wish to sort {0} table queries by..
         /// </summary>
-        internal static string SelectSortField {
-            get {
+        internal static string SelectSortField
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectSortField", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sql 2000.
         /// </summary>
-        internal static string Sql2K {
-            get {
+        internal static string Sql2K
+        {
+            get
+            {
                 return ResourceManager.GetString("Sql2K", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sql 2012.
         /// </summary>
-        internal static string Sql2K12 {
-            get {
+        internal static string Sql2K12
+        {
+            get
+            {
                 return ResourceManager.GetString("Sql2K12", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sql 2005.
         /// </summary>
-        internal static string Sql2K5 {
-            get {
+        internal static string Sql2K5
+        {
+            get
+            {
                 return ResourceManager.GetString("Sql2K5", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sql 2008.
         /// </summary>
-        internal static string Sql2K8 {
-            get {
+        internal static string Sql2K8
+        {
+            get
+            {
                 return ResourceManager.GetString("Sql2K8", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sql 1997.
         /// </summary>
-        internal static string Sql97 {
-            get {
+        internal static string Sql97
+        {
+            get
+            {
                 return ResourceManager.GetString("Sql97", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete All Rows.
         /// </summary>
-        internal static string SqlDelAll {
-            get {
+        internal static string SqlDelAll
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlDelAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete Many Rows (By List).
         /// </summary>
-        internal static string SqlDelMany {
-            get {
+        internal static string SqlDelMany
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlDelMany", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete Single Row (By List).
         /// </summary>
-        internal static string SqlDelSingle {
-            get {
+        internal static string SqlDelSingle
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlDelSingle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Insert Single Row.
         /// </summary>
-        internal static string SqlIns {
-            get {
+        internal static string SqlIns
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlIns", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Search (Paginated).
         /// </summary>
-        internal static string SqlSearchPaged {
-            get {
+        internal static string SqlSearchPaged
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlSearchPaged", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select All Rows.
         /// </summary>
-        internal static string SqlSelAll {
-            get {
+        internal static string SqlSelAll
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlSelAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select Many Rows (By List).
         /// </summary>
-        internal static string SqlSelMany {
-            get {
+        internal static string SqlSelMany
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlSelMany", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select Many Rows (By Criteria).
         /// </summary>
-        internal static string SqlSelManyByX {
-            get {
+        internal static string SqlSelManyByX
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlSelManyByX", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select Single Row (By List).
         /// </summary>
-        internal static string SqlSelSingle {
-            get {
+        internal static string SqlSelSingle
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlSelSingle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Update Single Row.
         /// </summary>
-        internal static string SqlUpd {
-            get {
+        internal static string SqlUpd
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlUpd", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Update/Insert Single Row.
         /// </summary>
-        internal static string SqlUpdIns {
-            get {
+        internal static string SqlUpdIns
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlUpdIns", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# WebService 2.0 Controller .
         /// </summary>
-        internal static string WebServiceController {
-            get {
+        internal static string WebServiceController
+        {
+            get
+            {
                 return ResourceManager.GetString("WebServiceController", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# WebService Base Controller.
         /// </summary>
-        internal static string WebServiceControllerBase {
-            get {
+        internal static string WebServiceControllerBase
+        {
+            get
+            {
                 return ResourceManager.GetString("WebServiceControllerBase", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# WebService Paging Object.
         /// </summary>
-        internal static string WebServicePagingObject {
-            get {
+        internal static string WebServicePagingObject
+        {
+            get
+            {
                 return ResourceManager.GetString("WebServicePagingObject", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# WebService Response Object.
         /// </summary>
-        internal static string WebServiceResponseObject {
-            get {
+        internal static string WebServiceResponseObject
+        {
+            get
+            {
                 return ResourceManager.GetString("WebServiceResponseObject", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to http://www.GlobalConquest.net.
         /// </summary>
-        internal static string WebsiteUrl {
-            get {
+        internal static string WebsiteUrl
+        {
+            get
+            {
                 return ResourceManager.GetString("WebsiteUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Winform edit designer.
         /// </summary>
-        internal static string WinformsEditDesigner {
-            get {
+        internal static string WinformsEditDesigner
+        {
+            get
+            {
                 return ResourceManager.GetString("WinformsEditDesigner", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Winform edit page.
         /// </summary>
-        internal static string WinformsEditPage {
-            get {
+        internal static string WinformsEditPage
+        {
+            get
+            {
                 return ResourceManager.GetString("WinformsEditPage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Winform main designer (NYI).
         /// </summary>
-        internal static string WinformsMainDesigner {
-            get {
+        internal static string WinformsMainDesigner
+        {
+            get
+            {
                 return ResourceManager.GetString("WinformsMainDesigner", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Winform main page (NYI).
         /// </summary>
-        internal static string WinformsMainPage {
-            get {
+        internal static string WinformsMainPage
+        {
+            get
+            {
                 return ResourceManager.GetString("WinformsMainPage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Export Table Data to Xml File.
         /// </summary>
-        internal static string ExportXmlData {
-            get {
+        internal static string ExportXmlData
+        {
+            get
+            {
                 return ResourceManager.GetString("ExportXmlData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create C# Xml import class .
         /// </summary>
-        internal static string ImportXmlObject {
-            get {
+        internal static string ImportXmlObject
+        {
+            get
+            {
                 return ResourceManager.GetString("ImportXmlObject", resourceCulture);
             }
         }

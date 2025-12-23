@@ -6,7 +6,7 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:AutoCodeGen.Main.ckbLocalDb_CheckedChanged(System.Object,System.EventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:AutoCodeGen.Main.txtPassword_TextChanged(System.Object,System.EventArgs)")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:AutoCodeGen.Main.clbTsqlSqlObjects_ItemCheck(System.Object,System.Windows.Forms.ItemCheckEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:AutoCodeGen.Main.clbGenObjects_ItemCheck(System.Object,System.Windows.Forms.ItemCheckEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:AutoCodeGen.Main.clbCsharpSqlTables_ItemCheck(System.Object,System.Windows.Forms.ItemCheckEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:AutoCodeGen.Main.txtOutputPath_TextChanged(System.Object,System.EventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:AutoCodeGen.Main.clbCSharpObjects_ItemCheck(System.Object,System.Windows.Forms.ItemCheckEventArgs)")]

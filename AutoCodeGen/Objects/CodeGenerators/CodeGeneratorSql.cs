@@ -16,80 +16,131 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+using AutoCodeGenLibrary;
+using DAL.Standard.SqlMetadata;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
 
-using DAL.Standard.SqlMetadata;
-
 namespace AutoCodeGenLibrary
 {
-    public class CodeGeneratorSql : CodeGeneratorBase, IGenerator
+    public class CodeGeneratorSql : CodeGeneratorBase, IPlugin
     {
-        private readonly string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
+        // method names
+        public const string GENERATE_SELECT_SINGLE_PROC = "SQL - Select Single Item Stored Proc";
+        public const string GENERATE_SELECT_MANY_PROC = "SQL - Select Many Items Proc";
+        //private const string GENERATE_SELECT_MANY_BY_X_PROC = "SQL GENERATE_SELECT_MANY_BY_X_PROC";
+        private const string GENERATE_SELECT_ALL_PROC = "SQL - GENERAT_SELECT_ALL_PROC";
+        //private const string GENERATE_PAGINATED_SEARCH_PROC = "SQL GENERATE_PAGINATED_SEARCH_PROC";
+        //private const string GENERATE_INSERT_PROC = "SQL GENERATE_INSERT_PROC";
+        //private const string GENERATE_UPDATE_PROC = "SQL GENERATE_UPDATE_PROC";
+        //private const string GENERATE_SET_PROC = "SQL GENERATE_SET_PROC";
+        //private const string GENERATE_DELETE_SINGLE_PROC = "SQL GENERATE_DELETE_SINGLE_PROC";
+        //private const string GENERATE_DELETE_MANY_PROC = "SQL GENERATE_DELETE_MANY_PROC";
+        //private const string GENERATE_DELETE_ALL_PROC = "SQL GENERATE_DELETE_ALL_PROC";
+        //private const string GENERATE_GET_TABLE_DETAILS_PROC = "SQL GENERATE_GET_TABLE_DETAILS_PROC";
 
-        public static readonly string GENERATE_STORED_PROC_PERMS = "Generate Stored Proc Perms";
-        public static readonly string INCLUDE_DISABLED_CHECK = "Include Disabled Check";
+        // option names
+        public const string GENERATE_STORED_PROC_PERMS = "Generate Stored Proc Perms";
+        public const string INCLUDE_DISABLED_CHECK = "Include Disabled Check";
+
+        public const string SEARCH_BY_LIST = "Search By";
+        public const string SORT_BY_LIST = "Sort By";
+        public const string SELECT_BY_LIST = "Select By";
+
+        // WTF?
+        private readonly string _DefaultDbUserName = ConfigurationManager.AppSettings["DefaultDbUserName"];
 
         public eLanguage Language
         {
             get { return eLanguage.MsSql; }
         }
+
         public eCategory Category
         {
             get { return eCategory.Database; }
         }
-        public IDictionary<string, string> Methods
+
+        public List<string> Methods
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    GENERATE_SELECT_SINGLE_PROC,
+                    GENERATE_SELECT_MANY_PROC,
+                    //GENERATE_SELECT_MANY_BY_X_PROC,
+                    GENERATE_SELECT_ALL_PROC,
+                    //GENERATE_PAGINATED_SEARCH_PROC,
+                    //GENERATE_INSERT_PROC,
+                    //GENERATE_UPDATE_PROC,
+                    //GENERATE_SET_PROC,
+                    //GENERATE_DELETE_SINGLE_PROC,
+                    //GENERATE_DELETE_MANY_PROC,
+                    //GENERATE_DELETE_ALL_PROC,
+                    //GENERATE_GET_TABLE_DETAILS_PROC,
+                };
+            }
+        }
+
+        public Dictionary<string, string> BaseOptions
         {
             get
             {
                 return new Dictionary<string, string>()
                 {
-                    { "Select Single By Id", "GenerateSelectSingleProc" },
-                    { "Select Many By List", "GenerateSelectManyProc" },
-                    { "Select Many By Criteria", "GenerateSelectManyByXProc" },
-                    { "Select All", "GenerateSelectAllProc" },
-                    { "Paginated Search", "GeneratePaginatedSearchProc" },
-                    { "InsertProc", "GenerateInsertProc" },
-                    { "UpdateProc", "GenerateUpdateProc" },
-                    { "SetProc", "GenerateSetProc" },
-                    { "Delete Single By Id", "GenerateDeleteSingleProc" },
-                    { "Delete Many By List", "GenerateDeleteManyProc" },
-                    { "Delete All", "GenerateDeleteAllProc" },
+                    { GENERATE_STORED_PROC_PERMS, false.ToString()},
+                    { INCLUDE_DISABLED_CHECK, false.ToString()},
+                    { SEARCH_BY_LIST, string.Empty},
+                    { SORT_BY_LIST, string.Empty},
+                    { SELECT_BY_LIST, string.Empty},
                 };
             }
-        }
-        public IDictionary<string, bool> Options
-        {
-            get
-            {
-                return new Dictionary<string, bool>()
-                {
-                    { GENERATE_STORED_PROC_PERMS, false},
-                    { INCLUDE_DISABLED_CHECK, false},
-                };
-            }
-        }
-        public override string TabType
-        {
-            get { return "SqlTabSize"; }
-        }
-        public int GetHash
-        {
-            get { return 42; }
         }
 
         public CodeGeneratorSql() { }
 
-        public OutputObject GenerateSelectSingleProc(SqlTable sqlTable, GeneratorManifest manifest)
+        public OutputObject Process(string method, SqlTable sqlTable, Dictionary<string, string> options)
+        {
+            if (string.IsNullOrEmpty(method))
+                throw new ArgumentNullException(nameof(method));
+
+            if (sqlTable == null)
+                throw new ArgumentNullException(nameof(sqlTable));
+
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            switch (method)
+            {
+                case GENERATE_SELECT_SINGLE_PROC: return GenerateSelectSingleProc(sqlTable, options);
+                //case GENERATE_SELECT_MANY_PROC: return GenerateSelectManyProc(sqlTable, options);
+                //GENERATE_SELECT_MANY_BY_X_PROC,
+                case GENERATE_SELECT_ALL_PROC: return GenerateSelectSingleProc(sqlTable, options);
+                //GENERATE_PAGINATED_SEARCH_PROC,
+                //GENERATE_INSERT_PROC,
+                //GENERATE_UPDATE_PROC,
+                //GENERATE_SET_PROC,
+                //GENERATE_DELETE_SINGLE_PROC,
+                //GENERATE_DELETE_MANY_PROC,
+                //GENERATE_DELETE_ALL_PROC,
+                //GENERATE_GET_TABLE_DETAILS_PROC,
+
+
+                default:
+                    throw new NotImplementedException($"Unknown method, '{method}'");
+            }
+        }
+
+        public OutputObject GenerateSelectSingleProc(SqlTable sqlTable, Dictionary<string, string> options)
         {
             if (sqlTable == null)
-                throw new ArgumentException("Sql table cannot be null");
+                throw new ArgumentNullException(nameof(sqlTable));
 
-            if (manifest == null)
-                throw new ArgumentException("Manifest cannot be null");
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
 
             // todo: add in pk name list
 
@@ -98,8 +149,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
@@ -151,7 +202,7 @@ namespace AutoCodeGenLibrary
                 }
             }
 
-            if (manifest.GetOptionState(INCLUDE_DISABLED_CHECK) == GeneratorManifest.OptionsState.True)
+            if (options[INCLUDE_DISABLED_CHECK] == true.ToString())
                 sb.AppendLine($"{join_conjunction}{NameFormatter.ToTSQLName(sqlTable.Name)}.[Disabled] = 0");
 
             #endregion
@@ -160,7 +211,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine();
 
 
-            if (manifest.GetOptionState(GENERATE_STORED_PROC_PERMS) == GeneratorManifest.OptionsState.True)
+            if (options[GENERATE_STORED_PROC_PERMS] == true.ToString())
             {
                 sb.AppendLine(GenerateSqlStoredProcPerms(procedure_name));
                 sb.AppendLine();
@@ -170,7 +221,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateSelectManyProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms, bool includeDisabledCheck)
+        private OutputObject GenerateSelectManyProc(SqlTable sqlTable, List<string> sortFields, List<string> selectFields, bool generateStoredProcPerms, bool includeDisabledCheck)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
@@ -190,8 +241,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             var sb = new StringBuilder();
@@ -309,8 +360,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             var sb = new StringBuilder();
@@ -358,30 +409,32 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public OutputObject GenerateSelectAllProc(SqlTable sqlTable, List<string> sortFields, bool generateStoredProcPerms, bool includeDisabledCheck)
+        public OutputObject GenerateSelectAllProc(SqlTable sqlTable, Dictionary<string, string> options)
         {
             if (sqlTable == null)
                 throw new ArgumentException("Sql table cannot be null");
 
+            var sortFields = StringToList(options[SORT_BY_LIST]);
+
             if (sortFields == null || sortFields.Count == 0)
                 throw new ArgumentException("Sort names cannot be null or empty");
 
-            string procedure_name = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null);
+            string procName = NameFormatter.GenerateSqlStoredProcName(sqlTable.Name, eStoredProcType.SelectAll, null);
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procName + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(GenerateSqlSpExistanceChecker(procedure_name, sqlTable.Schema));
+            sb.AppendLine(GenerateSqlSpExistanceChecker(procName, sqlTable.Schema));
             sb.AppendLine();
 
-            sb.AppendLine(GenerateDescriptionHeader(procedure_name, sqlTable.Schema));
+            sb.AppendLine(GenerateDescriptionHeader(procName, sqlTable.Schema));
 
-            sb.AppendLine($"CREATE PROCEDURE [{sqlTable.Schema}].[{procedure_name}]");
+            sb.AppendLine($"CREATE PROCEDURE [{sqlTable.Schema}].[{procName}]");
             sb.AppendLine("AS");
             sb.AppendLine();
 
@@ -395,7 +448,7 @@ namespace AutoCodeGenLibrary
             sb.AppendLine($"FROM{AddTabs(1)}[{sqlTable.Schema}].[{sqlTable.Name}]");
             sb.AppendLine();
 
-            if (includeDisabledCheck)
+            if (options[INCLUDE_DISABLED_CHECK] == true.ToString())
             {
                 sb.AppendLine($"AND {NameFormatter.ToTSQLName(sqlTable.Name)}.[Disabled] = 0");
                 sb.AppendLine();
@@ -405,9 +458,9 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("GO");
             sb.AppendLine();
 
-            if (generateStoredProcPerms)
+            if (options[GENERATE_STORED_PROC_PERMS] == true.ToString())
             {
-                sb.AppendLine(GenerateSqlStoredProcPerms(procedure_name));
+                sb.AppendLine(GenerateSqlStoredProcPerms(procName));
                 sb.AppendLine();
             }
 
@@ -430,8 +483,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
@@ -524,8 +577,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             var sb = new StringBuilder();
@@ -610,8 +663,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
@@ -708,8 +761,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
@@ -902,8 +955,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             // sanity check - if there are no primary keys in the table, we cannot know 
@@ -987,8 +1040,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             var sb = new StringBuilder();
@@ -1065,8 +1118,8 @@ namespace AutoCodeGenLibrary
 
             var output = new OutputObject
             {
-                Name = procedure_name + ".sql",
-                Type = OutputObject.eObjectType.Sql
+                FileName = procedure_name + ".sql",
+                //Type = OutputObject.eObjectType.Sql
             };
 
             var sb = new StringBuilder();
@@ -1102,7 +1155,7 @@ namespace AutoCodeGenLibrary
             return output;
         }
 
-        public string GenerateGetTableDetailsStoredProcedure()
+        public string GenerateGetTableDetailsProc()
         {
             var procedure_name = "sp_TableDetails";
             var schema = "dbo";
@@ -1132,15 +1185,14 @@ namespace AutoCodeGenLibrary
             sb.AppendLine("AS");
             sb.AppendLine();
 
-            //sb.AppendLine("SET NOCOUNT ON");
-            //sb.AppendLine();
-
             sb.AppendLine(GenerateGetTableDetailsLogic());
 
             sb.AppendLine("GO");
 
             return sb.ToString();
         }
+
+        // helpers
 
         public string GenerateGetTableDetailsLogic()
         {
@@ -1260,7 +1312,6 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        // Script Header Generation
         public string GenerateSqlScriptHeader(string databaseName)
         {
             if (string.IsNullOrEmpty(databaseName))
@@ -1269,7 +1320,6 @@ namespace AutoCodeGenLibrary
             var sb = new StringBuilder();
 
             // Script file header
-            sb.Append("/* " + GenerateAuthorNotice() + " */");
             sb.Append(Environment.NewLine);
             sb.Append("USE [" + databaseName + "]");
             sb.Append(Environment.NewLine + "GO");
@@ -1292,7 +1342,7 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        // helper script methods
+        // script methods
 
         private string GenerateSinglePkTableType(SqlTable sqlTable, string columnName)
         {
@@ -1465,9 +1515,9 @@ namespace AutoCodeGenLibrary
             // list query parameters
             foreach (var sql_column in sqlTable.Columns.Values)
             {
-                if ((includedFields == eIncludedFields.All) ||
-                    (includedFields == eIncludedFields.PKOnly && sql_column.IsPk) ||
-                    (includedFields == eIncludedFields.NoIdentities))
+                if (includedFields == eIncludedFields.All ||
+                    includedFields == eIncludedFields.PKOnly && sql_column.IsPk ||
+                    includedFields == eIncludedFields.NoIdentities)
                 {
                     if (first_flag)
                         first_flag = false;

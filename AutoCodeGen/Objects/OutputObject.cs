@@ -20,21 +20,9 @@ namespace AutoCodeGenLibrary
 {
     public class OutputObject
     {
-        public enum eObjectType
-        {
-            CSharp,
-            Sql,
-            Css,
-
-            ReactComponent,
-            ReactInterface,
-            ReactPage,
-            ReactIndex,
-        }
-
-        public string Name { get; set; }
+        public string FileName { get; set; }
         public string Body { get; set; }
-        public eObjectType Type { get; set; }
+        public string OutputPath { get; set; }
 
         public OutputObject() { }
     }

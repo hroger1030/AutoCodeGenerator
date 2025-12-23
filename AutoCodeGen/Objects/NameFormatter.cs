@@ -47,7 +47,7 @@ namespace AutoCodeGenLibrary
         private static readonly string _CSharpEnumPrefix = ConfigurationManager.AppSettings["CSharpEnumPrefix"];
         private static readonly string _CSharpInterfacePrefix = ConfigurationManager.AppSettings["CSharpInterfacePrefix"];
 
-        private static readonly string[] _CSharpUndesireables = new string[] 
+        private static readonly string[] _CSharpUndesirables = new string[] 
         { 
             "!", "$", "%", "^", "*", "(", ")", "-", "+", "\"", "=", "{", "}", "[",
             "]", ":", ";", "|", "'", "\\", "<", ">", ",", ".", "?", "/", " ", "~", "`" 
@@ -621,7 +621,7 @@ namespace AutoCodeGenLibrary
                 input = input.Replace("@", "At");
                 input = input.Replace("&", "And");
 
-                foreach (string forbiddenChar in _CSharpUndesireables)
+                foreach (string forbiddenChar in _CSharpUndesirables)
                 {
                     input = input.Replace(forbiddenChar, string.Empty);
                 }
@@ -740,8 +740,7 @@ namespace AutoCodeGenLibrary
         }
 
         /// <summary>
-        /// Sample:
-        /// [dbo].[Events_SelectSingle]
+        /// Sample: [dbo].[Events_SelectSingle]
         /// </summary>
         public static string GenerateSqlStoredProcName(string tableName, eStoredProcType procType, IEnumerable<string> selectedFields)
         {
@@ -753,9 +752,9 @@ namespace AutoCodeGenLibrary
 
             switch (procType)
             {
-                case eStoredProcType.SelectSingle: suffix = string.Format(_SelectSingleByXSpSuffix, selectedFieldsString); break;
+                case eStoredProcType.SelectSingle: suffix = $"{_SelectSingleByXSpSuffix}{selectedFieldsString}"; break;
                 case eStoredProcType.SelectMany: suffix = _SelectManySpSuffix; break;
-                case eStoredProcType.SelectManyByX: suffix = string.Format(_SelectManyByXSpSuffix, selectedFieldsString); break;
+                case eStoredProcType.SelectManyByX: suffix = $"{_SelectManyByXSpSuffix}{selectedFieldsString}"; break;
                 case eStoredProcType.SelectAll: suffix = _SelectAllSpSuffix; break;
                 case eStoredProcType.SearchPaged: suffix = _SearchPagedSpSuffix; break;
                 case eStoredProcType.Insert: suffix = _InsertSingleSpSuffix; break;
@@ -770,8 +769,8 @@ namespace AutoCodeGenLibrary
             }
 
             // tried title case here, gets a little odd.
-            tableName = tableName.Replace(" ", "_");
             tableName = $"{_SpNamePrefix}{tableName}_{suffix}";
+            tableName = tableName.Replace(" ", "_");
             tableName = tableName.Replace("__", "_");
 
             return tableName;

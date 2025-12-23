@@ -16,18 +16,20 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+using DAL.Standard.SqlMetadata;
+using System.Collections.Generic;
+
 namespace AutoCodeGenLibrary
 {
-    public enum eLanguage
+    public interface IOutputPlugin
     {
-        Csharp,
-        Java,
-        Scala,
-        Cplusplus,
-        C,
-        Go,
-        JavaScript,
-        Sql,
-        MsSql,
+        string Category { get; }
+        string Language { get; }
+        string Name { get; }
+        string Description { get; }
+        Dictionary<string, string> BaseOptions { get; }
+
+        OutputObject Process(SqlTable sqlTable, Dictionary<string, string> options);
     }
 }
+
