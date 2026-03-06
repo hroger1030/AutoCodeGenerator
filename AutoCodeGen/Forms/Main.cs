@@ -19,7 +19,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using AutoCodeGenLibrary;
 using DAL.Standard;
 using DAL.Standard.SqlMetadata;
-using log4net;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -39,8 +38,7 @@ namespace AutoCodeGen
     [SupportedOSPlatform("windows")]
     public partial class Main : Form
     {
-        private static readonly ILog _Log = LogManager.GetLogger(typeof(Main));
-
+        private const string APP_NAME = "Jolly Roger Code Generator";
         private const string PRODUCT_VERSION = "3.0";
         private const string DEFAULT_SQL_CONN_STRING = "Server=(localdb)\\MSSQLLocalDB;Database=master;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Connect Timeout=2;";
 
@@ -61,12 +59,9 @@ namespace AutoCodeGen
         /// </summary>
         private const int MAX_MESSAGES = 50;
 
-        private HashSet<string> _DirectoriesUsed = new();
         private AesEncryption _AesEncryption;
         private List<TableMetadata> _DbTables;
         private string _DatabaseName;
-        private string _OutputPath;
-        private List<string> _NamespaceIncludes;  // TODO add from config?
         private Dictionary<string, IOutputPlugin> _Generators;
 
         // Counts to help manage onChecked events for checkbox lists.
@@ -74,13 +69,6 @@ namespace AutoCodeGen
         // yet, so extra variables are required to track state.
 
         private int clbGeneratorSqlTablesCheckedCount;
-        private int clbGeneratorsCheckedCount;
-        private int clbExportSqlTablesCheckedCount;
-        private int clbExportersCheckedCount;
-
-        // Delegates
-        private delegate void DisplayMessageSignature(string message, bool is_error);
-        private delegate void DisplayUIMessageDelegate(string message);
 
         public Main()
         {
@@ -99,23 +87,18 @@ namespace AutoCodeGen
                 Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
 
                 _DatabaseName = string.Empty;
-                _OutputPath = string.Empty;
-                _NamespaceIncludes = new List<string>();
                 _Generators = LoadPlugins();
 
                 // display version info
                 lblVersion.Text = $"Version {PRODUCT_VERSION}";
                 txtConn.Text = Properties.Settings.Default.ConnectionString;
-                DisplayMessage($"{Properties.Resource.ApplicationName}, Version {PRODUCT_VERSION}", false);
+                DisplayMessage($"{APP_NAME}, Version {PRODUCT_VERSION}", false);
 
                 ResetApp();
                 ValidateDbConnectionString();
             }
             catch (Exception ex)
             {
-                if (_Log.IsErrorEnabled)
-                    _Log.Error($"Main::Main() encountered an exception: {ex.Message}", ex);
-
                 DisplayMessage(ex.Message, true);
             }
         }
@@ -148,7 +131,6 @@ namespace AutoCodeGen
         {
             ResetServerTab();
             ResetGeneratorTab();
-            ResetExportTab();
         }
 
         private void ResetServerTab()
@@ -168,13 +150,12 @@ namespace AutoCodeGen
             cmbDatabaseList.Items.Clear();
 
             clbSqlTables.Items.Clear();
-            clbExportSqlTables.Items.Clear();
         }
 
         private void ResetGeneratorTab()
         {
-            btnToggleSql.Text = Properties.Resource.SelectAll;
-            btnToggleGenerators.Text = Properties.Resource.SelectAll;
+            btnToggleSql.Text = "Select All";
+            btnToggleGenerators.Text = "Select All";
 
             BindDataTableToCheckBoxList(_DbTables, clbSqlTables);
             clbGeneratorSqlTablesCheckedCount = clbSqlTables.CheckedItems.Count;
@@ -188,27 +169,6 @@ namespace AutoCodeGen
                 methodBuffer.Add(kvp.Key);
 
             clbGenerators.Items.AddRange(methodBuffer.OrderBy(i => i).ToArray());
-            clbGeneratorsCheckedCount = clbGenerators.CheckedItems.Count;
-        }
-
-        private void ResetExportTab()
-        {
-            btnToggleExportSqlTables.Text = Properties.Resource.SelectAll;
-            btnToggleExportObjects.Text = Properties.Resource.SelectAll;
-
-            BindDataTableToCheckBoxList(_DbTables, clbExportSqlTables);
-            clbExportSqlTablesCheckedCount = clbExportSqlTables.CheckedItems.Count;
-
-            clbExportOptions.Items.Clear();
-            clbExportOptions.Items.AddRange(new object[]
-            {
-                Properties.Resource.ExportXmlData,
-                Properties.Resource.ImportXmlObject,
-                Properties.Resource.ExportJsonData,
-                Properties.Resource.ImportJsonObject
-            });
-
-            clbExportersCheckedCount = this.clbExportOptions.CheckedItems.Count;
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -234,13 +194,6 @@ namespace AutoCodeGen
             ValidateDbConnectionString();
         }
 
-        private void txtOutputPath_TextChanged(object sender, EventArgs e)
-        {
-            // Make sure that we only have a diretory path, and no file name(s)
-            if (txtOutputPath.Text != string.Empty)
-                _OutputPath = txtOutputPath.Text;
-        }
-
         // Checkbox changes
         private void cblSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
         {
@@ -248,37 +201,6 @@ namespace AutoCodeGen
                 clbGeneratorSqlTablesCheckedCount = clbSqlTables.CheckedItems.Count + 1;
             else if (e.NewValue == CheckState.Unchecked)
                 clbGeneratorSqlTablesCheckedCount = clbSqlTables.CheckedItems.Count - 1;
-
-            if (clbGeneratorSqlTablesCheckedCount == 0)
-                btnToggleSql.Text = Properties.Resource.SelectAll;
-            else
-                btnToggleSql.Text = Properties.Resource.DeselectAll;
-        }
-
-        private void clbExportSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-                clbExportSqlTablesCheckedCount = clbExportSqlTables.CheckedItems.Count + 1;
-            else if (e.NewValue == CheckState.Unchecked)
-                clbExportSqlTablesCheckedCount = clbExportSqlTables.CheckedItems.Count - 1;
-
-            if (clbExportSqlTablesCheckedCount == 0)
-                btnToggleExportSqlTables.Text = Properties.Resource.SelectAll;
-            else
-                btnToggleExportSqlTables.Text = Properties.Resource.DeselectAll;
-        }
-
-        private void clbExportOptionTables_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-                clbExportersCheckedCount = clbExportOptions.CheckedItems.Count + 1;
-            else if (e.NewValue == CheckState.Unchecked)
-                clbExportersCheckedCount = clbExportOptions.CheckedItems.Count - 1;
-
-            if (clbExportersCheckedCount == 0)
-                btnToggleExportObjects.Text = Properties.Resource.SelectAll;
-            else
-                btnToggleExportObjects.Text = Properties.Resource.DeselectAll;
         }
 
         // Button clicks
@@ -288,12 +210,7 @@ namespace AutoCodeGen
 
             try
             {
-                // make sure we have a solid target to push to
-                if (Directory.Exists(txtOutputPath.Text))
-                {
-                    _OutputPath = txtOutputPath.Text;
-                }
-                else
+                if (!Directory.Exists(txtOutputPath.Text))
                 {
                     DisplayMessage("Specified output directory does not exist, halting code generation.", true);
                     return;
@@ -302,8 +219,6 @@ namespace AutoCodeGen
                 var sqlDatabase = new SqlDatabase();
 
                 string file_name;
-
-                _DirectoriesUsed.Clear();
 
                 sqlDatabase.LoadDatabaseMetadata(_DatabaseName, txtConn.Text);
 
@@ -328,9 +243,8 @@ namespace AutoCodeGen
 
                     foreach (var item in output)
                     {
-                        file_name = Path.Combine(_OutputPath, item.OutputPath, item.FileName);
+                        file_name = Path.Combine(txtOutputPath.Text, item.OutputPath, item.FileName);
                         FileIo.WriteToFile(file_name, item.Body);
-                        _DirectoriesUsed.Add(item.OutputPath);
                     }
 
                     DisplayMessage("Objects created.", false);
@@ -338,9 +252,6 @@ namespace AutoCodeGen
             }
             catch (Exception ex)
             {
-                if (_Log.IsErrorEnabled)
-                    _Log.Error($"Main::btnGenerateCode_Click() encountered an exception: {ex.Message}", ex);
-
                 DisplayMessage(ex.Message, true);
             }
             finally
@@ -400,13 +311,6 @@ namespace AutoCodeGen
             }
             catch (Exception ex)
             {
-                // 1) disable any tabs that are inappropriate
-                // 2) display error message
-                // 3) set connected flag to false
-
-                if (_Log.IsErrorEnabled)
-                    _Log.Error($"Main::btnConnect_Click() encountered an exception: {ex.Message}", ex);
-
                 DisplayMessage(ex.Message, true);
                 DisplayMessage("Failed to connect to server.");
             }
@@ -426,10 +330,6 @@ namespace AutoCodeGen
 
                 case "tabSql":
                     ResetGeneratorTab();
-                    break;
-
-                case "tabExport":
-                    ResetExportTab();
                     break;
 
                 case "tabAbout":
@@ -479,63 +379,6 @@ namespace AutoCodeGen
             }
         }
 
-        // select/deselect all code
-        private void btnToggleSql_Click(object sender, EventArgs e)
-        {
-            if (btnToggleSql.Text == Properties.Resource.SelectAll)
-            {
-                btnToggleSql.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbSqlTables, true);
-            }
-            else
-            {
-                btnToggleSql.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbSqlTables, false);
-            }
-        }
-
-        private void btnToggleGenerators_Click(object sender, EventArgs e)
-        {
-            if (btnToggleGenerators.Text == Properties.Resource.SelectAll)
-            {
-                btnToggleGenerators.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbGenerators, true);
-            }
-            else
-            {
-                btnToggleGenerators.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbGenerators, false);
-            }
-        }
-
-        private void btnToggleExportSqlTables_Click(object sender, EventArgs e)
-        {
-            if (btnToggleExportSqlTables.Text == Properties.Resource.SelectAll)
-            {
-                btnToggleExportSqlTables.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbExportSqlTables, true);
-            }
-            else
-            {
-                btnToggleExportSqlTables.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbExportSqlTables, false);
-            }
-        }
-
-        private void btnToggleExportObjects_Click(object sender, EventArgs e)
-        {
-            if (btnToggleGenerators.Text == Properties.Resource.SelectAll)
-            {
-                btnToggleGenerators.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbExportOptions, true);
-            }
-            else
-            {
-                btnToggleGenerators.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbExportOptions, false);
-            }
-        }
-
         // Other events
         private async void cmbDatabaseList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -547,49 +390,15 @@ namespace AutoCodeGen
 
                 // reset all tabs that have table specific data
                 ResetGeneratorTab();
-                ResetExportTab();
             }
             catch (Exception ex)
             {
-                if (_Log.IsErrorEnabled)
-                    _Log.Error($"Main::cmbDatabaseList_SelectedIndexChanged() encountered an exception: {ex.Message}", ex);
-
                 DisplayMessage(ex.Message, true);
             }
             finally
             {
                 DisplayMessage("Changed to database " + cmbDatabaseList.Text, false);
                 Cursor = Cursors.Default;
-            }
-        }
-
-        private void lnkWebLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            try
-            {
-                System.Diagnostics.Process.Start("IExplore", Properties.Resource.WebsiteUrl);
-            }
-            catch (Exception ex)
-            {
-                DisplayMessage("Cannot find browser. Please open your browser manually.", true);
-
-                if (_Log.IsErrorEnabled)
-                    _Log.Error($"Main::lnkWebLink_LinkClicked() encountered an exception: {ex.Message}", ex);
-            }
-        }
-
-        private void lnkEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            try
-            {
-                System.Diagnostics.Process.Start("mailto:" + Properties.Resource.AuthorEmailAddress);
-            }
-            catch (Exception ex)
-            {
-                DisplayMessage("Cannot find e-mail application. Please open your e-mail client manually.", true);
-
-                if (_Log.IsErrorEnabled)
-                    _Log.Error($"Main::lnkEmail_LinkClicked() encountered an exception: {ex.Message}", ex);
             }
         }
 
@@ -671,16 +480,6 @@ namespace AutoCodeGen
             btnConnect.Enabled = !string.IsNullOrWhiteSpace(txtConn.Text);
         }
 
-        private void UpdateComboBoxList(ComboBox input, List<string> list)
-        {
-            _NamespaceIncludes.Sort();
-
-            input.Items.Clear();
-
-            foreach (var item in list)
-                input.Items.Add(item);
-        }
-
         /// <summary>
         /// Scans the assembly for all available plugins that implement IPlugin interface.
         /// returns a dictionary of plugin names and plugin instances.
@@ -718,44 +517,37 @@ namespace AutoCodeGen
 
         private void btnCleanOutput_Click(object sender, EventArgs e)
         {
+            var outputPath = txtOutputPath.Text;
+
             try
             {
                 //string applicationPath = Path.GetDirectoryName(Application.ExecutablePath);
 
-                if (_OutputPath == null || !Directory.Exists(_OutputPath))
+                if (outputPath == null || !Directory.Exists(outputPath))
                     return;
 
-                var fileList = Directory.GetFiles(_OutputPath, "*.*", SearchOption.AllDirectories);
+                var fileList = Directory.GetFiles(outputPath, "*.*", SearchOption.AllDirectories);
 
                 foreach (string filename in fileList)
                     File.Delete(filename);
 
-                var directoryList = Directory.GetDirectories(_OutputPath, "*.*", SearchOption.TopDirectoryOnly);
+                var directoryList = Directory.GetDirectories(outputPath, "*.*", SearchOption.TopDirectoryOnly);
 
                 foreach (string directoryName in directoryList)
                     Directory.Delete(directoryName, false);
             }
             catch
             {
-                DisplayMessage($"Error encountered in removing script files from {_OutputPath}. Please make sure they aren't open in other programs.", true);
+                DisplayMessage($"Error encountered in removing script files from {outputPath}. Please make sure they aren't open in other programs.", true);
                 return;
             }
 
-            DisplayMessage($"Script files removed from {_OutputPath}", false);
+            DisplayMessage($"Script files removed from {outputPath}", false);
         }
 
-        //private DataTable LoadSqlTableData(SqlTable sqlTable, string connectionString)
-        //{
-        //    if (sqlTable == null)
-        //        throw new ArgumentException("SqlTable is null");
+        private void btnSetDirectory_Click_1(object sender, EventArgs e)
+        {
 
-        //    string query = $"SELECT * FROM [{sqlTable.Database.Name}].[{sqlTable.Schema}].[{sqlTable.Name}]";
-        //    var db = new Database(connectionString);
-
-        //    DataTable data_table = db.ExecuteQuery(query, null);
-        //    data_table.TableName = sqlTable.Name;
-
-        //    return data_table;
-        //}
+        }
     }
 }

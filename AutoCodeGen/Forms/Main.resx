@@ -181,280 +181,134 @@
   <data name="&gt;&gt;btnResetCurrentTab.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="lblCopyright.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblMessages.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="lblMessages.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblCopyright.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="lblMessages.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 362</value>
   </data>
-  <data name="lblCopyright.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 42</value>
-  </data>
-  <data name="lblCopyright.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="lblMessages.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
   </data>
-  <data name="lblCopyright.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 15</value>
+  <data name="lblMessages.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 15</value>
   </data>
-  <data name="lblCopyright.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="lblMessages.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="lblCopyright.Text" xml:space="preserve">
-    <value>Copyright Global Conquest Games, LLC</value>
+  <data name="lblMessages.Text" xml:space="preserve">
+    <value>Messages</value>
   </data>
-  <data name="&gt;&gt;lblCopyright.Name" xml:space="preserve">
-    <value>lblCopyright</value>
+  <data name="&gt;&gt;lblMessages.Name" xml:space="preserve">
+    <value>lblMessages</value>
   </data>
-  <data name="&gt;&gt;lblCopyright.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblMessages.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblCopyright.Parent" xml:space="preserve">
-    <value>tabAbout</value>
+  <data name="&gt;&gt;lblMessages.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;lblCopyright.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;lblMessages.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
-  <data name="lnkEmail.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="btnOpenOutputDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
-  <data name="lnkEmail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>145, 67</value>
+  <data name="btnOpenOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>514, 504</value>
   </data>
-  <data name="lnkEmail.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lnkEmail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 15</value>
-  </data>
-  <data name="lnkEmail.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="lnkEmail.Text" xml:space="preserve">
-    <value>(Email)</value>
-  </data>
-  <data name="&gt;&gt;lnkEmail.Name" xml:space="preserve">
-    <value>lnkEmail</value>
-  </data>
-  <data name="&gt;&gt;lnkEmail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lnkEmail.Parent" xml:space="preserve">
-    <value>tabAbout</value>
-  </data>
-  <data name="&gt;&gt;lnkEmail.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lnkWebLink.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lnkWebLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 93</value>
-  </data>
-  <data name="lnkWebLink.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lnkWebLink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 15</value>
-  </data>
-  <data name="lnkWebLink.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="lnkWebLink.Text" xml:space="preserve">
-    <value>Visit GlobalConquest.net</value>
-  </data>
-  <data name="&gt;&gt;lnkWebLink.Name" xml:space="preserve">
-    <value>lnkWebLink</value>
-  </data>
-  <data name="&gt;&gt;lnkWebLink.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lnkWebLink.Parent" xml:space="preserve">
-    <value>tabAbout</value>
-  </data>
-  <data name="&gt;&gt;lnkWebLink.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="pbxLogo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="pbxLogo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        /9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsN
-        DhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQU
-        FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAC0APADASIAAhEBAxEB/8QA
-        HwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIh
-        MUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVW
-        V1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXG
-        x8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQF
-        BgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAV
-        YnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOE
-        hYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq
-        8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD8/N3vQWqPdXR+KPh34i8G6H4f1jV9Oa007XoGuNOmLowmRcZI
-        AJI6jg4PIrUDnw7DoxU+xx/n600tyTkknqc4/P35pm6k3YoAfuNdP4y8djxfp/h21/sXTdKOkWS2fm2E
-        PltdYJPmTc/M/PWuU3e9JuoAv6M2njWLI6qs76aJV+0i22+aY8jds3cbsZxmmay1i2r3h0xJk00yt9nF
-        yQZRHk7d2OM4xnFUd1IWoAk3U1jTN3vSbqAHlqaTmmk0mRTAcWpN9MJNJkDvSAfuzTSTTcmk3e9K4C55
-        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
-</value>
-  </data>
-  <data name="pbxLogo.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="pbxLogo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 15</value>
-  </data>
-  <data name="pbxLogo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="btnOpenOutputDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="pbxLogo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 192</value>
+  <data name="btnOpenOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 28</value>
   </data>
-  <data name="pbxLogo.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>CenterImage</value>
+  <data name="btnOpenOutputDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
-  <data name="pbxLogo.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="btnOpenOutputDirectory.Text" xml:space="preserve">
+    <value>Open Output Directory</value>
   </data>
-  <data name="&gt;&gt;pbxLogo.Name" xml:space="preserve">
-    <value>pbxLogo</value>
+  <data name="&gt;&gt;btnOpenOutputDirectory.Name" xml:space="preserve">
+    <value>btnOpenOutputDirectory</value>
   </data>
-  <data name="&gt;&gt;pbxLogo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;btnOpenOutputDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;pbxLogo.Parent" xml:space="preserve">
-    <value>tabAbout</value>
+  <data name="&gt;&gt;btnOpenOutputDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;pbxLogo.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;btnOpenOutputDirectory.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="rtbMessaging.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="rtbMessaging.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 380</value>
+  </data>
+  <data name="rtbMessaging.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="rtbMessaging.Size" type="System.Drawing.Size, System.Drawing">
+    <value>660, 112</value>
+  </data>
+  <data name="rtbMessaging.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="rtbMessaging.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="rtbMessaging.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;rtbMessaging.Name" xml:space="preserve">
+    <value>rtbMessaging</value>
+  </data>
+  <data name="&gt;&gt;rtbMessaging.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rtbMessaging.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;rtbMessaging.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnCleanOutput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnCleanOutput.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 504</value>
+  </data>
+  <data name="btnCleanOutput.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 28</value>
+  </data>
+  <data name="btnCleanOutput.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="btnCleanOutput.Text" xml:space="preserve">
+    <value>Delete Output Directory</value>
+  </data>
+  <data name="&gt;&gt;btnCleanOutput.Name" xml:space="preserve">
+    <value>btnCleanOutput</value>
+  </data>
+  <data name="&gt;&gt;btnCleanOutput.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCleanOutput.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnCleanOutput.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="lblAuthor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="lblAuthor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lblAuthor.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 67</value>
@@ -481,13 +335,16 @@
     <value>tabAbout</value>
   </data>
   <data name="&gt;&gt;lblAuthor.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>0</value>
   </data>
   <data name="lblVersion.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblVersion.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 15</value>
+    <value>15, 41</value>
   </data>
   <data name="lblVersion.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -511,10 +368,13 @@
     <value>tabAbout</value>
   </data>
   <data name="&gt;&gt;lblVersion.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>1</value>
   </data>
   <data name="lblApplicationTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="lblApplicationTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lblApplicationTitle.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 15</value>
@@ -541,7 +401,7 @@
     <value>tabAbout</value>
   </data>
   <data name="&gt;&gt;lblApplicationTitle.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>2</value>
   </data>
   <data name="tabAbout.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 28</value>
@@ -568,210 +428,6 @@
     <value>tabcontrolAutoCodeGen</value>
   </data>
   <data name="&gt;&gt;tabAbout.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="btnToggleExportObjects.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnToggleExportObjects.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnToggleExportObjects.Location" type="System.Drawing.Point, System.Drawing">
-    <value>552, 18</value>
-  </data>
-  <data name="btnToggleExportObjects.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="btnToggleExportObjects.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
-  </data>
-  <data name="btnToggleExportObjects.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="btnToggleExportObjects.Text" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="&gt;&gt;btnToggleExportObjects.Name" xml:space="preserve">
-    <value>btnToggleExportObjects</value>
-  </data>
-  <data name="&gt;&gt;btnToggleExportObjects.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleExportObjects.Parent" xml:space="preserve">
-    <value>tabExport</value>
-  </data>
-  <data name="&gt;&gt;btnToggleExportObjects.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblXml.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblXml.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblXml.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 30</value>
-  </data>
-  <data name="lblXml.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblXml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 15</value>
-  </data>
-  <data name="lblXml.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="lblXml.Text" xml:space="preserve">
-    <value>Options</value>
-  </data>
-  <data name="&gt;&gt;lblXml.Name" xml:space="preserve">
-    <value>lblXml</value>
-  </data>
-  <data name="&gt;&gt;lblXml.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblXml.Parent" xml:space="preserve">
-    <value>tabExport</value>
-  </data>
-  <data name="&gt;&gt;lblXml.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="clbExportOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="clbExportOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>336, 48</value>
-  </data>
-  <data name="clbExportOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="clbExportOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>303, 238</value>
-  </data>
-  <data name="clbExportOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;clbExportOptions.Name" xml:space="preserve">
-    <value>clbExportOptions</value>
-  </data>
-  <data name="&gt;&gt;clbExportOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbExportOptions.Parent" xml:space="preserve">
-    <value>tabExport</value>
-  </data>
-  <data name="&gt;&gt;clbExportOptions.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnToggleExportSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>226, 18</value>
-  </data>
-  <data name="btnToggleExportSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="btnToggleExportSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
-  </data>
-  <data name="btnToggleExportSqlTables.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="btnToggleExportSqlTables.Text" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="&gt;&gt;btnToggleExportSqlTables.Name" xml:space="preserve">
-    <value>btnToggleExportSqlTables</value>
-  </data>
-  <data name="&gt;&gt;btnToggleExportSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleExportSqlTables.Parent" xml:space="preserve">
-    <value>tabExport</value>
-  </data>
-  <data name="&gt;&gt;btnToggleExportSqlTables.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lblExportTables.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblExportTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 30</value>
-  </data>
-  <data name="lblExportTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblExportTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 15</value>
-  </data>
-  <data name="lblExportTables.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="lblExportTables.Text" xml:space="preserve">
-    <value>Tables</value>
-  </data>
-  <data name="&gt;&gt;lblExportTables.Name" xml:space="preserve">
-    <value>lblExportTables</value>
-  </data>
-  <data name="&gt;&gt;lblExportTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblExportTables.Parent" xml:space="preserve">
-    <value>tabExport</value>
-  </data>
-  <data name="&gt;&gt;lblExportTables.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="clbExportSqlTables.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
-  </data>
-  <data name="clbExportSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 48</value>
-  </data>
-  <data name="clbExportSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="clbExportSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>303, 238</value>
-  </data>
-  <data name="clbExportSqlTables.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;clbExportSqlTables.Name" xml:space="preserve">
-    <value>clbExportSqlTables</value>
-  </data>
-  <data name="&gt;&gt;clbExportSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbExportSqlTables.Parent" xml:space="preserve">
-    <value>tabExport</value>
-  </data>
-  <data name="&gt;&gt;clbExportSqlTables.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tabExport.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 28</value>
-  </data>
-  <data name="tabExport.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="tabExport.Size" type="System.Drawing.Size, System.Drawing">
-    <value>656, 312</value>
-  </data>
-  <data name="tabExport.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="tabExport.Text" xml:space="preserve">
-    <value>Data Exporters</value>
-  </data>
-  <data name="&gt;&gt;tabExport.Name" xml:space="preserve">
-    <value>tabExport</value>
-  </data>
-  <data name="&gt;&gt;tabExport.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabExport.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabExport.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="btnToggleSql.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -840,6 +496,9 @@
   <data name="btnToggleGenerators.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
+  <data name="btnToggleGenerators.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="btnToggleGenerators.Location" type="System.Drawing.Point, System.Drawing">
     <value>552, 18</value>
   </data>
@@ -869,6 +528,9 @@
   </data>
   <data name="lblSQLTables.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="lblSQLTables.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lblSQLTables.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 30</value>
@@ -1077,6 +739,36 @@
   <data name="&gt;&gt;txtOutputPath.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="txtConn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="txtConn.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="txtConn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 42</value>
+  </data>
+  <data name="txtConn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="txtConn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>609, 23</value>
+  </data>
+  <data name="txtConn.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;txtConn.Name" xml:space="preserve">
+    <value>txtConn</value>
+  </data>
+  <data name="&gt;&gt;txtConn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtConn.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;txtConn.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="btnUseDefaultConn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -1108,40 +800,13 @@
     <value>tabServer</value>
   </data>
   <data name="&gt;&gt;btnUseDefaultConn.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="txtConn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="txtConn.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="txtConn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 42</value>
-  </data>
-  <data name="txtConn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="txtConn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>609, 23</value>
-  </data>
-  <data name="txtConn.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;txtConn.Name" xml:space="preserve">
-    <value>txtConn</value>
-  </data>
-  <data name="&gt;&gt;txtConn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtConn.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;txtConn.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="lblLogon.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="lblLogon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lblLogon.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 14</value>
@@ -1200,6 +865,9 @@
   <data name="lblDatabase.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblDatabase.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblDatabase.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 124</value>
   </data>
@@ -1229,6 +897,9 @@
   </data>
   <data name="btnConnect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
+  </data>
+  <data name="btnConnect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="btnConnect.Location" type="System.Drawing.Point, System.Drawing">
     <value>501, 85</value>
@@ -1316,129 +987,6 @@
   </data>
   <data name="&gt;&gt;tabcontrolAutoCodeGen.ZOrder" xml:space="preserve">
     <value>6</value>
-  </data>
-  <data name="lblMessages.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="lblMessages.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblMessages.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 362</value>
-  </data>
-  <data name="lblMessages.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblMessages.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 15</value>
-  </data>
-  <data name="lblMessages.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="lblMessages.Text" xml:space="preserve">
-    <value>Messages</value>
-  </data>
-  <data name="&gt;&gt;lblMessages.Name" xml:space="preserve">
-    <value>lblMessages</value>
-  </data>
-  <data name="&gt;&gt;lblMessages.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblMessages.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblMessages.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="btnOpenOutputDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="btnOpenOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 504</value>
-  </data>
-  <data name="btnOpenOutputDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="btnOpenOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 28</value>
-  </data>
-  <data name="btnOpenOutputDirectory.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="btnOpenOutputDirectory.Text" xml:space="preserve">
-    <value>Open Output Directory</value>
-  </data>
-  <data name="&gt;&gt;btnOpenOutputDirectory.Name" xml:space="preserve">
-    <value>btnOpenOutputDirectory</value>
-  </data>
-  <data name="&gt;&gt;btnOpenOutputDirectory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOpenOutputDirectory.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnOpenOutputDirectory.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="rtbMessaging.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
-  </data>
-  <data name="rtbMessaging.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 380</value>
-  </data>
-  <data name="rtbMessaging.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="rtbMessaging.Size" type="System.Drawing.Size, System.Drawing">
-    <value>660, 112</value>
-  </data>
-  <data name="rtbMessaging.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="rtbMessaging.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="rtbMessaging.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;rtbMessaging.Name" xml:space="preserve">
-    <value>rtbMessaging</value>
-  </data>
-  <data name="&gt;&gt;rtbMessaging.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rtbMessaging.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;rtbMessaging.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnCleanOutput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="btnCleanOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 504</value>
-  </data>
-  <data name="btnCleanOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 28</value>
-  </data>
-  <data name="btnCleanOutput.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="btnCleanOutput.Text" xml:space="preserve">
-    <value>Delete Output Directory</value>
-  </data>
-  <data name="&gt;&gt;btnCleanOutput.Name" xml:space="preserve">
-    <value>btnCleanOutput</value>
-  </data>
-  <data name="&gt;&gt;btnCleanOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCleanOutput.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnCleanOutput.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

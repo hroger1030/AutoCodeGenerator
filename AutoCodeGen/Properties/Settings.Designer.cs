@@ -73,54 +73,6 @@ namespace AutoCodeGen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RemoveExistingScripts {
-            get {
-                return ((bool)(this["RemoveExistingScripts"]));
-            }
-            set {
-                this["RemoveExistingScripts"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CreateHelperSp {
-            get {
-                return ((bool)(this["CreateHelperSp"]));
-            }
-            set {
-                this["CreateHelperSp"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CreateSqlSpPerms {
-            get {
-                return ((bool)(this["CreateSqlSpPerms"]));
-            }
-            set {
-                this["CreateSqlSpPerms"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SqlSeperateFiles {
-            get {
-                return ((bool)(this["SqlSeperateFiles"]));
-            }
-            set {
-                this["SqlSeperateFiles"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("313")]
         public int FieldSelectorHeight {
             get {
