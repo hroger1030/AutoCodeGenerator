@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace AutoCodeGen
 {
     partial class Main
@@ -39,13 +41,6 @@ namespace AutoCodeGen
             lblAuthor = new System.Windows.Forms.Label();
             lblVersion = new System.Windows.Forms.Label();
             lblApplicationTitle = new System.Windows.Forms.Label();
-            tabOutput = new System.Windows.Forms.TabPage();
-            btnSetDirectory = new System.Windows.Forms.Button();
-            btnToggleOutput = new System.Windows.Forms.Button();
-            lblOutputPath = new System.Windows.Forms.Label();
-            txtOutputPath = new System.Windows.Forms.TextBox();
-            lblOutputOptions = new System.Windows.Forms.Label();
-            clbOutputOptions = new System.Windows.Forms.CheckedListBox();
             tabExport = new System.Windows.Forms.TabPage();
             btnToggleExportObjects = new System.Windows.Forms.Button();
             lblXml = new System.Windows.Forms.Label();
@@ -61,6 +56,9 @@ namespace AutoCodeGen
             clbGenerators = new System.Windows.Forms.CheckedListBox();
             clbSqlTables = new System.Windows.Forms.CheckedListBox();
             tabServer = new System.Windows.Forms.TabPage();
+            btnSetDirectory = new System.Windows.Forms.Button();
+            lblOutputPath = new System.Windows.Forms.Label();
+            txtOutputPath = new System.Windows.Forms.TextBox();
             btnUseDefaultConn = new System.Windows.Forms.Button();
             txtConn = new System.Windows.Forms.TextBox();
             lblLogon = new System.Windows.Forms.Label();
@@ -68,13 +66,12 @@ namespace AutoCodeGen
             lblDatabase = new System.Windows.Forms.Label();
             btnConnect = new System.Windows.Forms.Button();
             tabcontrolAutoCodeGen = new System.Windows.Forms.TabControl();
-            lvMessaging = new System.Windows.Forms.ListView();
-            Message = new System.Windows.Forms.ColumnHeader();
             lblMessages = new System.Windows.Forms.Label();
             btnOpenOutputDirectory = new System.Windows.Forms.Button();
+            rtbMessaging = new System.Windows.Forms.RichTextBox();
+            btnCleanOutput = new System.Windows.Forms.Button();
             tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbxLogo).BeginInit();
-            tabOutput.SuspendLayout();
             tabExport.SuspendLayout();
             tabGenerators.SuspendLayout();
             tabServer.SuspendLayout();
@@ -149,57 +146,6 @@ namespace AutoCodeGen
             // 
             resources.ApplyResources(lblApplicationTitle, "lblApplicationTitle");
             lblApplicationTitle.Name = "lblApplicationTitle";
-            // 
-            // tabOutput
-            // 
-            tabOutput.Controls.Add(btnSetDirectory);
-            tabOutput.Controls.Add(btnToggleOutput);
-            tabOutput.Controls.Add(lblOutputPath);
-            tabOutput.Controls.Add(txtOutputPath);
-            tabOutput.Controls.Add(lblOutputOptions);
-            tabOutput.Controls.Add(clbOutputOptions);
-            resources.ApplyResources(tabOutput, "tabOutput");
-            tabOutput.Name = "tabOutput";
-            tabOutput.UseVisualStyleBackColor = true;
-            // 
-            // btnSetDirectory
-            // 
-            resources.ApplyResources(btnSetDirectory, "btnSetDirectory");
-            btnSetDirectory.Name = "btnSetDirectory";
-            btnSetDirectory.UseVisualStyleBackColor = true;
-            btnSetDirectory.Click += btnSetDirectory_Click;
-            // 
-            // btnToggleOutput
-            // 
-            resources.ApplyResources(btnToggleOutput, "btnToggleOutput");
-            btnToggleOutput.Name = "btnToggleOutput";
-            btnToggleOutput.UseVisualStyleBackColor = true;
-            btnToggleOutput.Click += btnToggleOutput_Click;
-            // 
-            // lblOutputPath
-            // 
-            resources.ApplyResources(lblOutputPath, "lblOutputPath");
-            lblOutputPath.Name = "lblOutputPath";
-            // 
-            // txtOutputPath
-            // 
-            resources.ApplyResources(txtOutputPath, "txtOutputPath");
-            txtOutputPath.Name = "txtOutputPath";
-            txtOutputPath.TextChanged += txtOutputPath_TextChanged;
-            // 
-            // lblOutputOptions
-            // 
-            resources.ApplyResources(lblOutputOptions, "lblOutputOptions");
-            lblOutputOptions.Name = "lblOutputOptions";
-            // 
-            // clbOutputOptions
-            // 
-            resources.ApplyResources(clbOutputOptions, "clbOutputOptions");
-            clbOutputOptions.CheckOnClick = true;
-            clbOutputOptions.FormattingEnabled = true;
-            clbOutputOptions.Name = "clbOutputOptions";
-            clbOutputOptions.Sorted = true;
-            clbOutputOptions.ItemCheck += clbOutputOptions_ItemCheck;
             // 
             // tabExport
             // 
@@ -307,6 +253,9 @@ namespace AutoCodeGen
             // 
             // tabServer
             // 
+            tabServer.Controls.Add(btnSetDirectory);
+            tabServer.Controls.Add(lblOutputPath);
+            tabServer.Controls.Add(txtOutputPath);
             tabServer.Controls.Add(btnUseDefaultConn);
             tabServer.Controls.Add(txtConn);
             tabServer.Controls.Add(lblLogon);
@@ -316,6 +265,22 @@ namespace AutoCodeGen
             resources.ApplyResources(tabServer, "tabServer");
             tabServer.Name = "tabServer";
             tabServer.UseVisualStyleBackColor = true;
+            // 
+            // btnSetDirectory
+            // 
+            resources.ApplyResources(btnSetDirectory, "btnSetDirectory");
+            btnSetDirectory.Name = "btnSetDirectory";
+            btnSetDirectory.UseVisualStyleBackColor = true;
+            // 
+            // lblOutputPath
+            // 
+            resources.ApplyResources(lblOutputPath, "lblOutputPath");
+            lblOutputPath.Name = "lblOutputPath";
+            // 
+            // txtOutputPath
+            // 
+            resources.ApplyResources(txtOutputPath, "txtOutputPath");
+            txtOutputPath.Name = "txtOutputPath";
             // 
             // btnUseDefaultConn
             // 
@@ -361,23 +326,9 @@ namespace AutoCodeGen
             tabcontrolAutoCodeGen.Controls.Add(tabServer);
             tabcontrolAutoCodeGen.Controls.Add(tabGenerators);
             tabcontrolAutoCodeGen.Controls.Add(tabExport);
-            tabcontrolAutoCodeGen.Controls.Add(tabOutput);
             tabcontrolAutoCodeGen.Controls.Add(tabAbout);
             tabcontrolAutoCodeGen.Name = "tabcontrolAutoCodeGen";
             tabcontrolAutoCodeGen.SelectedIndex = 0;
-            // 
-            // lvMessaging
-            // 
-            resources.ApplyResources(lvMessaging, "lvMessaging");
-            lvMessaging.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { Message });
-            lvMessaging.MultiSelect = false;
-            lvMessaging.Name = "lvMessaging";
-            lvMessaging.UseCompatibleStateImageBehavior = false;
-            lvMessaging.View = System.Windows.Forms.View.Details;
-            // 
-            // Message
-            // 
-            resources.ApplyResources(Message, "Message");
             // 
             // lblMessages
             // 
@@ -391,15 +342,29 @@ namespace AutoCodeGen
             btnOpenOutputDirectory.UseVisualStyleBackColor = true;
             btnOpenOutputDirectory.Click += btnOpenOutputDirectory_Click;
             // 
+            // rtbMessaging
+            // 
+            resources.ApplyResources(rtbMessaging, "rtbMessaging");
+            rtbMessaging.BackColor = SystemColors.Window;
+            rtbMessaging.Name = "rtbMessaging";
+            rtbMessaging.ReadOnly = true;
+            // 
+            // btnCleanOutput
+            // 
+            resources.ApplyResources(btnCleanOutput, "btnCleanOutput");
+            btnCleanOutput.Name = "btnCleanOutput";
+            btnCleanOutput.UseVisualStyleBackColor = true;
+            btnCleanOutput.Click += btnCleanOutput_Click;
+            // 
             // Main
             // 
-            AcceptButton = btnGenerateCode;
             resources.ApplyResources(this, "$this");
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackColor = System.Drawing.SystemColors.Control;
+            BackColor = SystemColors.Control;
+            Controls.Add(btnCleanOutput);
+            Controls.Add(rtbMessaging);
             Controls.Add(btnOpenOutputDirectory);
             Controls.Add(lblMessages);
-            Controls.Add(lvMessaging);
             Controls.Add(btnResetCurrentTab);
             Controls.Add(btnGenerateCode);
             Controls.Add(tabcontrolAutoCodeGen);
@@ -408,8 +373,6 @@ namespace AutoCodeGen
             tabAbout.ResumeLayout(false);
             tabAbout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbxLogo).EndInit();
-            tabOutput.ResumeLayout(false);
-            tabOutput.PerformLayout();
             tabExport.ResumeLayout(false);
             tabExport.PerformLayout();
             tabGenerators.ResumeLayout(false);
@@ -422,12 +385,8 @@ namespace AutoCodeGen
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txtOutputPath;
         private System.Windows.Forms.TextBox txtConn;
         private System.Windows.Forms.Label lblApplicationTitle;
-        private System.Windows.Forms.Label lblOutputPath;
-        private System.Windows.Forms.Label lblOutputOptions;
         private System.Windows.Forms.Label lblSQLTables;
         private System.Windows.Forms.Label lblLogon;
         private System.Windows.Forms.Label lblDatabase;
@@ -440,27 +399,21 @@ namespace AutoCodeGen
         private System.Windows.Forms.LinkLabel lnkWebLink;
 
         private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.Button btnSetDirectory;
         private System.Windows.Forms.Button btnGenerateCode;
         private System.Windows.Forms.Button btnResetCurrentTab;
         private System.Windows.Forms.Button btnToggleGenerators;
         private System.Windows.Forms.Button btnToggleExportSqlTables;
-        private System.Windows.Forms.Button btnToggleOutput;
 
         private System.Windows.Forms.TabControl tabcontrolAutoCodeGen;
         private System.Windows.Forms.TabPage tabAbout;
         private System.Windows.Forms.TabPage tabExport;
         private System.Windows.Forms.TabPage tabGenerators;
-        private System.Windows.Forms.TabPage tabOutput;
         private System.Windows.Forms.TabPage tabServer;
 
         private System.Windows.Forms.CheckedListBox clbExportSqlTables;
-        private System.Windows.Forms.CheckedListBox clbOutputOptions;
         private System.Windows.Forms.CheckedListBox clbGenerators;
         private System.Windows.Forms.CheckedListBox clbSqlTables;
         private System.Windows.Forms.LinkLabel lnkEmail;
-        private System.Windows.Forms.ListView lvMessaging;
-        private System.Windows.Forms.ColumnHeader Message;
         private System.Windows.Forms.Label lblMessages;
         private System.Windows.Forms.Label lblXml;
         private System.Windows.Forms.CheckedListBox clbExportOptions;
@@ -470,5 +423,10 @@ namespace AutoCodeGen
         private System.Windows.Forms.Label lblGenerators;
         private System.Windows.Forms.Button btnToggleSql;
         private System.Windows.Forms.Button btnUseDefaultConn;
+        private System.Windows.Forms.RichTextBox rtbMessaging;
+        private System.Windows.Forms.Button btnSetDirectory;
+        private System.Windows.Forms.Label lblOutputPath;
+        private System.Windows.Forms.TextBox txtOutputPath;
+        private System.Windows.Forms.Button btnCleanOutput;
     }
 }

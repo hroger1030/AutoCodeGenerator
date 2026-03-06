@@ -121,26 +121,23 @@
   <data name="btnGenerateCode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnGenerateCode.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnGenerateCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>550, 505</value>
+    <value>348, 504</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnGenerateCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
   <data name="btnGenerateCode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 28</value>
+    <value>160, 28</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnGenerateCode.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="btnGenerateCode.Text" xml:space="preserve">
-    <value>Generate Code!</value>
+    <value>Generate Code</value>
   </data>
   <data name="&gt;&gt;btnGenerateCode.Name" xml:space="preserve">
     <value>btnGenerateCode</value>
@@ -152,19 +149,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnGenerateCode.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="btnResetCurrentTab.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="btnResetCurrentTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>414, 505</value>
+    <value>14, 503</value>
   </data>
   <data name="btnResetCurrentTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
   <data name="btnResetCurrentTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 28</value>
+    <value>160, 28</value>
   </data>
   <data name="btnResetCurrentTab.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -182,7 +179,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnResetCurrentTab.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lblCopyright.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -571,210 +568,6 @@
     <value>tabcontrolAutoCodeGen</value>
   </data>
   <data name="&gt;&gt;tabAbout.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="btnSetDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="btnSetDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>481, 277</value>
-  </data>
-  <data name="btnSetDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="btnSetDirectory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 27</value>
-  </data>
-  <data name="btnSetDirectory.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="btnSetDirectory.Text" xml:space="preserve">
-    <value>Set to current directory</value>
-  </data>
-  <data name="&gt;&gt;btnSetDirectory.Name" xml:space="preserve">
-    <value>btnSetDirectory</value>
-  </data>
-  <data name="&gt;&gt;btnSetDirectory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnSetDirectory.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;btnSetDirectory.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnToggleOutput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnToggleOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>552, 18</value>
-  </data>
-  <data name="btnToggleOutput.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="btnToggleOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
-  </data>
-  <data name="btnToggleOutput.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="btnToggleOutput.Text" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="&gt;&gt;btnToggleOutput.Name" xml:space="preserve">
-    <value>btnToggleOutput</value>
-  </data>
-  <data name="&gt;&gt;btnToggleOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleOutput.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;btnToggleOutput.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lblOutputPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="lblOutputPath.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblOutputPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 283</value>
-  </data>
-  <data name="lblOutputPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblOutputPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 15</value>
-  </data>
-  <data name="lblOutputPath.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="lblOutputPath.Text" xml:space="preserve">
-    <value>File Output Path:</value>
-  </data>
-  <data name="&gt;&gt;lblOutputPath.Name" xml:space="preserve">
-    <value>lblOutputPath</value>
-  </data>
-  <data name="&gt;&gt;lblOutputPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblOutputPath.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;lblOutputPath.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="txtOutputPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
-  </data>
-  <data name="txtOutputPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>117, 280</value>
-  </data>
-  <data name="txtOutputPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="txtOutputPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 23</value>
-  </data>
-  <data name="txtOutputPath.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;txtOutputPath.Name" xml:space="preserve">
-    <value>txtOutputPath</value>
-  </data>
-  <data name="&gt;&gt;txtOutputPath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtOutputPath.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;txtOutputPath.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lblOutputOptions.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblOutputOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 24</value>
-  </data>
-  <data name="lblOutputOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblOutputOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 15</value>
-  </data>
-  <data name="lblOutputOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblOutputOptions.Text" xml:space="preserve">
-    <value>Output Options</value>
-  </data>
-  <data name="&gt;&gt;lblOutputOptions.Name" xml:space="preserve">
-    <value>lblOutputOptions</value>
-  </data>
-  <data name="&gt;&gt;lblOutputOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblOutputOptions.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;lblOutputOptions.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="clbOutputOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="clbOutputOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 48</value>
-  </data>
-  <data name="clbOutputOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="clbOutputOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>619, 220</value>
-  </data>
-  <data name="clbOutputOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;clbOutputOptions.Name" xml:space="preserve">
-    <value>clbOutputOptions</value>
-  </data>
-  <data name="&gt;&gt;clbOutputOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbOutputOptions.Parent" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;clbOutputOptions.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tabOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 28</value>
-  </data>
-  <data name="tabOutput.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="tabOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>656, 312</value>
-  </data>
-  <data name="tabOutput.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="tabOutput.Text" xml:space="preserve">
-    <value>Output Settings</value>
-  </data>
-  <data name="&gt;&gt;tabOutput.Name" xml:space="preserve">
-    <value>tabOutput</value>
-  </data>
-  <data name="&gt;&gt;tabOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabOutput.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabOutput.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="btnToggleExportObjects.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -1188,6 +981,102 @@
   <data name="&gt;&gt;tabGenerators.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="btnSetDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnSetDirectory.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSetDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>471, 233</value>
+  </data>
+  <data name="btnSetDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="btnSetDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 27</value>
+  </data>
+  <data name="btnSetDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="btnSetDirectory.Text" xml:space="preserve">
+    <value>Set to current directory</value>
+  </data>
+  <data name="&gt;&gt;btnSetDirectory.Name" xml:space="preserve">
+    <value>btnSetDirectory</value>
+  </data>
+  <data name="&gt;&gt;btnSetDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSetDirectory.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;btnSetDirectory.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblOutputPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="lblOutputPath.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblOutputPath.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblOutputPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 203</value>
+  </data>
+  <data name="lblOutputPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
+  <data name="lblOutputPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 15</value>
+  </data>
+  <data name="lblOutputPath.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="lblOutputPath.Text" xml:space="preserve">
+    <value>File Output Path:</value>
+  </data>
+  <data name="&gt;&gt;lblOutputPath.Name" xml:space="preserve">
+    <value>lblOutputPath</value>
+  </data>
+  <data name="&gt;&gt;lblOutputPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblOutputPath.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;lblOutputPath.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="txtOutputPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="txtOutputPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 236</value>
+  </data>
+  <data name="txtOutputPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="txtOutputPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>447, 23</value>
+  </data>
+  <data name="txtOutputPath.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;txtOutputPath.Name" xml:space="preserve">
+    <value>txtOutputPath</value>
+  </data>
+  <data name="&gt;&gt;txtOutputPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtOutputPath.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;txtOutputPath.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="btnUseDefaultConn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -1219,7 +1108,7 @@
     <value>tabServer</value>
   </data>
   <data name="&gt;&gt;btnUseDefaultConn.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>3</value>
   </data>
   <data name="txtConn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -1249,7 +1138,7 @@
     <value>tabServer</value>
   </data>
   <data name="&gt;&gt;txtConn.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="lblLogon.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1279,7 +1168,7 @@
     <value>tabServer</value>
   </data>
   <data name="&gt;&gt;lblLogon.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="cmbDatabaseList.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -1306,7 +1195,7 @@
     <value>tabServer</value>
   </data>
   <data name="&gt;&gt;cmbDatabaseList.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="lblDatabase.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1336,7 +1225,7 @@
     <value>tabServer</value>
   </data>
   <data name="&gt;&gt;lblDatabase.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="btnConnect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -1366,7 +1255,7 @@
     <value>tabServer</value>
   </data>
   <data name="&gt;&gt;btnConnect.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>8</value>
   </data>
   <data name="tabServer.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 28</value>
@@ -1426,40 +1315,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tabcontrolAutoCodeGen.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="lvMessaging.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
-  </data>
-  <data name="Message.Text" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="Message.Width" type="System.Int32, mscorlib">
-    <value>569</value>
-  </data>
-  <data name="lvMessaging.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 383</value>
-  </data>
-  <data name="lvMessaging.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="lvMessaging.Size" type="System.Drawing.Size, System.Drawing">
-    <value>663, 115</value>
-  </data>
-  <data name="lvMessaging.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;lvMessaging.Name" xml:space="preserve">
-    <value>lvMessaging</value>
-  </data>
-  <data name="&gt;&gt;lvMessaging.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lvMessaging.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lvMessaging.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="lblMessages.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -1492,19 +1348,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblMessages.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="btnOpenOutputDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="btnOpenOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>258, 506</value>
+    <value>514, 504</value>
   </data>
   <data name="btnOpenOutputDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
   <data name="btnOpenOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 27</value>
+    <value>160, 28</value>
   </data>
   <data name="btnOpenOutputDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1522,6 +1378,66 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnOpenOutputDirectory.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="rtbMessaging.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="rtbMessaging.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 380</value>
+  </data>
+  <data name="rtbMessaging.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="rtbMessaging.Size" type="System.Drawing.Size, System.Drawing">
+    <value>660, 112</value>
+  </data>
+  <data name="rtbMessaging.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="rtbMessaging.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="rtbMessaging.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;rtbMessaging.Name" xml:space="preserve">
+    <value>rtbMessaging</value>
+  </data>
+  <data name="&gt;&gt;rtbMessaging.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rtbMessaging.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;rtbMessaging.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnCleanOutput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnCleanOutput.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 504</value>
+  </data>
+  <data name="btnCleanOutput.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 28</value>
+  </data>
+  <data name="btnCleanOutput.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="btnCleanOutput.Text" xml:space="preserve">
+    <value>Delete Output Directory</value>
+  </data>
+  <data name="&gt;&gt;btnCleanOutput.Name" xml:space="preserve">
+    <value>btnCleanOutput</value>
+  </data>
+  <data name="&gt;&gt;btnCleanOutput.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCleanOutput.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnCleanOutput.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1598,12 +1514,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Jolly Roger's AutoCode Generator</value>
-  </data>
-  <data name="&gt;&gt;Message.Name" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="&gt;&gt;Message.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>

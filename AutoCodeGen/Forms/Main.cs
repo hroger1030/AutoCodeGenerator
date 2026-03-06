@@ -77,7 +77,6 @@ namespace AutoCodeGen
         private int clbGeneratorsCheckedCount;
         private int clbExportSqlTablesCheckedCount;
         private int clbExportersCheckedCount;
-        private int clbOutputOptionsCheckedCount;
 
         // Delegates
         private delegate void DisplayMessageSignature(string message, bool is_error);
@@ -111,7 +110,6 @@ namespace AutoCodeGen
 
                 ResetApp();
                 ValidateDbConnectionString();
-                ValidateTab();
             }
             catch (Exception ex)
             {
@@ -124,26 +122,23 @@ namespace AutoCodeGen
 
         private void DisplayMessage(string message, bool isError = false)
         {
-
             // lose messages if over max limit
-            while (lvMessaging.Items.Count > MAX_MESSAGES)
-                lvMessaging.Items.RemoveAt(0);
+            while (rtbMessaging.Lines.Length > MAX_MESSAGES)
+            {
+                rtbMessaging.Select(0, rtbMessaging.Lines[0].Length + 1);
+                rtbMessaging.SelectedText = string.Empty;
+            }
 
-            var list_view_item = new ListViewItem();
             string formatted_time = "<" + string.Format("{0:T}", DateTime.Now) + "> ";
+            string formatted_message = formatted_time + " " + message + Environment.NewLine;
 
-            if (isError)
-                list_view_item.ForeColor = Color.Red;
-            else
-                list_view_item.ForeColor = Color.Black;
+            rtbMessaging.SelectionStart = rtbMessaging.TextLength;
+            rtbMessaging.SelectionLength = 0;
+            rtbMessaging.SelectionColor = isError ? Color.Red : Color.Black;
+            rtbMessaging.AppendText(formatted_message);
 
-            list_view_item.Text = formatted_time + " " + message;
-
-            lvMessaging.Items.Add(list_view_item);
-            lvMessaging.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-            lvMessaging.SelectedItems.Clear();
-            lvMessaging.Items[lvMessaging.Items.Count - 1].Selected = true;
-            lvMessaging.Items[lvMessaging.Items.Count - 1].EnsureVisible();
+            // scroll to latest
+            rtbMessaging.ScrollToCaret();
         }
 
         /// <summary>
@@ -154,7 +149,6 @@ namespace AutoCodeGen
             ResetServerTab();
             ResetGeneratorTab();
             ResetExportTab();
-            ResetOutputTab();
         }
 
         private void ResetServerTab()
@@ -217,41 +211,6 @@ namespace AutoCodeGen
             clbExportersCheckedCount = this.clbExportOptions.CheckedItems.Count;
         }
 
-        private void ResetOutputTab()
-        {
-            // get output path from registry, and format it
-            string OutputPath = Properties.Settings.Default.OutputPath;
-
-            if (OutputPath != null && Directory.Exists(OutputPath))
-                txtOutputPath.Text = OutputPath;
-            else
-                txtOutputPath.Text = Directory.GetCurrentDirectory();
-
-            btnToggleOutput.Text = Properties.Resource.SelectAll;
-
-            // Set up output options box
-            clbOutputOptions.Items.Clear();
-            clbOutputOptions.Items.AddRange(new object[]
-            {
-                Properties.Resource.OptSQLCreateHelperSp,
-                Properties.Resource.OptSQLCreateSqlSpPerms,
-                Properties.Resource.OptSQLSeperateFiles,
-
-                Properties.Resource.OptMiscRemoveExistingScripts,
-
-                Properties.Resource.OptCsharpConvertNullableFields,
-                Properties.Resource.OptCsharpIncludeSqlClassDecoration,
-                Properties.Resource.OptCsharpIncludeIsDirtyFlag,
-
-                Properties.Resource.OptXmlFormat,
-                Properties.Resource.OptXmlIncludeNs,
-            });
-
-            GetOutputFlagSettings();
-
-            clbOutputOptionsCheckedCount = clbOutputOptions.CheckedItems.Count;
-        }
-
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(this.txtConn.Text))
@@ -262,22 +221,17 @@ namespace AutoCodeGen
             Properties.Settings.Default.MainFormWidth = this.Size.Width;
 
             Properties.Settings.Default.Save();
-
-            // persists all the checkbox states in the options screen
-            SetOutputFlagSettings();
         }
 
         // Db control updates
         private void ckbLocalDb_CheckedChanged(object sender, EventArgs e)
         {
             ValidateDbConnectionString();
-            ValidateTab();
         }
 
         private void txtConn_TextChanged(object sender, EventArgs e)
         {
             ValidateDbConnectionString();
-            ValidateTab();
         }
 
         private void txtOutputPath_TextChanged(object sender, EventArgs e)
@@ -299,8 +253,6 @@ namespace AutoCodeGen
                 btnToggleSql.Text = Properties.Resource.SelectAll;
             else
                 btnToggleSql.Text = Properties.Resource.DeselectAll;
-
-            ValidateTab();
         }
 
         private void clbExportSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -314,8 +266,6 @@ namespace AutoCodeGen
                 btnToggleExportSqlTables.Text = Properties.Resource.SelectAll;
             else
                 btnToggleExportSqlTables.Text = Properties.Resource.DeselectAll;
-
-            ValidateTab();
         }
 
         private void clbExportOptionTables_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -329,23 +279,6 @@ namespace AutoCodeGen
                 btnToggleExportObjects.Text = Properties.Resource.SelectAll;
             else
                 btnToggleExportObjects.Text = Properties.Resource.DeselectAll;
-
-            ValidateTab();
-        }
-
-        private void clbOutputOptions_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-                clbOutputOptionsCheckedCount = clbOutputOptions.CheckedItems.Count + 1;
-            else if (e.NewValue == CheckState.Unchecked)
-                clbOutputOptionsCheckedCount = clbOutputOptions.CheckedItems.Count - 1;
-
-            if (clbOutputOptionsCheckedCount == 0)
-                btnToggleOutput.Text = Properties.Resource.SelectAll;
-            else
-                btnToggleOutput.Text = Properties.Resource.DeselectAll;
-
-            ValidateTab();
         }
 
         // Button clicks
@@ -373,10 +306,6 @@ namespace AutoCodeGen
                 _DirectoriesUsed.Clear();
 
                 sqlDatabase.LoadDatabaseMetadata(_DatabaseName, txtConn.Text);
-
-                if (clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptMiscRemoveExistingScripts))
-                    DeleteOldScriptFiles();
-
 
                 if (clbSqlTables.CheckedItems.Count > 0 && clbGenerators.CheckedItems.Count > 0)
                 {
@@ -406,9 +335,6 @@ namespace AutoCodeGen
 
                     DisplayMessage("Objects created.", false);
                 }
-
-
-
             }
             catch (Exception ex)
             {
@@ -506,18 +432,12 @@ namespace AutoCodeGen
                     ResetExportTab();
                     break;
 
-                case "tabOutput":
-                    ResetOutputTab();
-                    break;
-
                 case "tabAbout":
                     break;
 
                 default:
                     throw new Exception($"Unknown tab name '{tabcontrolAutoCodeGen.SelectedTab.Name}'");
             }
-
-            ValidateTab();
         }
 
         private void btnSetDirectory_Click(object sender, EventArgs e)
@@ -529,7 +449,34 @@ namespace AutoCodeGen
 
         private void btnOpenOutputDirectory_Click(object sender, EventArgs e)
         {
-            OpenFolder(txtOutputPath.Text);
+            var folderPath = txtOutputPath.Text;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(folderPath))
+                {
+                    DisplayMessage("Output directory name is null or empty", true);
+                    return;
+                }
+
+                if (!Directory.Exists(folderPath))
+                {
+                    DisplayMessage($"'{folderPath}' directory does not exist", true);
+                    return;
+                }
+
+                var startInfo = new ProcessStartInfo()
+                {
+                    Arguments = folderPath,
+                    FileName = "explorer.exe"
+                };
+
+                Process.Start(startInfo);
+            }
+            catch
+            {
+                DisplayMessage($"Error accessing file path '{folderPath}'", true);
+            }
         }
 
         // select/deselect all code
@@ -589,20 +536,6 @@ namespace AutoCodeGen
             }
         }
 
-        private void btnToggleOutput_Click(object sender, EventArgs e)
-        {
-            if (btnToggleOutput.Text == Properties.Resource.SelectAll)
-            {
-                btnToggleOutput.Text = Properties.Resource.DeselectAll;
-                ToggleCheckBoxes(clbOutputOptions, true);
-            }
-            else
-            {
-                btnToggleOutput.Text = Properties.Resource.SelectAll;
-                ToggleCheckBoxes(clbOutputOptions, false);
-            }
-        }
-
         // Other events
         private async void cmbDatabaseList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -615,8 +548,6 @@ namespace AutoCodeGen
                 // reset all tabs that have table specific data
                 ResetGeneratorTab();
                 ResetExportTab();
-
-                ValidateTab();
             }
             catch (Exception ex)
             {
@@ -628,8 +559,6 @@ namespace AutoCodeGen
             finally
             {
                 DisplayMessage("Changed to database " + cmbDatabaseList.Text, false);
-
-                btnGenerateCode.Enabled = !string.IsNullOrEmpty(cmbDatabaseList.Text);
                 Cursor = Cursors.Default;
             }
         }
@@ -666,36 +595,6 @@ namespace AutoCodeGen
 
         // helper functions
 
-        private void OpenFolder(string folderPath)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(folderPath))
-                {
-                    MessageBox.Show($"Directory name cannot be null or empty");
-                    return;
-                }
-
-                if (!Directory.Exists(folderPath))
-                {
-                    MessageBox.Show($"{folderPath} Directory does not exist!");
-                    return;
-                }
-
-                var startInfo = new ProcessStartInfo()
-                {
-                    Arguments = folderPath,
-                    FileName = "explorer.exe"
-                };
-
-                Process.Start(startInfo);
-            }
-            catch
-            {
-                DisplayMessage($"Error accessing file path '{folderPath}'", true);
-            }
-        }
-
         private void BindDataTableToCheckBoxList(List<TableMetadata> tables, CheckedListBox clb)
         {
             if (clb.Items.Count != 0)
@@ -710,34 +609,6 @@ namespace AutoCodeGen
             }
         }
 
-        private bool DeleteOldScriptFiles()
-        {
-            try
-            {
-                string applicationPath = Path.GetDirectoryName(Application.ExecutablePath);
-
-                var deleteList = Directory.GetFiles(_OutputPath, "*.*", SearchOption.AllDirectories);
-
-                foreach (string filename in deleteList)
-                    File.Delete(filename);
-
-
-                foreach (string folder_name in _DirectoriesUsed)
-                {
-                    if (Directory.Exists(applicationPath + folder_name))
-                        FileIo.DeleteDirectoryTree(_OutputPath + folder_name);
-                }
-            }
-            catch
-            {
-                DisplayMessage($"Error encountered in removing script files from {_OutputPath}. Please make sure they aren't open in other programs.", true);
-                return false;
-            }
-
-            DisplayMessage($"Script files removed from {_OutputPath}", false);
-            return true;
-        }
-
         /// <summary>
         /// function takes the name of the current Db that we are working with,
         /// and populates the _DbTablesList with the names of the tables in that
@@ -748,7 +619,10 @@ namespace AutoCodeGen
             _DatabaseName = cmbDatabaseList.Text;
 
             if (string.IsNullOrEmpty(_DatabaseName))
-                throw new ArgumentException("Database name is null or empty");
+            {
+                DisplayMessage("Database name is null or empty, cannot load table data", true);
+                return;
+            }
 
             var db = new Database(txtConn.Text);
 
@@ -782,28 +656,6 @@ namespace AutoCodeGen
                 .ToList();
         }
 
-        private void GetOutputFlagSettings()
-        {
-            // Read in output flag settings from properties object
-
-            if (Properties.Settings.Default.RemoveExistingScripts) CheckCheckboxListItem(Properties.Resource.OptMiscRemoveExistingScripts);
-            if (Properties.Settings.Default.CreateHelperSp) CheckCheckboxListItem(Properties.Resource.OptSQLCreateHelperSp);
-            if (Properties.Settings.Default.CreateSqlSpPerms) CheckCheckboxListItem(Properties.Resource.OptSQLCreateSqlSpPerms);
-            if (Properties.Settings.Default.SqlSeperateFiles) CheckCheckboxListItem(Properties.Resource.OptSQLSeperateFiles);
-        }
-
-        private void SetOutputFlagSettings()
-        {
-            // write current checkbox setting in to properties
-
-            Properties.Settings.Default.RemoveExistingScripts = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptMiscRemoveExistingScripts);
-            Properties.Settings.Default.CreateHelperSp = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLCreateHelperSp);
-            Properties.Settings.Default.CreateSqlSpPerms = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLCreateSqlSpPerms);
-            Properties.Settings.Default.SqlSeperateFiles = clbOutputOptions.CheckedItems.Contains(Properties.Resource.OptSQLSeperateFiles);
-
-            Properties.Settings.Default.Save();
-        }
-
         private void ToggleCheckBoxes(CheckedListBox clb, bool newCheckedState)
         {
             // Sets CheckBoxLists to passed value
@@ -819,36 +671,6 @@ namespace AutoCodeGen
             btnConnect.Enabled = !string.IsNullOrWhiteSpace(txtConn.Text);
         }
 
-        private void ValidateTab()
-        {
-            // validates tab data to determine if we are ready to generate code. 
-            // if any tab has some valid selections in place, enable code generation
-
-            // Generator tab
-            if (clbGeneratorSqlTablesCheckedCount > 0 && clbGeneratorsCheckedCount > 0)
-            {
-                btnGenerateCode.Enabled = true;
-                return;
-            }
-
-            // Exporter Tab
-            if (clbExportSqlTablesCheckedCount > 0 && clbExportersCheckedCount > 0)
-            {
-                btnGenerateCode.Enabled = true;
-                return;
-            }
-
-            // Output tab
-            if (clbOutputOptionsCheckedCount > 0)
-            {
-                btnGenerateCode.Enabled = true;
-                return;
-            }
-
-            // no matches, disable button
-            btnGenerateCode.Enabled = false;
-        }
-
         private void UpdateComboBoxList(ComboBox input, List<string> list)
         {
             _NamespaceIncludes.Sort();
@@ -857,17 +679,6 @@ namespace AutoCodeGen
 
             foreach (var item in list)
                 input.Items.Add(item);
-        }
-
-        private bool CheckCheckboxListItem(string search_string)
-        {
-            int listbox_index = clbOutputOptions.FindStringExact(search_string);
-
-            if (listbox_index == -1)
-                return false;
-
-            clbOutputOptions.SetItemChecked(listbox_index, true);
-            return true;
         }
 
         /// <summary>
@@ -903,6 +714,34 @@ namespace AutoCodeGen
         {
             txtConn.Text = DEFAULT_SQL_CONN_STRING;
             ValidateDbConnectionString();
+        }
+
+        private void btnCleanOutput_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //string applicationPath = Path.GetDirectoryName(Application.ExecutablePath);
+
+                if (_OutputPath == null || !Directory.Exists(_OutputPath))
+                    return;
+
+                var fileList = Directory.GetFiles(_OutputPath, "*.*", SearchOption.AllDirectories);
+
+                foreach (string filename in fileList)
+                    File.Delete(filename);
+
+                var directoryList = Directory.GetDirectories(_OutputPath, "*.*", SearchOption.TopDirectoryOnly);
+
+                foreach (string directoryName in directoryList)
+                    Directory.Delete(directoryName, false);
+            }
+            catch
+            {
+                DisplayMessage($"Error encountered in removing script files from {_OutputPath}. Please make sure they aren't open in other programs.", true);
+                return;
+            }
+
+            DisplayMessage($"Script files removed from {_OutputPath}", false);
         }
 
         //private DataTable LoadSqlTableData(SqlTable sqlTable, string connectionString)
