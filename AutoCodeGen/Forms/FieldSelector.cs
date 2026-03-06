@@ -26,7 +26,7 @@ using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGen
 {
-    public partial class FieldSelector : Form
+    public partial class frmFieldSelector : Form
     {
         protected const string s_SelectedItems = "Selected Columns:";
 
@@ -34,9 +34,9 @@ namespace AutoCodeGen
         protected int _MinSelections;
         protected int _MaxSelections;
 
-        public FieldSelector(List<string> selected_columns, SqlTable sql_table, string instructions) : this(selected_columns, sql_table, instructions, 1, -1) { }
+        public frmFieldSelector(List<string> selected_columns, SqlTable sql_table, string instructions) : this(selected_columns, sql_table, instructions, 1, -1) { }
 
-        public FieldSelector(List<string> selected_columns, SqlTable sql_table, string instructions, int min_selections, int max_selections)
+        public frmFieldSelector(List<string> selected_columns, SqlTable sql_table, string instructions, int min_selections, int max_selections)
         {
             InitializeComponent();
 

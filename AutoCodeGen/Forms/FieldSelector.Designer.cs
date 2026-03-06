@@ -1,6 +1,6 @@
 ﻿namespace AutoCodeGen
 {
-    partial class FieldSelector
+    partial class frmFieldSelector
     {
         /// <summary>
         /// Required designer variable.
@@ -28,86 +28,88 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FieldSelector));
-            this.clbColumns = new System.Windows.Forms.CheckedListBox();
-            this.lblInstructions = new System.Windows.Forms.Label();
-            this.btnDone = new System.Windows.Forms.Button();
-            this.lblColumnList = new System.Windows.Forms.Label();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFieldSelector));
+            clbColumns = new System.Windows.Forms.CheckedListBox();
+            lblInstructions = new System.Windows.Forms.Label();
+            btnDone = new System.Windows.Forms.Button();
+            lblColumnList = new System.Windows.Forms.Label();
+            btnClear = new System.Windows.Forms.Button();
+            SuspendLayout();
             // 
             // clbColumns
             // 
-            this.clbColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.clbColumns.CheckOnClick = true;
-            this.clbColumns.FormattingEnabled = true;
-            this.clbColumns.Location = new System.Drawing.Point(12, 60);
-            this.clbColumns.Name = "clbColumns";
-            this.clbColumns.Size = new System.Drawing.Size(198, 214);
-            this.clbColumns.TabIndex = 0;
-            this.clbColumns.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbColumns_ItemCheck);
+            clbColumns.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            clbColumns.CheckOnClick = true;
+            clbColumns.FormattingEnabled = true;
+            clbColumns.Location = new System.Drawing.Point(15, 64);
+            clbColumns.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            clbColumns.Name = "clbColumns";
+            clbColumns.Size = new System.Drawing.Size(230, 256);
+            clbColumns.TabIndex = 0;
+            clbColumns.ItemCheck += clbColumns_ItemCheck;
             // 
             // lblInstructions
             // 
-            this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblInstructions.Location = new System.Drawing.Point(13, 11);
-            this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(367, 36);
-            this.lblInstructions.TabIndex = 1;
-            this.lblInstructions.Text = "Instructions Here";
+            lblInstructions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            lblInstructions.Location = new System.Drawing.Point(15, 13);
+            lblInstructions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblInstructions.Name = "lblInstructions";
+            lblInstructions.Size = new System.Drawing.Size(428, 42);
+            lblInstructions.TabIndex = 1;
+            lblInstructions.Text = "Instructions Here";
             // 
             // btnDone
             // 
-            this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDone.Location = new System.Drawing.Point(305, 254);
-            this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(75, 23);
-            this.btnDone.TabIndex = 2;
-            this.btnDone.Text = "Done";
-            this.btnDone.UseVisualStyleBackColor = true;
-            this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
+            btnDone.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            btnDone.Location = new System.Drawing.Point(356, 293);
+            btnDone.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnDone.Name = "btnDone";
+            btnDone.Size = new System.Drawing.Size(88, 27);
+            btnDone.TabIndex = 2;
+            btnDone.Text = "Done";
+            btnDone.UseVisualStyleBackColor = true;
+            btnDone.Click += btnDone_Click;
             // 
             // lblColumnList
             // 
-            this.lblColumnList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblColumnList.Location = new System.Drawing.Point(224, 60);
-            this.lblColumnList.Name = "lblColumnList";
-            this.lblColumnList.Size = new System.Drawing.Size(156, 188);
-            this.lblColumnList.TabIndex = 3;
-            this.lblColumnList.Text = "Column List Here";
+            lblColumnList.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            lblColumnList.Location = new System.Drawing.Point(261, 64);
+            lblColumnList.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblColumnList.Name = "lblColumnList";
+            lblColumnList.Size = new System.Drawing.Size(182, 217);
+            lblColumnList.TabIndex = 3;
+            lblColumnList.Text = "Column List Here";
             // 
             // btnClear
             // 
-            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(224, 254);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 4;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            btnClear.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            btnClear.Location = new System.Drawing.Point(261, 293);
+            btnClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new System.Drawing.Size(88, 27);
+            btnClear.TabIndex = 4;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
             // 
-            // FieldSelector
+            // frmFieldSelector
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 286);
-            this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.lblColumnList);
-            this.Controls.Add(this.btnDone);
-            this.Controls.Add(this.lblInstructions);
-            this.Controls.Add(this.clbColumns);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(400, 313);
-            this.Name = "FieldSelector";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Sql Table Field Selector";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FieldSelector_FormClosing);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(457, 330);
+            Controls.Add(btnClear);
+            Controls.Add(lblColumnList);
+            Controls.Add(btnDone);
+            Controls.Add(lblInstructions);
+            Controls.Add(clbColumns);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MinimumSize = new System.Drawing.Size(464, 355);
+            Name = "frmFieldSelector";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Sql Table Field Selector";
+            FormClosing += FieldSelector_FormClosing;
+            ResumeLayout(false);
 
         }
 
