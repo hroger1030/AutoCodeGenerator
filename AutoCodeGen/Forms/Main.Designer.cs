@@ -32,22 +32,11 @@ namespace AutoCodeGen
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             btnGenerateCode = new System.Windows.Forms.Button();
-            btnResetCurrentTab = new System.Windows.Forms.Button();
+            btnResetTab = new System.Windows.Forms.Button();
             lblMessages = new System.Windows.Forms.Label();
             btnOpenOutputDirectory = new System.Windows.Forms.Button();
             rtbMessaging = new System.Windows.Forms.RichTextBox();
             btnCleanOutput = new System.Windows.Forms.Button();
-            tabAbout = new System.Windows.Forms.TabPage();
-            lblAuthor = new System.Windows.Forms.Label();
-            lblVersion = new System.Windows.Forms.Label();
-            lblApplicationTitle = new System.Windows.Forms.Label();
-            tabGenerators = new System.Windows.Forms.TabPage();
-            btnToggleSql = new System.Windows.Forms.Button();
-            lblGenerators = new System.Windows.Forms.Label();
-            btnToggleGenerators = new System.Windows.Forms.Button();
-            lblSQLTables = new System.Windows.Forms.Label();
-            clbGenerators = new System.Windows.Forms.CheckedListBox();
-            clbSqlTables = new System.Windows.Forms.CheckedListBox();
             tabServer = new System.Windows.Forms.TabPage();
             btnSetDirectory = new System.Windows.Forms.Button();
             lblOutputPath = new System.Windows.Forms.Label();
@@ -59,8 +48,6 @@ namespace AutoCodeGen
             lblDatabase = new System.Windows.Forms.Label();
             btnConnect = new System.Windows.Forms.Button();
             tabcontrolAutoCodeGen = new System.Windows.Forms.TabControl();
-            tabAbout.SuspendLayout();
-            tabGenerators.SuspendLayout();
             tabServer.SuspendLayout();
             tabcontrolAutoCodeGen.SuspendLayout();
             SuspendLayout();
@@ -72,12 +59,12 @@ namespace AutoCodeGen
             btnGenerateCode.UseVisualStyleBackColor = true;
             btnGenerateCode.Click += btnGenerateCode_Click;
             // 
-            // btnResetCurrentTab
+            // btnResetTab
             // 
-            resources.ApplyResources(btnResetCurrentTab, "btnResetCurrentTab");
-            btnResetCurrentTab.Name = "btnResetCurrentTab";
-            btnResetCurrentTab.UseVisualStyleBackColor = true;
-            btnResetCurrentTab.Click += btnResetCurrentTab_Click;
+            resources.ApplyResources(btnResetTab, "btnResetTab");
+            btnResetTab.Name = "btnResetTab";
+            btnResetTab.UseVisualStyleBackColor = true;
+            btnResetTab.Click += btnResetTab_Click;
             // 
             // lblMessages
             // 
@@ -105,79 +92,6 @@ namespace AutoCodeGen
             btnCleanOutput.UseVisualStyleBackColor = true;
             btnCleanOutput.Click += btnCleanOutput_Click;
             // 
-            // tabAbout
-            // 
-            tabAbout.Controls.Add(lblAuthor);
-            tabAbout.Controls.Add(lblVersion);
-            tabAbout.Controls.Add(lblApplicationTitle);
-            resources.ApplyResources(tabAbout, "tabAbout");
-            tabAbout.Name = "tabAbout";
-            tabAbout.UseVisualStyleBackColor = true;
-            // 
-            // lblAuthor
-            // 
-            resources.ApplyResources(lblAuthor, "lblAuthor");
-            lblAuthor.Name = "lblAuthor";
-            // 
-            // lblVersion
-            // 
-            resources.ApplyResources(lblVersion, "lblVersion");
-            lblVersion.Name = "lblVersion";
-            // 
-            // lblApplicationTitle
-            // 
-            resources.ApplyResources(lblApplicationTitle, "lblApplicationTitle");
-            lblApplicationTitle.Name = "lblApplicationTitle";
-            // 
-            // tabGenerators
-            // 
-            tabGenerators.Controls.Add(btnToggleSql);
-            tabGenerators.Controls.Add(lblGenerators);
-            tabGenerators.Controls.Add(btnToggleGenerators);
-            tabGenerators.Controls.Add(lblSQLTables);
-            tabGenerators.Controls.Add(clbGenerators);
-            tabGenerators.Controls.Add(clbSqlTables);
-            resources.ApplyResources(tabGenerators, "tabGenerators");
-            tabGenerators.Name = "tabGenerators";
-            tabGenerators.UseVisualStyleBackColor = true;
-            // 
-            // btnToggleSql
-            // 
-            resources.ApplyResources(btnToggleSql, "btnToggleSql");
-            btnToggleSql.Name = "btnToggleSql";
-            btnToggleSql.UseVisualStyleBackColor = true;
-            // 
-            // lblGenerators
-            // 
-            resources.ApplyResources(lblGenerators, "lblGenerators");
-            lblGenerators.Name = "lblGenerators";
-            // 
-            // btnToggleGenerators
-            // 
-            resources.ApplyResources(btnToggleGenerators, "btnToggleGenerators");
-            btnToggleGenerators.Name = "btnToggleGenerators";
-            btnToggleGenerators.UseVisualStyleBackColor = true;
-            // 
-            // lblSQLTables
-            // 
-            resources.ApplyResources(lblSQLTables, "lblSQLTables");
-            lblSQLTables.Name = "lblSQLTables";
-            // 
-            // clbGenerators
-            // 
-            resources.ApplyResources(clbGenerators, "clbGenerators");
-            clbGenerators.CheckOnClick = true;
-            clbGenerators.FormattingEnabled = true;
-            clbGenerators.Name = "clbGenerators";
-            // 
-            // clbSqlTables
-            // 
-            resources.ApplyResources(clbSqlTables, "clbSqlTables");
-            clbSqlTables.CheckOnClick = true;
-            clbSqlTables.FormattingEnabled = true;
-            clbSqlTables.Name = "clbSqlTables";
-            clbSqlTables.ItemCheck += cblSqlTables_ItemCheck;
-            // 
             // tabServer
             // 
             tabServer.Controls.Add(btnSetDirectory);
@@ -198,7 +112,7 @@ namespace AutoCodeGen
             resources.ApplyResources(btnSetDirectory, "btnSetDirectory");
             btnSetDirectory.Name = "btnSetDirectory";
             btnSetDirectory.UseVisualStyleBackColor = true;
-            btnSetDirectory.Click += btnSetDirectory_Click_1;
+            btnSetDirectory.Click += btnSetDirectory_Click;
             // 
             // lblOutputPath
             // 
@@ -252,8 +166,6 @@ namespace AutoCodeGen
             // 
             resources.ApplyResources(tabcontrolAutoCodeGen, "tabcontrolAutoCodeGen");
             tabcontrolAutoCodeGen.Controls.Add(tabServer);
-            tabcontrolAutoCodeGen.Controls.Add(tabGenerators);
-            tabcontrolAutoCodeGen.Controls.Add(tabAbout);
             tabcontrolAutoCodeGen.Name = "tabcontrolAutoCodeGen";
             tabcontrolAutoCodeGen.SelectedIndex = 0;
             // 
@@ -266,15 +178,11 @@ namespace AutoCodeGen
             Controls.Add(rtbMessaging);
             Controls.Add(btnOpenOutputDirectory);
             Controls.Add(lblMessages);
-            Controls.Add(btnResetCurrentTab);
+            Controls.Add(btnResetTab);
             Controls.Add(btnGenerateCode);
             Controls.Add(tabcontrolAutoCodeGen);
             Name = "Main";
             FormClosing += Main_FormClosing;
-            tabAbout.ResumeLayout(false);
-            tabAbout.PerformLayout();
-            tabGenerators.ResumeLayout(false);
-            tabGenerators.PerformLayout();
             tabServer.ResumeLayout(false);
             tabServer.PerformLayout();
             tabcontrolAutoCodeGen.ResumeLayout(false);
@@ -284,22 +192,11 @@ namespace AutoCodeGen
 
         #endregion
         private System.Windows.Forms.Button btnGenerateCode;
-        private System.Windows.Forms.Button btnResetCurrentTab;
+        private System.Windows.Forms.Button btnResetTab;
         private System.Windows.Forms.Label lblMessages;
         private System.Windows.Forms.Button btnOpenOutputDirectory;
         private System.Windows.Forms.RichTextBox rtbMessaging;
         private System.Windows.Forms.Button btnCleanOutput;
-        private System.Windows.Forms.TabPage tabAbout;
-        private System.Windows.Forms.Label lblAuthor;
-        private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.Label lblApplicationTitle;
-        private System.Windows.Forms.TabPage tabGenerators;
-        private System.Windows.Forms.Button btnToggleSql;
-        private System.Windows.Forms.Label lblGenerators;
-        private System.Windows.Forms.Button btnToggleGenerators;
-        private System.Windows.Forms.Label lblSQLTables;
-        private System.Windows.Forms.CheckedListBox clbGenerators;
-        private System.Windows.Forms.CheckedListBox clbSqlTables;
         private System.Windows.Forms.TabPage tabServer;
         private System.Windows.Forms.Button btnSetDirectory;
         private System.Windows.Forms.Label lblOutputPath;

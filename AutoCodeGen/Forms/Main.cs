@@ -40,7 +40,9 @@ namespace AutoCodeGen
     {
         private const string APP_NAME = "Jolly Roger Code Generator";
         private const string PRODUCT_VERSION = "3.0";
+        private const string GITHUB_URL = "https://github.com/hroger1030/AutoCodeGenerator";
         private const string DEFAULT_SQL_CONN_STRING = "Server=(localdb)\\MSSQLLocalDB;Database=master;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Connect Timeout=2;";
+        private const string OUTPUT_DIRECTORY_NAME = "\\GeneratedOutput";
 
         // Encryption
         private const string PASS_PHRASE = "CodeWriter37";
@@ -68,8 +70,6 @@ namespace AutoCodeGen
         // When event is fired, change has not been applied to object 
         // yet, so extra variables are required to track state.
 
-        private int clbGeneratorSqlTablesCheckedCount;
-
         public Main()
         {
             InitializeComponent();
@@ -89,10 +89,9 @@ namespace AutoCodeGen
                 _DatabaseName = string.Empty;
                 _Generators = LoadPlugins();
 
-                // display version info
-                lblVersion.Text = $"Version {PRODUCT_VERSION}";
                 txtConn.Text = Properties.Settings.Default.ConnectionString;
                 DisplayMessage($"{APP_NAME}, Version {PRODUCT_VERSION}", false);
+                DisplayMessage($"Released under MIT OSS license, source code available at {GITHUB_URL}", false);
 
                 ResetApp();
                 ValidateDbConnectionString();
@@ -130,7 +129,6 @@ namespace AutoCodeGen
         private void ResetApp()
         {
             ResetServerTab();
-            ResetGeneratorTab();
         }
 
         private void ResetServerTab()
@@ -148,27 +146,6 @@ namespace AutoCodeGen
             // clear all related objects
             cmbDatabaseList.DataSource = null;
             cmbDatabaseList.Items.Clear();
-
-            clbSqlTables.Items.Clear();
-        }
-
-        private void ResetGeneratorTab()
-        {
-            btnToggleSql.Text = "Select All";
-            btnToggleGenerators.Text = "Select All";
-
-            BindDataTableToCheckBoxList(_DbTables, clbSqlTables);
-            clbGeneratorSqlTablesCheckedCount = clbSqlTables.CheckedItems.Count;
-
-            clbGenerators.Items.Clear();
-
-            // order elements before binding
-            var methodBuffer = new List<string>();
-
-            foreach (var kvp in _Generators)
-                methodBuffer.Add(kvp.Key);
-
-            clbGenerators.Items.AddRange(methodBuffer.OrderBy(i => i).ToArray());
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -194,15 +171,6 @@ namespace AutoCodeGen
             ValidateDbConnectionString();
         }
 
-        // Checkbox changes
-        private void cblSqlTables_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-                clbGeneratorSqlTablesCheckedCount = clbSqlTables.CheckedItems.Count + 1;
-            else if (e.NewValue == CheckState.Unchecked)
-                clbGeneratorSqlTablesCheckedCount = clbSqlTables.CheckedItems.Count - 1;
-        }
-
         // Button clicks
         private void btnGenerateCode_Click(object sender, EventArgs e)
         {
@@ -222,33 +190,17 @@ namespace AutoCodeGen
 
                 sqlDatabase.LoadDatabaseMetadata(_DatabaseName, txtConn.Text);
 
-                if (clbSqlTables.CheckedItems.Count > 0 && clbGenerators.CheckedItems.Count > 0)
+                var output = new List<OutputObject>();
+
+                // get list of selected items here
+
+                foreach (var item in output)
                 {
-                    var output = new List<OutputObject>();
-
-                    foreach (string tableName in clbSqlTables.CheckedItems)
-                    {
-                        foreach (string method in clbGenerators.CheckedItems)
-                        {
-                            var generator = _Generators.ContainsKey(method) ? _Generators[method] : null;
-
-                            if (generator != null)
-                                throw new Exception("No such mapped generator");
-
-                            SqlTable sqlTable = sqlDatabase.Tables[tableName];
-
-
-                        }
-                    }
-
-                    foreach (var item in output)
-                    {
-                        file_name = Path.Combine(txtOutputPath.Text, item.OutputPath, item.FileName);
-                        FileIo.WriteToFile(file_name, item.Body);
-                    }
-
-                    DisplayMessage("Objects created.", false);
+                    file_name = Path.Combine(txtOutputPath.Text, item.OutputPath, item.FileName);
+                    FileIo.WriteToFile(file_name, item.Body);
                 }
+
+                DisplayMessage("Objects created.", false);
             }
             catch (Exception ex)
             {
@@ -320,7 +272,7 @@ namespace AutoCodeGen
             }
         }
 
-        private void btnResetCurrentTab_Click(object sender, EventArgs e)
+        private void btnResetTab_Click(object sender, EventArgs e)
         {
             switch (tabcontrolAutoCodeGen.SelectedTab.Name)
             {
@@ -328,12 +280,7 @@ namespace AutoCodeGen
                     ResetServerTab();
                     break;
 
-                case "tabSql":
-                    ResetGeneratorTab();
-                    break;
 
-                case "tabAbout":
-                    break;
 
                 default:
                     throw new Exception($"Unknown tab name '{tabcontrolAutoCodeGen.SelectedTab.Name}'");
@@ -342,9 +289,13 @@ namespace AutoCodeGen
 
         private void btnSetDirectory_Click(object sender, EventArgs e)
         {
-            string output_directory = Directory.GetCurrentDirectory();
-            txtOutputPath.Text = output_directory;
-            DisplayMessage("Output directory set to " + output_directory, false);
+            string outputDirectory = Directory.GetCurrentDirectory() + OUTPUT_DIRECTORY_NAME;
+
+            if (!Directory.Exists(outputDirectory))
+                Directory.CreateDirectory(outputDirectory);
+
+            txtOutputPath.Text = outputDirectory;
+            DisplayMessage("Output directory set to " + outputDirectory, false);
         }
 
         private void btnOpenOutputDirectory_Click(object sender, EventArgs e)
@@ -389,7 +340,7 @@ namespace AutoCodeGen
                 await GetDbTables();
 
                 // reset all tabs that have table specific data
-                ResetGeneratorTab();
+
             }
             catch (Exception ex)
             {
@@ -403,20 +354,6 @@ namespace AutoCodeGen
         }
 
         // helper functions
-
-        private void BindDataTableToCheckBoxList(List<TableMetadata> tables, CheckedListBox clb)
-        {
-            if (clb.Items.Count != 0)
-                clb.Items.Clear();
-
-            if (tables == null || tables.Count < 1)
-                return;
-
-            foreach (var table in tables)
-            {
-                clb.Items.AddRange(new object[] { $"{table.Schema}.{table.TableName}" });
-            }
-        }
 
         /// <summary>
         /// function takes the name of the current Db that we are working with,
@@ -463,13 +400,6 @@ namespace AutoCodeGen
                 .Where(c => c.Schema != "sys" && c.TableName != "sysdiagrams")
                 .OrderBy(c => c.TableName)
                 .ToList();
-        }
-
-        private void ToggleCheckBoxes(CheckedListBox clb, bool newCheckedState)
-        {
-            // Sets CheckBoxLists to passed value
-            for (int i = 0; i < clb.Items.Count; i++)
-                clb.SetItemChecked(i, newCheckedState);
         }
 
         /// <summary>
@@ -543,11 +473,6 @@ namespace AutoCodeGen
             }
 
             DisplayMessage($"Script files removed from {outputPath}", false);
-        }
-
-        private void btnSetDirectory_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

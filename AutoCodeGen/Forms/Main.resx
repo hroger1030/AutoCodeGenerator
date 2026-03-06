@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnGenerateCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>348, 504</value>
+    <value>341, 421</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnGenerateCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
@@ -151,34 +151,34 @@
   <data name="&gt;&gt;btnGenerateCode.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="btnResetCurrentTab.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="btnResetTab.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <data name="btnResetCurrentTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 503</value>
+  <data name="btnResetTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 420</value>
   </data>
-  <data name="btnResetCurrentTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="btnResetTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="btnResetCurrentTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 28</value>
+  <data name="btnResetTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 28</value>
   </data>
-  <data name="btnResetCurrentTab.TabIndex" type="System.Int32, mscorlib">
+  <data name="btnResetTab.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="btnResetCurrentTab.Text" xml:space="preserve">
-    <value>Reset Current Tab</value>
+  <data name="btnResetTab.Text" xml:space="preserve">
+    <value>Reset All Tabs</value>
   </data>
-  <data name="&gt;&gt;btnResetCurrentTab.Name" xml:space="preserve">
-    <value>btnResetCurrentTab</value>
+  <data name="&gt;&gt;btnResetTab.Name" xml:space="preserve">
+    <value>btnResetTab</value>
   </data>
-  <data name="&gt;&gt;btnResetCurrentTab.Type" xml:space="preserve">
+  <data name="&gt;&gt;btnResetTab.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnResetCurrentTab.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnResetTab.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnResetCurrentTab.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnResetTab.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="lblMessages.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -188,7 +188,7 @@
     <value>True</value>
   </data>
   <data name="lblMessages.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 362</value>
+    <value>10, 279</value>
   </data>
   <data name="lblMessages.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -218,7 +218,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="btnOpenOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 504</value>
+    <value>507, 421</value>
   </data>
   <data name="btnOpenOutputDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -248,13 +248,13 @@
     <value>Bottom, Left, Right</value>
   </data>
   <data name="rtbMessaging.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 380</value>
+    <value>14, 297</value>
   </data>
   <data name="rtbMessaging.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
     <value>Vertical</value>
   </data>
   <data name="rtbMessaging.Size" type="System.Drawing.Size, System.Drawing">
-    <value>660, 112</value>
+    <value>653, 112</value>
   </data>
   <data name="rtbMessaging.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -281,7 +281,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="btnCleanOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 504</value>
+    <value>174, 421</value>
   </data>
   <data name="btnCleanOutput.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 28</value>
@@ -304,353 +304,14 @@
   <data name="&gt;&gt;btnCleanOutput.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="lblAuthor.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblAuthor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblAuthor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 67</value>
-  </data>
-  <data name="lblAuthor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblAuthor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 15</value>
-  </data>
-  <data name="lblAuthor.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="lblAuthor.Text" xml:space="preserve">
-    <value>Written By Roger Hill</value>
-  </data>
-  <data name="&gt;&gt;lblAuthor.Name" xml:space="preserve">
-    <value>lblAuthor</value>
-  </data>
-  <data name="&gt;&gt;lblAuthor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblAuthor.Parent" xml:space="preserve">
-    <value>tabAbout</value>
-  </data>
-  <data name="&gt;&gt;lblAuthor.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblVersion.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblVersion.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 41</value>
-  </data>
-  <data name="lblVersion.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 15</value>
-  </data>
-  <data name="lblVersion.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblVersion.Text" xml:space="preserve">
-    <value>Version X</value>
-  </data>
-  <data name="&gt;&gt;lblVersion.Name" xml:space="preserve">
-    <value>lblVersion</value>
-  </data>
-  <data name="&gt;&gt;lblVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblVersion.Parent" xml:space="preserve">
-    <value>tabAbout</value>
-  </data>
-  <data name="&gt;&gt;lblVersion.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lblApplicationTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblApplicationTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblApplicationTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 15</value>
-  </data>
-  <data name="lblApplicationTitle.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblApplicationTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 15</value>
-  </data>
-  <data name="lblApplicationTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblApplicationTitle.Text" xml:space="preserve">
-    <value>Jolly Roger's AutoCodeGenerator</value>
-  </data>
-  <data name="&gt;&gt;lblApplicationTitle.Name" xml:space="preserve">
-    <value>lblApplicationTitle</value>
-  </data>
-  <data name="&gt;&gt;lblApplicationTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblApplicationTitle.Parent" xml:space="preserve">
-    <value>tabAbout</value>
-  </data>
-  <data name="&gt;&gt;lblApplicationTitle.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tabAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 28</value>
-  </data>
-  <data name="tabAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="tabAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>656, 312</value>
-  </data>
-  <data name="tabAbout.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="tabAbout.Text" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="&gt;&gt;tabAbout.Name" xml:space="preserve">
-    <value>tabAbout</value>
-  </data>
-  <data name="&gt;&gt;tabAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabAbout.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabAbout.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnToggleSql.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnToggleSql.Location" type="System.Drawing.Point, System.Drawing">
-    <value>225, 18</value>
-  </data>
-  <data name="btnToggleSql.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="btnToggleSql.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
-  </data>
-  <data name="btnToggleSql.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="btnToggleSql.Text" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="&gt;&gt;btnToggleSql.Name" xml:space="preserve">
-    <value>btnToggleSql</value>
-  </data>
-  <data name="&gt;&gt;btnToggleSql.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleSql.Parent" xml:space="preserve">
-    <value>tabGenerators</value>
-  </data>
-  <data name="&gt;&gt;btnToggleSql.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblGenerators.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblGenerators.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblGenerators.Location" type="System.Drawing.Point, System.Drawing">
-    <value>336, 30</value>
-  </data>
-  <data name="lblGenerators.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblGenerators.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 15</value>
-  </data>
-  <data name="lblGenerators.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="lblGenerators.Text" xml:space="preserve">
-    <value>Code Generators</value>
-  </data>
-  <data name="&gt;&gt;lblGenerators.Name" xml:space="preserve">
-    <value>lblGenerators</value>
-  </data>
-  <data name="&gt;&gt;lblGenerators.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblGenerators.Parent" xml:space="preserve">
-    <value>tabGenerators</value>
-  </data>
-  <data name="&gt;&gt;lblGenerators.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnToggleGenerators.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnToggleGenerators.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnToggleGenerators.Location" type="System.Drawing.Point, System.Drawing">
-    <value>552, 18</value>
-  </data>
-  <data name="btnToggleGenerators.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="btnToggleGenerators.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
-  </data>
-  <data name="btnToggleGenerators.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="btnToggleGenerators.Text" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="&gt;&gt;btnToggleGenerators.Name" xml:space="preserve">
-    <value>btnToggleGenerators</value>
-  </data>
-  <data name="&gt;&gt;btnToggleGenerators.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnToggleGenerators.Parent" xml:space="preserve">
-    <value>tabGenerators</value>
-  </data>
-  <data name="&gt;&gt;btnToggleGenerators.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lblSQLTables.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblSQLTables.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblSQLTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 30</value>
-  </data>
-  <data name="lblSQLTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="lblSQLTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 15</value>
-  </data>
-  <data name="lblSQLTables.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="lblSQLTables.Text" xml:space="preserve">
-    <value>Tables</value>
-  </data>
-  <data name="&gt;&gt;lblSQLTables.Name" xml:space="preserve">
-    <value>lblSQLTables</value>
-  </data>
-  <data name="&gt;&gt;lblSQLTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSQLTables.Parent" xml:space="preserve">
-    <value>tabGenerators</value>
-  </data>
-  <data name="&gt;&gt;lblSQLTables.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="clbGenerators.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="clbGenerators.Location" type="System.Drawing.Point, System.Drawing">
-    <value>336, 48</value>
-  </data>
-  <data name="clbGenerators.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="clbGenerators.Size" type="System.Drawing.Size, System.Drawing">
-    <value>303, 238</value>
-  </data>
-  <data name="clbGenerators.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;clbGenerators.Name" xml:space="preserve">
-    <value>clbGenerators</value>
-  </data>
-  <data name="&gt;&gt;clbGenerators.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbGenerators.Parent" xml:space="preserve">
-    <value>tabGenerators</value>
-  </data>
-  <data name="&gt;&gt;clbGenerators.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="clbSqlTables.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
-  </data>
-  <data name="clbSqlTables.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 48</value>
-  </data>
-  <data name="clbSqlTables.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="clbSqlTables.Size" type="System.Drawing.Size, System.Drawing">
-    <value>303, 238</value>
-  </data>
-  <data name="clbSqlTables.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;clbSqlTables.Name" xml:space="preserve">
-    <value>clbSqlTables</value>
-  </data>
-  <data name="&gt;&gt;clbSqlTables.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clbSqlTables.Parent" xml:space="preserve">
-    <value>tabGenerators</value>
-  </data>
-  <data name="&gt;&gt;clbSqlTables.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="tabGenerators.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 28</value>
-  </data>
-  <data name="tabGenerators.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="tabGenerators.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="tabGenerators.Size" type="System.Drawing.Size, System.Drawing">
-    <value>656, 312</value>
-  </data>
-  <data name="tabGenerators.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tabGenerators.Text" xml:space="preserve">
-    <value>Code Generators</value>
-  </data>
-  <data name="&gt;&gt;tabGenerators.Name" xml:space="preserve">
-    <value>tabGenerators</value>
-  </data>
-  <data name="&gt;&gt;tabGenerators.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabGenerators.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabGenerators.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="btnSetDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>Top, Right</value>
   </data>
   <data name="btnSetDirectory.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnSetDirectory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>471, 233</value>
+    <value>473, 172</value>
   </data>
   <data name="btnSetDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -676,9 +337,6 @@
   <data name="&gt;&gt;btnSetDirectory.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="lblOutputPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
   <data name="lblOutputPath.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -686,7 +344,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblOutputPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 203</value>
+    <value>11, 136</value>
   </data>
   <data name="lblOutputPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -713,16 +371,16 @@
     <value>1</value>
   </data>
   <data name="txtOutputPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
+    <value>Top, Left, Right</value>
   </data>
   <data name="txtOutputPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 236</value>
+    <value>140, 133</value>
   </data>
   <data name="txtOutputPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
   <data name="txtOutputPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>447, 23</value>
+    <value>491, 23</value>
   </data>
   <data name="txtOutputPath.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -746,13 +404,13 @@
     <value>False</value>
   </data>
   <data name="txtConn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 42</value>
+    <value>140, 11</value>
   </data>
   <data name="txtConn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
   <data name="txtConn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>609, 23</value>
+    <value>491, 23</value>
   </data>
   <data name="txtConn.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -776,7 +434,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnUseDefaultConn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>314, 85</value>
+    <value>316, 49</value>
   </data>
   <data name="btnUseDefaultConn.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -809,19 +467,19 @@
     <value>NoControl</value>
   </data>
   <data name="lblLogon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 14</value>
+    <value>11, 14</value>
   </data>
   <data name="lblLogon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
   </data>
   <data name="lblLogon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 15</value>
+    <value>121, 15</value>
   </data>
   <data name="lblLogon.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="lblLogon.Text" xml:space="preserve">
-    <value>Server Connection String</value>
+    <value>DB Connection String</value>
   </data>
   <data name="&gt;&gt;lblLogon.Name" xml:space="preserve">
     <value>lblLogon</value>
@@ -839,13 +497,13 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="cmbDatabaseList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 154</value>
+    <value>140, 90</value>
   </data>
   <data name="cmbDatabaseList.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
   <data name="cmbDatabaseList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>609, 23</value>
+    <value>491, 23</value>
   </data>
   <data name="cmbDatabaseList.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -869,7 +527,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblDatabase.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 124</value>
+    <value>11, 93</value>
   </data>
   <data name="lblDatabase.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -902,7 +560,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnConnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>501, 85</value>
+    <value>503, 49</value>
   </data>
   <data name="btnConnect.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -938,7 +596,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="tabServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>656, 312</value>
+    <value>649, 229</value>
   </data>
   <data name="tabServer.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -971,7 +629,7 @@
     <value>5, 5</value>
   </data>
   <data name="tabcontrolAutoCodeGen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>664, 344</value>
+    <value>657, 261</value>
   </data>
   <data name="tabcontrolAutoCodeGen.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -995,7 +653,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>691, 544</value>
+    <value>684, 461</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1055,13 +713,13 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>697, 513</value>
+    <value>700, 500</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Jolly Roger's AutoCode Generator</value>
+    <value>Jolly Roger's Code Generator</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
