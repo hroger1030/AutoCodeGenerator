@@ -21,7 +21,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AutoCodeGenLibrary
+namespace AutoCodeGen
 {
     /// <summary>
     /// This class uses a symmetric key algorithm (AES) to encrypt and decrypt data.

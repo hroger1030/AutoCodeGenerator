@@ -19,7 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using DAL.Net.SqlMetadata;
 using System.Collections.Generic;
 
-namespace AutoCodeGenLibrary
+namespace AutoCodeGen
 {
     public interface IInputPlugin
     {

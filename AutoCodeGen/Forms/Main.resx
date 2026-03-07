@@ -274,6 +274,144 @@
   <data name="&gt;&gt;btnCleanOutput.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;btnSetDirectory.Name" xml:space="preserve">
+    <value>btnSetDirectory</value>
+  </data>
+  <data name="&gt;&gt;btnSetDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSetDirectory.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;btnSetDirectory.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lblOutputPath.Name" xml:space="preserve">
+    <value>lblOutputPath</value>
+  </data>
+  <data name="&gt;&gt;lblOutputPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblOutputPath.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;lblOutputPath.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;txtOutputPath.Name" xml:space="preserve">
+    <value>txtOutputPath</value>
+  </data>
+  <data name="&gt;&gt;txtOutputPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtOutputPath.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;txtOutputPath.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;txtConn.Name" xml:space="preserve">
+    <value>txtConn</value>
+  </data>
+  <data name="&gt;&gt;txtConn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtConn.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;txtConn.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;btnUseDefaultConn.Name" xml:space="preserve">
+    <value>btnUseDefaultConn</value>
+  </data>
+  <data name="&gt;&gt;btnUseDefaultConn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnUseDefaultConn.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;btnUseDefaultConn.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lblLogon.Name" xml:space="preserve">
+    <value>lblLogon</value>
+  </data>
+  <data name="&gt;&gt;lblLogon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLogon.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;lblLogon.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;cmbDatabaseList.Name" xml:space="preserve">
+    <value>cmbDatabaseList</value>
+  </data>
+  <data name="&gt;&gt;cmbDatabaseList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmbDatabaseList.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;cmbDatabaseList.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;lblDatabase.Name" xml:space="preserve">
+    <value>lblDatabase</value>
+  </data>
+  <data name="&gt;&gt;lblDatabase.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDatabase.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;lblDatabase.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;btnConnect.Name" xml:space="preserve">
+    <value>btnConnect</value>
+  </data>
+  <data name="&gt;&gt;btnConnect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnConnect.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;btnConnect.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="tabServer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 28</value>
+  </data>
+  <data name="tabServer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="tabServer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="tabServer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>649, 229</value>
+  </data>
+  <data name="tabServer.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabServer.Text" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Name" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Parent" xml:space="preserve">
+    <value>tcCodeGenerators</value>
+  </data>
+  <data name="&gt;&gt;tabServer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="btnSetDirectory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -553,64 +691,34 @@
   <data name="&gt;&gt;btnConnect.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="tabServer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 28</value>
-  </data>
-  <data name="tabServer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="tabServer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="tabServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>649, 229</value>
-  </data>
-  <data name="tabServer.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tabServer.Text" xml:space="preserve">
-    <value>Server</value>
-  </data>
-  <data name="&gt;&gt;tabServer.Name" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;tabServer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabServer.Parent" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
-  </data>
-  <data name="&gt;&gt;tabServer.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tabcontrolAutoCodeGen.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="tcCodeGenerators.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="tabcontrolAutoCodeGen.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tcCodeGenerators.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 14</value>
   </data>
-  <data name="tabcontrolAutoCodeGen.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="tcCodeGenerators.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="tabcontrolAutoCodeGen.Padding" type="System.Drawing.Point, System.Drawing">
+  <data name="tcCodeGenerators.Padding" type="System.Drawing.Point, System.Drawing">
     <value>5, 5</value>
   </data>
-  <data name="tabcontrolAutoCodeGen.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="tcCodeGenerators.Size" type="System.Drawing.Size, System.Drawing">
     <value>657, 261</value>
   </data>
-  <data name="tabcontrolAutoCodeGen.TabIndex" type="System.Int32, mscorlib">
+  <data name="tcCodeGenerators.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;tabcontrolAutoCodeGen.Name" xml:space="preserve">
-    <value>tabcontrolAutoCodeGen</value>
+  <data name="&gt;&gt;tcCodeGenerators.Name" xml:space="preserve">
+    <value>tcCodeGenerators</value>
   </data>
-  <data name="&gt;&gt;tabcontrolAutoCodeGen.Type" xml:space="preserve">
+  <data name="&gt;&gt;tcCodeGenerators.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabcontrolAutoCodeGen.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tcCodeGenerators.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;tabcontrolAutoCodeGen.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tcCodeGenerators.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

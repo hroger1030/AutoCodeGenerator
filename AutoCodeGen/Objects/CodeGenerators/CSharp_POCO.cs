@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AutoCodeGenLibrary
+namespace AutoCodeGen
 {
     public class CSharp_POCO : IGenerator
     {
@@ -32,25 +32,29 @@ namespace AutoCodeGenLibrary
 
         public string Language => "C#";
         public string Category => "MiddleTier";
-        public string Name => "POCO Generator";
+        public string Name => "C# POCOs";
         public string Description => "Generates Plain Old C# Objects (POCO) classes based on database tables.";
+        public string[] FeatureNames => ["POCO class"];
 
-        public Dictionary<string, string> BaseOptions => new Dictionary<string, string>
+        public Dictionary<string, string> BaseOptions => new()
         {
             { NAMESPACE_INCLUDES, string.Empty },
         };
 
         public CSharp_POCO() { }
 
-        public OutputObject Process(SqlTable sqlTable, Dictionary<string, string> options)
+        public OutputObject Process(string mode, SqlTable sqlTable, Dictionary<string, string> options)
         {
-            if (sqlTable == null)
-                throw new ArgumentNullException(nameof(sqlTable));
+            ArgumentException.ThrowIfNullOrWhiteSpace(mode, nameof(mode));
+            ArgumentNullException.ThrowIfNull(sqlTable, nameof(sqlTable));
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
 
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
+            return mode switch
+            {
+                "POCO class" => GenerateCSharpPoCoClass(sqlTable, options),
 
-            return GenerateCSharpPoCoClass(sqlTable, options);
+                _ => throw new ArgumentOutOfRangeException($"Mode {mode} is not supported by {Name} generator."),
+            };
         }
 
         public OutputObject GenerateCSharpPoCoClass(SqlTable sqlTable, Dictionary<string, string> options)
@@ -106,7 +110,7 @@ namespace AutoCodeGenLibrary
             #endregion Default CTOR
 
             sb.AppendLine(Helper.AddTabs(1) + "}");
-            sb.Append("}");
+            sb.Append('}');
 
             return new OutputObject
             {

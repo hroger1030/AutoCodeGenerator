@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AutoCodeGenLibrary
+namespace AutoCodeGen
 {
     public static class Helper
     {

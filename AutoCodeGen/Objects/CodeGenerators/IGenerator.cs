@@ -19,7 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using DAL.Net.SqlMetadata;
 using System.Collections.Generic;
 
-namespace AutoCodeGenLibrary
+namespace AutoCodeGen
 {
     public interface IGenerator
     {
@@ -27,9 +27,10 @@ namespace AutoCodeGenLibrary
         string Language { get; }
         string Name { get; }
         string Description { get; }
+        string[] FeatureNames { get; }
         Dictionary<string, string> BaseOptions { get; }
 
-        OutputObject Process(SqlTable sqlTable, Dictionary<string, string> options);
+        OutputObject Process(string mode, SqlTable sqlTable, Dictionary<string, string> options);
     }
 }
 

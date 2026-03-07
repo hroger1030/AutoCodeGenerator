@@ -16,7 +16,6 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using AutoCodeGenLibrary;
 using DAL.Net;
 using DAL.Net.SqlMetadata;
 using Microsoft.Data.SqlClient;
@@ -61,7 +60,7 @@ namespace AutoCodeGen
         private const int MAX_MESSAGES = 50;
 
         private AesEncryption _AesEncryption;
-        private List<TableMetadata> _DbTables;
+        private Dictionary<string, TableMetadata> _DbTables;
         private Dictionary<string, IGenerator> _Generators;
 
         // Counts to help manage onChecked events for checkbox lists.
@@ -82,15 +81,12 @@ namespace AutoCodeGen
                 // set encryption properties
                 _AesEncryption = new AesEncryption(INITIAL_VECTOR, PASSWORD_ITERATIONS, KEY_SIZE);
 
-                if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.ConnectionString))
-                    this.txtConn.Text = _AesEncryption.Decrypt(Properties.Settings.Default.ConnectionString, PASS_PHRASE, SALT);
-
-                // set form size from saved settings
+                this.txtConn.Text = _AesEncryption.Decrypt(Properties.Settings.Default.ConnectionString, PASS_PHRASE, SALT);
+                this.txtOutputPath.Text = Properties.Settings.Default.OutputPath;
                 this.Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
 
                 _Generators = LoadPlugins();
 
-                txtConn.Text = Properties.Settings.Default.ConnectionString;
                 DisplayMessage($"{APP_NAME}, Version {PRODUCT_VERSION}", false);
                 DisplayMessage($"Released under MIT OSS license, source code available at {GITHUB_URL}", false);
             }
@@ -104,9 +100,7 @@ namespace AutoCodeGen
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(this.txtConn.Text))
-                Properties.Settings.Default.ConnectionString = _AesEncryption.Encrypt(this.txtConn.Text, PASS_PHRASE, SALT);
-
+            Properties.Settings.Default.ConnectionString = _AesEncryption.Encrypt(this.txtConn.Text, PASS_PHRASE, SALT);
             Properties.Settings.Default.OutputPath = txtOutputPath.Text;
             Properties.Settings.Default.MainFormHeight = this.Size.Height;
             Properties.Settings.Default.MainFormWidth = this.Size.Width;
@@ -116,15 +110,22 @@ namespace AutoCodeGen
 
         private void btnGenerateCode_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(cmbDatabaseList.Text))
+            {
+                DisplayMessage("No target database is selected, cannot generate code", true);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtOutputPath.Text))
+            {
+                DisplayMessage("Output directory is null, cannot generate code", true);
+                return;
+            }
+
             this.Cursor = Cursors.WaitCursor;
 
             try
             {
-                if (!Directory.Exists(txtOutputPath.Text))
-                {
-                    DisplayMessage("Specified output directory does not exist, halting code generation.", true);
-                    return;
-                }
 
                 var sqlDatabase = new SqlDatabase();
                 sqlDatabase.LoadDatabaseMetadata(cmbDatabaseList.Text, txtConn.Text);
@@ -168,7 +169,7 @@ namespace AutoCodeGen
             {
                 var db = new Database(txtConn.Text);
 
-                async Task<List<string>> processer(SqlDataReader reader)
+                static async Task<List<string>> processer(SqlDataReader reader)
                 {
                     var output = new List<string>();
 
@@ -298,9 +299,7 @@ namespace AutoCodeGen
             try
             {
                 await GetDbTables();
-
-                // reset all tabs that have table specific data
-
+                LoadPlugins();
             }
             catch (Exception ex)
             {
@@ -353,9 +352,9 @@ namespace AutoCodeGen
 
             var db = new Database(txtConn.Text);
 
-            string sql_query = $"[{databaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
+            string sqlQuery = $"[{databaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
 
-            async Task<List<TableMetadata>> processor(SqlDataReader reader)
+            static async Task<List<TableMetadata>> processor(SqlDataReader reader)
             {
                 var output = new List<TableMetadata>();
 
@@ -375,12 +374,12 @@ namespace AutoCodeGen
                 return output.OrderBy(t => t.Schema).ThenBy(t => t.TableName).ToList();
             }
 
-            var buffer = await db.ExecuteQueryAsync(sql_query, null, processor);
+            var tableList = await db.ExecuteQueryAsync(sqlQuery, null, processor);
 
-            _DbTables = buffer
+            _DbTables = tableList
                 .Where(c => c.Schema != "sys" && c.TableName != "sysdiagrams")
                 .OrderBy(c => c.TableName)
-                .ToList();
+                .ToDictionary(t => GenerateDictionaryKey(t.Schema,t.TableName), t => t);
         }
 
         /// <summary>
@@ -389,17 +388,20 @@ namespace AutoCodeGen
         /// </summary>
         private Dictionary<string, IGenerator> LoadPlugins()
         {
-            var pluginType = typeof(IGenerator);
-            var assembly = typeof(IGenerator).Assembly;
+            // when changing dbs, it is easier to tear down the tabs and rebuild them from scratch rather than
+            // trying to update the control state with new db tables lists..
 
-            var buffer = assembly
+            while (tcCodeGenerators.TabPages.Count > 1)
+                tcCodeGenerators.TabPages.RemoveAt(1);
+
+            var buffer = typeof(IGenerator).Assembly
                 .GetTypes()
                 .Where(t =>
                     t.IsClass &&
                     !t.IsAbstract &&
-                    pluginType.IsAssignableFrom(t) &&
+                    typeof(IGenerator).IsAssignableFrom(t) &&
                     t.Namespace != null &&
-                    t.Namespace.StartsWith("AutoCodeGenLibrary"))
+                    t.Namespace.StartsWith("AutoCodeGen"))
                 .Select(t => (IGenerator)Activator.CreateInstance(t)!);
 
             var output = new Dictionary<string, IGenerator>();
@@ -407,9 +409,30 @@ namespace AutoCodeGen
             foreach (var plugin in buffer)
             {
                 output.Add(plugin.Name, plugin);
+
+                var tabPage = new TabPage(plugin.Name);
+                tabPage.Name = plugin.Name;
+
+                string[] tableNames = (_DbTables == null || _DbTables.Count == 0) ? Array.Empty<string>() : _DbTables.Keys.ToArray();
+
+                var ucFeatures = new ucFeatures(plugin, tableNames);
+                ucFeatures.Dock = DockStyle.Fill;
+                tabPage.Controls.Add(ucFeatures);
+
+                tcCodeGenerators.TabPages.Add(tabPage);
             }
 
             return output;
+        }
+        private string GenerateDictionaryKey(string schemaName, string tableName)
+        {
+            if (string.IsNullOrEmpty(schemaName))
+                throw new ArgumentException("Schema name cannot be null or empty");
+
+            if (string.IsNullOrEmpty(tableName))
+                throw new ArgumentException("Table name cannot be null or empty");
+
+            return $"[{schemaName}].[{tableName}]";
         }
     }
 }

@@ -46,9 +46,9 @@ namespace AutoCodeGen
             cmbDatabaseList = new System.Windows.Forms.ComboBox();
             lblDatabase = new System.Windows.Forms.Label();
             btnConnect = new System.Windows.Forms.Button();
-            tabcontrolAutoCodeGen = new System.Windows.Forms.TabControl();
+            tcCodeGenerators = new System.Windows.Forms.TabControl();
             tabServer.SuspendLayout();
-            tabcontrolAutoCodeGen.SuspendLayout();
+            tcCodeGenerators.SuspendLayout();
             SuspendLayout();
             // 
             // btnGenerateCode
@@ -153,12 +153,12 @@ namespace AutoCodeGen
             btnConnect.UseVisualStyleBackColor = true;
             btnConnect.Click += btnConnect_Click;
             // 
-            // tabcontrolAutoCodeGen
+            // tcCodeGenerators
             // 
-            resources.ApplyResources(tabcontrolAutoCodeGen, "tabcontrolAutoCodeGen");
-            tabcontrolAutoCodeGen.Controls.Add(tabServer);
-            tabcontrolAutoCodeGen.Name = "tabcontrolAutoCodeGen";
-            tabcontrolAutoCodeGen.SelectedIndex = 0;
+            resources.ApplyResources(tcCodeGenerators, "tcCodeGenerators");
+            tcCodeGenerators.Controls.Add(tabServer);
+            tcCodeGenerators.Name = "tcCodeGenerators";
+            tcCodeGenerators.SelectedIndex = 0;
             // 
             // Main
             // 
@@ -170,12 +170,12 @@ namespace AutoCodeGen
             Controls.Add(btnOpenOutputDirectory);
             Controls.Add(lblMessages);
             Controls.Add(btnGenerateCode);
-            Controls.Add(tabcontrolAutoCodeGen);
+            Controls.Add(tcCodeGenerators);
             Name = "Main";
             FormClosing += Main_FormClosing;
             tabServer.ResumeLayout(false);
             tabServer.PerformLayout();
-            tabcontrolAutoCodeGen.ResumeLayout(false);
+            tcCodeGenerators.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -196,6 +196,6 @@ namespace AutoCodeGen
         private System.Windows.Forms.ComboBox cmbDatabaseList;
         private System.Windows.Forms.Label lblDatabase;
         private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.TabControl tabcontrolAutoCodeGen;
+        private System.Windows.Forms.TabControl tcCodeGenerators;
     }
 }

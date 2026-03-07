@@ -25,7 +25,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace AutoCodeGenLibrary
+namespace AutoCodeGen
 {
     public static class NameFormatter
     {
@@ -178,10 +178,10 @@ namespace AutoCodeGenLibrary
                 case SqlDbType.Char:
                 case SqlDbType.NChar:
                 case SqlDbType.Xml:
-                    return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sqlColumn)}\", SqlDbType = {sqlColumn.SqlDataType.ToString()}, Value = {column_value}, Size = {sqlColumn.Length} }},";
+                    return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sqlColumn)}\", SqlDbType = {sqlColumn.SqlDataType}, Value = {column_value}, Size = {sqlColumn.Length} }},";
 
                 default:
-                    return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sqlColumn)}\", SqlDbType = {sqlColumn.SqlDataType.ToString()}, Value = {column_value} }},";
+                    return $"new SqlParameter() {{ ParameterName = \"{ToTSQLVariableName(sqlColumn)}\", SqlDbType = {sqlColumn.SqlDataType}, Value = {column_value} }},";
             }
         }
 
@@ -428,7 +428,7 @@ namespace AutoCodeGenLibrary
             }
             else if (sql_type == SqlDbType.Decimal)
             {
-                return $"{sqlColumn.SqlDataType.ToString().ToUpper()}({sqlColumn.Precision.ToString()},{sqlColumn.Scale.ToString()})";
+                return $"{sqlColumn.SqlDataType.ToString().ToUpper()}({sqlColumn.Precision},{sqlColumn.Scale})";
             }
             else
             {
@@ -637,7 +637,7 @@ namespace AutoCodeGenLibrary
 
         /// <summary>
         /// Converts table column data to function argument string.
-        /// Sample: string titles, string authors, int bookcount. 
+        /// Sample: string titles, string authors, int bookCount. 
         /// </summary>
         public static string GenerateCSharpFunctionArgs(SqlTable sqlTable, eIncludedFields includeTypes)
         {
@@ -685,7 +685,7 @@ namespace AutoCodeGenLibrary
                         break;
 
                     default:
-                        throw new Exception("eIncludedFields value " + includeTypes.ToString() + " is unrecognised..");
+                        throw new Exception("eIncludedFields value " + includeTypes.ToString() + " is unrecognized.");
                 }
             }
 
@@ -694,8 +694,8 @@ namespace AutoCodeGenLibrary
 
         /// <summary>
         /// Converts table column data to function argument string.
-        /// Does not incude function types.
-        /// Sample: titles, authors, bookcount. 
+        /// Does not include function types.
+        /// Sample: titles, authors, bookCount. 
         /// </summary>
         public static string GenerateCSharpFunctionList(SqlTable sqlTable, eIncludedFields includeTypes)
         {
@@ -731,7 +731,7 @@ namespace AutoCodeGenLibrary
                         break;
 
                     default:
-                        throw new Exception("eIncludedFields value " + includeTypes.ToString() + " is unrecognised..");
+                        throw new Exception("eIncludedFields value " + includeTypes.ToString() + " is unrecognized.");
                 }
             }
 
