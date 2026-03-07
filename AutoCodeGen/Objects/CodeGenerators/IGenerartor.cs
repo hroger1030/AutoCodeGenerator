@@ -16,12 +16,12 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using DAL.Standard.SqlMetadata;
+using DAL.Net.SqlMetadata;
 using System.Collections.Generic;
 
 namespace AutoCodeGenLibrary
 {
-    public interface IOutputPlugin
+    public interface IGenerator
     {
         string Category { get; }
         string Language { get; }

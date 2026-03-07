@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL.net", "..\Database\DAL.net\DAL.net.csproj", "{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -30,6 +32,18 @@ Global
 		{E6695000-6598-4362-B232-2F9776E2CF4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6695000-6598-4362-B232-2F9776E2CF4B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E6695000-6598-4362-B232-2F9776E2CF4B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Debug|.NET.Build.0 = Debug|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Release|.NET.ActiveCfg = Release|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Release|.NET.Build.0 = Release|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4E24054D-A12D-F7AE-5BDD-3E71B91842EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,19 +17,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 using AutoCodeGenLibrary;
-using DAL.Standard;
-using DAL.Standard.SqlMetadata;
+using DAL.Net;
+using DAL.Net.SqlMetadata;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Runtime.Versioning;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -63,8 +62,7 @@ namespace AutoCodeGen
 
         private AesEncryption _AesEncryption;
         private List<TableMetadata> _DbTables;
-        private string _DatabaseName;
-        private Dictionary<string, IOutputPlugin> _Generators;
+        private Dictionary<string, IGenerator> _Generators;
 
         // Counts to help manage onChecked events for checkbox lists.
         // When event is fired, change has not been applied to object 
@@ -84,17 +82,17 @@ namespace AutoCodeGen
                 // set encryption properties
                 _AesEncryption = new AesEncryption(INITIAL_VECTOR, PASSWORD_ITERATIONS, KEY_SIZE);
 
-                Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
+                if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.ConnectionString))
+                    this.txtConn.Text = _AesEncryption.Decrypt(Properties.Settings.Default.ConnectionString, PASS_PHRASE, SALT);
 
-                _DatabaseName = string.Empty;
+                // set form size from saved settings
+                this.Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
+
                 _Generators = LoadPlugins();
 
                 txtConn.Text = Properties.Settings.Default.ConnectionString;
                 DisplayMessage($"{APP_NAME}, Version {PRODUCT_VERSION}", false);
                 DisplayMessage($"Released under MIT OSS license, source code available at {GITHUB_URL}", false);
-
-                ResetApp();
-                ValidateDbConnectionString();
             }
             catch (Exception ex)
             {
@@ -102,51 +100,7 @@ namespace AutoCodeGen
             }
         }
 
-        private void DisplayMessage(string message, bool isError = false)
-        {
-            // lose messages if over max limit
-            while (rtbMessaging.Lines.Length > MAX_MESSAGES)
-            {
-                rtbMessaging.Select(0, rtbMessaging.Lines[0].Length + 1);
-                rtbMessaging.SelectedText = string.Empty;
-            }
-
-            string formatted_time = "<" + string.Format("{0:T}", DateTime.Now) + "> ";
-            string formatted_message = formatted_time + " " + message + Environment.NewLine;
-
-            rtbMessaging.SelectionStart = rtbMessaging.TextLength;
-            rtbMessaging.SelectionLength = 0;
-            rtbMessaging.SelectionColor = isError ? Color.Red : Color.Black;
-            rtbMessaging.AppendText(formatted_message);
-
-            // scroll to latest
-            rtbMessaging.ScrollToCaret();
-        }
-
-        /// <summary>
-        /// Resets app to an initial state
-        /// </summary>
-        private void ResetApp()
-        {
-            ResetServerTab();
-        }
-
-        private void ResetServerTab()
-        {
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.ConnectionString))
-                    txtConn.Text = _AesEncryption.Decrypt(Properties.Settings.Default.ConnectionString, PASS_PHRASE, SALT);
-            }
-            catch (CryptographicException)
-            {
-                txtConn.Text = string.Empty;
-            }
-
-            // clear all related objects
-            cmbDatabaseList.DataSource = null;
-            cmbDatabaseList.Items.Clear();
-        }
+        // events
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -160,18 +114,6 @@ namespace AutoCodeGen
             Properties.Settings.Default.Save();
         }
 
-        // Db control updates
-        private void ckbLocalDb_CheckedChanged(object sender, EventArgs e)
-        {
-            ValidateDbConnectionString();
-        }
-
-        private void txtConn_TextChanged(object sender, EventArgs e)
-        {
-            ValidateDbConnectionString();
-        }
-
-        // Button clicks
         private void btnGenerateCode_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -185,10 +127,7 @@ namespace AutoCodeGen
                 }
 
                 var sqlDatabase = new SqlDatabase();
-
-                string file_name;
-
-                sqlDatabase.LoadDatabaseMetadata(_DatabaseName, txtConn.Text);
+                sqlDatabase.LoadDatabaseMetadata(cmbDatabaseList.Text, txtConn.Text);
 
                 var output = new List<OutputObject>();
 
@@ -196,8 +135,8 @@ namespace AutoCodeGen
 
                 foreach (var item in output)
                 {
-                    file_name = Path.Combine(txtOutputPath.Text, item.OutputPath, item.FileName);
-                    FileIo.WriteToFile(file_name, item.Body);
+                    var fileName = Path.Combine(txtOutputPath.Text, item.OutputPath, item.FileName);
+                    FileIo.WriteToFile(fileName, item.Body);
                 }
 
                 DisplayMessage("Objects created.", false);
@@ -216,14 +155,17 @@ namespace AutoCodeGen
 
         private async void btnConnect_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtConn.Text))
+                return;
+
             Cursor = Cursors.WaitCursor;
+
+            // 1) Connect to Db
+            // 2) enable tabs that are now valid
+            // 3) clear out db list and populate with new data
 
             try
             {
-                // 1) Connect to Db
-                // 2) enable tabs that are now valid
-                // 3) clear out db list and populate with new data
-
                 var db = new Database(txtConn.Text);
 
                 async Task<List<string>> processer(SqlDataReader reader)
@@ -241,11 +183,10 @@ namespace AutoCodeGen
                     return output;
                 }
 
-                var results = await db.ExecuteQueryAsync<List<string>>("[Master].[dbo].[sp_databases]", null, processer);
+                var results = await db.ExecuteQueryAsync("[Master].[dbo].[sp_databases]", null, processer);
 
                 if (results == null)
                 {
-                    // connection failed, bail
                     DisplayMessage("Failed to establish a connection to database. Please check your connection information.", true);
                     return;
                 }
@@ -269,21 +210,6 @@ namespace AutoCodeGen
             finally
             {
                 Cursor = Cursors.Default;
-            }
-        }
-
-        private void btnResetTab_Click(object sender, EventArgs e)
-        {
-            switch (tabcontrolAutoCodeGen.SelectedTab.Name)
-            {
-                case "tabServer":
-                    ResetServerTab();
-                    break;
-
-
-
-                default:
-                    throw new Exception($"Unknown tab name '{tabcontrolAutoCodeGen.SelectedTab.Name}'");
             }
         }
 
@@ -330,119 +256,9 @@ namespace AutoCodeGen
             }
         }
 
-        // Other events
-        private async void cmbDatabaseList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
-
-            try
-            {
-                await GetDbTables();
-
-                // reset all tabs that have table specific data
-
-            }
-            catch (Exception ex)
-            {
-                DisplayMessage(ex.Message, true);
-            }
-            finally
-            {
-                DisplayMessage("Changed to database " + cmbDatabaseList.Text, false);
-                Cursor = Cursors.Default;
-            }
-        }
-
-        // helper functions
-
-        /// <summary>
-        /// function takes the name of the current Db that we are working with,
-        /// and populates the _DbTablesList with the names of the tables in that
-        /// database. NOTE that data tables list is not currently used for anything. 
-        /// </summary>
-        private async Task GetDbTables()
-        {
-            _DatabaseName = cmbDatabaseList.Text;
-
-            if (string.IsNullOrEmpty(_DatabaseName))
-            {
-                DisplayMessage("Database name is null or empty, cannot load table data", true);
-                return;
-            }
-
-            var db = new Database(txtConn.Text);
-
-            string sql_query = $"[{_DatabaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
-
-            async Task<List<TableMetadata>> processor(SqlDataReader reader)
-            {
-                var output = new List<TableMetadata>();
-
-                while (await reader.ReadAsync())
-                {
-                    var buffer = new TableMetadata
-                    {
-                        DbName = (string)reader["TABLE_QUALIFIER"],
-                        Schema = (string)reader["TABLE_OWNER"],
-                        TableName = (string)reader["TABLE_NAME"],
-                        TableType = (string)reader["TABLE_TYPE"]
-                    };
-
-                    output.Add(buffer);
-                }
-
-                return output.OrderBy(t => t.Schema).ThenBy(t => t.TableName).ToList();
-            }
-
-            var buffer = await db.ExecuteQueryAsync(sql_query, null, processor);
-
-            _DbTables = buffer
-                .Where(c => c.Schema != "sys" && c.TableName != "sysdiagrams")
-                .OrderBy(c => c.TableName)
-                .ToList();
-        }
-
-        /// <summary>
-        /// we checked or unchecked the use local database option, update UI to reflect new options.
-        /// </summary>
-        private void ValidateDbConnectionString()
-        {
-            btnConnect.Enabled = !string.IsNullOrWhiteSpace(txtConn.Text);
-        }
-
-        /// <summary>
-        /// Scans the assembly for all available plugins that implement IPlugin interface.
-        /// returns a dictionary of plugin names and plugin instances.
-        /// </summary>
-        private Dictionary<string, IOutputPlugin> LoadPlugins()
-        {
-            var pluginType = typeof(IOutputPlugin);
-            var assembly = typeof(IOutputPlugin).Assembly;
-
-            var buffer = assembly
-                .GetTypes()
-                .Where(t =>
-                    t.IsClass &&
-                    !t.IsAbstract &&
-                    pluginType.IsAssignableFrom(t) &&
-                    t.Namespace != null &&
-                    t.Namespace.StartsWith("AutoCodeGenLibrary"))
-                .Select(t => (IOutputPlugin)Activator.CreateInstance(t)!);
-
-            var output = new Dictionary<string, IOutputPlugin>();
-
-            foreach (var plugin in buffer)
-            {
-                output.Add(plugin.Name, plugin);
-            }
-
-            return output;
-        }
-
         private void btnUseDefaultConn_Click(object sender, EventArgs e)
         {
             txtConn.Text = DEFAULT_SQL_CONN_STRING;
-            ValidateDbConnectionString();
         }
 
         private void btnCleanOutput_Click(object sender, EventArgs e)
@@ -473,6 +289,127 @@ namespace AutoCodeGen
             }
 
             DisplayMessage($"Script files removed from {outputPath}", false);
+        }
+
+        private async void cmbDatabaseList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                await GetDbTables();
+
+                // reset all tabs that have table specific data
+
+            }
+            catch (Exception ex)
+            {
+                DisplayMessage(ex.Message, true);
+            }
+            finally
+            {
+                DisplayMessage("Changed to database " + cmbDatabaseList.Text, false);
+                Cursor = Cursors.Default;
+            }
+        }
+
+        // helper functions
+
+        private void DisplayMessage(string message, bool isError = false)
+        {
+            // lose messages if over max limit
+            while (rtbMessaging.Lines.Length > MAX_MESSAGES)
+            {
+                rtbMessaging.Select(0, rtbMessaging.Lines[0].Length + 1);
+                rtbMessaging.SelectedText = string.Empty;
+            }
+
+            string formatted_time = "<" + string.Format("{0:T}", DateTime.Now) + "> ";
+            string formatted_message = formatted_time + " " + message + Environment.NewLine;
+
+            rtbMessaging.SelectionStart = rtbMessaging.TextLength;
+            rtbMessaging.SelectionLength = 0;
+            rtbMessaging.SelectionColor = isError ? Color.Red : Color.Black;
+            rtbMessaging.AppendText(formatted_message);
+
+            // scroll to latest
+            rtbMessaging.ScrollToCaret();
+        }
+
+        /// <summary>
+        /// function takes the name of the current Db that we are working with,
+        /// and populates the _DbTablesList with the names of the tables in that
+        /// database. NOTE that data tables list is not currently used for anything. 
+        /// </summary>
+        private async Task GetDbTables()
+        {
+            var databaseName = cmbDatabaseList.Text;
+
+            if (string.IsNullOrEmpty(databaseName))
+            {
+                DisplayMessage("Database name is null or empty, cannot load table data", true);
+                return;
+            }
+
+            var db = new Database(txtConn.Text);
+
+            string sql_query = $"[{databaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
+
+            async Task<List<TableMetadata>> processor(SqlDataReader reader)
+            {
+                var output = new List<TableMetadata>();
+
+                while (await reader.ReadAsync())
+                {
+                    var buffer = new TableMetadata
+                    {
+                        DbName = (string)reader["TABLE_QUALIFIER"],
+                        Schema = (string)reader["TABLE_OWNER"],
+                        TableName = (string)reader["TABLE_NAME"],
+                        TableType = (string)reader["TABLE_TYPE"]
+                    };
+
+                    output.Add(buffer);
+                }
+
+                return output.OrderBy(t => t.Schema).ThenBy(t => t.TableName).ToList();
+            }
+
+            var buffer = await db.ExecuteQueryAsync(sql_query, null, processor);
+
+            _DbTables = buffer
+                .Where(c => c.Schema != "sys" && c.TableName != "sysdiagrams")
+                .OrderBy(c => c.TableName)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Scans the assembly for all available plugins that implement IPlugin interface.
+        /// returns a dictionary of plugin names and plugin instances.
+        /// </summary>
+        private Dictionary<string, IGenerator> LoadPlugins()
+        {
+            var pluginType = typeof(IGenerator);
+            var assembly = typeof(IGenerator).Assembly;
+
+            var buffer = assembly
+                .GetTypes()
+                .Where(t =>
+                    t.IsClass &&
+                    !t.IsAbstract &&
+                    pluginType.IsAssignableFrom(t) &&
+                    t.Namespace != null &&
+                    t.Namespace.StartsWith("AutoCodeGenLibrary"))
+                .Select(t => (IGenerator)Activator.CreateInstance(t)!);
+
+            var output = new Dictionary<string, IGenerator>();
+
+            foreach (var plugin in buffer)
+            {
+                output.Add(plugin.Name, plugin);
+            }
+
+            return output;
         }
     }
 }

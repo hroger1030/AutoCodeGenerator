@@ -16,6 +16,7 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+using DAL.Net.SqlMetadata;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,8 +24,6 @@ using System.Data;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-
-using DAL.Standard.SqlMetadata;
 
 namespace AutoCodeGenLibrary
 {

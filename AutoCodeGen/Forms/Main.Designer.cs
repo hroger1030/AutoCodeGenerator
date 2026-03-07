@@ -32,7 +32,6 @@ namespace AutoCodeGen
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             btnGenerateCode = new System.Windows.Forms.Button();
-            btnResetTab = new System.Windows.Forms.Button();
             lblMessages = new System.Windows.Forms.Label();
             btnOpenOutputDirectory = new System.Windows.Forms.Button();
             rtbMessaging = new System.Windows.Forms.RichTextBox();
@@ -58,13 +57,6 @@ namespace AutoCodeGen
             btnGenerateCode.Name = "btnGenerateCode";
             btnGenerateCode.UseVisualStyleBackColor = true;
             btnGenerateCode.Click += btnGenerateCode_Click;
-            // 
-            // btnResetTab
-            // 
-            resources.ApplyResources(btnResetTab, "btnResetTab");
-            btnResetTab.Name = "btnResetTab";
-            btnResetTab.UseVisualStyleBackColor = true;
-            btnResetTab.Click += btnResetTab_Click;
             // 
             // lblMessages
             // 
@@ -128,7 +120,6 @@ namespace AutoCodeGen
             // 
             resources.ApplyResources(txtConn, "txtConn");
             txtConn.Name = "txtConn";
-            txtConn.TextChanged += txtConn_TextChanged;
             // 
             // btnUseDefaultConn
             // 
@@ -178,7 +169,6 @@ namespace AutoCodeGen
             Controls.Add(rtbMessaging);
             Controls.Add(btnOpenOutputDirectory);
             Controls.Add(lblMessages);
-            Controls.Add(btnResetTab);
             Controls.Add(btnGenerateCode);
             Controls.Add(tabcontrolAutoCodeGen);
             Name = "Main";
@@ -192,7 +182,6 @@ namespace AutoCodeGen
 
         #endregion
         private System.Windows.Forms.Button btnGenerateCode;
-        private System.Windows.Forms.Button btnResetTab;
         private System.Windows.Forms.Label lblMessages;
         private System.Windows.Forms.Button btnOpenOutputDirectory;
         private System.Windows.Forms.RichTextBox rtbMessaging;

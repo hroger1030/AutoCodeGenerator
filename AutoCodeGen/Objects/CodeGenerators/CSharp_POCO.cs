@@ -16,14 +16,14 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using DAL.Standard.SqlMetadata;
+using DAL.Net.SqlMetadata;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AutoCodeGenLibrary
 {
-    public class CSharp_POCO : IOutputPlugin
+    public class CSharp_POCO : IGenerator
     {
         private const string OutputPath = "\\C#\\pocos\\";
 
