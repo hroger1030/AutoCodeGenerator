@@ -285,8 +285,6 @@ namespace AutoCodeGen
 
             try
             {
-                //string applicationPath = Path.GetDirectoryName(Application.ExecutablePath);
-
                 if (outputPath == null || !Directory.Exists(outputPath))
                     return;
 
@@ -309,19 +307,21 @@ namespace AutoCodeGen
             DisplayMessage($"Script files removed from {outputPath}", false);
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
+        private async void btnExit_Click(object sender, EventArgs e)
         {
+            DisplayMessage("Goodbye!", false);
+            await Task.Delay(1000);
             Application.Exit();
         }
 
-        private void cmbDatabaseList_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cmbDatabaseList_SelectedIndexChanged(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
 
             try
             {
                 _Db = new SqlDatabase();
-                _Db.LoadDatabaseMetadata(cmbDatabaseList.Text, txtConn.Text);
+                await _Db.LoadDatabaseMetadata(cmbDatabaseList.Text, txtConn.Text);
                 _Generators = LoadPlugins();
             }
             catch (Exception ex)

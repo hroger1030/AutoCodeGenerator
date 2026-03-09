@@ -26,6 +26,11 @@ namespace AutoCodeGen
     public class CSharp_POCO : IGenerator
     {
         private const string OutputPath = "C#\\pocos";
+
+        private const string FEATURE_POCO_CLASS = "POCO class";
+        private const string FEATURE_API_ENDPOINT = "API CRUD Endpoint";
+        private const string FEATURE_ORM_LOADER = "ORM Loader object";
+
         private const string CS_SQL_PARAMETER_TEMPLATE = "new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }},";
 
         private static HashSet<char> _CSharpUndesirables = new()
@@ -42,7 +47,7 @@ namespace AutoCodeGen
         public string Category => "MiddleTier";
         public string Name => "C# APIs/ORMs";
         public string Description => "Generates various API objects, ORM objects, POCOs, and other classes based on database tables.";
-        public string[] FeatureNames => ["POCO class"];
+        public string[] FeatureNames => [FEATURE_POCO_CLASS, FEATURE_API_ENDPOINT, FEATURE_ORM_LOADER];
 
         public Dictionary<string, string> DefaultOptions => new()
         {
@@ -59,13 +64,142 @@ namespace AutoCodeGen
 
             return feature switch
             {
-                "POCO class" => GenerateCSharpPoCoClass(sqlTable, options),
+                FEATURE_POCO_CLASS => GeneratePoco(sqlTable, options),
+                FEATURE_API_ENDPOINT => GenerateApiEndpoint(sqlTable, options),
+                FEATURE_ORM_LOADER => GenerateOrmLoader(sqlTable, options),
 
                 _ => throw new ArgumentOutOfRangeException($"Mode {feature} is not supported by {Name} generator."),
             };
         }
 
-        public OutputObject GenerateCSharpPoCoClass(SqlTable sqlTable, Dictionary<string, string> options)
+        public OutputObject GeneratePoco(SqlTable sqlTable, Dictionary<string, string> options)
+        {
+            string className = NameFormatter.ToCSharpClassName(sqlTable.Name);
+            var sb = new StringBuilder();
+
+            sb.AppendLine("using System;");
+            sb.AppendLine();
+
+            if (!string.IsNullOrWhiteSpace(options[NAMESPACE_INCLUDES]))
+            {
+                var namespaces = Helper.StringToList(options[NAMESPACE_INCLUDES]);
+
+                foreach (var item in namespaces)
+                    sb.AppendLine($"Using {item};");
+
+                sb.AppendLine();
+            }
+
+            sb.AppendLine($"namespace {NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}.Orm");
+            sb.AppendLine("{");
+
+            sb.AppendLine(Helper.AddTabs(1) + $"public class {className}");
+            sb.AppendLine(Helper.AddTabs(1) + "{");
+
+            #region Properties Block
+            ////////////////////////////////////////////////////////////////////////////////
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                #region Sample Output
+                //public string SomeID { get; set; }
+                #endregion Sample Output
+
+                sb.AppendLine(Helper.AddTabs(2) + $"public {NameFormatter.SQLTypeToCSharpType(sql_column)} {NameFormatter.ToCSharpPropertyName(sql_column.Name)} {{ get; set; }}");
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            #region Default CTOR
+            ////////////////////////////////////////////////////////////////////////////////
+
+            #region sample output
+            //public Foo() { }
+            #endregion
+
+            sb.AppendLine();
+            sb.AppendLine(Helper.AddTabs(2) + $"public {NameFormatter.ToCSharpClassName(sqlTable.Name)}() {{ }}");
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion Default CTOR
+
+            sb.AppendLine(Helper.AddTabs(1) + "}");
+            sb.Append('}');
+
+            return new OutputObject
+            {
+                FileName = $"{className}.cs",
+                Body = sb.ToString(),
+                OutputPath = OutputPath,
+            };
+        }
+
+        public OutputObject GenerateApiEndpoint(SqlTable sqlTable, Dictionary<string, string> options)
+        {
+            string className = NameFormatter.ToCSharpClassName(sqlTable.Name);
+            var sb = new StringBuilder();
+
+            sb.AppendLine("using System;");
+            sb.AppendLine();
+
+            if (!string.IsNullOrWhiteSpace(options[NAMESPACE_INCLUDES]))
+            {
+                var namespaces = Helper.StringToList(options[NAMESPACE_INCLUDES]);
+
+                foreach (var item in namespaces)
+                    sb.AppendLine($"Using {item};");
+
+                sb.AppendLine();
+            }
+
+            sb.AppendLine($"namespace {NameFormatter.ToCSharpPropertyName(sqlTable.Database.Name)}.Orm");
+            sb.AppendLine("{");
+
+            sb.AppendLine(Helper.AddTabs(1) + $"public class {className}");
+            sb.AppendLine(Helper.AddTabs(1) + "{");
+
+            #region Properties Block
+            ////////////////////////////////////////////////////////////////////////////////
+
+            foreach (var sql_column in sqlTable.Columns.Values)
+            {
+                #region Sample Output
+                //public string SomeID { get; set; }
+                #endregion Sample Output
+
+                sb.AppendLine(Helper.AddTabs(2) + $"public {NameFormatter.SQLTypeToCSharpType(sql_column)} {NameFormatter.ToCSharpPropertyName(sql_column.Name)} {{ get; set; }}");
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion
+
+            #region Default CTOR
+            ////////////////////////////////////////////////////////////////////////////////
+
+            #region sample output
+            //public Foo() { }
+            #endregion
+
+            sb.AppendLine();
+            sb.AppendLine(Helper.AddTabs(2) + $"public {NameFormatter.ToCSharpClassName(sqlTable.Name)}() {{ }}");
+
+            ////////////////////////////////////////////////////////////////////////////////
+            #endregion Default CTOR
+
+            sb.AppendLine(Helper.AddTabs(1) + "}");
+            sb.Append('}');
+
+            return new OutputObject
+            {
+                FileName = $"{className}.cs",
+                Body = sb.ToString(),
+                OutputPath = OutputPath,
+            };
+        }
+
+
+        public OutputObject GenerateOrmLoader(SqlTable sqlTable, Dictionary<string, string> options)
         {
             string className = NameFormatter.ToCSharpClassName(sqlTable.Name);
             var sb = new StringBuilder();
