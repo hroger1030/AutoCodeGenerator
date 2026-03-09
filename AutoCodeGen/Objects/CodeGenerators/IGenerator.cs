@@ -28,9 +28,9 @@ namespace AutoCodeGen
         string Name { get; }
         string Description { get; }
         string[] FeatureNames { get; }
-        Dictionary<string, string> BaseOptions { get; }
+        Dictionary<string, string> DefaultOptions { get; }
 
-        OutputObject Process(string mode, SqlTable sqlTable, Dictionary<string, string> options);
+        OutputObject Process(string feature, SqlTable sqlTable, Dictionary<string, string> options);
     }
 }
 

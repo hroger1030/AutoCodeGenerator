@@ -47,6 +47,7 @@ namespace AutoCodeGen
             lblDatabase = new System.Windows.Forms.Label();
             btnConnect = new System.Windows.Forms.Button();
             tcCodeGenerators = new System.Windows.Forms.TabControl();
+            btnExit = new System.Windows.Forms.Button();
             tabServer.SuspendLayout();
             tcCodeGenerators.SuspendLayout();
             SuspendLayout();
@@ -160,11 +161,19 @@ namespace AutoCodeGen
             tcCodeGenerators.Name = "tcCodeGenerators";
             tcCodeGenerators.SelectedIndex = 0;
             // 
+            // btnExit
+            // 
+            resources.ApplyResources(btnExit, "btnExit");
+            btnExit.Name = "btnExit";
+            btnExit.UseVisualStyleBackColor = true;
+            btnExit.Click += btnExit_Click;
+            // 
             // Main
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = SystemColors.Control;
+            Controls.Add(btnExit);
             Controls.Add(btnCleanOutput);
             Controls.Add(rtbMessaging);
             Controls.Add(btnOpenOutputDirectory);
@@ -197,5 +206,6 @@ namespace AutoCodeGen
         private System.Windows.Forms.Label lblDatabase;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.TabControl tcCodeGenerators;
+        private System.Windows.Forms.Button btnExit;
     }
 }

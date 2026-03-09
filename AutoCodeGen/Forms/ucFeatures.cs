@@ -10,9 +10,16 @@ namespace AutoCodeGen
         private bool _TablesChecked = false;
         private bool _FeaturesChecked = false;
 
+        public IGenerator Plugin { get; private set; }
+
         public ucFeatures(IGenerator plugin, IEnumerable<string> tableNames)
         {
+            ArgumentNullException.ThrowIfNull(nameof(plugin));
+            ArgumentNullException.ThrowIfNull(nameof(tableNames));
+
             InitializeComponent();
+
+            Plugin = plugin;
 
             lblDescription.Text = plugin.Description;
 

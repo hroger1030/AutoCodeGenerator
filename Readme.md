@@ -15,6 +15,9 @@
    Once you have done this, click the connect button. The Database drop-down will be populated with all the available databases that you have access to. Select the 
    data base you want to generate code for and then select a tab. 
    
+   The tabs are generated at runtime from code generator object. There are a number of generators that are built in, and you can add your own if you want. 
+   The generators are pretty simple, they take a SQL schema and then spit out code based on the language and use case you are generating for.
+
    In each tab there will be a pane on the left that has a list of the tables that are in the data base you have selected, and a pane on the right that has all the 
    types of objects that you can generate. Select at least one thing from each column, and then click the generate code button on the lower right corner of the 
    application. There are some additional flags to tweak the files that you are generating under the "output" tab that you can play with.

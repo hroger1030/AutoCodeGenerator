@@ -45,8 +45,6 @@ namespace AutoCodeGen
             File.WriteAllText(filePath, outputData);
         }
 
-
-
         /// <summary>
         /// Function copies a entire directory's content into a new directory, creating it if it does not exist.
         /// </summary>

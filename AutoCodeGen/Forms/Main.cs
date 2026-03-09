@@ -41,6 +41,7 @@ namespace AutoCodeGen
         private const string GITHUB_URL = "https://github.com/hroger1030/AutoCodeGenerator";
         private const string DEFAULT_SQL_CONN_STRING = "Server=(localdb)\\MSSQLLocalDB;Database=master;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Connect Timeout=2;";
         private const string OUTPUT_DIRECTORY_NAME = "\\GeneratedOutput";
+        private const string PLUGIN_NAMESPACE = "AutoCodeGen";
 
         // Encryption
         private const string PASS_PHRASE = "CodeWriter37";
@@ -60,7 +61,7 @@ namespace AutoCodeGen
         private const int MAX_MESSAGES = 50;
 
         private AesEncryption _AesEncryption;
-        private Dictionary<string, TableMetadata> _DbTables;
+        private SqlDatabase _Db;
         private Dictionary<string, IGenerator> _Generators;
 
         // Counts to help manage onChecked events for checkbox lists.
@@ -84,8 +85,6 @@ namespace AutoCodeGen
                 this.txtConn.Text = _AesEncryption.Decrypt(Properties.Settings.Default.ConnectionString, PASS_PHRASE, SALT);
                 this.txtOutputPath.Text = Properties.Settings.Default.OutputPath;
                 this.Size = new Size(Properties.Settings.Default.MainFormWidth, Properties.Settings.Default.MainFormHeight);
-
-                _Generators = LoadPlugins();
 
                 DisplayMessage($"{APP_NAME}, Version {PRODUCT_VERSION}", false);
                 DisplayMessage($"Released under MIT OSS license, source code available at {GITHUB_URL}", false);
@@ -127,20 +126,41 @@ namespace AutoCodeGen
             try
             {
 
-                var sqlDatabase = new SqlDatabase();
-                sqlDatabase.LoadDatabaseMetadata(cmbDatabaseList.Text, txtConn.Text);
-
                 var output = new List<OutputObject>();
 
                 // get list of selected items here
 
+                foreach (TabPage tab in tcCodeGenerators.TabPages)
+                {
+                    var ucFeatures = tab.Controls.OfType<ucFeatures>().FirstOrDefault();
+
+                    // skip home tab
+                    if (ucFeatures == null)
+                        continue;
+
+                    var checkedTables = ucFeatures.GetCheckedTables();
+                    var checkedFeatures = ucFeatures.GetCheckedFeatures();
+
+                    foreach (var tableName in checkedTables)
+                    {
+                        var table = _Db.Tables[tableName];
+
+                        foreach (var feature in checkedFeatures)
+                        {
+                            var options = ucFeatures.Plugin.DefaultOptions;
+                            var buffer = ucFeatures.Plugin.Process(feature, table, options);
+                            output.Add(buffer);
+                        }
+                    }
+                }
+
                 foreach (var item in output)
                 {
-                    var fileName = Path.Combine(txtOutputPath.Text, item.OutputPath, item.FileName);
+                    var fileName = Path.Combine(txtOutputPath.Text, item.OutputPath.TrimStart('\\', '/'), item.FileName.TrimStart('\\', '/'));
                     FileIo.WriteToFile(fileName, item.Body);
                 }
 
-                DisplayMessage("Objects created.", false);
+                DisplayMessage($"{output.Count} objects created", false);
             }
             catch (Exception ex)
             {
@@ -148,7 +168,7 @@ namespace AutoCodeGen
             }
             finally
             {
-                DisplayMessage("Code generation complete.", false);
+                DisplayMessage("Code generation complete", false);
                 Cursor = Cursors.Default;
                 SystemSounds.Exclamation.Play();
             }
@@ -187,10 +207,7 @@ namespace AutoCodeGen
                 var results = await db.ExecuteQueryAsync("[Master].[dbo].[sp_databases]", null, processer);
 
                 if (results == null)
-                {
-                    DisplayMessage("Failed to establish a connection to database. Please check your connection information.", true);
-                    return;
-                }
+                    throw new Exception("No results returned when querying for database names");
 
                 DisplayMessage("Connected to server", false);
 
@@ -206,7 +223,7 @@ namespace AutoCodeGen
             catch (Exception ex)
             {
                 DisplayMessage(ex.Message, true);
-                DisplayMessage("Failed to connect to server.");
+                DisplayMessage("Failed to connect to server");
             }
             finally
             {
@@ -222,7 +239,7 @@ namespace AutoCodeGen
                 Directory.CreateDirectory(outputDirectory);
 
             txtOutputPath.Text = outputDirectory;
-            DisplayMessage("Output directory set to " + outputDirectory, false);
+            DisplayMessage($"Output directory set to {outputDirectory}", false);
         }
 
         private void btnOpenOutputDirectory_Click(object sender, EventArgs e)
@@ -281,7 +298,7 @@ namespace AutoCodeGen
                 var directoryList = Directory.GetDirectories(outputPath, "*.*", SearchOption.TopDirectoryOnly);
 
                 foreach (string directoryName in directoryList)
-                    Directory.Delete(directoryName, false);
+                    Directory.Delete(directoryName, true);
             }
             catch
             {
@@ -292,14 +309,20 @@ namespace AutoCodeGen
             DisplayMessage($"Script files removed from {outputPath}", false);
         }
 
-        private async void cmbDatabaseList_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void cmbDatabaseList_SelectedIndexChanged(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
 
             try
             {
-                await GetDbTables();
-                LoadPlugins();
+                _Db = new SqlDatabase();
+                _Db.LoadDatabaseMetadata(cmbDatabaseList.Text, txtConn.Text);
+                _Generators = LoadPlugins();
             }
             catch (Exception ex)
             {
@@ -307,7 +330,7 @@ namespace AutoCodeGen
             }
             finally
             {
-                DisplayMessage("Changed to database " + cmbDatabaseList.Text, false);
+                DisplayMessage($"Loaded {cmbDatabaseList.Text} metadata", false);
                 Cursor = Cursors.Default;
             }
         }
@@ -336,53 +359,6 @@ namespace AutoCodeGen
         }
 
         /// <summary>
-        /// function takes the name of the current Db that we are working with,
-        /// and populates the _DbTablesList with the names of the tables in that
-        /// database. NOTE that data tables list is not currently used for anything. 
-        /// </summary>
-        private async Task GetDbTables()
-        {
-            var databaseName = cmbDatabaseList.Text;
-
-            if (string.IsNullOrEmpty(databaseName))
-            {
-                DisplayMessage("Database name is null or empty, cannot load table data", true);
-                return;
-            }
-
-            var db = new Database(txtConn.Text);
-
-            string sqlQuery = $"[{databaseName}].[dbo].[sp_tables] null,null,null,\"'TABLE'\"";
-
-            static async Task<List<TableMetadata>> processor(SqlDataReader reader)
-            {
-                var output = new List<TableMetadata>();
-
-                while (await reader.ReadAsync())
-                {
-                    var buffer = new TableMetadata
-                    {
-                        DbName = (string)reader["TABLE_QUALIFIER"],
-                        Schema = (string)reader["TABLE_OWNER"],
-                        TableName = (string)reader["TABLE_NAME"],
-                        TableType = (string)reader["TABLE_TYPE"]
-                    };
-
-                    output.Add(buffer);
-                }
-
-                return output.OrderBy(t => t.Schema).ThenBy(t => t.TableName).ToList();
-            }
-
-            var tableList = await db.ExecuteQueryAsync(sqlQuery, null, processor);
-
-            _DbTables = tableList
-                .Where(c => c.Schema != "sys" && c.TableName != "sysdiagrams")
-                .OrderBy(c => c.TableName)
-                .ToDictionary(t => GenerateDictionaryKey(t.Schema,t.TableName), t => t);
-        }
-
-        /// <summary>
         /// Scans the assembly for all available plugins that implement IPlugin interface.
         /// returns a dictionary of plugin names and plugin instances.
         /// </summary>
@@ -391,6 +367,7 @@ namespace AutoCodeGen
             // when changing dbs, it is easier to tear down the tabs and rebuild them from scratch rather than
             // trying to update the control state with new db tables lists..
 
+            // ignore first tab, which is home tab, and remove the rest
             while (tcCodeGenerators.TabPages.Count > 1)
                 tcCodeGenerators.TabPages.RemoveAt(1);
 
@@ -401,7 +378,7 @@ namespace AutoCodeGen
                     !t.IsAbstract &&
                     typeof(IGenerator).IsAssignableFrom(t) &&
                     t.Namespace != null &&
-                    t.Namespace.StartsWith("AutoCodeGen"))
+                    t.Namespace.StartsWith(PLUGIN_NAMESPACE))
                 .Select(t => (IGenerator)Activator.CreateInstance(t)!);
 
             var output = new Dictionary<string, IGenerator>();
@@ -410,10 +387,12 @@ namespace AutoCodeGen
             {
                 output.Add(plugin.Name, plugin);
 
-                var tabPage = new TabPage(plugin.Name);
-                tabPage.Name = plugin.Name;
+                var tabPage = new TabPage(plugin.Name)
+                {
+                    Name = plugin.Name,
+                };
 
-                string[] tableNames = (_DbTables == null || _DbTables.Count == 0) ? Array.Empty<string>() : _DbTables.Keys.ToArray();
+                string[] tableNames = (_Db?.Tables?.Count == 0) ? [] : _Db.Tables.Keys.ToArray();
 
                 var ucFeatures = new ucFeatures(plugin, tableNames);
                 ucFeatures.Dock = DockStyle.Fill;
@@ -423,16 +402,6 @@ namespace AutoCodeGen
             }
 
             return output;
-        }
-        private string GenerateDictionaryKey(string schemaName, string tableName)
-        {
-            if (string.IsNullOrEmpty(schemaName))
-                throw new ArgumentException("Schema name cannot be null or empty");
-
-            if (string.IsNullOrEmpty(tableName))
-                throw new ArgumentException("Table name cannot be null or empty");
-
-            return $"[{schemaName}].[{tableName}]";
         }
     }
 }

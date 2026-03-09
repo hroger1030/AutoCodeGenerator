@@ -25,35 +25,43 @@ namespace AutoCodeGen
 {
     public class CSharp_POCO : IGenerator
     {
-        private const string OutputPath = "\\C#\\pocos\\";
+        private const string OutputPath = "C#\\pocos";
+        private const string CS_SQL_PARAMETER_TEMPLATE = "new SqlParameter() {{ ParameterName = \"{0}\", SqlDbType = SqlDbType.{1}, Size = {2}, Value = {3} }},";
+
+        private static HashSet<char> _CSharpUndesirables = new()
+        {
+            '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
+            '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
+            '.', '?', '/', '~', '`', '@', '#', '"', ' ', '\t', '&'
+        };
 
         // option names
         private const string NAMESPACE_INCLUDES = "Included namespaces";
 
         public string Language => "C#";
         public string Category => "MiddleTier";
-        public string Name => "C# POCOs";
-        public string Description => "Generates Plain Old C# Objects (POCO) classes based on database tables.";
+        public string Name => "C# APIs/ORMs";
+        public string Description => "Generates various API objects, ORM objects, POCOs, and other classes based on database tables.";
         public string[] FeatureNames => ["POCO class"];
 
-        public Dictionary<string, string> BaseOptions => new()
+        public Dictionary<string, string> DefaultOptions => new()
         {
             { NAMESPACE_INCLUDES, string.Empty },
         };
 
         public CSharp_POCO() { }
 
-        public OutputObject Process(string mode, SqlTable sqlTable, Dictionary<string, string> options)
+        public OutputObject Process(string feature, SqlTable sqlTable, Dictionary<string, string> options)
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(mode, nameof(mode));
+            ArgumentException.ThrowIfNullOrWhiteSpace(feature, nameof(feature));
             ArgumentNullException.ThrowIfNull(sqlTable, nameof(sqlTable));
             ArgumentNullException.ThrowIfNull(options, nameof(options));
 
-            return mode switch
+            return feature switch
             {
                 "POCO class" => GenerateCSharpPoCoClass(sqlTable, options),
 
-                _ => throw new ArgumentOutOfRangeException($"Mode {mode} is not supported by {Name} generator."),
+                _ => throw new ArgumentOutOfRangeException($"Mode {feature} is not supported by {Name} generator."),
             };
         }
 

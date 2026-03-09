@@ -1443,13 +1443,13 @@ namespace AutoCodeGenLibrary
             return sb.ToString();
         }
 
-        private string GenerateSqlSpExistanceChecker(string procedureName, string schema)
+        private string GenerateSqlSpExistenceChecker(string procedureName, string schema)
         {
             if (string.IsNullOrEmpty(procedureName))
-                throw new Exception("Cannot generate sql existance check without a procedure name");
+                throw new Exception("Cannot generate sql existence check without a procedure name");
 
             if (string.IsNullOrEmpty(schema))
-                throw new Exception("Cannot generate sql existance check without schema");
+                throw new Exception("Cannot generate sql existence check without schema");
 
             var sb = new StringBuilder();
 

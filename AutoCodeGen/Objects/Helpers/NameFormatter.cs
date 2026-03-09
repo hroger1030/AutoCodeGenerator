@@ -19,7 +19,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using DAL.Net.SqlMetadata;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Globalization;
 using System.Text;
@@ -29,36 +28,27 @@ namespace AutoCodeGen
 {
     public static class NameFormatter
     {
-        private static readonly string _SpNamePrefix = ConfigurationManager.AppSettings["SpNamePrefix"];
-        private static readonly string _SelectSingleByXSpSuffix = ConfigurationManager.AppSettings["SelectSingleByXSpSuffix"];
-        private static readonly string _SelectManySpSuffix = ConfigurationManager.AppSettings["SelectManySpSuffix"];
-        private static readonly string _SelectManyByXSpSuffix = ConfigurationManager.AppSettings["SelectManyByXSpSuffix"];
-        private static readonly string _SelectAllSpSuffix = ConfigurationManager.AppSettings["SelectAllSpSuffix"];
-        private static readonly string _SearchPagedSpSuffix = ConfigurationManager.AppSettings["SearchPagedSpSuffix"];
-        private static readonly string _InsertSingleSpSuffix = ConfigurationManager.AppSettings["InsertSingleSpSuffix"];
-        private static readonly string _UpdateSpSuffix = ConfigurationManager.AppSettings["UpdateSpSuffix"];
-        private static readonly string _UpdateInsertSpSuffix = ConfigurationManager.AppSettings["UpdateInsertSpSuffix"];
-        private static readonly string _DelAllSpSuffix = ConfigurationManager.AppSettings["DelAllSpSuffix"];
-        private static readonly string _DelManySpSuffix = ConfigurationManager.AppSettings["DelManySpSuffix"];
-        private static readonly string _DelSingleSpSuffix = ConfigurationManager.AppSettings["DelSingleSpSuffix"];
-
-        private static readonly string _CSharpClassPrefix = ConfigurationManager.AppSettings["CSharpClassPrefix"];
-        private static readonly string _CSharpEnumPrefix = ConfigurationManager.AppSettings["CSharpEnumPrefix"];
-        private static readonly string _CSharpInterfacePrefix = ConfigurationManager.AppSettings["CSharpInterfacePrefix"];
-
-        private static readonly string[] _CSharpUndesirables = new string[] 
-        { 
-            "!", "$", "%", "^", "*", "(", ")", "-", "+", "\"", "=", "{", "}", "[",
-            "]", ":", ";", "|", "'", "\\", "<", ">", ",", ".", "?", "/", " ", "~", "`" 
-        };
+        private static readonly string _SpNamePrefix = string.Empty;
+        private static readonly string _SelectSingleByXSpSuffix = "SelectSingleBy{0}";
+        private static readonly string _SelectManySpSuffix = "SelectMany";
+        private static readonly string _SelectManyByXSpSuffix = "SelectManyBy{0}";
+        private static readonly string _SelectAllSpSuffix = "SelectAll";
+        private static readonly string _SearchPagedSpSuffix = "SearchAllPaged";
+        private static readonly string _InsertSingleSpSuffix = "Insert";
+        private static readonly string _UpdateSpSuffix = "Update";
+        private static readonly string _UpdateInsertSpSuffix = "Set";
+        private static readonly string _DelAllSpSuffix = "DeleteAll";
+        private static readonly string _DelManySpSuffix = "DeleteMany";
+        private static readonly string _DelSingleSpSuffix = "DeleteSingle";
 
         /// <summary>
-        /// Returns the SQL column name formatted for UI eas of reading
+        /// Returns the SQL column name formatted for UI eas of reading.
+        /// 
         /// Sample: FooBar -> Foo Bar
         /// </summary>
-        public static string ToFriendlyName(string input)
+        public static string ToFriendlyName(string input, HashSet<char> undesirables)
         {
-            input = ToFriendlyCase(input);
+            input = ToFriendlyCase(input, undesirables);
             var cultureInfo = new CultureInfo("en-US");
             input = cultureInfo.TextInfo.ToTitleCase(input);
 
@@ -66,61 +56,59 @@ namespace AutoCodeGen
         }
 
         /// <summary>
-        /// Returns the SQL column name formatted for a C# class local member
+        /// Returns the SQL column name formatted for a C# class local member.
+        /// 
         /// Sample: FooBar -> foo_bar
         /// </summary>
-        public static string ToCSharpLocalVariable(string input)
+        public static string ToCSharpLocalVariable(string input, HashSet<char> undesirables)
         {
-            return ToCamelCase(NormalizeForCSharp(input));
+            var buffer = NormalizeForCSharp(input);
+            return ToCamelCase(buffer, undesirables);
         }
 
         /// <summary>
-        /// Returns the SQL column name formatted for a C# class private member
+        /// Returns the SQL column name formatted for a C# class private member.
+        /// 
         /// Sample: Foo -> _Foo
         /// </summary>
         public static string ToCSharpPrivateVariable(string input)
         {
-            return "_" + NormalizeForCSharp(input);
+            return $"_{NormalizeForCSharp(input)}";
         }
 
         /// <summary>
-        /// Returns the SQL column name formatted as a C# class name
-        /// Sample: FooBar -> cFooBar
-        /// </summary>
-        public static string ToCSharpClassName(SqlTable input)
-        {
-            return _CSharpClassPrefix + NormalizeForCSharp(input.Name);
-        }
-
-        /// <summary>
-        /// Returns the SQL column name formatted as a C# class name
+        /// Returns the SQL column name formatted as a C# class name.
+        /// 
         /// Sample: FooBar -> cFooBar
         /// </summary>
         public static string ToCSharpClassName(string input)
         {
-            return _CSharpClassPrefix + NormalizeForCSharp(input);
+            return NormalizeForCSharp(input);
         }
 
         /// <summary>
-        /// Returns the SQL column name formatted as a C# interface name
+        /// Returns the SQL column name formatted as a C# interface name.
+        /// 
         /// Sample: FooBar -> IFooBar
         /// </summary>
         public static string ToCSharpInterfaceName(string input)
         {
-            return _CSharpInterfacePrefix + NormalizeForCSharp(input);
+            return $"I{NormalizeForCSharp(input)}";
         }
 
         /// <summary>
-        /// Returns the SQL column name formatted as a C# enum name
+        /// Returns the SQL column name formatted as a C# enum name.
+        /// 
         /// Sample: FooBar -> eFooBar
         /// </summary>
         public static string ToCSharpEnumName(string input)
         {
-            return _CSharpEnumPrefix + NormalizeForCSharp(input);
+            return $"e{NormalizeForCSharp(input)}";
         }
 
         /// <summary>
-        /// Returns the SQL column name formatted as a C# property name
+        /// Returns the SQL column name formatted as a C# property name.
+        /// 
         /// Sample: foo_bar -> FooBar
         /// </summary>
         public static string ToCSharpPropertyName(string input)
@@ -129,17 +117,9 @@ namespace AutoCodeGen
         }
 
         /// <summary>
-        /// Returns the SQL column name formatted as a C# property name
-        /// Sample: foo_bar -> FooBar
-        /// </summary>
-        public static string ToCSharpPropertyName(SqlColumn input)
-        {
-            return NormalizeForCSharp(input.Name);
-        }
-
-        /// <summary>
-        /// Returns the SQL column name formatted as a C# property name
-        /// Includes a to string call if the property needs it
+        /// Returns the SQL column name formatted as a C# property name.
+        /// Includes a to string call if the property needs it.
+        /// 
         /// Sample: foo_bar -> FooBar.ToString()
         /// </summary>
         public static string ToCSharpPropertyNameString(SqlColumn sqlColumn)
@@ -154,6 +134,7 @@ namespace AutoCodeGen
 
         /// <summary>
         /// Generates a complete parameter string. 
+        /// 
         /// Sample: new SqlParameter() { ParameterName = "AccountId", SqlDbType = SqlDbType.Int, Value = obj.AccountId },
         /// </summary>
         public static string ToCSharpSQLParameterTypeString(SqlColumn sqlColumn, bool convertNullableFields)
@@ -204,10 +185,10 @@ namespace AutoCodeGen
                             return "false";
 
                     case SqlDbType.Char: return "\"" + sqlColumn.DefaultValue + "\"";
-                    case SqlDbType.Date: return (sqlColumn.DefaultValue.ToLower() == "getdate()") ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
-                    case SqlDbType.DateTime: return (sqlColumn.DefaultValue.ToLower() == "getdate()") ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
-                    case SqlDbType.DateTime2: return (sqlColumn.DefaultValue.ToLower() == "getdate()") ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
-                    case SqlDbType.DateTimeOffset: return (sqlColumn.DefaultValue.ToLower() == "getdate()") ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
+                    case SqlDbType.Date: return sqlColumn.DefaultValue.ToLower() == "getdate()" ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
+                    case SqlDbType.DateTime: return sqlColumn.DefaultValue.ToLower() == "getdate()" ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
+                    case SqlDbType.DateTime2: return sqlColumn.DefaultValue.ToLower() == "getdate()" ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
+                    case SqlDbType.DateTimeOffset: return sqlColumn.DefaultValue.ToLower() == "getdate()" ? "DateTime.Now;" : $"DateTime.Parse(\"{sqlColumn.DefaultValue}\")";
                     case SqlDbType.Decimal: return sqlColumn.DefaultValue;
                     case SqlDbType.Float: return sqlColumn.DefaultValue;
                     //case SqlDbType.Image:               return "null";
@@ -293,6 +274,7 @@ namespace AutoCodeGen
 
         /// <summary>
         /// Returns the proper cast to C# type for the given SQL datatype.
+        /// 
         /// Example: int -> Convert.ToInt32
         /// </summary>
         public static string GetCSharpCastString(SqlColumn sqlColumn)
@@ -389,7 +371,8 @@ namespace AutoCodeGen
         }
 
         /// <summary>
-        /// Returns the SQL column name formatted to be used as a T-SQL
+        /// Returns the SQL column name formatted to be used as a T-SQL.
+        /// 
         /// variable. Sample: Foo -> @Foo;
         /// </summary>
         public static string ToTSQLVariableName(SqlColumn sqlColumn)
@@ -399,6 +382,7 @@ namespace AutoCodeGen
 
         /// <summary>
         /// Returns the SQL column name formatted for use in a T-SQL script.
+        /// 
         /// Sample: Foo Bar -> [Foo Bar]
         /// </summary>
         public static string ToTSQLName(string input)
@@ -408,6 +392,7 @@ namespace AutoCodeGen
 
         /// <summary>
         /// Returns a T-SQL representation of the SQL datatype.
+        /// 
         /// Sample: VARCHAR(50)
         /// </summary>
         public static string ToTSQLType(SqlColumn sqlColumn)
@@ -439,6 +424,7 @@ namespace AutoCodeGen
         /// <summary>
         /// Returns the CSharp mapping of the SQL datatype.
         /// Maps actual datatypes, not datatype names.
+        /// 
         /// sample: varchar(50) -> string
         /// </summary>
         public static string SQLTypeToCSharpType(SqlColumn sqlColumn)
@@ -526,7 +512,8 @@ namespace AutoCodeGen
         }
 
         /// <summary>
-        /// Returns a string containing a column definition for a table creation script
+        /// Returns a string containing a column definition for a table creation script.
+        /// 
         /// ex: [Id] [int] NULL
         /// </summary>
         public static string SQLTypeToColumnDefinition(SqlColumn sqlColumn)
@@ -620,11 +607,6 @@ namespace AutoCodeGen
                 input = input.Replace("@", "At");
                 input = input.Replace("&", "And");
 
-                foreach (string forbiddenChar in _CSharpUndesirables)
-                {
-                    input = input.Replace(forbiddenChar, string.Empty);
-                }
-
                 // no leading numbers, foo!
                 if (char.IsNumber(input[0]))
                 {
@@ -639,7 +621,7 @@ namespace AutoCodeGen
         /// Converts table column data to function argument string.
         /// Sample: string titles, string authors, int bookCount. 
         /// </summary>
-        public static string GenerateCSharpFunctionArgs(SqlTable sqlTable, eIncludedFields includeTypes)
+        public static string GenerateCSharpFunctionArgs(SqlTable sqlTable, eIncludedFields includeTypes, HashSet<char> undesirables)
         {
             var sb = new StringBuilder();
             bool first_flag = true;
@@ -655,7 +637,7 @@ namespace AutoCodeGen
                         else
                             sb.Append(", ");
 
-                        sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name));
+                        sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name, undesirables));
                         break;
 
                     case eIncludedFields.NoIdentities:
@@ -667,7 +649,7 @@ namespace AutoCodeGen
                             else
                                 sb.Append(", ");
 
-                            sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name));
+                            sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name, undesirables));
                         }
                         break;
 
@@ -680,7 +662,7 @@ namespace AutoCodeGen
                             else
                                 sb.Append(", ");
 
-                            sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name));
+                            sb.Append(SQLTypeToCSharpType(sqlColumn) + " " + ToCamelCase(sqlColumn.Name, undesirables));
                         }
                         break;
 
@@ -697,7 +679,7 @@ namespace AutoCodeGen
         /// Does not include function types.
         /// Sample: titles, authors, bookCount. 
         /// </summary>
-        public static string GenerateCSharpFunctionList(SqlTable sqlTable, eIncludedFields includeTypes)
+        public static string GenerateCSharpFunctionList(SqlTable sqlTable, eIncludedFields includeTypes, HashSet<char> undesirables)
         {
             var sb = new StringBuilder();
             bool first_flag = true;
@@ -713,20 +695,20 @@ namespace AutoCodeGen
                 {
                     case eIncludedFields.All:
 
-                        sb.Append(ToCamelCase(sqlTable.Name));
+                        sb.Append(ToCamelCase(sqlTable.Name, undesirables));
                         break;
 
                     case eIncludedFields.NoIdentities:
 
                         if (!sql_column.IsIdentity)
-                            sb.Append(ToCamelCase(sqlTable.Name));
+                            sb.Append(ToCamelCase(sqlTable.Name, undesirables));
 
                         break;
 
                     case eIncludedFields.PKOnly:
 
                         if (sql_column.IsPk)
-                            sb.Append(ToCamelCase(sqlTable.Name));
+                            sb.Append(ToCamelCase(sqlTable.Name, undesirables));
 
                         break;
 
@@ -747,7 +729,7 @@ namespace AutoCodeGen
                 throw new ArgumentException("Cannot generate stored procedure name without a table name.");
 
             string suffix;
-            string selectedFieldsString = (selectedFields == null) ? string.Empty : string.Join(string.Empty, selectedFields);
+            string selectedFieldsString = selectedFields == null ? string.Empty : string.Join(string.Empty, selectedFields);
 
             switch (procType)
             {
@@ -843,14 +825,20 @@ namespace AutoCodeGen
         /// Converts a sql column name to a case that will work as a c# local variable.
         /// ex: FooBar -> foo_bar
         /// </summary>
-        public static string ToSnakeCase(string input)
+        public static string ToSnakeCase(string input, HashSet<char> undesirables)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(input);
+            ArgumentNullException.ThrowIfNull(undesirables);
+
             var sb = new StringBuilder();
             bool firstFlag = true;
 
             foreach (char c in input)
             {
-                if (char.IsUpper(c) && !firstFlag)
+                if (undesirables.Contains(c))
+                    continue;
+
+                if (char.IsUpper(c) && !firstFlag && sb[sb.Length - 1] != '_')
                     sb.Append('_');
 
                 sb.Append(c);
@@ -858,7 +846,6 @@ namespace AutoCodeGen
                 if (firstFlag)
                     firstFlag = false;
             }
-
             return sb.ToString().ToLower();
         }
 
@@ -866,14 +853,20 @@ namespace AutoCodeGen
         /// Converts a sql column name to a case that will work as a c# local variable.
         /// ex: FooBar -> fooBar
         /// </summary>
-        public static string ToCamelCase(string input)
+        public static string ToCamelCase(string input, HashSet<char> undesirables)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(input);
+            ArgumentNullException.ThrowIfNull(undesirables);
+
             var sb = new StringBuilder();
             bool firstFlag = true;
             bool nextCharUpper = false;
 
             foreach (char c in input)
             {
+                if (undesirables.Contains(c))
+                    continue;
+
                 if (firstFlag)
                 {
                     firstFlag = false;
@@ -906,26 +899,34 @@ namespace AutoCodeGen
         /// Converts a sql column name to a readable case that will work in a comment.
         /// ex: FooBar -> Foo Bar
         /// </summary>
-        public static string ToFriendlyCase(string input)
+        public static string ToFriendlyCase(string input, HashSet<char> undesirables)
         {
-            // FooBar -> Foo Bar
+            ArgumentException.ThrowIfNullOrWhiteSpace(input);
+            ArgumentNullException.ThrowIfNull(undesirables);
 
             var sb = new StringBuilder();
-            bool first_flag = true;
+            bool firstFlag = true;
 
             foreach (char c in input)
             {
-                if (char.IsUpper(c) && !first_flag)
+                if (undesirables.Contains(c))
+                    continue;
+
+                if (c == '_')
+                {
+                    sb.Append(' ');
+                    continue;
+                }
+
+                if (char.IsUpper(c) && !firstFlag && sb[sb.Length - 1] != ' ')
                     sb.Append(' ');
 
                 sb.Append(c);
 
-                if (first_flag)
-                    first_flag = false;
-
+                if (firstFlag)
+                    firstFlag = false;
             }
-
-            return sb.ToString().ToLower();
+            return sb.ToString();
         }
     }
 }
