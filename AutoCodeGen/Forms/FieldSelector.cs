@@ -27,7 +27,7 @@ namespace AutoCodeGen
 {
     public partial class frmFieldSelector : Form
     {
-        protected const string s_SelectedItems = "Selected Columns:";
+        protected const string SELECTED_ITEMS = "Selected Columns:";
 
         protected List<string> _SelectedColumns;
         protected int _MinSelections;
@@ -65,7 +65,7 @@ namespace AutoCodeGen
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine(s_SelectedItems);
+            sb.AppendLine(SELECTED_ITEMS);
 
             foreach (var item in _SelectedColumns)
                 sb.AppendLine(item);

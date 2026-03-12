@@ -20,50 +20,27 @@ using DAL.Net.SqlMetadata;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace AutoCodeGen
 {
-    public static class NameFormatter
+    public static partial class NameFormatter
     {
-        private static readonly string _SpNamePrefix = string.Empty;
-        private static readonly string _SelectSingleByXSpSuffix = "SelectSingleBy{0}";
-        private static readonly string _SelectManySpSuffix = "SelectMany";
-        private static readonly string _SelectManyByXSpSuffix = "SelectManyBy{0}";
-        private static readonly string _SelectAllSpSuffix = "SelectAll";
-        private static readonly string _SearchPagedSpSuffix = "SearchAllPaged";
-        private static readonly string _InsertSingleSpSuffix = "Insert";
-        private static readonly string _UpdateSpSuffix = "Update";
-        private static readonly string _UpdateInsertSpSuffix = "Set";
-        private static readonly string _DelAllSpSuffix = "DeleteAll";
-        private static readonly string _DelManySpSuffix = "DeleteMany";
-        private static readonly string _DelSingleSpSuffix = "DeleteSingle";
-
-        /// <summary>
-        /// Returns the SQL column name formatted for UI eas of reading.
-        /// 
-        /// Sample: FooBar -> Foo Bar
-        /// </summary>
-        public static string ToFriendlyName(string input, HashSet<char> undesirables)
+        private static HashSet<char> _CSharpUndesirables = new()
         {
-            input = ToFriendlyCase(input, undesirables);
-            var cultureInfo = new CultureInfo("en-US");
-            input = cultureInfo.TextInfo.ToTitleCase(input);
-
-            return input;
-        }
+            '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
+            '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
+            '.', '?', '/', '~', '`', '@', '#', '"', ' ', '\t', '&'
+        };
 
         /// <summary>
         /// Returns the SQL column name formatted for a C# class local member.
         /// 
         /// Sample: FooBar -> foo_bar
         /// </summary>
-        public static string ToCSharpLocalVariable(string input, HashSet<char> undesirables)
+        public static string ToCSharpLocalVariable(string input)
         {
-            var buffer = NormalizeForCSharp(input);
-            return ToCamelCase(buffer, undesirables);
+            return ToCamelCase(input, _CSharpUndesirables);
         }
 
         /// <summary>
@@ -73,7 +50,8 @@ namespace AutoCodeGen
         /// </summary>
         public static string ToCSharpPrivateVariable(string input)
         {
-            return $"_{NormalizeForCSharp(input)}";
+            var buffer = RemoveInvalidCharacters(input, _CSharpUndesirables);
+            return $"_{buffer}";
         }
 
         /// <summary>
@@ -83,7 +61,7 @@ namespace AutoCodeGen
         /// </summary>
         public static string ToCSharpClassName(string input)
         {
-            return NormalizeForCSharp(input);
+            return ToTitleCase(input, _CSharpUndesirables);
         }
 
         /// <summary>
@@ -93,7 +71,8 @@ namespace AutoCodeGen
         /// </summary>
         public static string ToCSharpInterfaceName(string input)
         {
-            return $"I{NormalizeForCSharp(input)}";
+            var buffer = ToTitleCase(input, _CSharpUndesirables);
+            return $"I{buffer}";
         }
 
         /// <summary>
@@ -103,9 +82,10 @@ namespace AutoCodeGen
         /// </summary>
         public static string ToCSharpEnumName(string input)
         {
-            return $"e{NormalizeForCSharp(input)}";
+            var buffer = ToTitleCase(input, _CSharpUndesirables);
+            return $"e{buffer}";
         }
-
+       
         /// <summary>
         /// Returns the SQL column name formatted as a C# property name.
         /// 
@@ -113,7 +93,7 @@ namespace AutoCodeGen
         /// </summary>
         public static string ToCSharpPropertyName(string input)
         {
-            return NormalizeForCSharp(input);
+            return ToTitleCase(input, _CSharpUndesirables);
         }
 
         /// <summary>
@@ -122,14 +102,14 @@ namespace AutoCodeGen
         /// 
         /// Sample: foo_bar -> FooBar.ToString()
         /// </summary>
-        public static string ToCSharpPropertyNameString(SqlColumn sqlColumn)
+        public static string ToCSharpPropertyNameAsString(SqlColumn sqlColumn)
         {
-            string output = NormalizeForCSharp(sqlColumn.Name);
+            var buffer = ToTitleCase(sqlColumn.Name, _CSharpUndesirables);
 
             if (sqlColumn.BaseType == eSqlBaseType.String)
-                return output;
+                return buffer;
             else
-                return output + ".ToString()";
+                return $"{buffer}.ToString()";
         }
 
         /// <summary>
@@ -279,43 +259,39 @@ namespace AutoCodeGen
         /// </summary>
         public static string GetCSharpCastString(SqlColumn sqlColumn)
         {
-            //if (sql_column.IsNullable)
-            //{
-            //    // TODO
-            //    return string.Empty;
-            //}
-            //else
-            //{
+            // todo: do we need to deal with a nullable type here?
+            // need to check use of Binary, VarBinary, Image to make sure cast is correct
+
             switch (sqlColumn.SqlDataType)
             {
                 case SqlDbType.BigInt: return "Convert.ToInt64";
-                //case SqlDbType.Binary: return Convert"null";
+                case SqlDbType.Binary: return "(byte[])";
                 case SqlDbType.Bit: return "Convert.ToBoolean";
                 case SqlDbType.Char: return "Convert.ToChar";
                 case SqlDbType.Date: return "Convert.ToDateTime";
                 case SqlDbType.DateTime: return "Convert.ToDateTime";
                 case SqlDbType.DateTime2: return "Convert.ToDateTime";
-                case SqlDbType.DateTimeOffset: return "DateTime.Now";
+                case SqlDbType.DateTimeOffset: return "DateTimeOffset.Parse";
                 case SqlDbType.Decimal: return "Convert.ToDecimal";
                 case SqlDbType.Float: return "Convert.ToDouble";
-                //case SqlDbType.Image: return "null";
+                case SqlDbType.Image: return "(byte[])";
                 case SqlDbType.Int: return "Convert.ToInt32";
                 case SqlDbType.Money: return "Convert.ToDecimal";
                 case SqlDbType.NChar: return "Convert.ToString";
                 case SqlDbType.NText: return "Convert.ToString";
                 case SqlDbType.NVarChar: return "Convert.ToString";
-                case SqlDbType.Real: return "Convert.ToDouble";
-                case SqlDbType.SmallDateTime: return "DateTime.Now";
+                case SqlDbType.Real: return "Convert.ToSingle";
+                case SqlDbType.SmallDateTime: return "Convert.ToDateTime";
                 case SqlDbType.SmallInt: return "Convert.ToInt16";
                 case SqlDbType.SmallMoney: return "Convert.ToDecimal";
                 //case SqlDbType.Structured: return "null";         
                 case SqlDbType.Text: return "Convert.ToString";
-                case SqlDbType.Time: return "DateTime.Now";
+                case SqlDbType.Time: return "TimeSpan.Parse";
                 //case SqlDbType.Timestamp: return "string.Empty";
-                case SqlDbType.TinyInt: return "byte.MinValue";
+                case SqlDbType.TinyInt: return "Convert.ToByte";
                 //case SqlDbType.Udt: return "null";
                 case SqlDbType.UniqueIdentifier: return "Convert.ToString";
-                //case SqlDbType.VarBinary: return "null";
+                case SqlDbType.VarBinary: return "(byte[])";
                 case SqlDbType.VarChar: return "Convert.ToString";
                 //case SqlDbType.Variant: return "null";
                 case SqlDbType.Xml: return "Convert.ToString";
@@ -366,255 +342,8 @@ namespace AutoCodeGen
                 case SqlDbType.Xml: return "string.Empty";
 
                 default:
-                    return "// NO MIN VALUE AVAILABLE FOR " + sqlColumn.SqlDataType.ToString();
+                    return $"// NO MIN VALUE AVAILABLE FOR {sqlColumn.SqlDataType}";
             }
-        }
-
-        /// <summary>
-        /// Returns the SQL column name formatted to be used as a T-SQL.
-        /// 
-        /// variable. Sample: Foo -> @Foo;
-        /// </summary>
-        public static string ToTSQLVariableName(SqlColumn sqlColumn)
-        {
-            return "@" + sqlColumn.Name;
-        }
-
-        /// <summary>
-        /// Returns the SQL column name formatted for use in a T-SQL script.
-        /// 
-        /// Sample: Foo Bar -> [Foo Bar]
-        /// </summary>
-        public static string ToTSQLName(string input)
-        {
-            return $"[{input}]";
-        }
-
-        /// <summary>
-        /// Returns a T-SQL representation of the SQL datatype.
-        /// 
-        /// Sample: VARCHAR(50)
-        /// </summary>
-        public static string ToTSQLType(SqlColumn sqlColumn)
-        {
-            SqlDbType sql_type = sqlColumn.SqlDataType;
-
-            if (sql_type == SqlDbType.Binary || sql_type == SqlDbType.Char || sql_type == SqlDbType.NChar || sql_type == SqlDbType.NVarChar ||
-                sql_type == SqlDbType.VarBinary || sql_type == SqlDbType.VarChar)
-            {
-                if (sqlColumn.Length == -1)
-                {
-                    return $"{sqlColumn.SqlDataType.ToString().ToUpper()}(MAX)";
-                }
-                else
-                {
-                    return $"{sqlColumn.SqlDataType.ToString().ToUpper()}({sqlColumn.Length})";
-                }
-            }
-            else if (sql_type == SqlDbType.Decimal)
-            {
-                return $"{sqlColumn.SqlDataType.ToString().ToUpper()}({sqlColumn.Precision},{sqlColumn.Scale})";
-            }
-            else
-            {
-                return sqlColumn.SqlDataType.ToString().ToUpper();
-            }
-        }
-
-        /// <summary>
-        /// Returns the CSharp mapping of the SQL datatype.
-        /// Maps actual datatypes, not datatype names.
-        /// 
-        /// sample: varchar(50) -> string
-        /// </summary>
-        public static string SQLTypeToCSharpType(SqlColumn sqlColumn)
-        {
-            if (sqlColumn.IsNullable)
-            {
-                switch (sqlColumn.SqlDataType)
-                {
-                    case SqlDbType.BigInt: return "long?";
-                    case SqlDbType.Binary: return "byte[]";
-                    case SqlDbType.Bit: return "bool?";
-                    case SqlDbType.Char: return "string";
-                    case SqlDbType.Date: return "DateTime?";
-                    case SqlDbType.DateTime: return "DateTime?";
-                    case SqlDbType.DateTime2: return "DateTime?";
-                    case SqlDbType.DateTimeOffset: return "DateTime?";
-                    case SqlDbType.Decimal: return "decimal?";
-                    case SqlDbType.Float: return "double?";
-                    case SqlDbType.Image: return "byte[]";
-                    case SqlDbType.Int: return "int?";
-                    case SqlDbType.Money: return "decimal?";
-                    case SqlDbType.NChar: return "string";
-                    case SqlDbType.NText: return "string";
-                    case SqlDbType.NVarChar: return "string";
-                    case SqlDbType.Real: return "float?";
-                    case SqlDbType.SmallDateTime: return "DateTime?";
-                    case SqlDbType.SmallInt: return "short?";
-                    case SqlDbType.SmallMoney: return "float?";
-                    case SqlDbType.Structured: return "// NO TYPE AVAILABLE FOR " + sqlColumn.SqlDataType.ToString();
-                    case SqlDbType.Text: return "string";
-                    case SqlDbType.Time: return "DateTime?";
-                    case SqlDbType.Timestamp: return "string";
-                    case SqlDbType.TinyInt: return "byte?";
-                    case SqlDbType.Udt: return "byte[]";
-                    case SqlDbType.UniqueIdentifier: return "Guid?";
-                    case SqlDbType.VarBinary: return "byte[]";
-                    case SqlDbType.VarChar: return "string";
-                    case SqlDbType.Variant: return "byte[]";
-                    case SqlDbType.Xml: return "string";
-
-                    default:
-                        return "// NO TYPE AVAILABLE FOR " + sqlColumn.SqlDataType.ToString();
-                }
-            }
-            else
-            {
-                switch (sqlColumn.SqlDataType)
-                {
-                    case SqlDbType.BigInt: return "long";
-                    case SqlDbType.Binary: return "byte[]";
-                    case SqlDbType.Bit: return "bool";
-                    case SqlDbType.Char: return "string";
-                    case SqlDbType.Date: return "DateTime";
-                    case SqlDbType.DateTime: return "DateTime";
-                    case SqlDbType.DateTime2: return "DateTime";
-                    case SqlDbType.DateTimeOffset: return "DateTime";
-                    case SqlDbType.Decimal: return "decimal";
-                    case SqlDbType.Float: return "double";
-                    case SqlDbType.Image: return "byte[]";
-                    case SqlDbType.Int: return "int";
-                    case SqlDbType.Money: return "decimal";
-                    case SqlDbType.NChar: return "string";
-                    case SqlDbType.NText: return "string";
-                    case SqlDbType.NVarChar: return "string";
-                    case SqlDbType.Real: return "float";
-                    case SqlDbType.SmallDateTime: return "DateTime";
-                    case SqlDbType.SmallInt: return "short";
-                    case SqlDbType.SmallMoney: return "float";
-                    case SqlDbType.Structured: return "// NO TYPE AVAILABLE FOR " + sqlColumn.SqlDataType.ToString();
-                    case SqlDbType.Text: return "string";
-                    case SqlDbType.Time: return "DateTime";
-                    case SqlDbType.Timestamp: return "string";
-                    case SqlDbType.TinyInt: return "byte";
-                    case SqlDbType.Udt: return "byte[]";
-                    case SqlDbType.UniqueIdentifier: return "Guid";
-                    case SqlDbType.VarBinary: return "byte[]";
-                    case SqlDbType.VarChar: return "string";
-                    case SqlDbType.Variant: return "byte[]";
-                    case SqlDbType.Xml: return "string";
-
-                    default:
-                        return "// NO TYPE AVAILABLE FOR " + sqlColumn.SqlDataType.ToString();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns a string containing a column definition for a table creation script.
-        /// 
-        /// ex: [Id] [int] NULL
-        /// </summary>
-        public static string SQLTypeToColumnDefinition(SqlColumn sqlColumn)
-        {
-            string nullable;
-
-            if (sqlColumn.IsNullable)
-                nullable = "NULL";
-            else
-                nullable = "NOT NULL";
-
-            return $"{ToTSQLName(sqlColumn.Name)} {ToTSQLType(sqlColumn)} {nullable}";
-        }
-
-        /// <summary>
-        /// Returns a ASP.NET match of the SQL datatype
-        /// </summary>
-        public static string SQLToASPType(SqlColumn sqlColumn)
-        {
-            #region Sample
-            //<UpdateParameters>
-            //    <asp:Parameter Name="foo" Type="Boolean" />
-            //    <asp:Parameter Name="foo" Type="Byte" />
-            //    <asp:Parameter Name="foo" Type="Char" />
-            //    <asp:Parameter Name="foo" Type="DateTime" />
-            //    <asp:Parameter Name="foo" Type="DBNull" />
-            //    <asp:Parameter Name="foo" Type="Decimal" />
-            //    <asp:Parameter Name="foo" Type="Double" />
-            //    <asp:Parameter Name="foo" Type="Empty" />
-            //    <asp:Parameter Name="foo" Type="Int16" />
-            //    <asp:Parameter Name="foo" Type="Int32" />
-            //    <asp:Parameter Name="foo" Type="Int64" />
-            //    <asp:Parameter Name="foo" Type="Object" />
-            //    <asp:Parameter Name="foo" Type="SByte" />
-            //    <asp:Parameter Name="foo" Type="Single" />
-            //    <asp:Parameter Name="foo" Type="String" />
-            //    <asp:Parameter Name="foo" Type="UInt16" /> 
-            //    <asp:Parameter Name="foo" Type="UInt32" />
-            //    <asp:Parameter Name="foo" Type="UInt64" />
-            //</UpdateParameters>        
-            #endregion
-
-            switch (sqlColumn.SqlDataType)
-            {
-                case SqlDbType.BigInt: return "UInt64";
-                case SqlDbType.Binary: return "Object";
-                case SqlDbType.Bit: return "Boolean";
-                case SqlDbType.Char: return "Char"; ;
-                case SqlDbType.Date: return "DateTime";
-                case SqlDbType.DateTime: return "DateTime";
-                case SqlDbType.DateTime2: return "DateTime";
-                case SqlDbType.DateTimeOffset: return "DateTime";
-                case SqlDbType.Decimal: return "Decimal";
-                case SqlDbType.Float: return "Decimal";
-                case SqlDbType.Image: return "Object";
-                case SqlDbType.Int: return "Int32";
-                case SqlDbType.Money: return "Decimal"; ;
-                case SqlDbType.NChar: return "string";
-                case SqlDbType.NText: return "string";
-                case SqlDbType.NVarChar: return "string";
-                case SqlDbType.Real: return "Decimal";
-                case SqlDbType.SmallDateTime: return "DateTime";
-                case SqlDbType.SmallInt: return "Int16";
-                case SqlDbType.SmallMoney: return "Decimal";
-                case SqlDbType.Structured: return "Object";
-                case SqlDbType.Text: return "string";
-                case SqlDbType.Time: return "DateTime";
-                case SqlDbType.Timestamp: return "string";
-                case SqlDbType.TinyInt: return "Byte";
-                case SqlDbType.Udt: return "Object";
-                case SqlDbType.UniqueIdentifier: return "String";
-                case SqlDbType.VarBinary: return "Object";
-                case SqlDbType.VarChar: return "string";
-                case SqlDbType.Variant: return "Object";
-                case SqlDbType.Xml: return "string";
-
-                default:
-                    return "Int32";
-            }
-        }
-
-        public static string NormalizeForCSharp(string input)
-        {
-            // SQL types allow for names that won't work for a C# name,
-            // make sure that we have something that is legal.
-
-            if (input != string.Empty)
-            {
-                // make a stab at replacing symbols that translate to words
-                input = input.Replace("#", "Number");
-                input = input.Replace("@", "At");
-                input = input.Replace("&", "And");
-
-                // no leading numbers, foo!
-                if (char.IsNumber(input[0]))
-                {
-                    input = "N" + input;
-                }
-            }
-
-            return input;
         }
 
         /// <summary>
@@ -755,178 +484,6 @@ namespace AutoCodeGen
             tableName = tableName.Replace("__", "_");
 
             return tableName;
-        }
-
-        /// <summary>
-        /// generates a legal SQL table name
-        /// </summary>
-        public static string FormatTableName(string input, string regex)
-        {
-            string output = input;
-
-            if (string.IsNullOrWhiteSpace(regex))
-            {
-                output = Regex.Replace(output, regex, string.Empty, RegexOptions.IgnoreCase);
-            }
-
-            output = output.Replace(" ", "");
-            output = output.Replace("-", "");
-            output = output.Replace("_", "");
-
-            return output;
-        }
-
-        /// <summary>
-        /// Function to determine how many characters an input field should take in for a give data type.
-        /// -1 returned if we cannot work it out.
-        /// </summary>
-        public static int ComputeStringLength(SqlColumn sqlColumn)
-        {
-            switch (sqlColumn.SqlDataType)
-            {
-                case SqlDbType.BigInt: return long.MaxValue.ToString().Length;
-                case SqlDbType.Binary: return sqlColumn.Length;
-                case SqlDbType.Bit: return 1;
-                case SqlDbType.Char: return 1;
-                //case SqlDbType.Date:		    	return "DateTime?";
-                //case SqlDbType.DateTime:	    	return "DateTime?";
-                //case SqlDbType.DateTime2:	    	return "DateTime?";
-                //case SqlDbType.DateTimeOffset:  	return "DateTime?";
-                case SqlDbType.Decimal: return decimal.MaxValue.ToString().Length;
-                case SqlDbType.Float: return double.MaxValue.ToString().Length;
-                //case SqlDbType.Image:               return "byte[]";
-                case SqlDbType.Int: return int.MaxValue.ToString().Length;
-                //case SqlDbType.Money:               return "decimal?";
-                case SqlDbType.NChar: return sqlColumn.Length;
-                //case SqlDbType.NText:               return "string";
-                case SqlDbType.NVarChar: return sqlColumn.Length;
-                //case SqlDbType.Real:                return "float?";
-                //case SqlDbType.SmallDateTime:       return "DateTime?";
-                case SqlDbType.SmallInt: return short.MaxValue.ToString().Length;
-                //case SqlDbType.SmallMoney:          return "float?";          
-                //case SqlDbType.Structured:          return "// NO TYPE AVAILABLE FOR " + sql_column.SqlDataType.ToString();         
-                //case SqlDbType.Text:                return "string";
-                //case SqlDbType.Time:                return "DateTime?";
-                //case SqlDbType.Timestamp:           return "string";
-                case SqlDbType.TinyInt: return byte.MaxValue.ToString().Length;
-                //case SqlDbType.Udt:                 return "byte[]";
-                //case SqlDbType.UniqueIdentifier:    return "Guid?";
-                //case SqlDbType.VarBinary:           return "bool[]";
-                case SqlDbType.VarChar: return sqlColumn.Length;
-                //case SqlDbType.Variant:             return "byte[]"; 
-                case SqlDbType.Xml: return sqlColumn.Length;
-
-                default:
-                    return -1;
-            }
-        }
-
-        /// <summary>
-        /// Converts a sql column name to a case that will work as a c# local variable.
-        /// ex: FooBar -> foo_bar
-        /// </summary>
-        public static string ToSnakeCase(string input, HashSet<char> undesirables)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(input);
-            ArgumentNullException.ThrowIfNull(undesirables);
-
-            var sb = new StringBuilder();
-            bool firstFlag = true;
-
-            foreach (char c in input)
-            {
-                if (undesirables.Contains(c))
-                    continue;
-
-                if (char.IsUpper(c) && !firstFlag && sb[sb.Length - 1] != '_')
-                    sb.Append('_');
-
-                sb.Append(c);
-
-                if (firstFlag)
-                    firstFlag = false;
-            }
-            return sb.ToString().ToLower();
-        }
-
-        /// <summary>
-        /// Converts a sql column name to a case that will work as a c# local variable.
-        /// ex: FooBar -> fooBar
-        /// </summary>
-        public static string ToCamelCase(string input, HashSet<char> undesirables)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(input);
-            ArgumentNullException.ThrowIfNull(undesirables);
-
-            var sb = new StringBuilder();
-            bool firstFlag = true;
-            bool nextCharUpper = false;
-
-            foreach (char c in input)
-            {
-                if (undesirables.Contains(c))
-                    continue;
-
-                if (firstFlag)
-                {
-                    firstFlag = false;
-                    sb.Append(char.ToLower(c));
-                }
-                else
-                {
-                    if (c == ' ' || c == '_')
-                    {
-                        nextCharUpper = true;
-                        continue;
-                    }
-
-                    if (nextCharUpper)
-                    {
-                        sb.Append(char.ToUpper(c));
-                        nextCharUpper = false;
-                    }
-                    else
-                    {
-                        sb.Append(c);
-                    }
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Converts a sql column name to a readable case that will work in a comment.
-        /// ex: FooBar -> Foo Bar
-        /// </summary>
-        public static string ToFriendlyCase(string input, HashSet<char> undesirables)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(input);
-            ArgumentNullException.ThrowIfNull(undesirables);
-
-            var sb = new StringBuilder();
-            bool firstFlag = true;
-
-            foreach (char c in input)
-            {
-                if (undesirables.Contains(c))
-                    continue;
-
-                if (c == '_')
-                {
-                    sb.Append(' ');
-                    continue;
-                }
-
-                if (char.IsUpper(c) && !firstFlag && sb[sb.Length - 1] != ' ')
-                    sb.Append(' ');
-
-                sb.Append(c);
-
-                if (firstFlag)
-                    firstFlag = false;
-            }
-            return sb.ToString();
         }
     }
 }
