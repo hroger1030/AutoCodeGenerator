@@ -27,13 +27,11 @@ namespace AutoCodeGen
 {
     public class CSharp_ApiMethods : IGenerator
     {
-        private const string OutputPath = "c#\\";
-
         private const string FEATURE_POCO_CLASS = "POCO class";
         private const string FEATURE_API_ENDPOINT = "API CRUD Endpoint";
         private const string FEATURE_ORM_LOADER = "ORM Loader object";
 
-        private static HashSet<char> _UndesirableChars = new()
+        private static readonly HashSet<char> _UndesirableChars = new()
         {
             '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
             '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
@@ -43,9 +41,10 @@ namespace AutoCodeGen
         // option names
         private const string NAMESPACE_INCLUDES = "Included namespaces";
 
-        public string Language => "C#";
-        public string Category => "MiddleTier";
-        public string Name => "C# APIs/ORMs";
+        public string Language => "c#";
+        public string Version => "8.0";
+        public string Category => "middle tier";
+        public string Name => "C#/.Net";
         public string Description => "Generates various API objects, ORM objects, POCOs, and other classes based on database tables.";
         public string[] FeatureNames => [FEATURE_POCO_CLASS, FEATURE_API_ENDPOINT, FEATURE_ORM_LOADER];
 
@@ -132,7 +131,7 @@ namespace AutoCodeGen
             {
                 FileName = $"{className}.cs",
                 Body = sb.ToString(),
-                OutputPath = $"{OutputPath}\\pocos",
+                OutputPath = $"{Language}\\{Version}\\pocos",
             };
         }
 
@@ -140,6 +139,8 @@ namespace AutoCodeGen
         {
             ArgumentNullException.ThrowIfNull(sqlTable);
             ArgumentNullException.ThrowIfNull(options);
+
+            //TODO: FIX ALL THIS SHIT!
 
             string className = ToClassName(sqlTable.Name);
             string controllerName = className.ToLower();
@@ -515,7 +516,7 @@ namespace AutoCodeGen
             {
                 FileName = $"{className}Controller.cs",
                 Body = sb.ToString(),
-                OutputPath = $"{OutputPath}\\controllers",
+                OutputPath = $"{Language}\\{Version}\\controllers",
             };
         }
 
@@ -785,7 +786,7 @@ namespace AutoCodeGen
             {
                 FileName = $"SqlDataLoader.{className}.cs",
                 Body = sb.ToString(),
-                OutputPath = $"{OutputPath}\\loaders",
+                OutputPath = $"{Language}\\{Version}\\loaders",
             };
         }
 
@@ -810,7 +811,7 @@ namespace AutoCodeGen
         /// </summary>
         private static string ToClassName(string input)
         {
-            return Formatter.ToTitleCase(input, _UndesirableChars);
+            return Formatter.ToPascalCase(input, _UndesirableChars);
         }
 
         /// <summary>
@@ -820,7 +821,7 @@ namespace AutoCodeGen
         /// </summary>
         private static string ToInterfaceName(string input)
         {
-            var buffer = Formatter.ToTitleCase(input, _UndesirableChars);
+            var buffer = Formatter.ToPascalCase(input, _UndesirableChars);
             return $"I{buffer}";
         }
 
@@ -831,7 +832,7 @@ namespace AutoCodeGen
         /// </summary>
         private static string ToEnumName(string input)
         {
-            var buffer = Formatter.ToTitleCase(input, _UndesirableChars);
+            var buffer = Formatter.ToPascalCase(input, _UndesirableChars);
             return $"e{buffer}";
         }
 
@@ -842,7 +843,7 @@ namespace AutoCodeGen
         /// </summary>
         private static string ToPropertyName(string input)
         {
-            return Formatter.ToTitleCase(input, _UndesirableChars);
+            return Formatter.ToPascalCase(input, _UndesirableChars);
         }
 
         /// <summary>

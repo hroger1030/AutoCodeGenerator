@@ -27,13 +27,12 @@ namespace AutoCodeGen
 {
     public class MsSql_StoredProcs : IGenerator
     {
-        private const string OutputPath = "MsSql\\";
         private const string FEATURE_INSERT = "Insert table SP";
 
         // option names
         private const string EXISTENCE_CHECKS = "Include existence checks";
 
-        private static HashSet<char> _UndesirableChars = new()
+        private static readonly HashSet<char> _UndesirableChars = new()
         {
             '!', '%', '^', '*', '(', ')', '+', '\\', '=',
             '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
@@ -41,9 +40,10 @@ namespace AutoCodeGen
             '.', '-', ' ', '@' // <-- allowed in SQL object names but not in variable and parameter names.
         };
 
-        public string Language => "SQL";
-        public string Category => "Database";
-        public string Name => "MS-SQL Stored Procs";
+        public string Language => "sql";
+        public string Version => "sql server 2022";
+        public string Category => "database";
+        public string Name => "MS-SQL";
         public string Description => "Generates MS-SQL stored procedures.";
         public string[] FeatureNames => [FEATURE_INSERT];
 
@@ -130,7 +130,7 @@ namespace AutoCodeGen
             {
                 FileName = $"{spName}.sql",
                 Body = sb.ToString(),
-                OutputPath = $"{OutputPath}\\stored_procs",
+                OutputPath = $"{Language}\\{Version}\\stored_procs",
             };
         }
 
@@ -237,7 +237,7 @@ namespace AutoCodeGen
         /// </summary>
         private static string ToTSQLVariableName(SqlColumn sqlColumn)
         {
-            var buffer = Formatter.ToTitleCase(sqlColumn.Name, _UndesirableChars);
+            var buffer = Formatter.ToPascalCase(sqlColumn.Name, _UndesirableChars);
             return $"@{buffer}";
         }
 

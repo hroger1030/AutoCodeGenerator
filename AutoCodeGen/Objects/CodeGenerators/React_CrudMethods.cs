@@ -25,22 +25,19 @@ namespace AutoCodeGen
 {
     public class React_CrudMethods : IGenerator
     {
-        private const string OutputPath = "react\\";
         private const string FEATURE_INSERT = "Readonly Object Component";
 
-        // option names
-        private const string EXISTENCE_CHECKS = "Include existence checks";
-
-        private static HashSet<char> _UndesirableChars = new()
+        private static readonly HashSet<char> _UndesirableChars = new()
         {
             '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
             '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
             '.', '?', '/', '~', '`', '@', '#', '"', ' ', '\t', '&'
         };
 
-        public string Language => "React";
-        public string Category => "UI";
-        public string Name => "React CRUD methods";
+        public string Language => "react";
+        public string Version => "19.0";
+        public string Category => "ui";
+        public string Name => "React/TypeScript";
         public string Description => "Generates react/typescript components and objects for React.";
         public string[] FeatureNames => [FEATURE_INSERT];
 
@@ -74,7 +71,7 @@ namespace AutoCodeGen
             {
                 FileName = $"{objectName}.tsx",
                 Body = sb.ToString(),
-                OutputPath = $"{OutputPath}\\components",
+                OutputPath = $"{Language}\\{Version}\\components",
             };
         }
 
@@ -88,9 +85,9 @@ namespace AutoCodeGen
         /// 
         /// Sample: FooBar -> FooBar
         /// </summary>
-        public static string ToObjectName(string input)
+        private static string ToObjectName(string input)
         {
-            return Formatter.ToTitleCase(input, _UndesirableChars);
+            return Formatter.ToPascalCase(input, _UndesirableChars);
         }
     }
 }

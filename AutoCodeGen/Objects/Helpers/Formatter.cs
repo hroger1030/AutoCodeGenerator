@@ -63,7 +63,7 @@ namespace AutoCodeGen
         ///   __weird__col  -> WeirdCol
         ///   FOO_BAR       -> FooBar
         /// </summary>
-        public static string ToTitleCase(string input, HashSet<char> undesirables, HashSet<char> delimiters = null)
+        public static string ToPascalCase(string input, HashSet<char> undesirables, HashSet<char> delimiters = null)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return string.Empty;
@@ -117,7 +117,7 @@ namespace AutoCodeGen
             ArgumentException.ThrowIfNullOrWhiteSpace(input);
             ArgumentNullException.ThrowIfNull(undesirables);
 
-            var sb = new StringBuilder(input);
+            var sb = new StringBuilder(input.Length);
             bool firstFlag = true;
 
             foreach (char c in input)
@@ -187,12 +187,12 @@ namespace AutoCodeGen
         /// Converts a sql column name to a readable case that will work in a comment.
         /// ex: FooBar -> Foo Bar
         /// </summary>
-        public static string ToFriendlyCase(string input, HashSet<char> undesirables)
+        public static string ToTitleCase(string input, HashSet<char> undesirables)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(input);
             ArgumentNullException.ThrowIfNull(undesirables);
 
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(input.Length);
             bool firstFlag = true;
 
             foreach (char c in input)

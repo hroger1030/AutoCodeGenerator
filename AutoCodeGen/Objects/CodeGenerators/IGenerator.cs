@@ -25,6 +25,7 @@ namespace AutoCodeGen
     {
         string Category { get; }
         string Language { get; }
+        string Version { get; }
         string Name { get; }
         string Description { get; }
         string[] FeatureNames { get; }
