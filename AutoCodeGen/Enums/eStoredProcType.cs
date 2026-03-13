@@ -24,10 +24,14 @@ namespace AutoCodeGen
         SelectMany,
         SelectManyByX,
         SelectAll,
-        SearchPaged,
-        Insert,
+
+        Search
+            ,
+        InsertSingle,
+        InsertMultiple,
+
         Update,
-        UpdateInsert,
+
         DelSingle,
         DelMany,
         DelAll,

@@ -18,12 +18,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AutoCodeGen
 {
-    public static partial class NameFormatter
+    /// <summary>
+    /// Formatter is a class full of static methods to help format strings in various ways.
+    /// </summary>
+    public static partial class Formatter
     {
+        /// <summary>
+        /// These are the characters that will be considered as word boundaries when converting a variable to title case. They will be removed from the output.
+        /// </summary>
         private static readonly HashSet<char> _Delimiters = new() { '_', '-', ' ' };
 
         /// <summary>
@@ -139,7 +146,7 @@ namespace AutoCodeGen
             ArgumentException.ThrowIfNullOrWhiteSpace(input);
             ArgumentNullException.ThrowIfNull(undesirables);
 
-            var sb = new StringBuilder(input);
+            var sb = new StringBuilder(input.Length);
             bool firstFlag = true;
             bool nextCharUpper = false;
 
@@ -208,6 +215,47 @@ namespace AutoCodeGen
                     firstFlag = false;
             }
             return sb.ToString();
+        }
+
+        public static string AddTabs(int count, int tabSize = 4, bool convertToSpaces = false)
+        {
+            if (count < 0)
+                throw new ArgumentException($"Cannot generate a string of {count} tabs");
+
+            if (tabSize < 1)
+                throw new ArgumentException($"Tab size cannot be defined as less than zero white spaces");
+
+            var sb = new StringBuilder();
+
+            int totalCount = count;
+
+            // do we preserve the tabs or convert to whitespace?
+            if (convertToSpaces)
+                totalCount *= tabSize;
+
+            while (totalCount > 0)
+            {
+                if (convertToSpaces)
+                    sb.Append(' ');
+                else
+                    sb.Append('\t');
+
+                totalCount--;
+            }
+
+            return sb.ToString();
+        }
+
+        public static List<string> StringToList(string list, char delimiter = ';')
+        {
+            var output = new List<string>();
+
+            if (list == null)
+                return output;
+
+            var buffer = list.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+
+            return buffer.ToList();
         }
     }
 }

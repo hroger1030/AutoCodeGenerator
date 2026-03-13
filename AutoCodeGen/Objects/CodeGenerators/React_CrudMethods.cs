@@ -23,26 +23,28 @@ using System.Text;
 
 namespace AutoCodeGen
 {
-    public class Sql_StoredProcs : IGenerator
+    public class React_CrudMethods : IGenerator
     {
-        private const string OutputPath = "SQL\\";
-        private const string FEATURE_INSERT = "Insert table SP";
+        private const string OutputPath = "react\\";
+        private const string FEATURE_INSERT = "Readonly Object Component";
 
         // option names
         private const string EXISTENCE_CHECKS = "Include existence checks";
 
-        public string Language => "SQL";
-        public string Category => "Database";
-        public string Name => "MS-SQL Stored Procs";
-        public string Description => "Generates MS-SQL stored procedures.";
-        public string[] FeatureNames => [FEATURE_INSERT];
-
-        public Dictionary<string, string> DefaultOptions => new()
+        private static HashSet<char> _UndesirableChars = new()
         {
-            { EXISTENCE_CHECKS, string.Empty },
+            '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
+            '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
+            '.', '?', '/', '~', '`', '@', '#', '"', ' ', '\t', '&'
         };
 
-        public Sql_StoredProcs() { }
+        public string Language => "React";
+        public string Category => "UI";
+        public string Name => "React CRUD methods";
+        public string Description => "Generates react/typescript components and objects for React.";
+        public string[] FeatureNames => [FEATURE_INSERT];
+
+        public Dictionary<string, string> DefaultOptions => new();
 
         public OutputObject Process(string feature, SqlTable sqlTable, Dictionary<string, string> options)
         {
@@ -52,27 +54,44 @@ namespace AutoCodeGen
 
             return feature switch
             {
-                FEATURE_INSERT => GenerateMethod(sqlTable, options),
+                FEATURE_INSERT => GenerateReadonlyComponentMethod(sqlTable, options),
 
                 _ => throw new ArgumentOutOfRangeException($"Mode {feature} is not supported by {Name} generator."),
             };
         }
 
-        public OutputObject GenerateMethod(SqlTable sqlTable, Dictionary<string, string> options)
+        public OutputObject GenerateReadonlyComponentMethod(SqlTable sqlTable, Dictionary<string, string> options)
         {
-            string className = NameFormatter.ToCSharpClassName(sqlTable.Name);
+            ArgumentNullException.ThrowIfNull(sqlTable);
+            ArgumentNullException.ThrowIfNull(options);
+
+            string objectName = ToObjectName(sqlTable.Name);
             var sb = new StringBuilder();
 
             sb.AppendLine("// TODO - Add stuff");
 
             return new OutputObject
             {
-                FileName = $"{className}.cs",
+                FileName = $"{objectName}.tsx",
                 Body = sb.ToString(),
-                OutputPath = $"{OutputPath}\\stored_procedures",
+                OutputPath = $"{OutputPath}\\components",
             };
         }
 
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// Helper Methods
+
+        /// <summary>
+        /// Returns the SQL column name formatted as a react component name.
+        /// 
+        /// Sample: FooBar -> FooBar
+        /// </summary>
+        public static string ToObjectName(string input)
+        {
+            return Formatter.ToTitleCase(input, _UndesirableChars);
+        }
     }
 }
 

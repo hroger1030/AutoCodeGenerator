@@ -1,13 +1,25 @@
 # A quick note from me to you...
 
-   I spent a number of years writing and using this code, it seems a waste to not share it with anyone who might benefit from it. 
+   I wrote this many years ago, it seems a waste to not share it with anyone who might benefit from it. 
    
    I am sharing this under the MIT license, so you can do pretty much anything with it. It would be nice if you wanted to share any code additions or bug fixes.
 
    Code generation is a technique that has been around for awhile. The idea is pretty cool, you design a code pattern, test it thoroughly and then reuse it to 
    generate bug free code. There are several ways of defining your code patterns. For this application, I chose to use a SQL DB schema for the ORM and DAL objects. 
-   The tool also allows you to auto-generate SQL stored procedures, and even some front end asp.net web pages. (although they are a little out of date, at some 
-   point I will probably move the UI code to an MVC pattern to be a little more contemporary)
+   The tool also allows you to auto-generate SQL stored procedures, and anything else you can think of.
+
+   This tool greatly predates AI code generation, and it is pretty much the opposite of that. It is far superior, in that you have complete control over the 100% 
+   deterministic that is generated. Further, it is very easy to have AI generate the initial code patterns for you, and then you can just plug those into the code 
+   generator to stat building upon. 
+
+# Extending The Code Generator
+
+   The code generator is really easy to extend. The UI will scan the code generator assembly for any classes that implement the ICodeGenerator interface, and 
+   then it will create a tab for each one it finds and wire up behaviors automatically. All you have to do is create a new class that implements the ICodeGenerator 
+   interface, and then build the code generator assembly. The new generator will be picked up at runtime.
+
+   I have included a number of generators in the code generator assembly, but there are many more that could be added. If you want to see some simple examples of
+   how to create a generator, check out the code for the existing POCOs, POJOS, POGLO, POPOs, POROs.
 
 # Generating Code
 
