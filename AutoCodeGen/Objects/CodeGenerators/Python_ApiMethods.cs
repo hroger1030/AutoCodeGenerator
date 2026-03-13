@@ -29,12 +29,12 @@ namespace AutoCodeGen
     {
         private const string FEATURE_POPO_CLASS = "POPO class";
 
-        private static readonly HashSet<char> _UndesirableChars = new()
-        {
+        private static readonly HashSet<char> _UndesirableChars =
+        [
             '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
             '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
             '.', '?', '/', '~', '`', '@', '#', '"', ' ', '\t', '&'
-        };
+        ];
 
         public string Language => "python";
         public string Version => "3.10";
@@ -43,7 +43,7 @@ namespace AutoCodeGen
         public string Description => "Generates various API objects, ORM objects, POPOs, and other classes based on database tables.";
         public string[] FeatureNames => [FEATURE_POPO_CLASS];
 
-        public Dictionary<string, string> DefaultOptions => new();
+        public Dictionary<string, string> DefaultOptions => [];
 
         public OutputObject Process(string feature, SqlTable sqlTable, Dictionary<string, string> options)
         {

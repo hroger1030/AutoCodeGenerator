@@ -27,12 +27,12 @@ namespace AutoCodeGen
     {
         private const string FEATURE_INSERT = "Readonly Object Component";
 
-        private static readonly HashSet<char> _UndesirableChars = new()
-        {
+        private static readonly HashSet<char> _UndesirableChars =
+        [
             '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
             '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
             '.', '?', '/', '~', '`', '@', '#', '"', ' ', '\t', '&'
-        };
+        ];
 
         public string Language => "react";
         public string Version => "19.0";
@@ -41,7 +41,7 @@ namespace AutoCodeGen
         public string Description => "Generates react/typescript components and objects for React.";
         public string[] FeatureNames => [FEATURE_INSERT];
 
-        public Dictionary<string, string> DefaultOptions => new();
+        public Dictionary<string, string> DefaultOptions => [];
 
         public OutputObject Process(string feature, SqlTable sqlTable, Dictionary<string, string> options)
         {

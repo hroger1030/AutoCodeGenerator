@@ -32,13 +32,13 @@ namespace AutoCodeGen
         // option names
         private const string EXISTENCE_CHECKS = "Include existence checks";
 
-        private static readonly HashSet<char> _UndesirableChars = new()
-        {
+        private static readonly HashSet<char> _UndesirableChars =
+        [
             '!', '%', '^', '*', '(', ')', '+', '\\', '=',
             '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
             '?', '/', '~', '`', '#', '"', '\t', '&',
             '.', '-', ' ', '@' // <-- allowed in SQL object names but not in variable and parameter names.
-        };
+        ];
 
         public string Language => "sql";
         public string Version => "sql server 2022";
@@ -83,7 +83,7 @@ namespace AutoCodeGen
             sb.AppendLine();
 
             sb.AppendLine($"INSERT [{sqlTable.Schema}].[{sqlTable.Name}]");
-            sb.Append("(");
+            sb.Append('(');
 
             // list selected columns
             bool firstFlag = true;
@@ -96,7 +96,7 @@ namespace AutoCodeGen
                 if (firstFlag)
                     firstFlag = false;
                 else
-                    sb.Append(",");
+                    sb.Append(',');
 
                 sb.Append(Environment.NewLine + Formatter.AddTabs(1) + ToTSQLColumnName(col));
 
@@ -117,7 +117,7 @@ namespace AutoCodeGen
                 if (firstFlag)
                     firstFlag = false;
                 else
-                    sb.Append(",");
+                    sb.Append(',');
 
                 sb.Append(Environment.NewLine + Formatter.AddTabs(1) + ToTSQLVariableName(col));
             }
@@ -325,14 +325,14 @@ namespace AutoCodeGen
                 _ => throw new Exception($"Unknown value for included fields: {includedFields}"),
             };
 
-            sb.Append("(");
+            sb.Append('(');
 
             foreach (var col in cols)
             {
                 if (firstFlag)
                     firstFlag = false;
                 else
-                    sb.Append(",");
+                    sb.Append(',');
 
                 sb.Append(Environment.NewLine);
                 sb.Append(Formatter.AddTabs(1) + ToTSQLVariableName(col) + " " + ToTSQLType(col));
@@ -341,7 +341,7 @@ namespace AutoCodeGen
                     sb.Append(" OUTPUT");
             }
 
-            sb.Append(Environment.NewLine + ")");
+            sb.Append(Environment.NewLine + ')');
             return sb.ToString();
         }
 
@@ -364,7 +364,7 @@ namespace AutoCodeGen
                 if (firstFlag)
                     firstFlag = false;
                 else
-                    sb.Append(",");
+                    sb.Append(',');
 
                 sb.Append($"{Environment.NewLine}{Formatter.AddTabs(1)}{ToTSQLVariableName(col)} = {SQLTypeDefaultValue(col)}");
             }

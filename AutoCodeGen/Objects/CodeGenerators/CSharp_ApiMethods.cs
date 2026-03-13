@@ -31,12 +31,12 @@ namespace AutoCodeGen
         private const string FEATURE_API_ENDPOINT = "API CRUD Endpoint";
         private const string FEATURE_ORM_LOADER = "ORM Loader object";
 
-        private static readonly HashSet<char> _UndesirableChars = new()
-        {
+        private static readonly HashSet<char> _UndesirableChars =
+        [
             '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
             '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
             '.', '?', '/', '~', '`', '@', '#', '"', ' ', '\t', '&'
-        };
+        ];
 
         // option names
         private const string NAMESPACE_INCLUDES = "Included namespaces";

@@ -69,7 +69,7 @@ namespace AutoCodeGen
                 return string.Empty;
 
             if (undesirables == null)
-                undesirables = new HashSet<char>();
+                undesirables = [];
 
             if (delimiters == null)
                 delimiters = _Delimiters;
