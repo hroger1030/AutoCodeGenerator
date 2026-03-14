@@ -20,7 +20,6 @@ using DAL.Net.SqlMetadata;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
 
 namespace AutoCodeGen
@@ -67,8 +66,14 @@ namespace AutoCodeGen
             string className = ToClassName(sqlTable.Name);
             var sb = new StringBuilder();
 
+            //  TODO: Add imports for any types used by the columns in this table.
+            // We don't have a clean way of tracking this right now, so we'll just add imports for all commonly used types.
+
             sb.AppendLine("from dataclasses import dataclass");
             sb.AppendLine("from typing import Optional");
+            sb.AppendLine("from datetime import date, datetime, time");
+            sb.AppendLine("from decimal import Decimal");
+            sb.AppendLine("from uuid import UUID");
             sb.AppendLine();
 
             sb.AppendLine("@dataclass");

@@ -1,4 +1,4 @@
-/*
+﻿/*
 The MIT License (MIT)
 
 Copyright (c) 2007 Roger Hill
@@ -27,11 +27,16 @@ namespace AutoCodeGen
     {
         private const string FEATURE_INSERT = "Readonly Object Component";
 
-        private static readonly HashSet<char> _UndesirableChars =
+        private static readonly HashSet<char> _UndesirableReactChars =
         [
             '!', '$', '%', '^', '*', '(', ')', '-', '+', '\\', '=',
             '{', '}', '[', ']', ':', ';', '|', '\'', '<', '>', ',',
             '.', '?', '/', '~', '`', '@', '#', '"', ' ', '\t', '&'
+        ];
+
+        private static readonly HashSet<char> _UndesirableCharsHtmlText =
+        [
+            '&', '<', '>', '"', '\''
         ];
 
         public string Language => "react";
@@ -51,25 +56,66 @@ namespace AutoCodeGen
 
             return feature switch
             {
-                FEATURE_INSERT => GenerateReadonlyComponentMethod(sqlTable, options),
+                FEATURE_INSERT => GenerateReadonlyComponent(sqlTable, options),
 
                 _ => throw new ArgumentOutOfRangeException($"Mode {feature} is not supported by {Name} generator."),
             };
         }
 
-        public OutputObject GenerateReadonlyComponentMethod(SqlTable sqlTable, Dictionary<string, string> options)
+        public OutputObject GenerateReadonlyComponent(SqlTable sqlTable, Dictionary<string, string> options)
         {
             ArgumentNullException.ThrowIfNull(sqlTable);
             ArgumentNullException.ThrowIfNull(options);
 
-            string objectName = ToObjectName(sqlTable.Name);
+            string className = ToObjectName(sqlTable.Name);
+            string componentName = $"{className}Card";
+            string dataVarName = ToLocalVariable(sqlTable.Name);
+
             var sb = new StringBuilder();
 
-            sb.AppendLine("// TODO - Add stuff");
+            // --- Imports ---
+            sb.AppendLine("import { Box, Stack } from '@mui/material';");
+            sb.AppendLine("import { commonStyles } from '../const/commonStyles';");
+            sb.AppendLine($"import {{ {className} }} from '../interfaces/{className}';");
+            sb.AppendLine();
+
+            // --- Props interface ---
+            sb.AppendLine($"interface Props {{");
+            sb.AppendLine($"{Formatter.AddTabs(1)}{dataVarName}: {className};");
+            sb.AppendLine("}");
+            sb.AppendLine();
+
+            // --- Component ---
+            sb.AppendLine($"/** This is a read only component to render a {className} object */");
+            sb.AppendLine($"export default function {componentName}(props: Props) {{");
+            sb.AppendLine($"{Formatter.AddTabs(1)}//console.log('🔧 {componentName} Rendering', props);");
+            sb.AppendLine();
+            sb.AppendLine($"{Formatter.AddTabs(1)}return (");
+            sb.AppendLine($"{Formatter.AddTabs(2)}<Box css={{commonStyles.card}}>");
+            sb.AppendLine($"{Formatter.AddTabs(3)}<Stack spacing={{1}}>");
+            sb.AppendLine();
+
+            // --- Field rows ---
+            foreach (var col in sqlTable.Columns.Values)
+            {
+                string fieldName = ToLocalVariable(col.Name);
+                string labelText = ToLabelName(col.Name);
+
+                sb.AppendLine($"{Formatter.AddTabs(4)}<div css={{commonStyles.flexHorizontal}}>");
+                sb.AppendLine($"{Formatter.AddTabs(5)}<span css={{commonStyles.label}}>{labelText}:</span>");
+                sb.AppendLine($"{Formatter.AddTabs(5)}<span>{{ props.{dataVarName}.{fieldName} }}</span>");
+                sb.AppendLine($"{Formatter.AddTabs(4)}</div>");
+                sb.AppendLine();
+            }
+
+            sb.AppendLine($"{Formatter.AddTabs(3)}</Stack>");
+            sb.AppendLine($"{Formatter.AddTabs(2)}</Box>");
+            sb.AppendLine($"{Formatter.AddTabs(1)});");
+            sb.AppendLine("}");
 
             return new OutputObject
             {
-                FileName = $"{objectName}.tsx",
+                FileName = $"{componentName}.tsx",
                 Body = sb.ToString(),
                 OutputPath = $"{Language}\\{Version}\\components",
             };
@@ -87,7 +133,22 @@ namespace AutoCodeGen
         /// </summary>
         private static string ToObjectName(string input)
         {
-            return Formatter.ToPascalCase(input, _UndesirableChars);
+            return Formatter.ToPascalCase(input, _UndesirableReactChars);
+        }
+
+        /// <summary>
+        /// Returns the SQL column name formatted as a react local variable name.
+        /// 
+        /// Sample: FooBar -> fooBar
+        /// </summary>
+        private static string ToLocalVariable(string input)
+        {
+            return Formatter.ToPascalCase(input, _UndesirableReactChars);
+        }
+
+        private static string ToLabelName(string input)
+        {
+            return Formatter.ToTitleCase(input, _UndesirableCharsHtmlText);
         }
     }
 }
