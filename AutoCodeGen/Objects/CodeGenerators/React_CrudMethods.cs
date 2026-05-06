@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using DAL.Net.SqlMetadata;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace AutoCodeGen
@@ -146,9 +147,144 @@ namespace AutoCodeGen
             return Formatter.ToPascalCase(input, _UndesirableReactChars);
         }
 
+        /// <summary>
+        /// Renders the SQL column name as a human readable label, removing 
+        /// undesirable characters and converting to title case.
+        /// </summary>
         private static string ToLabelName(string input)
         {
             return Formatter.ToTitleCase(input, _UndesirableCharsHtmlText);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static string SQLTypeToReactDisplayExpression(SqlColumn sqlColumn, string valueExpr)
+        {
+            // valueExpr is the variable name in the generated code, e.g. "row.createdDate"
+
+            if (sqlColumn.IsNullable)
+            {
+                switch (sqlColumn.SqlDataType)
+                {
+                    case SqlDbType.BigInt:
+                    case SqlDbType.Int:
+                    case SqlDbType.SmallInt:
+                    case SqlDbType.TinyInt:
+                        return $"{valueExpr} != null ? Number({valueExpr}).toLocaleString() : '—'";
+
+                    case SqlDbType.Decimal:
+                    case SqlDbType.Money:
+                        return $"{valueExpr} != null ? Number({valueExpr}).toLocaleString(undefined, {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}) : '—'";
+
+                    case SqlDbType.Float:
+                    case SqlDbType.Real:
+                    case SqlDbType.SmallMoney:
+                        return $"{valueExpr} != null ? Number({valueExpr}).toLocaleString(undefined, {{ maximumFractionDigits: 4 }}) : '—'";
+
+                    case SqlDbType.Bit:
+                        return $"{valueExpr} != null ? ({valueExpr} ? 'Yes' : 'No') : '—'";
+
+                    case SqlDbType.Date:
+                        return $"{valueExpr} != null ? new Date({valueExpr}).toLocaleDateString(undefined, {{ year: 'numeric', month: 'short', day: 'numeric' }}) : '—'";
+
+                    case SqlDbType.DateTime:
+                    case SqlDbType.DateTime2:
+                    case SqlDbType.SmallDateTime:
+                    case SqlDbType.DateTimeOffset:
+                        return $"{valueExpr} != null ? new Date({valueExpr}).toLocaleString(undefined, {{ year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }}) : '—'";
+
+                    case SqlDbType.Time:
+                        return $"{valueExpr} != null ? new Date('1970-01-01T' + {valueExpr}).toLocaleTimeString(undefined, {{ hour: 'numeric', minute: '2-digit' }}) : '—'";
+
+                    case SqlDbType.UniqueIdentifier:
+                        return $"{valueExpr} != null ? String({valueExpr}).toUpperCase() : '—'";
+
+                    case SqlDbType.Binary:
+                    case SqlDbType.VarBinary:
+                    case SqlDbType.Image:
+                    case SqlDbType.Udt:
+                    case SqlDbType.Variant:
+                        return $"{valueExpr} != null ? '[Binary Data]' : '—'";
+
+                    case SqlDbType.Timestamp:
+                    case SqlDbType.Char:
+                    case SqlDbType.NChar:
+                    case SqlDbType.Text:
+                    case SqlDbType.NText:
+                    case SqlDbType.VarChar:
+                    case SqlDbType.NVarChar:
+                    case SqlDbType.Xml:
+                        return $"{valueExpr} ?? '—'";
+
+                    case SqlDbType.Structured:
+                        return $"'[Structured Data]'";
+
+                    default:
+                        return $"// NO DISPLAY EXPRESSION FOR {sqlColumn.SqlDataType}";
+                }
+            }
+            else
+            {
+                switch (sqlColumn.SqlDataType)
+                {
+                    case SqlDbType.BigInt:
+                    case SqlDbType.Int:
+                    case SqlDbType.SmallInt:
+                    case SqlDbType.TinyInt:
+                        return $"Number({valueExpr}).toLocaleString()";
+
+                    case SqlDbType.Decimal:
+                    case SqlDbType.Money:
+                        return $"Number({valueExpr}).toLocaleString(undefined, {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }})";
+
+                    case SqlDbType.Float:
+                    case SqlDbType.Real:
+                    case SqlDbType.SmallMoney:
+                        return $"Number({valueExpr}).toLocaleString(undefined, {{ maximumFractionDigits: 4 }})";
+
+                    case SqlDbType.Bit:
+                        return $"{valueExpr} ? 'Yes' : 'No'";
+
+                    case SqlDbType.Date:
+                        return $"new Date({valueExpr}).toLocaleDateString(undefined, {{ year: 'numeric', month: 'short', day: 'numeric' }})";
+
+                    case SqlDbType.DateTime:
+                    case SqlDbType.DateTime2:
+                    case SqlDbType.SmallDateTime:
+                    case SqlDbType.DateTimeOffset:
+                        return $"new Date({valueExpr}).toLocaleString(undefined, {{ year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }})";
+
+                    case SqlDbType.Time:
+                        return $"new Date('1970-01-01T' + {valueExpr}).toLocaleTimeString(undefined, {{ hour: 'numeric', minute: '2-digit' }})";
+
+                    case SqlDbType.UniqueIdentifier:
+                        return $"String({valueExpr}).toUpperCase()";
+
+                    case SqlDbType.Binary:
+                    case SqlDbType.VarBinary:
+                    case SqlDbType.Image:
+                    case SqlDbType.Udt:
+                    case SqlDbType.Variant:
+                        return "'[Binary Data]'";
+
+                    case SqlDbType.Timestamp:
+                    case SqlDbType.Char:
+                    case SqlDbType.NChar:
+                    case SqlDbType.Text:
+                    case SqlDbType.NText:
+                    case SqlDbType.VarChar:
+                    case SqlDbType.NVarChar:
+                    case SqlDbType.Xml:
+                        return valueExpr;
+
+                    case SqlDbType.Structured:
+                        return "'[Structured Data]'";
+
+                    default:
+                        return $"// NO DISPLAY EXPRESSION FOR {sqlColumn.SqlDataType}";
+                }
+            }
         }
     }
 }
