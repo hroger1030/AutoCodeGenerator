@@ -14,6 +14,7 @@
     <Copyright>Copyright Roger Hill, 2009</Copyright>
     <PackageProjectUrl>https://github.com/hroger1030/AutoCodeGenerator</PackageProjectUrl>
     <PackageTags>c#,codegenerator</PackageTags>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages> 
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
